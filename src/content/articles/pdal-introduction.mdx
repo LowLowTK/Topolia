@@ -1,0 +1,89 @@
+---
+title: "PDAL : le couteau suisse en ligne de commande pour tes nuages de points"
+subtitle: "Filtrer, recaller, convertir — sans GUI."
+date: 2026-04-10
+category: "tutoriels"
+tags: ["pdal", "lidar", "cli", "automation"]
+author: "loic"
+heroImage: "/images/articles/pdal-intro.jpg"
+heroImageAlt: "Capture d'écran d'un terminal exécutant une pipeline PDAL"
+excerpt: "PDAL, c'est l'outil que tu n'utilises pas tant que tu n'en as pas besoin — et que tu ne lâches plus une fois que tu l'as adopté."
+isPremium: false
+isPublished: true
+---
+
+import Callout from '../../components/mdx/Callout.astro';
+
+Si tu fais du LiDAR un peu sérieusement, tu vas vite te heurter à un mur : CloudCompare est génial pour explorer un nuage, mais pour appliquer le même traitement à 200 fichiers `.las` la nuit, ça devient ingérable.
+
+C'est là que PDAL entre en scène.
+
+## Qu'est-ce que PDAL ?
+
+**PDAL** (Point Data Abstraction Library) est une bibliothèque open-source qui te permet de manipuler des nuages de points **en ligne de commande**, via des pipelines JSON.
+
+Concrètement, tu décris une suite d'opérations dans un fichier `.json`, tu lances PDAL, et il enchaîne tout : lecture, filtres, écriture. Comme un Photoshop d'actions mais pour les points.
+
+## Installation
+
+Sur Windows, le plus simple est Conda :
+
+```bash
+conda install -c conda-forge pdal
+```
+
+Sur Mac/Linux, `brew install pdal` ou `apt install pdal`.
+
+## Ton premier pipeline
+
+Voilà un pipeline minimal qui prend un `.las`, garde uniquement les points classifiés comme `sol` (classe 2), et exporte en `.laz` compressé :
+
+```json
+{
+  "pipeline": [
+    "entree.las",
+    {
+      "type": "filters.range",
+      "limits": "Classification[2:2]"
+    },
+    {
+      "type": "writers.las",
+      "filename": "sortie.laz",
+      "compression": "laszip"
+    }
+  ]
+}
+```
+
+Lance-le avec :
+
+```bash
+pdal pipeline mon-pipeline.json
+```
+
+<Callout type="tip" title="Astuce productivité">
+Combine PDAL avec un script bash ou PowerShell pour traiter un dossier entier en une commande. C'est typiquement ce qui te fait passer de 2h de manip à 5 minutes de café pendant que ça tourne.
+</Callout>
+
+## Les filtres que j'utilise tout le temps
+
+- **`filters.range`** — filtrer par classification, altitude, intensité
+- **`filters.outlier`** — supprimer les points aberrants (oiseaux, drone qui passe…)
+- **`filters.crop`** — découper un polygone d'emprise
+- **`filters.icp`** — recalage entre deux nuages
+- **`filters.smrf`** — extraction sol automatique (Simple Morphological Filter)
+
+## Quand utiliser PDAL plutôt que CloudCompare ?
+
+- Tu fais le **même traitement sur N fichiers** → PDAL gagne
+- Tu veux **scripter / automatiser** → PDAL gagne
+- Tu veux **explorer visuellement** un nuage → CloudCompare gagne
+- Tu fais une **opération ponctuelle** que tu ne referas pas → CloudCompare gagne
+
+Les deux sont complémentaires. Sur Topolia, j'utilise CloudCompare pour cadrer une méthode, puis PDAL pour l'appliquer à la chaîne.
+
+## Pour aller plus loin
+
+La doc officielle PDAL ([pdal.io](https://pdal.io)) est excellente. Tu trouveras la liste complète des filtres + des exemples concrets.
+
+{/* [À VÉRIFIER] — la commande `conda install` sur Windows ARM64 ne fonctionne pas, à confirmer avec le forum. */}

@@ -1,0 +1,30 @@
+---
+title: "Nuage de points"
+date: 2026-05-19
+difficulty: "debutant"
+relatedArticles: ["workflow-drone-complet", "pdal-introduction"]
+relatedChantiers: []
+excerpt: "L'output brut de tout scan 3D — des millions ou milliards de points (x, y, z) qui décrivent une scène."
+isPublished: true
+---
+
+Un **nuage de points** (en anglais *point cloud*) est un ensemble de points 3D, chacun caractérisé au minimum par ses coordonnées (x, y, z), et souvent par une couleur (R, G, B), une intensité de retour laser, une classification, etc.
+
+## Formats courants
+
+- **LAS / LAZ** — standard ASPRS, le plus courant en topo
+- **PLY** — populaire dans le monde 3D / VFX
+- **E57** — format constructeur (Leica, Faro) avec métadonnées riches
+- **COPC** — version cloud-optimisée du LAZ (voir [[copc]])
+
+## Densité typique
+
+| Source | Densité indicative |
+|---|---|
+| Scanner statique (Leica RTC360 à 10 m) | 50 000 pts/m² |
+| LiDAR drone (DJI Zenmuse L2, vol 80 m) | 200 pts/m² |
+| Photogrammétrie drone (vol 80 m) | 100 à 800 pts/m² selon recouvrement |
+
+## Outils d'exploitation
+
+CloudCompare (gratuit), Trimble RealWorks, Leica Cyclone, AutoCAD avec extension Recap.

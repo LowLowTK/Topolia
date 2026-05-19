@@ -1,0 +1,85 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'minute-topo'>;
+}
+const { entry } = Astro.props;
+const { title, date, excerpt, tags } = entry.data;
+
+const formattedDate = new Intl.DateTimeFormat('fr-FR', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+}).format(date);
+---
+
+<article class="minute-card">
+  <header class="minute-header">
+    <span class="minute-badge">Minute topo</span>
+    <time datetime={date.toISOString()}>{formattedDate}</time>
+  </header>
+  <h3 class="minute-title">{title}</h3>
+  <p class="minute-excerpt">{excerpt}</p>
+  {tags.length > 0 && (
+    <ul class="minute-tags">
+      {tags.map((tag) => <li>#{tag}</li>)}
+    </ul>
+  )}
+</article>
+
+<style>
+  .minute-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 22px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+  }
+  .minute-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .minute-badge {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .minute-header time {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+  }
+  .minute-title {
+    font-family: var(--display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    line-height: 1.35;
+  }
+  .minute-excerpt {
+    font-size: 0.9rem;
+    color: var(--ink-3);
+    line-height: 1.55;
+  }
+  .minute-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+  }
+  .minute-tags li {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+  }
+</style>

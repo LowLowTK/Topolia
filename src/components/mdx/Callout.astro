@@ -1,0 +1,74 @@
+---
+interface Props {
+  type?: 'info' | 'warning' | 'tip' | 'success';
+  title?: string;
+}
+const { type = 'info', title } = Astro.props;
+
+const icons: Record<string, string> = {
+  info: 'ⓘ',
+  warning: '⚠',
+  tip: '✦',
+  success: '✓',
+};
+---
+
+<aside class:list={['callout', `callout--${type}`]} role="note">
+  <span class="callout-icon" aria-hidden="true">{icons[type]}</span>
+  <div class="callout-body">
+    {title && <p class="callout-title">{title}</p>}
+    <div class="callout-content"><slot /></div>
+  </div>
+</aside>
+
+<style>
+  .callout {
+    display: flex;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 10px;
+    border-left: 3px solid;
+    margin: 24px 0;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  .callout-icon {
+    font-size: 1.15rem;
+    line-height: 1.4;
+    flex-shrink: 0;
+  }
+  .callout-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+  .callout-content :global(p) { margin: 0; }
+  .callout-content :global(p + p) { margin-top: 8px; }
+  .callout-content :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .callout--info {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--ink-2);
+  }
+  .callout--warning {
+    background: rgba(245, 158, 11, 0.08);
+    border-color: var(--amber);
+    color: var(--ink-2);
+  }
+  .callout--tip {
+    background: rgba(16, 185, 129, 0.08);
+    border-color: var(--green);
+    color: var(--ink-2);
+  }
+  .callout--success {
+    background: var(--green);
+    border-color: var(--green);
+    color: var(--surface);
+  }
+  .callout--success .callout-title { color: var(--surface); }
+</style>

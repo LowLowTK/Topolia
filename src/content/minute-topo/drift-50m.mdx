@@ -1,0 +1,21 @@
+---
+title: "Pourquoi ton nuage de points drift à 50m de distance"
+date: 2026-05-12
+tags: ["lidar", "precision", "astuces", "slam"]
+excerpt: "Une cause courante et comment l'éviter en 30 secondes de réglage."
+isPublished: true
+---
+
+Tu as scanné un long couloir ou une zone linéaire, et tu remarques que ton nuage commence à dériver après 30-50 m. Le mur devrait être parallèle, mais il s'écarte progressivement de la ligne de référence.
+
+**Cause la plus probable :** ton scanner mobile ou ton backpack n'a pas eu assez de **fermetures de boucle** dans son trajet.
+
+## Comment éviter ça
+
+Pendant l'acquisition, repasse par ton point de départ ou par une zone déjà scannée toutes les 30 à 50 m. Le SLAM utilise ces fermetures de boucle pour recaler ses estimations de position en temps réel. Sans boucle, l'erreur s'accumule linéairement.
+
+## Le vrai test
+
+Si tu fais un long couloir A → B → A, ton point final doit retomber à moins de 2-3 cm de ton point de départ. Au-delà, ton SLAM a dérivé et tu vas devoir recaler manuellement.
+
+C'est tout. 30 secondes de planification d'acquisition économisent 3 h de post-traitement.

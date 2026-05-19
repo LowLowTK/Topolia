@@ -1,0 +1,28 @@
+---
+title: "GCP — Ground Control Point"
+date: 2026-05-19
+difficulty: "intermediaire"
+relatedArticles: ["workflow-drone-complet"]
+relatedChantiers: []
+excerpt: "Les points de référence au sol qui garantissent la précision absolue d'un relevé drone."
+isPublished: true
+---
+
+Un **GCP** (Ground Control Point) est un point matérialisé au sol, dont les coordonnées géographiques précises sont relevées séparément (généralement au GPS RTK), et qui sert de référence pour caler un nuage de points photogrammétrique ou LiDAR drone dans un système géodésique.
+
+## Pourquoi en mettre
+
+Sans GCP, ton nuage drone est cohérent en interne (les distances entre points sont justes) mais flotte dans l'espace — il n'est pas géoréférencé précisément. Avec un drone RTK, tu réduis le besoin, mais les GCP restent l'assurance qualité.
+
+## Recommandations terrain
+
+- **Minimum 5 cibles** réparties en quinconce sur la zone
+- **Cibles damier noir/blanc** d'au moins 40×40 cm pour un vol à 80 m
+- Toujours en **bordure et au centre** de la zone (jamais alignées)
+- Mesure RTK avec précision < 2 cm en planimétrique
+
+## Pièges classiques
+
+- Cible posée sur un terrain meuble qui bouge → la mesurer juste avant le vol
+- Cible plissée ou pliée → contraste cassé, repérage difficile dans Metashape
+- Cible mal éclairée (ombre portée d'un arbre) → invisible sur 30 % des photos

@@ -1,0 +1,27 @@
+---
+title: "SLAM — Simultaneous Localization And Mapping"
+date: 2026-05-19
+difficulty: "expert"
+relatedArticles: []
+relatedChantiers: []
+excerpt: "L'algo qui permet aux scanners mobiles (backpack, handheld) de cartographier en marchant."
+isPublished: true
+---
+
+Le **SLAM** (*Simultaneous Localization And Mapping*) est une famille d'algorithmes qui résolvent simultanément deux problèmes : **localiser** un capteur dans un environnement inconnu, et **cartographier** cet environnement en même temps.
+
+## Pourquoi ça compte en topo
+
+Un scanner statique sait précisément où il est (sur trépied calé), il scanne autour de lui. Un scanner **mobile** (backpack, handheld, véhicule) bouge en permanence — il a besoin du SLAM pour estimer sa propre trajectoire en temps réel et placer correctement chaque point mesuré.
+
+## Le défi : la dérive
+
+L'estimation de position s'accumule erreur sur erreur au fil du déplacement. Sans correction, ton nuage drift de plusieurs cm après quelques dizaines de mètres. Les solutions :
+
+- **Fermeture de boucle** : repasser par un point déjà scanné permet à l'algo de "recoller" sa trajectoire
+- **Fusion multi-capteur** : IMU + LiDAR + caméra augmentent la robustesse
+- **GNSS-aiding** : intégrer un GPS RTK quand il y a du signal (extérieur)
+
+## Outils commerciaux
+
+Leica BLK2GO, GeoSLAM Zeb Horizon, Emesent Hovermap, NavVis VLX. Côté open-source : LIO-SAM, FAST-LIO, Cartographer.

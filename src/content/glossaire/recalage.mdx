@@ -1,0 +1,28 @@
+---
+title: "Recalage (registration)"
+date: 2026-05-19
+difficulty: "intermediaire"
+relatedArticles: []
+relatedChantiers: ["facade-haussmannien"]
+excerpt: "L'opération qui aligne plusieurs nuages dans un même référentiel spatial — l'étape qui fait ou défait un chantier."
+isPublished: true
+---
+
+Le **recalage** (ou *registration* en anglais) est l'opération qui consiste à aligner deux ou plusieurs nuages de points dans un référentiel commun. Sans recalage, chaque station de scan reste dans son propre repère local.
+
+## Les deux familles d'approches
+
+**Recalage cible-à-cible** : on place des sphères ou damiers de référence sur le terrain, visibles depuis plusieurs stations. Le logiciel calcule la transformation rigide qui aligne les positions des cibles. Précis et fiable.
+
+**Recalage cloud-to-cloud (ICP)** : algorithme itératif qui minimise la distance moyenne entre les points de deux nuages. Pas besoin de cibles, mais demande une bonne pré-alignement initial pour converger.
+
+## Le critère qualité
+
+L'**erreur RMS** (Root Mean Square) entre les cibles ou entre les points homologues. Sous 5 mm pour de la topo de précision, sous 2 cm pour du drone classique.
+
+## Outils
+
+- **Leica Cyclone REGISTER 360**
+- **Faro Scene**
+- **CloudCompare** (gratuit, mode `Fine Registration`)
+- **PDAL** (`filters.icp`) pour automatiser

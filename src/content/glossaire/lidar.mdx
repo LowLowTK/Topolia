@@ -1,0 +1,27 @@
+---
+title: "LiDAR"
+date: 2026-05-19
+difficulty: "debutant"
+relatedArticles: ["pdal-introduction"]
+relatedChantiers: []
+excerpt: "Light Detection And Ranging — la technologie de scan 3D la plus précise du marché."
+isPublished: true
+---
+
+**LiDAR** signifie *Light Detection And Ranging*. C'est une technologie de mesure de distance par laser, utilisée pour générer des nuages de points 3D ultra-précis.
+
+## Comment ça marche
+
+Un capteur LiDAR émet des impulsions laser et mesure le temps que met chaque impulsion pour revenir après avoir frappé une surface. Avec la vitesse de la lumière connue, on en déduit la distance. Répété des millions de fois par seconde, on obtient un nuage de points dense représentant la géométrie réelle de la scène.
+
+## Avantages vs photogrammétrie
+
+- Indépendant des conditions de lumière (fonctionne la nuit, sous canopée)
+- Précision intrinsèque meilleure sur de longues distances
+- Pas besoin de couleurs/textures pour reconstruire la 3D
+
+## Limites
+
+- Capteurs chers (5 k€ à 100 k€)
+- Pas de couleur native (souvent combiné à une caméra RGB)
+- Sensibles aux surfaces très réfléchissantes ou très absorbantes

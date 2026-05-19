@@ -1,0 +1,73 @@
+---
+title: "Du vol drone au nuage de points : le workflow complet"
+subtitle: "Étape par étape, sans raccourci."
+date: 2026-05-03
+category: "tutoriels"
+tags: ["metashape", "drone", "photogrammetrie", "workflow"]
+author: "loic"
+heroImage: "/images/articles/workflow-drone.jpg"
+heroImageAlt: "Drone DJI Mavic 3 Enterprise survolant un chantier de construction"
+excerpt: "De la préparation du vol à l'export du nuage de points dense : le workflow drone photogrammétrie complet, sans rien zapper."
+isPremium: false
+isPublished: true
+---
+
+import Callout from '../../components/mdx/Callout.astro';
+import PullQuote from '../../components/mdx/PullQuote.astro';
+
+Tu viens d'acheter un drone, ou tu galères avec un workflow qui te donne des résultats inégaux d'un chantier à l'autre. Cet article te détaille toute la chaîne, du briefing client à l'export du nuage de points livrable.
+
+## 1. La préparation du vol — 50 % du job
+
+Si je devais ne garder qu'une leçon de trois ans de drone topo, ce serait celle-là : un mauvais vol ne se rattrape pas en post-traitement. Le calcul photogrammétrique amplifie tes erreurs, il ne les corrige pas.
+
+**Ce que tu prépares avant d'arriver sur site :**
+
+- Un plan de vol avec recouvrement **frontal 80 % / latéral 70 %** minimum sur un terrain plat. Pour du bâti complexe ou de la végétation, monte à 85/75.
+- Une grille de **GCP (Ground Control Points)** — au minimum 5 cibles bien réparties, 8 si la surface dépasse l'hectare.
+- Une vérification météo : pas de vent > 25 km/h, pas de pluie dans les 2h précédentes (les flaques cassent la photogrammétrie).
+
+<Callout type="warning" title="Le piège du soleil rasant">
+Évite les vols entre 17h et 19h en été. Les ombres longues créent des zones noires que Metashape interprète comme du bruit. Vise plutôt entre 10h et 15h, ou alors un ciel uniformément couvert (bonus : pas de surex sur les toits clairs).
+</Callout>
+
+## 2. Le vol lui-même
+
+Sur DJI Pilot ou DJI Terra, charge ton plan, vérifie l'orientation du capteur (nadir pour une cartographie classique, oblique à 45° si tu veux du 3D fidèle sur les façades) et lance.
+
+Pendant le vol, surveille trois choses :
+
+1. **L'autonomie** : prévoir une batterie en plus de ce que l'app indique.
+2. **La couverture GPS** : sur les vols RTK, ne lance pas tant que tu n'es pas en `FIX`.
+3. **Le bon recouvrement** : si tu vois que ton drone "saute" des bandes, arrête et redémarre proprement.
+
+## 3. Traitement Metashape — les bons réglages
+
+Voici un workflow Metashape Pro qui marche à 95 % du temps sans bricolage :
+
+1. **Aligner les photos** → précision `Élevée`, paires `Génériques`, points clés `40 000`, points liens `10 000`.
+2. **Importer les GCP**, repérer manuellement les cibles sur 3-4 photos minimum chacun, puis `Optimiser` la caméra.
+3. **Construire le nuage dense** → qualité `Élevée`, filtrage `Modéré`. Sur un PC moyen, table sur 4-8h pour 500 photos.
+4. **Exporter** en `.las` ou `.laz` pour la suite (CloudCompare, AutoCAD Civil 3D, etc.).
+
+<PullQuote cite="Loïc — Topolia">
+La qualité `Très élevée` te fait gagner 5 % de densité pour 4× le temps de calcul. Sauf cas spécifique (relevé patrimonial fin), reste sur `Élevée`.
+</PullQuote>
+
+## 4. Contrôle qualité avant livraison
+
+Ne livre jamais sans avoir ouvert le nuage dans CloudCompare et vérifié trois choses :
+
+- **Erreur RMS** sur les GCP : sous 3 cm en planimétrique pour un livrable cadastral.
+- **Pas de "trous"** dans la couverture — un toit manquant, c'est immédiatement repéré par le client.
+- **Densité homogène** : si une zone est nettement moins dense, c'est probablement un défaut de recouvrement à corriger.
+
+## 5. Et après ?
+
+Le nuage est un livrable, mais c'est rarement le livrable final. Le client attend souvent :
+
+- Une **orthophoto** (Metashape la génère depuis le maillage)
+- Un **MNT/MNS** au pas de 5 ou 10 cm
+- Parfois un **modèle CAO** sur les bâtiments — c'est là que CloudCompare et AutoCAD prennent le relais
+
+Bon vol.

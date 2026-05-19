@@ -1,0 +1,34 @@
+---
+title: "RTK — Real-Time Kinematic"
+date: 2026-05-19
+difficulty: "intermediaire"
+relatedArticles: ["workflow-drone-complet"]
+relatedChantiers: []
+excerpt: "La technique GPS qui passe la précision de 3 m à 2 cm en temps réel."
+isPublished: true
+---
+
+Le **RTK** (Real-Time Kinematic) est une technique de positionnement GNSS différentiel qui permet d'atteindre une précision centimétrique en temps réel — typiquement **1 à 3 cm** vs ~3 m pour un GPS grand public.
+
+## Principe
+
+Une **base** (station fixe de référence) calcule l'erreur GPS en temps réel et la transmet par radio (UHF) ou par internet (NTRIP) à un **rover** (le récepteur mobile). Le rover applique cette correction et obtient une position ultra-précise.
+
+## Modes courants
+
+- **Base + Rover** classique : tu installes ta propre base sur un point connu
+- **NTRIP** : tu te connectes à un réseau public ou privé via 4G (Teria, Orphéon, Centipède…)
+- **PPK** (Post-Processed Kinematic) : variante en post-traitement, plus précise mais pas en temps réel
+
+## Usage typique en topo
+
+- Drone RTK (DJI Phantom 4 RTK, Mavic 3 Enterprise RTK)
+- Scanner mobile avec GNSS intégré
+- Implantation de cibles GCP
+- Levé topographique classique
+
+## Limites
+
+- Mauvais signal sous canopée, en intérieur, en zone urbaine dense (canyons)
+- Nécessite une base à moins de 10-20 km du rover pour la précision maximale
+- Coût d'abonnement à un réseau NTRIP (~ 500 €/an)

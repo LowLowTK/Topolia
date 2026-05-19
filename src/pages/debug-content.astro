@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import GlossaryCard from '../components/GlossaryCard.astro';
+import ChantierCard from '../components/ChantierCard.astro';
+import MinuteTopoCard from '../components/MinuteTopoCard.astro';
+
+const articles = (await getCollection('articles')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const glossaire = (await getCollection('glossaire')).sort((a, b) =>
+  a.data.title.localeCompare(b.data.title, 'fr')
+);
+const chantiers = (await getCollection('chantiers')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const minutes = (await getCollection('minute-topo')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Debug content" description="Page temporaire — sera supprimée en Phase 3.">
+  <div class="container debug-wrap">
+    <header class="debug-header">
+      <p class="eyebrow">Phase 2 — vérification du contenu</p>
+      <h1>Debug content</h1>
+      <p class="debug-stats">
+        <strong>{articles.length}</strong> articles ·
+        <strong>{glossaire.length}</strong> fiches glossaire ·
+        <strong>{chantiers.length}</strong> chantiers ·
+        <strong>{minutes.length}</strong> minutes topo
+      </p>
+    </header>
+
+    <section class="debug-section">
+      <h2>Articles</h2>
+      <ul class="article-list">
+        {articles.map((a) => (
+          <li>
+            <span class="article-category">{a.data.category}</span>
+            <strong>{a.data.title}</strong>
+            <span class="article-date">
+              {new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }).format(a.data.date)}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="debug-section">
+      <h2>Glossaire</h2>
+      <div class="debug-grid debug-grid--cards">
+        {glossaire.map((e) => <GlossaryCard entry={e} />)}
+      </div>
+    </section>
+
+    <section class="debug-section">
+      <h2>Chantiers</h2>
+      <div class="debug-grid debug-grid--cards">
+        {chantiers.map((e) => <ChantierCard entry={e} />)}
+      </div>
+    </section>
+
+    <section class="debug-section">
+      <h2>Minutes topo</h2>
+      <div class="debug-grid debug-grid--minutes">
+        {minutes.map((e) => <MinuteTopoCard entry={e} />)}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .debug-wrap { padding: 60px 0 80px; }
+  .debug-header { margin-bottom: 48px; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .debug-header h1 {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+  .debug-stats {
+    margin-top: 12px;
+    color: var(--ink-3);
+    font-size: 0.95rem;
+  }
+  .debug-section { margin-top: 56px; }
+  .debug-section h2 {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink-2);
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .article-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .article-list li {
+    display: grid;
+    grid-template-columns: 140px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+  }
+  .article-category {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .article-date {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+  }
+  .debug-grid {
+    display: grid;
+    gap: 16px;
+  }
+  .debug-grid--cards {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+  .debug-grid--minutes {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+  @media (max-width: 639px) {
+    .article-list li { grid-template-columns: 1fr; gap: 4px; }
+  }
+</style>
