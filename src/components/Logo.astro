@@ -1,0 +1,158 @@
+---
+interface Props {
+  variant?: 'mark' | 'wordmark' | 'app-icon' | 'mono' | 'favicon';
+  size?: number;
+  class?: string;
+  animClass?: 'sonar' | 'onde' | 'veille' | '';
+}
+
+const {
+  variant = 'mark',
+  size = 40,
+  class: className = '',
+  animClass = '',
+} = Astro.props;
+---
+
+{variant === 'mark' && (
+  <svg
+    class:list={['logo-mark', animClass, className]}
+    width={size}
+    height={size}
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="Topolia"
+    role="img"
+  >
+    <defs>
+      <linearGradient id="pulse-grad-mark" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#2D5BFF" />
+        <stop offset="100%" stop-color="#06B6D4" />
+      </linearGradient>
+    </defs>
+    <g fill="none" stroke="url(#pulse-grad-mark)">
+      <circle class="ring r1" cx="50" cy="50" r="36" stroke-width="3" opacity="0.25" />
+      <circle class="ring r2" cx="50" cy="50" r="26" stroke-width="3.5" opacity="0.5" />
+      <circle class="ring r3" cx="50" cy="50" r="16" stroke-width="4" opacity="0.85" />
+    </g>
+    <circle class="ring rd" cx="50" cy="50" r="6" fill="url(#pulse-grad-mark)" />
+  </svg>
+)}
+
+{variant === 'wordmark' && (
+  <div class:list={['logo-wordmark', animClass, className]} style={`height: ${size}px;`}>
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="pulse-grad-wm" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#2D5BFF" />
+          <stop offset="100%" stop-color="#06B6D4" />
+        </linearGradient>
+      </defs>
+      <g fill="none" stroke="url(#pulse-grad-wm)">
+        <circle class="ring r1" cx="50" cy="50" r="36" stroke-width="3" opacity="0.25" />
+        <circle class="ring r2" cx="50" cy="50" r="26" stroke-width="3.5" opacity="0.5" />
+        <circle class="ring r3" cx="50" cy="50" r="16" stroke-width="4" opacity="0.85" />
+      </g>
+      <circle class="ring rd" cx="50" cy="50" r="6" fill="url(#pulse-grad-wm)" />
+    </svg>
+    <span class="logo-text" aria-label="Topolia">topolia.</span>
+  </div>
+)}
+
+{variant === 'app-icon' && (
+  <div class:list={['logo-app-icon', className]} style={`width: ${size}px; height: ${size}px;`}>
+    <svg
+      width="70%"
+      height="70%"
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="Topolia"
+      role="img"
+    >
+      <defs>
+        <linearGradient id="pulse-grad-app" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#2D5BFF" />
+          <stop offset="100%" stop-color="#06B6D4" />
+        </linearGradient>
+      </defs>
+      <g fill="none" stroke="url(#pulse-grad-app)">
+        <circle cx="50" cy="50" r="36" stroke-width="3" opacity="0.25" />
+        <circle cx="50" cy="50" r="26" stroke-width="3.5" opacity="0.5" />
+        <circle cx="50" cy="50" r="16" stroke-width="4" opacity="0.85" />
+      </g>
+      <circle cx="50" cy="50" r="6" fill="url(#pulse-grad-app)" />
+    </svg>
+  </div>
+)}
+
+{variant === 'mono' && (
+  <svg
+    class:list={['logo-mono', className]}
+    width={size}
+    height={size}
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="Topolia"
+    role="img"
+  >
+    <g fill="none" stroke="currentColor">
+      <circle cx="50" cy="50" r="36" stroke-width="3" opacity="0.25" />
+      <circle cx="50" cy="50" r="26" stroke-width="3.5" opacity="0.5" />
+      <circle cx="50" cy="50" r="16" stroke-width="4" opacity="0.85" />
+    </g>
+    <circle cx="50" cy="50" r="6" fill="currentColor" />
+  </svg>
+)}
+
+{variant === 'favicon' && (
+  <svg
+    class:list={[className]}
+    width={size}
+    height={size}
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="Topolia"
+    role="img"
+  >
+    <defs>
+      <linearGradient id="pulse-grad-fav" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#2D5BFF" />
+        <stop offset="100%" stop-color="#06B6D4" />
+      </linearGradient>
+    </defs>
+    <g fill="none" stroke="url(#pulse-grad-fav)">
+      <circle cx="50" cy="50" r="30" stroke-width="4" opacity="0.4" />
+      <circle cx="50" cy="50" r="18" stroke-width="5" opacity="0.8" />
+    </g>
+    <circle cx="50" cy="50" r="7" fill="url(#pulse-grad-fav)" />
+  </svg>
+)}
+
+<style>
+  .logo-wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-text {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .logo-app-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-dark);
+    border-radius: 22%;
+  }
+</style>

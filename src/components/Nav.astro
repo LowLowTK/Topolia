@@ -1,0 +1,214 @@
+---
+import Logo from './Logo.astro';
+
+const navLinks = [
+  { href: '/articles/', label: 'Articles' },
+  { href: '/glossaire/', label: 'Glossaire' },
+  { href: '/chantiers/', label: 'Chantiers' },
+  { href: '/minute-topo/', label: 'Minute topo' },
+  { href: '/a-propos/', label: 'À propos' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="nav-header">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo" aria-label="Topolia — accueil">
+      <Logo variant="wordmark" size={32} animClass="sonar" />
+    </a>
+
+    <nav class="nav-links" aria-label="Navigation principale">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={['nav-link', { 'nav-link--active': currentPath.startsWith(link.href) }]}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <button
+      class="nav-burger"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+      aria-controls="nav-drawer"
+      id="nav-burger-btn"
+    >
+      <span class="burger-bar"></span>
+      <span class="burger-bar"></span>
+      <span class="burger-bar"></span>
+    </button>
+  </div>
+</header>
+
+<div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-inner">
+    <nav aria-label="Menu mobile">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={['nav-drawer-link', { 'nav-drawer-link--active': currentPath.startsWith(link.href) }]}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</div>
+<div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+
+<script>
+  const burger = document.getElementById('nav-burger-btn');
+  const drawer = document.getElementById('nav-drawer');
+  const overlay = document.getElementById('nav-overlay');
+
+  if (burger && drawer && overlay) {
+    const openMenu = () => {
+      drawer.setAttribute('aria-hidden', 'false');
+      drawer.classList.add('nav-drawer--open');
+      overlay.classList.add('nav-overlay--visible');
+      burger.setAttribute('aria-expanded', 'true');
+      burger.setAttribute('aria-label', 'Fermer le menu');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeMenu = () => {
+      drawer.setAttribute('aria-hidden', 'true');
+      drawer.classList.remove('nav-drawer--open');
+      overlay.classList.remove('nav-overlay--visible');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.setAttribute('aria-label', 'Ouvrir le menu');
+      document.body.style.overflow = '';
+    };
+
+    burger.addEventListener('click', () => {
+      drawer.classList.contains('nav-drawer--open') ? closeMenu() : openMenu();
+    });
+
+    overlay.addEventListener('click', closeMenu);
+
+    document.querySelectorAll('.nav-drawer-link').forEach((link) => {
+      link.addEventListener('click', closeMenu);
+    });
+  }
+</script>
+
+<style>
+  .nav-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(252, 252, 253, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav-logo {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: none;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-link {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ink-3);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: color 0.15s, background 0.15s;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .nav-link:hover { color: var(--ink); background: var(--bg-alt); }
+  .nav-link--active { color: var(--accent); }
+
+  .nav-burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  .nav-burger:hover { background: var(--bg-alt); }
+
+  .burger-bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .nav-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--surface);
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+  }
+  .nav-drawer--open { transform: translateX(0); }
+
+  .nav-drawer-inner {
+    padding: 80px 24px 40px;
+  }
+
+  .nav-drawer-link {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--hairline);
+    transition: color 0.15s;
+  }
+  .nav-drawer-link:hover,
+  .nav-drawer-link--active { color: var(--accent); }
+
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    background: rgba(15, 23, 42, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .nav-overlay--visible { opacity: 1; pointer-events: auto; }
+
+  @media (min-width: 900px) {
+    .nav-links { display: flex; }
+    .nav-burger { display: none; }
+    .nav-drawer { display: none; }
+    .nav-overlay { display: none; }
+  }
+</style>

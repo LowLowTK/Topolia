@@ -1,0 +1,94 @@
+---
+import Logo from './Logo.astro';
+
+const year = new Date().getFullYear();
+
+const footerLinks = [
+  { href: '/articles/', label: 'Articles' },
+  { href: '/glossaire/', label: 'Glossaire' },
+  { href: '/chantiers/', label: 'Chantiers' },
+  { href: '/newsletter/', label: 'Newsletter' },
+  { href: '/a-propos/', label: 'À propos' },
+];
+---
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <Logo variant="wordmark" size={28} />
+      <p class="footer-tagline">La topographie moderne, sans filtre.</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Liens footer">
+      {footerLinks.map((link) => (
+        <a href={link.href} class="footer-link">{link.label}</a>
+      ))}
+    </nav>
+
+    <p class="footer-copy">
+      &copy; {year} Topolia.fr — Tous droits réservés
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--hairline);
+    background: var(--bg-alt);
+    padding: 48px 0 32px;
+    margin-top: auto;
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer-tagline {
+    font-size: 0.875rem;
+    color: var(--ink-muted);
+  }
+
+  .footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .footer-link {
+    padding: 6px 10px;
+    font-size: 0.875rem;
+    color: var(--ink-3);
+    text-decoration: none;
+    border-radius: 6px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.15s, background 0.15s;
+  }
+  .footer-link:hover { color: var(--ink); background: var(--hairline); }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: var(--ink-light);
+  }
+
+  @media (min-width: 900px) {
+    .footer-inner {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .footer-copy {
+      width: 100%;
+    }
+  }
+</style>

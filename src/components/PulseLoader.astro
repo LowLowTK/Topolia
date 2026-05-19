@@ -1,0 +1,51 @@
+---
+interface Props {
+  size?: number;
+  class?: string;
+}
+
+const { size = 80, class: className = '' } = Astro.props;
+---
+
+<div class:list={['pulse-loader-wrap', className]} aria-label="Chargement" role="status">
+  <svg
+    class="pulse-loader"
+    width={size}
+    height={size}
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <defs>
+      <linearGradient id="pulse-loader-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#2D5BFF" />
+        <stop offset="100%" stop-color="#06B6D4" />
+      </linearGradient>
+    </defs>
+    <circle class="ring" cx="50" cy="50" r="36" fill="none" stroke="url(#pulse-loader-grad)" stroke-width="2.5" />
+    <circle class="ring" cx="50" cy="50" r="26" fill="none" stroke="url(#pulse-loader-grad)" stroke-width="3" />
+    <circle class="ring" cx="50" cy="50" r="16" fill="none" stroke="url(#pulse-loader-grad)" stroke-width="3.5" />
+    <circle cx="50" cy="50" r="5" fill="url(#pulse-loader-grad)" />
+  </svg>
+</div>
+
+<style>
+  .pulse-loader-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pulse-loader .ring {
+    transform-origin: 50px 50px;
+    animation: pulseRing 2s cubic-bezier(0.16, 0.5, 0.5, 1) infinite;
+  }
+  .pulse-loader .ring:nth-child(2) { animation-delay: 0.5s; }
+  .pulse-loader .ring:nth-child(3) { animation-delay: 1s; }
+
+  @keyframes pulseRing {
+    0%   { transform: scale(0.4); opacity: 0; }
+    20%  { opacity: 0.8; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+</style>
