@@ -19,14 +19,16 @@ const currentPath = Astro.url.pathname;
     </a>
 
     <nav class="nav-links" aria-label="Navigation principale">
-      {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class:list={['nav-link', { 'nav-link--active': currentPath.startsWith(link.href) }]}
-        >
-          {link.label}
-        </a>
-      ))}
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={['nav-link', { 'nav-link--active': currentPath.startsWith(link.href) }]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
     </nav>
 
     <button
@@ -46,14 +48,19 @@ const currentPath = Astro.url.pathname;
 <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
   <div class="nav-drawer-inner">
     <nav aria-label="Menu mobile">
-      {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class:list={['nav-drawer-link', { 'nav-drawer-link--active': currentPath.startsWith(link.href) }]}
-        >
-          {link.label}
-        </a>
-      ))}
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'nav-drawer-link',
+              { 'nav-drawer-link--active': currentPath.startsWith(link.href) },
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
     </nav>
   </div>
 </div>
@@ -84,7 +91,11 @@ const currentPath = Astro.url.pathname;
     };
 
     burger.addEventListener('click', () => {
-      drawer.classList.contains('nav-drawer--open') ? closeMenu() : openMenu();
+      if (drawer.classList.contains('nav-drawer--open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
     });
 
     overlay.addEventListener('click', closeMenu);
@@ -133,13 +144,20 @@ const currentPath = Astro.url.pathname;
     color: var(--ink-3);
     text-decoration: none;
     border-radius: 8px;
-    transition: color 0.15s, background 0.15s;
+    transition:
+      color 0.15s,
+      background 0.15s;
     min-height: 44px;
     display: inline-flex;
     align-items: center;
   }
-  .nav-link:hover { color: var(--ink); background: var(--bg-alt); }
-  .nav-link--active { color: var(--accent); }
+  .nav-link:hover {
+    color: var(--ink);
+    background: var(--bg-alt);
+  }
+  .nav-link--active {
+    color: var(--accent);
+  }
 
   .nav-burger {
     display: flex;
@@ -154,7 +172,9 @@ const currentPath = Astro.url.pathname;
     cursor: pointer;
     border-radius: 8px;
   }
-  .nav-burger:hover { background: var(--bg-alt); }
+  .nav-burger:hover {
+    background: var(--bg-alt);
+  }
 
   .burger-bar {
     display: block;
@@ -162,7 +182,9 @@ const currentPath = Astro.url.pathname;
     height: 2px;
     background: var(--ink);
     border-radius: 2px;
-    transition: opacity 0.2s, transform 0.2s;
+    transition:
+      opacity 0.2s,
+      transform 0.2s;
   }
 
   .nav-drawer {
@@ -174,7 +196,9 @@ const currentPath = Astro.url.pathname;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow-y: auto;
   }
-  .nav-drawer--open { transform: translateX(0); }
+  .nav-drawer--open {
+    transform: translateX(0);
+  }
 
   .nav-drawer-inner {
     padding: 80px 24px 40px;
@@ -192,7 +216,9 @@ const currentPath = Astro.url.pathname;
     transition: color 0.15s;
   }
   .nav-drawer-link:hover,
-  .nav-drawer-link--active { color: var(--accent); }
+  .nav-drawer-link--active {
+    color: var(--accent);
+  }
 
   .nav-overlay {
     position: fixed;
@@ -203,12 +229,23 @@ const currentPath = Astro.url.pathname;
     pointer-events: none;
     transition: opacity 0.3s;
   }
-  .nav-overlay--visible { opacity: 1; pointer-events: auto; }
+  .nav-overlay--visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
 
   @media (min-width: 900px) {
-    .nav-links { display: flex; }
-    .nav-burger { display: none; }
-    .nav-drawer { display: none; }
-    .nav-overlay { display: none; }
+    .nav-links {
+      display: flex;
+    }
+    .nav-burger {
+      display: none;
+    }
+    .nav-drawer {
+      display: none;
+    }
+    .nav-overlay {
+      display: none;
+    }
   }
 </style>

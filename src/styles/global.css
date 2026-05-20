@@ -4,40 +4,40 @@
 /* ─── Design tokens ─── */
 :root {
   /* Backgrounds */
-  --bg: #FCFCFD;
-  --bg-alt: #F5F7FA;
-  --bg-warm: #FFFAF0;
-  --surface: #FFFFFF;
-  --bg-dark: #0F172A;
-  --bg-dark-2: #1E293B;
+  --bg: #fcfcfd;
+  --bg-alt: #f5f7fa;
+  --bg-warm: #fffaf0;
+  --surface: #ffffff;
+  --bg-dark: #0f172a;
+  --bg-dark-2: #1e293b;
 
   /* Ink (text) */
-  --ink: #0F172A;
-  --ink-2: #1E293B;
+  --ink: #0f172a;
+  --ink-2: #1e293b;
   --ink-3: #475569;
-  --ink-muted: #64748B;
-  --ink-light: #94A3B8;
+  --ink-muted: #64748b;
+  --ink-light: #94a3b8;
 
   /* Accents */
-  --accent: #2D5BFF;
-  --accent-2: #06B6D4;
-  --accent-grad: linear-gradient(135deg, #2D5BFF 0%, #06B6D4 100%);
-  --accent-soft: rgba(45, 91, 255, 0.10);
+  --accent: #2d5bff;
+  --accent-2: #06b6d4;
+  --accent-grad: linear-gradient(135deg, #2d5bff 0%, #06b6d4 100%);
+  --accent-soft: rgba(45, 91, 255, 0.1);
 
   /* Status */
-  --green: #10B981;
-  --amber: #F59E0B;
-  --rose: #F43F5E;
+  --green: #10b981;
+  --amber: #f59e0b;
+  --rose: #f43f5e;
 
   /* Hairlines */
   --hairline: rgba(15, 23, 42, 0.07);
   --hairline-strong: rgba(15, 23, 42, 0.14);
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(15,23,42,0.04), 0 1px 3px rgba(15,23,42,0.04);
-  --shadow-md: 0 4px 12px -2px rgba(15,23,42,0.08), 0 8px 24px -8px rgba(15,23,42,0.10);
-  --shadow-lg: 0 12px 32px -8px rgba(15,23,42,0.12), 0 4px 12px -4px rgba(15,23,42,0.06);
-  --shadow-glow: 0 0 0 1px rgba(45,91,255,0.10), 0 16px 48px -16px rgba(45,91,255,0.30);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.08), 0 8px 24px -8px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 12px 32px -8px rgba(15, 23, 42, 0.12), 0 4px 12px -4px rgba(15, 23, 42, 0.06);
+  --shadow-glow: 0 0 0 1px rgba(45, 91, 255, 0.1), 0 16px 48px -16px rgba(45, 91, 255, 0.3);
 
   /* Typography */
   --display: 'Onest', sans-serif;
@@ -51,8 +51,16 @@
 }
 
 /* ─── Reset ─── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
 body {
   background: var(--bg);
   color: var(--ink);
@@ -65,9 +73,17 @@ body {
   display: flex;
   flex-direction: column;
 }
-img, video { max-width: 100%; display: block; }
-a { color: inherit; }
-main { flex: 1; }
+img,
+video {
+  max-width: 100%;
+  display: block;
+}
+a {
+  color: inherit;
+}
+main {
+  flex: 1;
+}
 
 /* ─── Utilitaires container ─── */
 .container {
@@ -77,7 +93,9 @@ main { flex: 1; }
   padding-inline: var(--container-padding);
 }
 @media (max-width: 639px) {
-  .container { padding-inline: 16px; }
+  .container {
+    padding-inline: 16px;
+  }
 }
 
 /* ─── Breakpoints (mobile-first) ───
@@ -94,37 +112,102 @@ main { flex: 1; }
 }
 
 /* ─── Variante 1 : Sonar (navbar, usage par défaut) ─── */
-.sonar .r1 { animation: sn1 2.4s ease-in-out infinite 0s; }
-.sonar .r2 { animation: sn1 2.4s ease-in-out infinite .35s; }
-.sonar .r3 { animation: sn1 2.4s ease-in-out infinite .7s; }
-.sonar .rd { animation: snd 2.4s ease-in-out infinite .9s; }
+.sonar .r1 {
+  animation: sn1 2.4s ease-in-out infinite 0s;
+}
+.sonar .r2 {
+  animation: sn1 2.4s ease-in-out infinite 0.35s;
+}
+.sonar .r3 {
+  animation: sn1 2.4s ease-in-out infinite 0.7s;
+}
+.sonar .rd {
+  animation: snd 2.4s ease-in-out infinite 0.9s;
+}
 
-@keyframes sn1 { 0%,100% { opacity: .15; } 50% { opacity: .8; } }
-@keyframes snd { 0%,100% { transform: scale(.9); } 50% { transform: scale(1.1); } }
+@keyframes sn1 {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+@keyframes snd {
+  0%,
+  100% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
 
 /* ─── Variante 2 : Onde sortante (hero page d'accueil) ─── */
-.onde .r1 { animation: ow 2.2s ease-out infinite 0s; }
-.onde .r2 { animation: ow 2.2s ease-out infinite .73s; }
-.onde .r3 { animation: ow 2.2s ease-out infinite 1.46s; }
-.onde .rd { animation: snd 2.2s ease-in-out infinite; }
+.onde .r1 {
+  animation: ow 2.2s ease-out infinite 0s;
+}
+.onde .r2 {
+  animation: ow 2.2s ease-out infinite 0.73s;
+}
+.onde .r3 {
+  animation: ow 2.2s ease-out infinite 1.46s;
+}
+.onde .rd {
+  animation: snd 2.2s ease-in-out infinite;
+}
 
 @keyframes ow {
-  0%   { opacity: .8;  transform: scale(.1); }
-  70%  { opacity: 0;   transform: scale(1.3); }
-  100% { opacity: 0;   transform: scale(1.3); }
+  0% {
+    opacity: 0.8;
+    transform: scale(0.1);
+  }
+  70% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
 }
 
 /* ─── Variante 3 : Veille douce (favicon, états idle) ─── */
-.veille .r1 { animation: vl 4.5s ease-in-out infinite 0s; }
-.veille .r2 { animation: vl 4.5s ease-in-out infinite .9s; }
-.veille .r3 { animation: vl 4.5s ease-in-out infinite 1.8s; }
-.veille .rd { animation: snd 4.5s ease-in-out infinite 2.5s; }
+.veille .r1 {
+  animation: vl 4.5s ease-in-out infinite 0s;
+}
+.veille .r2 {
+  animation: vl 4.5s ease-in-out infinite 0.9s;
+}
+.veille .r3 {
+  animation: vl 4.5s ease-in-out infinite 1.8s;
+}
+.veille .rd {
+  animation: snd 4.5s ease-in-out infinite 2.5s;
+}
 
-@keyframes vl { 0%,100% { opacity: .08; } 50% { opacity: .75; } }
+@keyframes vl {
+  0%,
+  100% {
+    opacity: 0.08;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
 
 /* ─── Animation Échos LiDAR (PulseLoader) ─── */
 @keyframes pulseRing {
-  0%   { transform: scale(0.4); opacity: 0; }
-  20%  { opacity: 0.8; }
-  100% { transform: scale(1.4); opacity: 0; }
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
 }

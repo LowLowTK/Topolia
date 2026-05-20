@@ -6,16 +6,16 @@ import ChantierCard from '../components/ChantierCard.astro';
 import MinuteTopoCard from '../components/MinuteTopoCard.astro';
 
 const articles = (await getCollection('articles')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 const glossaire = (await getCollection('glossaire')).sort((a, b) =>
-  a.data.title.localeCompare(b.data.title, 'fr')
+  a.data.title.localeCompare(b.data.title, 'fr'),
 );
 const chantiers = (await getCollection('chantiers')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 const minutes = (await getCollection('minute-topo')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 ---
 
@@ -35,15 +35,21 @@ const minutes = (await getCollection('minute-topo')).sort(
     <section class="debug-section">
       <h2>Articles</h2>
       <ul class="article-list">
-        {articles.map((a) => (
-          <li>
-            <span class="article-category">{a.data.category}</span>
-            <strong>{a.data.title}</strong>
-            <span class="article-date">
-              {new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }).format(a.data.date)}
-            </span>
-          </li>
-        ))}
+        {
+          articles.map((a) => (
+            <li>
+              <span class="article-category">{a.data.category}</span>
+              <strong>{a.data.title}</strong>
+              <span class="article-date">
+                {new Intl.DateTimeFormat('fr-FR', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                }).format(a.data.date)}
+              </span>
+            </li>
+          ))
+        }
       </ul>
     </section>
 
@@ -71,8 +77,12 @@ const minutes = (await getCollection('minute-topo')).sort(
 </BaseLayout>
 
 <style>
-  .debug-wrap { padding: 60px 0 80px; }
-  .debug-header { margin-bottom: 48px; }
+  .debug-wrap {
+    padding: 60px 0 80px;
+  }
+  .debug-header {
+    margin-bottom: 48px;
+  }
   .eyebrow {
     font-family: var(--mono);
     font-size: 0.78rem;
@@ -93,7 +103,9 @@ const minutes = (await getCollection('minute-topo')).sort(
     color: var(--ink-3);
     font-size: 0.95rem;
   }
-  .debug-section { margin-top: 56px; }
+  .debug-section {
+    margin-top: 56px;
+  }
   .debug-section h2 {
     font-family: var(--display);
     font-size: 1.5rem;
@@ -143,6 +155,9 @@ const minutes = (await getCollection('minute-topo')).sort(
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   }
   @media (max-width: 639px) {
-    .article-list li { grid-template-columns: 1fr; gap: 4px; }
+    .article-list li {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
   }
 </style>

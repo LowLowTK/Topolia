@@ -20,9 +20,13 @@ const footerLinks = [
     </div>
 
     <nav class="footer-nav" aria-label="Liens footer">
-      {footerLinks.map((link) => (
-        <a href={link.href} class="footer-link">{link.label}</a>
-      ))}
+      {
+        footerLinks.map((link) => (
+          <a href={link.href} class="footer-link">
+            {link.label}
+          </a>
+        ))
+      }
     </nav>
 
     <p class="footer-copy">
@@ -71,9 +75,14 @@ const footerLinks = [
     min-height: 44px;
     display: inline-flex;
     align-items: center;
-    transition: color 0.15s, background 0.15s;
+    transition:
+      color 0.15s,
+      background 0.15s;
   }
-  .footer-link:hover { color: var(--ink); background: var(--hairline); }
+  .footer-link:hover {
+    color: var(--ink);
+    background: var(--hairline);
+  }
 
   .footer-copy {
     font-size: 0.8rem;

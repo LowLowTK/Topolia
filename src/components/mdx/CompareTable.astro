@@ -19,12 +19,16 @@ const { columns, rows } = Astro.props;
       </tr>
     </thead>
     <tbody>
-      {rows.map((row) => (
-        <tr>
-          <th scope="row">{row.feature}</th>
-          {row.values.map((v) => <td>{v}</td>)}
-        </tr>
-      ))}
+      {
+        rows.map((row) => (
+          <tr>
+            <th scope="row">{row.feature}</th>
+            {row.values.map((v) => (
+              <td>{v}</td>
+            ))}
+          </tr>
+        ))
+      }
     </tbody>
   </table>
 </div>
@@ -55,7 +59,7 @@ const { columns, rows } = Astro.props;
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
-  .compare-table tbody th[scope="row"] {
+  .compare-table tbody th[scope='row'] {
     font-weight: 600;
     color: var(--ink-2);
     background: var(--bg);

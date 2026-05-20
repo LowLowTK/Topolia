@@ -1306,6 +1306,12 @@ git push
 
 Ne jamais fermer une session sans avoir pushé. Si tu changes de PC sans avoir pushé, tu perds le travail de la session.
 
+**En fin de session, dire à Claude Code :**
+> "On arrête là pour aujourd'hui. Fais le commit et le push Git avec un message qui résume ce qu'on a fait."
+
+**En début de session sur un autre PC, dire à Claude Code :**
+> "Lis le BRIEF.md et le CLAUDE.md à la racine. Fais un `git pull` pour récupérer la dernière version. Dis-moi où on en est et ce qu'on avait prévu de faire ensuite."
+
 ---
 
 ### 24.2 Le fichier `.env` — à recréer sur chaque machine
@@ -1318,11 +1324,135 @@ Les clés elles-mêmes sont à récupérer dans les dashboards des services (Bre
 
 ---
 
-### 24.3 Résumé en une ligne
+### 24.3 Husky + lint-staged — commits propres
+
+Hook Git `pre-commit` qui vérifie le code avant chaque commit. Si ESLint ou Prettier détecte une erreur → commit bloqué. Garantit que le code pushé est toujours propre, peu importe la machine.
+
+```bash
+npm install husky lint-staged --save-dev
+```
+
+**Prompt à donner à Claude Code pour l'installer :**
+```
+Installe et configure Husky + lint-staged :
+- Hook pre-commit qui lance ESLint + Prettier sur les fichiers modifiés
+- Si une erreur → commit bloqué
+- Si tout est propre → commit autorisé
+Propose-moi les fichiers de config avant de les créer.
+```
+
+---
+
+### 24.4 CLAUDE.md — mémoire de session
+
+Fichier lu automatiquement par Claude Code à chaque ouverture de session. Contient les règles essentielles pour que Claude Code reprenne le contexte sans avoir à relire tout le brief.
+
+**Contenu du `CLAUDE.md` à créer à la racine :**
+
+```markdown
+# CLAUDE.md — Topolia.fr
+
+Lis BRIEF.md pour la spec complète du projet.
+
+## Stack
+- Astro 4 + TypeScript strict
+- CSS variables uniquement — pas de Tailwind
+- MDX pour le contenu
+
+## Règles Git (multi-PC)
+- Début de session : `git pull` obligatoire
+- Fin de session : `git add . && git commit -m "..." && git push` obligatoire
+- Ne jamais fermer sans avoir pushé
+
+## Règles de commit
+- Husky vérifie ESLint + Prettier avant chaque commit
+- Si erreur → corriger avant de recommitter
+- Message de commit : description courte et précise de ce qui a changé
+
+## Règles de code
+- Jamais de composant sans props TypeScript typées
+- Jamais de couleur hardcodée — toujours les CSS variables du §4 du brief
+- Toujours `<Image>` d'Astro pour les images, jamais `<img>` nu
+
+## Agent orthographe
+- Tout texte ajouté au site passe par l'agent orthographe avant commit
+- Voir §24.5 du brief pour le détail
+```
+
+**Prompt à donner à Claude Code pour le créer :**
+```
+Crée un fichier CLAUDE.md à la racine basé sur le §24.4 du BRIEF.md.
+```
+
+---
+
+### 24.5 Agent orthographe & grammaire — permanent
+
+Tout texte ajouté au site (articles MDX, composants, UI strings, meta descriptions, alt text) passe par un agent de vérification orthographique et grammaticale avant d'être commité.
+
+**Ce que l'agent vérifie :**
+- Orthographe française (accents, accords, conjugaisons)
+- Grammaire et syntaxe
+- Cohérence du ton (tutoiement — signaler tout « vous » qui se glisse)
+- Typographie française (guillemets « », espaces insécables avant : ; ! ?, majuscules après point)
+
+**Ce que l'agent ne touche pas :**
+- Le code (TypeScript, CSS, Astro)
+- Les slugs et identifiants techniques
+- Les URLs et noms de variables
+- Les anglicismes techniques (LiDAR, SLAM, workflow…) et les marques (Leica, Faro, DJI…)
+
+**Implémentation retenue : LanguageTool + regex tutoiement**
+
+Approche **gratuite et hors-ligne friendly**, sans dépendance npm ni clé API :
+
+1. **Passe 1 — Regex tutoiement** (locale) : détecte tout `vous / votre / vos / veuillez` qui se glisse, avec whitelist pour `rendez-vous`, `vous-mêmes`.
+2. **Passe 2 — LanguageTool API publique** (`api.languagetool.org/v2/check`) : orthographe, grammaire, accords, typographie. Limite 20 req/min en anonyme — largement suffisant en pre-commit.
+
+**Mode tolérant** : si LanguageTool est indisponible (réseau, rate limit), l'agent affiche un warning mais autorise le commit. La passe regex tutoiement reste effective (locale, sans dépendance).
+
+**Intégration dans le workflow :**
+
+Le hook Husky `pre-commit` déclenche l'agent sur tous les fichiers `.mdx` modifiés. Si des erreurs sont détectées → le commit est bloqué avec la liste des corrections suggérées.
+
+```json
+// package.json — lint-staged config
+{
+  "lint-staged": {
+    "*.{ts,astro}": ["eslint --fix", "prettier --write"],
+    "*.mdx": ["node scripts/check-grammar.mjs", "prettier --write"]
+  }
+}
+```
+
+**Script `scripts/check-grammar.mjs`** — version officielle dans le repo (≈ 130 lignes, zéro dépendance npm, `fetch` natif Node 22).
+
+Logique :
+1. Pour chaque fichier passé en argument par lint-staged :
+2. Extraire le texte brut (retirer frontmatter, imports MDX, blocs de code, composants `<X />`, balises, commentaires JSX).
+3. Passe regex tutoiement → liste d'occurrences avec contexte.
+4. Passe LanguageTool : `POST` avec `text`, `language=fr-FR`, `disabledCategories=STYLE,REDUNDANCY,COLLOQUIALISMS`.
+5. Si erreurs → liste numérotée + `process.exit(1)`. Sinon → `✅`.
+
+**Pourquoi pas un LLM (Claude / GPT) ?** Évalué et testé : LanguageTool est aussi bon (souvent meilleur) sur les fautes strictes, et la regex tutoiement suffit pour le contrôle éditorial du « vous ». Aucun coût récurrent, aucune clé API à gérer en local pour chaque dev. Réservé pour la Phase 7 (pipeline IA) où la valeur ajoutée d'un LLM est ailleurs (rédaction, recherche, repurposing).
+
+**Prompt à donner à Claude Code pour l'installer :**
+```
+Implémente l'agent orthographe du §24.5 du BRIEF.md :
+- Crée scripts/check-grammar.mjs (LanguageTool + regex tutoiement)
+- Intègre-le dans lint-staged sur les fichiers .mdx
+- Teste-le sur un fichier MDX de démo avec fautes volontaires
+Propose-moi le code avant de l'écrire.
+```
+
+---
+
+### 24.6 Résumé en une ligne
 
 **Début de session : `git pull` — Fin de session : `git add . && git commit -m "..." && git push`**
 
 ---
+
 
 ## 25. Notes pour le futur Loïc
 

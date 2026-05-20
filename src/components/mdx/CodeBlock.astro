@@ -8,11 +8,13 @@ const { lang = 'text', filename } = Astro.props;
 
 <figure class="code-block">
   <header class="code-block-header">
-    {filename ? (
-      <span class="code-filename">{filename}</span>
-    ) : (
-      <span class="code-lang">{lang}</span>
-    )}
+    {
+      filename ? (
+        <span class="code-filename">{filename}</span>
+      ) : (
+        <span class="code-lang">{lang}</span>
+      )
+    }
   </header>
   <div class="code-block-body"><slot /></div>
 </figure>

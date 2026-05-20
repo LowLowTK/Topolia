@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.husky/_
+public/
+package-lock.json
+*.log
+BRIEF.md
+docs/superpowers/plans/

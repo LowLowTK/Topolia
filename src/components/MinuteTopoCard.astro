@@ -21,11 +21,15 @@ const formattedDate = new Intl.DateTimeFormat('fr-FR', {
   </header>
   <h3 class="minute-title">{title}</h3>
   <p class="minute-excerpt">{excerpt}</p>
-  {tags.length > 0 && (
-    <ul class="minute-tags">
-      {tags.map((tag) => <li>#{tag}</li>)}
-    </ul>
-  )}
+  {
+    tags.length > 0 && (
+      <ul class="minute-tags">
+        {tags.map((tag) => (
+          <li>#{tag}</li>
+        ))}
+      </ul>
+    )
+  }
 </article>
 
 <style>

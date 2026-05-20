@@ -14,16 +14,24 @@ const { title, surface, materiel, tags } = entry.data;
     {surface && <span class="chantier-surface">{surface}</span>}
   </header>
   <h3 class="chantier-title">{title}</h3>
-  {materiel.length > 0 && (
-    <ul class="chantier-materiel">
-      {materiel.slice(0, 3).map((m) => <li>{m}</li>)}
-    </ul>
-  )}
-  {tags.length > 0 && (
-    <ul class="chantier-tags">
-      {tags.map((tag) => <li>#{tag}</li>)}
-    </ul>
-  )}
+  {
+    materiel.length > 0 && (
+      <ul class="chantier-materiel">
+        {materiel.slice(0, 3).map((m) => (
+          <li>{m}</li>
+        ))}
+      </ul>
+    )
+  }
+  {
+    tags.length > 0 && (
+      <ul class="chantier-tags">
+        {tags.map((tag) => (
+          <li>#{tag}</li>
+        ))}
+      </ul>
+    )
+  }
 </a>
 
 <style>
@@ -36,7 +44,9 @@ const { title, surface, materiel, tags } = entry.data;
     border: 1px solid var(--hairline);
     border-radius: 12px;
     text-decoration: none;
-    transition: border-color 0.15s, transform 0.15s;
+    transition:
+      border-color 0.15s,
+      transform 0.15s;
   }
   .chantier-card:hover {
     border-color: var(--amber);

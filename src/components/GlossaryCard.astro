@@ -33,7 +33,10 @@ const difficultyLabel: Record<typeof difficulty, string> = {
     border: 1px solid var(--hairline);
     border-radius: 12px;
     text-decoration: none;
-    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s,
+      transform 0.15s;
   }
   .glossary-card:hover {
     border-color: var(--accent);
@@ -50,9 +53,18 @@ const difficultyLabel: Record<typeof difficulty, string> = {
     letter-spacing: 0.04em;
     text-transform: uppercase;
   }
-  .difficulty--debutant { background: rgba(16, 185, 129, 0.12); color: var(--green); }
-  .difficulty--intermediaire { background: var(--accent-soft); color: var(--accent); }
-  .difficulty--expert { background: rgba(244, 63, 94, 0.10); color: var(--rose); }
+  .difficulty--debutant {
+    background: rgba(16, 185, 129, 0.12);
+    color: var(--green);
+  }
+  .difficulty--intermediaire {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .difficulty--expert {
+    background: rgba(244, 63, 94, 0.1);
+    color: var(--rose);
+  }
   .glossary-title {
     font-family: var(--display);
     font-size: 1.15rem;
