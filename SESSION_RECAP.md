@@ -23,12 +23,18 @@
 
 ## Site en ligne
 
-- **Production** : https://topolia-site.netlify.app
+- **Production** : https://topolia.fr (domaine custom OVH → Netlify, SSL Let's Encrypt auto)
+- **URL Netlify** : https://topolia-site.netlify.app (toujours active)
 - **Admin Netlify** : https://app.netlify.com/projects/topolia-site
 - **Project ID Netlify** : `1c27377e-b34a-4065-a3ff-4499e2c7d513`
 - **Team Netlify** : `Topolia`
 - **Repo lié** : `LowLowTK/Topolia` (public) sur `main` → **auto-deploy actif** à chaque `git push`
-- **Domaine final prévu** : `topolia.fr` (sur OVH — DNS à pointer vers Netlify quand prêt)
+
+### DNS topolia.fr (OVH)
+
+- `@ A 75.2.60.5` (Netlify load balancer)
+- `www CNAME topolia-site.netlify.app.`
+- Mails OVH intacts (MX, SPF, SRV, CNAMEs mail-related conservés)
 
 ---
 
