@@ -1,0 +1,34 @@
+---
+/**
+ * Script analytics — supporte plusieurs providers selon les variables d'env.
+ *
+ * Priorité :
+ *  1. Cloudflare Web Analytics — si PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN est défini
+ *  2. Plausible — si PUBLIC_PLAUSIBLE_DOMAIN est défini
+ *
+ * Tous deux sont privacy-first, sans cookie banner requis (RGPD-friendly).
+ * Si aucune variable n'est définie, aucun script n'est injecté.
+ */
+const cloudflareToken = import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN;
+const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
+---
+
+{
+  cloudflareToken ? (
+    <script
+      is:inline
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon={`{"token": "${cloudflareToken}"}`}
+    />
+  ) : (
+    plausibleDomain && (
+      <script
+        is:inline
+        defer
+        data-domain={plausibleDomain}
+        src="https://plausible.io/js/script.js"
+      />
+    )
+  )
+}
