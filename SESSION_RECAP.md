@@ -27,7 +27,7 @@
 - **Admin Netlify** : https://app.netlify.com/projects/topolia-site
 - **Project ID Netlify** : `1c27377e-b34a-4065-a3ff-4499e2c7d513`
 - **Team Netlify** : `Topolia`
-- **Repo lié** : `LowLowTK/Topolia` sur `main` → **auto-deploy actif** à chaque `git push`
+- **Repo lié** : `LowLowTK/Topolia` (public) sur `main` → **auto-deploy actif** à chaque `git push`
 - **Domaine final prévu** : `topolia.fr` (sur OVH — DNS à pointer vers Netlify quand prêt)
 
 ---
