@@ -94,7 +94,7 @@ Zéro dépendance npm, zéro clé API, zéro setup. Voir §24.5 du BRIEF.md.
 | Phase 1 — Fondations             | ✅     | Astro scaffold, tokens, Logo (5 variants), PulseLoader, Nav, Footer, BaseLayout        |
 | Phase 2 — Content collections    | ✅     | 4 schémas Zod, 5 composants MDX, 3 cards, contenu de démo                              |
 | Phase 3 — Pages clés             | ✅     | Home, listings + fiches articles/glossaire/chantiers, minute topo, à propos (26 pages) |
-| Phase 4 — Newsletter + Analytics | 🔲     | Brevo API, Plausible, OG dynamiques                                                    |
+| Phase 4 — Newsletter + Analytics | ✅     | Brevo API, Plausible, OG dynamiques, adapter Netlify                                   |
 | Phase 5 — Membres & commentaires | 🔲     | Clerk, Supabase                                                                        |
 | Phase 6 — Decap CMS              | 🔲     | Admin éditorial                                                                        |
 | Phase 7 — Pipeline IA            | 🔲     | Veille + rédaction + repurposing                                                       |

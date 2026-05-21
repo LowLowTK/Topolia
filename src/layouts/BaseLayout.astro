@@ -1,6 +1,7 @@
 ---
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import PlausibleScript from '../components/PlausibleScript.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -13,13 +14,39 @@ interface Props {
 const {
   title,
   description = 'Topolia.fr — La topographie moderne : LiDAR, drone, photogrammétrie. Tutoriels, comparatifs et astuces terrain.',
-  ogImage = '/og/default.png',
+  ogImage,
   canonicalUrl,
 } = Astro.props;
 
 const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://topolia.fr';
 const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`;
 const fullTitle = title === 'Topolia' ? title : `${title} — Topolia`;
+
+/** Déduit le slug OG depuis le pathname courant. */
+function inferOgSlug(pathname: string): string {
+  const cleaned = pathname.replace(/^\/+|\/+$/g, '');
+  if (cleaned === '') return 'home';
+  if (cleaned === 'articles') return 'articles-index';
+  if (cleaned === 'glossaire') return 'glossaire-index';
+  if (cleaned === 'chantiers') return 'chantiers-index';
+  if (cleaned === 'minute-topo') return 'minute-topo-index';
+  if (cleaned === 'a-propos') return 'a-propos';
+  if (cleaned === 'newsletter') return 'newsletter';
+  if (
+    cleaned.startsWith('articles/') ||
+    cleaned.startsWith('glossaire/') ||
+    cleaned.startsWith('chantiers/')
+  ) {
+    return cleaned;
+  }
+  return 'home';
+}
+
+const ogImageUrl = ogImage
+  ? ogImage.startsWith('http')
+    ? ogImage
+    : `${siteUrl}${ogImage}`
+  : `${siteUrl}/og/${inferOgSlug(Astro.url.pathname)}.png`;
 ---
 
 <!doctype html>
@@ -37,16 +64,18 @@ const fullTitle = title === 'Topolia' ? title : `${title} — Topolia`;
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:site_name" content="Topolia" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <PlausibleScript />
   </head>
   <body>
     <Nav />

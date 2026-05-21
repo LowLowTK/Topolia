@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsletterInline from '../components/NewsletterInline.astro';
+---
+
+<BaseLayout
+  title="Newsletter"
+  description="Un email par semaine sur la topographie moderne. Article + astuce + retour terrain. Pas de spam, désabonnement en un clic."
+>
+  <section class="container newsletter-page">
+    <header class="page-header">
+      <p class="eyebrow">Newsletter Topolia</p>
+      <h1 class="page-title">
+        Un email par <span class="accent">semaine</span>.
+      </h1>
+      <p class="page-sub">
+        Le nouvel article de la semaine, une astuce que je viens d'apprendre, un retour terrain
+        intéressant. C'est court, c'est précis, c'est sans spam.
+      </p>
+    </header>
+
+    <NewsletterInline
+      title="Inscris-toi"
+      description="Brevo gère la liste. RGPD-friendly. Désinscription en un clic."
+    />
+
+    <section class="content-section">
+      <h2>Ce que tu vas recevoir</h2>
+      <ul>
+        <li>Le <strong>nouvel article</strong> publié cette semaine</li>
+        <li>Une <strong>minute topo</strong> — astuce ultra-courte</li>
+        <li>De temps en temps un <strong>retour de chantier</strong> intéressant</li>
+        <li>Et c'est tout — aucun email promo, aucun lien sponsorisé non identifié</li>
+      </ul>
+
+      <h2>Ce que tu ne vas pas recevoir</h2>
+      <ul>
+        <li>Du marketing déguisé en contenu</li>
+        <li>Trois emails par semaine pour te rappeler que je suis là</li>
+        <li>Des séquences de relance automatiques</li>
+      </ul>
+
+      <h2>Et techniquement</h2>
+      <p>
+        La newsletter est gérée par <strong>Brevo</strong> (ex-Sendinblue), hébergé en France et RGPD-compliant.
+        Tu peux te désabonner en un clic depuis n'importe quel email.
+      </p>
+    </section>
+  </section>
+</BaseLayout>
+
+<style>
+  .newsletter-page {
+    padding: 60px 0 80px;
+    max-width: var(--content-max);
+  }
+  .page-header {
+    margin-bottom: 40px;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .page-title {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .accent {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .page-sub {
+    margin-top: 16px;
+    font-size: 1.1rem;
+    color: var(--ink-3);
+    line-height: 1.55;
+  }
+  .content-section {
+    margin-top: 56px;
+  }
+  .content-section h2 {
+    font-family: var(--display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 40px 0 14px;
+    color: var(--ink);
+  }
+  .content-section ul {
+    margin: 14px 0 14px 22px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .content-section li {
+    margin: 6px 0;
+  }
+  .content-section p {
+    margin: 14px 0;
+    font-size: 1rem;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+  .content-section strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+</style>

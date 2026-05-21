@@ -1,0 +1,180 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  variant?: 'light' | 'dark';
+}
+const {
+  title = 'Reste à jour',
+  description = 'Un email par semaine : article + astuce + retour terrain. Pas de bruit.',
+  variant = 'light',
+} = Astro.props;
+---
+
+<form class:list={['newsletter-form', `newsletter-form--${variant}`]} data-newsletter-form>
+  <div class="newsletter-text">
+    <h3 class="newsletter-title">{title}</h3>
+    <p class="newsletter-description">{description}</p>
+  </div>
+  <div class="newsletter-input-row">
+    <label class="visually-hidden" for="newsletter-email">Adresse email</label>
+    <input
+      id="newsletter-email"
+      type="email"
+      name="email"
+      required
+      autocomplete="email"
+      placeholder="ton@email.fr"
+      class="newsletter-input"
+    />
+    <button type="submit" class="newsletter-submit">S'inscrire</button>
+  </div>
+  <p class="newsletter-message" data-newsletter-message aria-live="polite"></p>
+  <p class="newsletter-note">Sans spam. Désinscription en un clic à tout moment.</p>
+</form>
+
+<script>
+  const forms = document.querySelectorAll<HTMLFormElement>('[data-newsletter-form]');
+  for (const form of forms) {
+    const msg = form.querySelector<HTMLParagraphElement>('[data-newsletter-message]');
+    const btn = form.querySelector<HTMLButtonElement>('.newsletter-submit');
+    if (!msg || !btn) continue;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = form.querySelector<HTMLInputElement>('input[name="email"]');
+      if (!input) return;
+      const email = input.value.trim();
+
+      msg.textContent = '';
+      msg.classList.remove('newsletter-message--ok', 'newsletter-message--error');
+      btn.disabled = true;
+      btn.textContent = 'Envoi…';
+
+      try {
+        const res = await fetch('/api/newsletter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+        const data = await res.json();
+        msg.textContent = data.message;
+        msg.classList.add(data.ok ? 'newsletter-message--ok' : 'newsletter-message--error');
+        if (data.ok) input.value = '';
+      } catch {
+        msg.textContent = 'Erreur réseau, réessaye dans un instant.';
+        msg.classList.add('newsletter-message--error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "S'inscrire";
+      }
+    });
+  }
+</script>
+
+<style>
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+  }
+  .newsletter-form--dark {
+    background: var(--bg-dark-2);
+    border-color: rgba(255, 255, 255, 0.06);
+    color: var(--surface);
+  }
+  .newsletter-title {
+    font-family: var(--display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: inherit;
+  }
+  .newsletter-description {
+    margin-top: 6px;
+    font-size: 0.95rem;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+  .newsletter-form--dark .newsletter-description {
+    color: var(--ink-light);
+  }
+  .newsletter-input-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .newsletter-input {
+    flex: 1 1 240px;
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+  .newsletter-input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .newsletter-submit {
+    min-height: 44px;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 8px;
+    background: var(--ink);
+    color: var(--surface);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition:
+      transform 0.15s,
+      box-shadow 0.15s;
+  }
+  .newsletter-submit:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  .newsletter-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .newsletter-form--dark .newsletter-submit {
+    background: var(--accent-grad);
+  }
+  .newsletter-message {
+    font-size: 0.875rem;
+    min-height: 1.2em;
+    margin: 0;
+  }
+  .newsletter-message--ok {
+    color: var(--green);
+  }
+  .newsletter-message--error {
+    color: var(--rose);
+  }
+  .newsletter-note {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+  }
+  .newsletter-form--dark .newsletter-note {
+    color: var(--ink-light);
+  }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
