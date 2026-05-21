@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import CategoryFilter from '../../components/CategoryFilter.astro';
+import { getCollection } from 'astro:content';
+import { sortByDateDesc, publishedOnly } from '../../lib/content-helpers';
+
+const articles = sortByDateDesc(publishedOnly(await getCollection('articles')));
+---
+
+<BaseLayout
+  title="Tous les articles"
+  description="Tutoriels, comparatifs, retours terrain — toute la topographie moderne expliquée sans filtre."
+>
+  <section class="container articles-listing">
+    <header class="listing-header">
+      <p class="listing-eyebrow">{articles.length} article{articles.length > 1 ? 's' : ''}</p>
+      <h1 class="listing-title">Tous les articles</h1>
+      <p class="listing-sub">
+        Tutoriels logiciels, comparatifs matériel, retours terrain. Filtre par catégorie ci-dessous.
+      </p>
+    </header>
+
+    <CategoryFilter />
+
+    {
+      articles.length > 0 ? (
+        <div class="articles-grid">
+          {articles.map((entry) => (
+            <ArticleCard entry={entry} />
+          ))}
+        </div>
+      ) : (
+        <p class="empty">Aucun article publié pour l'instant.</p>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .articles-listing {
+    padding: 60px 0 80px;
+  }
+  .listing-header {
+    max-width: var(--content-max);
+  }
+  .listing-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .listing-title {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .listing-sub {
+    margin-top: 14px;
+    font-size: 1.05rem;
+    color: var(--ink-3);
+    max-width: 540px;
+  }
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .empty {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+</style>

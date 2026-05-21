@@ -1,0 +1,192 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ArticleHeader from '../components/ArticleHeader.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import ProgressBar from '../components/ProgressBar.astro';
+import AuthorBio from '../components/AuthorBio.astro';
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  description: string;
+  date: Date;
+  category: string;
+  author: string;
+  heroImage: string;
+  heroImageAlt: string;
+  readingTime: number;
+  headings: MarkdownHeading[];
+}
+const props = Astro.props;
+---
+
+<BaseLayout title={props.title} description={props.description} ogImage={props.heroImage}>
+  <ProgressBar />
+
+  <ArticleHeader
+    title={props.title}
+    subtitle={props.subtitle}
+    date={props.date}
+    category={props.category}
+    author={props.author}
+    heroImage={props.heroImage}
+    heroImageAlt={props.heroImageAlt}
+    readingTime={props.readingTime}
+  />
+
+  <div class="container article-layout">
+    <aside class="article-aside article-aside--left">
+      <div class="sticky">
+        <TableOfContents headings={props.headings} />
+      </div>
+    </aside>
+
+    <article class="article-content prose">
+      <slot />
+    </article>
+
+    <aside class="article-aside article-aside--right">
+      <div class="sticky">
+        <AuthorBio author={props.author} />
+        <div class="related-wrap"><slot name="related" /></div>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .article-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 60px 0 100px;
+  }
+
+  .article-aside {
+    display: none;
+  }
+
+  .article-content {
+    max-width: var(--content-max);
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .sticky {
+    position: sticky;
+    top: 100px;
+  }
+
+  .related-wrap {
+    margin-top: 16px;
+  }
+
+  /* ── Typographie prose ── */
+  .prose :global(h2) {
+    font-family: var(--display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 56px 0 16px;
+    color: var(--ink);
+    scroll-margin-top: 100px;
+  }
+  .prose :global(h3) {
+    font-family: var(--display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 36px 0 12px;
+    color: var(--ink-2);
+    scroll-margin-top: 100px;
+  }
+  .prose :global(p) {
+    margin: 16px 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 16px 0 16px 24px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .prose :global(li) {
+    margin: 6px 0;
+  }
+  .prose :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  .prose :global(a:hover) {
+    text-decoration-thickness: 2px;
+  }
+  .prose :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .prose :global(code) {
+    font-family: var(--mono);
+    font-size: 0.9em;
+    padding: 2px 6px;
+    background: var(--bg-alt);
+    border-radius: 4px;
+    color: var(--ink);
+  }
+  .prose :global(pre) {
+    margin: 24px 0;
+    padding: 18px 20px;
+    background: var(--bg-dark);
+    color: var(--surface);
+    border-radius: 10px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+  .prose :global(pre code) {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+  }
+  .prose :global(blockquote) {
+    margin: 24px 0;
+    padding: 16px 22px;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 8px 8px 0;
+    color: var(--ink-2);
+    font-style: italic;
+  }
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 0.92rem;
+  }
+  .prose :global(th),
+  .prose :global(td) {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .prose :global(th) {
+    background: var(--bg-alt);
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  @media (min-width: 1080px) {
+    .article-layout {
+      grid-template-columns: 220px minmax(0, var(--content-max)) 260px;
+      gap: 56px;
+      justify-content: center;
+    }
+    .article-aside {
+      display: block;
+    }
+  }
+</style>

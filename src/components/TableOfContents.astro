@@ -1,0 +1,102 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+const { headings } = Astro.props;
+
+// H2 et H3 uniquement
+const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+
+{
+  tocHeadings.length > 0 && (
+    <nav class="toc" aria-label="Sommaire">
+      <p class="toc-title">Sommaire</p>
+      <ul class="toc-list">
+        {tocHeadings.map((heading) => (
+          <li class:list={['toc-item', `toc-item--h${heading.depth}`]}>
+            <a href={`#${heading.slug}`} data-toc-link={heading.slug}>
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<script>
+  const links = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+  if (links.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            links.forEach((l) => l.classList.remove('toc-active'));
+            const active = document.querySelector<HTMLAnchorElement>(
+              `[data-toc-link="${entry.target.id}"]`,
+            );
+            active?.classList.add('toc-active');
+          }
+        });
+      },
+      { rootMargin: '-30% 0% -60% 0%' },
+    );
+
+    links.forEach((link) => {
+      const id = link.dataset.tocLink;
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (target) observer.observe(target);
+    });
+  }
+</script>
+
+<style>
+  .toc {
+    font-family: var(--body);
+  }
+  .toc-title {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 14px;
+  }
+  .toc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-left: 1px solid var(--hairline);
+  }
+  .toc-item a {
+    display: block;
+    padding: 4px 12px;
+    margin-left: -1px;
+    font-size: 0.875rem;
+    color: var(--ink-3);
+    text-decoration: none;
+    border-left: 1px solid transparent;
+    transition:
+      color 0.15s,
+      border-color 0.15s;
+    line-height: 1.4;
+  }
+  .toc-item a:hover {
+    color: var(--ink);
+  }
+  .toc-item a.toc-active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    font-weight: 500;
+  }
+  .toc-item--h3 a {
+    padding-left: 24px;
+    font-size: 0.82rem;
+  }
+</style>

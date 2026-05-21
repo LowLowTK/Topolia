@@ -1,0 +1,105 @@
+---
+import HeroPlaceholder from './HeroPlaceholder.astro';
+import { formatDateFR, ARTICLE_CATEGORIES } from '../lib/content-helpers';
+import { formatReadingTime } from '../lib/reading-time';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  date: Date;
+  category: string;
+  author: string;
+  heroImage: string;
+  heroImageAlt: string;
+  readingTime: number;
+}
+const { title, subtitle, date, category, author, readingTime } = Astro.props;
+
+const categoryLabel = ARTICLE_CATEGORIES.find((c) => c.slug === category)?.label ?? category;
+const authorDisplay = author === 'loic' ? 'Loïc' : author;
+---
+
+<header class="article-header">
+  <div class="container article-header-inner">
+    <a href={`/articles/c/${category}/`} class="article-eyebrow">{categoryLabel}</a>
+    <h1 class="article-title">{title}</h1>
+    {subtitle && <p class="article-subtitle">{subtitle}</p>}
+    <div class="article-meta">
+      <span class="article-author">Par {authorDisplay}</span>
+      <span class="article-sep" aria-hidden="true">·</span>
+      <time datetime={date.toISOString()}>{formatDateFR(date)}</time>
+      <span class="article-sep" aria-hidden="true">·</span>
+      <span>{formatReadingTime(readingTime)}</span>
+    </div>
+  </div>
+  <div class="article-hero-image-wrap">
+    <div class="container">
+      <div class="article-hero-image">
+        <HeroPlaceholder title={title} category={categoryLabel} variant="hero" />
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .article-header {
+    padding-top: 60px;
+  }
+  .article-header-inner {
+    max-width: var(--content-max);
+  }
+  .article-eyebrow {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    margin-bottom: 18px;
+  }
+  .article-eyebrow:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .article-title {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .article-subtitle {
+    margin-top: 16px;
+    font-size: 1.2rem;
+    color: var(--ink-3);
+    line-height: 1.45;
+  }
+  .article-meta {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+  }
+  .article-author {
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+  .article-sep {
+    color: var(--ink-light);
+  }
+  .article-hero-image-wrap {
+    margin-top: 40px;
+  }
+  .article-hero-image {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--hairline);
+  }
+</style>

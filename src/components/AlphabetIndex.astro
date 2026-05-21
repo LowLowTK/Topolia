@@ -1,0 +1,61 @@
+---
+interface Props {
+  letters: string[];
+}
+const { letters } = Astro.props;
+
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('');
+---
+
+<nav class="alpha-index" aria-label="Index alphabétique">
+  {
+    ALPHABET.map((letter) => {
+      const has = letters.includes(letter);
+      return has ? (
+        <a href={`#letter-${letter}`} class="alpha-link">
+          {letter}
+        </a>
+      ) : (
+        <span class="alpha-link alpha-link--disabled" aria-hidden="true">
+          {letter}
+        </span>
+      );
+    })
+  }
+</nav>
+
+<style>
+  .alpha-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 14px 18px;
+    background: var(--bg-alt);
+    border-radius: 12px;
+    border: 1px solid var(--hairline);
+  }
+  .alpha-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink-2);
+    text-decoration: none;
+    border-radius: 6px;
+    transition:
+      background 0.15s,
+      color 0.15s;
+  }
+  a.alpha-link:hover {
+    background: var(--surface);
+    color: var(--accent);
+  }
+  .alpha-link--disabled {
+    color: var(--ink-light);
+    opacity: 0.5;
+  }
+</style>

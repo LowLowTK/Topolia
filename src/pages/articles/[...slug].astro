@@ -1,0 +1,45 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import RelatedContent from '../../components/RelatedContent.astro';
+import { getCollection, render } from 'astro:content';
+import { publishedOnly } from '../../lib/content-helpers';
+import { readingTime } from '../../lib/reading-time';
+
+export async function getStaticPaths() {
+  const articles = publishedOnly(await getCollection('articles'));
+  return articles.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const minutes = readingTime(entry.body ?? '');
+
+const allArticles = publishedOnly(await getCollection('articles'));
+const related = allArticles
+  .filter((a) => a.data.category === entry.data.category && a.id !== entry.id)
+  .slice(0, 3)
+  .map((a) => ({
+    href: `/articles/${a.id}/`,
+    label: a.data.title,
+    type: 'article' as const,
+  }));
+---
+
+<ArticleLayout
+  title={entry.data.title}
+  subtitle={entry.data.subtitle}
+  description={entry.data.excerpt}
+  date={entry.data.date}
+  category={entry.data.category}
+  author={entry.data.author}
+  heroImage={entry.data.heroImage}
+  heroImageAlt={entry.data.heroImageAlt}
+  readingTime={minutes}
+  headings={headings}
+>
+  <Content />
+  <RelatedContent slot="related" title="À lire aussi" items={related} />
+</ArticleLayout>

@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ChantierCard from '../../components/ChantierCard.astro';
+import { getCollection } from 'astro:content';
+import { sortByDateDesc, publishedOnly } from '../../lib/content-helpers';
+
+const chantiers = sortByDateDesc(publishedOnly(await getCollection('chantiers')));
+---
+
+<BaseLayout
+  title="Chantiers anonymisés"
+  description="Retours terrain réels : ce qui a marché, ce qui a planté, ce que j'aurais fait différemment. Les chantiers qu'on ne publie nulle part."
+>
+  <section class="container chantiers-listing">
+    <header class="listing-header">
+      <p class="listing-eyebrow">{chantiers.length} chantier{chantiers.length > 1 ? 's' : ''}</p>
+      <h1 class="listing-title">
+        Chantiers <span class="accent">anonymisés</span>
+      </h1>
+      <p class="listing-sub">
+        Vrais projets, vrais problèmes, vraies leçons. Sans cabinet ni client nommés. Ce que les
+        bureaux ne publient pas, mais que tout topographe veut lire.
+      </p>
+    </header>
+
+    {
+      chantiers.length > 0 ? (
+        <div class="chantiers-grid">
+          {chantiers.map((entry) => (
+            <ChantierCard entry={entry} />
+          ))}
+        </div>
+      ) : (
+        <p class="empty">Aucun chantier publié pour l'instant.</p>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .chantiers-listing {
+    padding: 60px 0 80px;
+  }
+  .listing-header {
+    max-width: var(--content-max);
+    margin-bottom: 40px;
+  }
+  .listing-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 14px;
+  }
+  .listing-title {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .accent {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .listing-sub {
+    margin-top: 14px;
+    font-size: 1.05rem;
+    color: var(--ink-3);
+    max-width: 580px;
+  }
+  .chantiers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .empty {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+</style>

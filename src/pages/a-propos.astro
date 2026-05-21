@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Logo from '../components/Logo.astro';
+---
+
+<BaseLayout
+  title="À propos"
+  description="Pourquoi Topolia existe, qui je suis, et ce que tu vas trouver ici."
+>
+  <section class="container apropos-page">
+    <header class="apropos-header">
+      <Logo variant="mark" size={120} animClass="sonar" />
+      <p class="eyebrow">À propos</p>
+      <h1 class="apropos-title">
+        Topolia, c'est <span class="accent">quoi exactement ?</span>
+      </h1>
+    </header>
+
+    <div class="apropos-content prose">
+      <h2>L'idée de départ</h2>
+      <p>
+        Quand j'ai commencé la topo en 2018, j'ai galéré à trouver du contenu sérieux en français
+        sur les scanners laser, le LiDAR drone et la photogrammétrie. Beaucoup de marketing
+        constructeur, peu de retours terrain honnêtes, encore moins de tutoriels qui marchent
+        vraiment quand tu es sur un chantier.
+      </p>
+      <p>
+        Topolia, c'est l'inverse. Du contenu écrit par quelqu'un qui fait le métier, pour des gens
+        qui le font. Avec des chiffres réels, des erreurs assumées, et des outils qu'on utilise
+        vraiment.
+      </p>
+
+      <h2>Qui je suis</h2>
+      <p>
+        Loïc, topographe indépendant basé à Rennes. Six ans de terrain avec scanner statique (Leica
+        RTC360 principalement), backpack LiDAR (BLK2GO) et drone photogrammétrie / LiDAR (Matrice 4E
+        + Zenmuse L2).
+      </p>
+      <p>
+        En parallèle, je développe deux applis qui me servent au quotidien :
+        <strong>Topolia Scan</strong> (iOS, en beta) et <strong>Topolia Desktop</strong>
+        (Windows pro, en cours). Le site est la vitrine éditoriale qui supporte ces produits — mais surtout,
+        c'est l'endroit où je partage ce que j'apprends.
+      </p>
+
+      <h2>Ce que tu trouves ici</h2>
+      <ul>
+        <li>
+          <strong>Articles tutoriels et comparatifs</strong> — workflows complets, tests matériel, méthodes
+          terrain. Un nouveau par semaine.
+        </li>
+        <li>
+          <strong>Glossaire</strong> — les termes du métier, expliqués clairement. De LiDAR à COPC en
+          passant par SLAM et RTK.
+        </li>
+        <li>
+          <strong>Chantiers anonymisés</strong> — vrais projets, vrais problèmes, vraies leçons. Ce que
+          les cabinets ne publient jamais.
+        </li>
+        <li>
+          <strong>Minute topo</strong> — une astuce ultra-courte par semaine, moins de 3 minutes de lecture.
+        </li>
+      </ul>
+
+      <h2>Ce que tu ne trouves pas</h2>
+      <ul>
+        <li>Du marketing déguisé en article</li>
+        <li>Des tutoriels copiés-collés sans avoir testé l'outil</li>
+        <li>Du jargon pour faire savant — sauf si le terme est vraiment nécessaire</li>
+        <li>Le « vous » corporate qui rend tout contenu sans saveur</li>
+      </ul>
+
+      <h2>Et après ?</h2>
+      <p>
+        En V2, des formations payantes pour aller au-delà du blog. Quand il y aura assez de contenu
+        gratuit pour valider l'intérêt. Pas avant.
+      </p>
+      <p>
+        En V3, peut-être un viewer web pour partager des nuages de points avec tes clients. Mais on
+        n'y est pas encore.
+      </p>
+
+      <h2>On reste en contact ?</h2>
+      <p>
+        La newsletter arrive en Phase 4 du dev. En attendant,
+        <a href="/articles/">parcours les articles</a>
+        ou <a href="/glossaire/">explore le glossaire</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .apropos-page {
+    padding: 60px 0 80px;
+    max-width: var(--content-max);
+  }
+  .apropos-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .eyebrow {
+    margin-top: 24px;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .apropos-title {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .accent {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .apropos-content {
+    margin-top: 40px;
+  }
+  .prose h2 {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 48px 0 14px;
+    color: var(--ink);
+  }
+  .prose p {
+    margin: 14px 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+  .prose ul {
+    margin: 18px 0 18px 22px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .prose li {
+    margin: 8px 0;
+  }
+  .prose a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+</style>

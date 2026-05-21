@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ArticleCard from '../../../components/ArticleCard.astro';
+import CategoryFilter from '../../../components/CategoryFilter.astro';
+import { getCollection } from 'astro:content';
+import { sortByDateDesc, publishedOnly, ARTICLE_CATEGORIES } from '../../../lib/content-helpers';
+
+export async function getStaticPaths() {
+  const all = sortByDateDesc(publishedOnly(await getCollection('articles')));
+  return ARTICLE_CATEGORIES.map((cat) => ({
+    params: { cat: cat.slug },
+    props: {
+      label: cat.label,
+      articles: all.filter((a) => a.data.category === cat.slug),
+    },
+  }));
+}
+
+const { label, articles } = Astro.props;
+const { cat } = Astro.params;
+---
+
+<BaseLayout
+  title={`Articles · ${label}`}
+  description={`Tous les articles Topolia dans la catégorie ${label}.`}
+>
+  <section class="container articles-listing">
+    <header class="listing-header">
+      <p class="listing-eyebrow">{articles.length} article{articles.length > 1 ? 's' : ''}</p>
+      <h1 class="listing-title">
+        Articles · <span class="accent">{label}</span>
+      </h1>
+    </header>
+
+    <CategoryFilter currentCategory={cat} />
+
+    {
+      articles.length > 0 ? (
+        <div class="articles-grid">
+          {articles.map((entry) => (
+            <ArticleCard entry={entry} />
+          ))}
+        </div>
+      ) : (
+        <p class="empty">Aucun article dans cette catégorie pour l'instant.</p>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .articles-listing {
+    padding: 60px 0 80px;
+  }
+  .listing-header {
+    max-width: var(--content-max);
+  }
+  .listing-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .listing-title {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .accent {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .empty {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+</style>

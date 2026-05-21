@@ -1,0 +1,72 @@
+---
+import { ARTICLE_CATEGORIES } from '../lib/content-helpers';
+
+interface Props {
+  currentCategory?: string;
+}
+const { currentCategory } = Astro.props;
+---
+
+<nav class="cat-filter" aria-label="Filtrer par catégorie">
+  <a href="/articles/" class:list={['cat-chip', { 'cat-chip--active': !currentCategory }]}>
+    Tous
+  </a>
+  {
+    ARTICLE_CATEGORIES.map((cat) => (
+      <a
+        href={`/articles/c/${cat.slug}/`}
+        class:list={['cat-chip', { 'cat-chip--active': currentCategory === cat.slug }]}
+      >
+        {cat.label}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .cat-filter {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 32px 0 40px;
+  }
+  .cat-chip {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ink-3);
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    text-decoration: none;
+    transition:
+      color 0.15s,
+      border-color 0.15s,
+      background 0.15s;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .cat-chip:hover {
+    color: var(--ink);
+    border-color: var(--hairline-strong);
+  }
+  .cat-chip--active {
+    color: var(--surface);
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .cat-chip--active:hover {
+    color: var(--surface);
+  }
+  @media (max-width: 639px) {
+    .cat-filter {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .cat-chip {
+      flex-shrink: 0;
+    }
+  }
+</style>

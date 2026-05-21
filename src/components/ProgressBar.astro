@@ -1,0 +1,41 @@
+---
+
+---
+
+<div class="progress-bar" role="progressbar" aria-label="Progression de lecture">
+  <div class="progress-bar-fill" id="progress-bar-fill"></div>
+</div>
+
+<script>
+  const fill = document.getElementById('progress-bar-fill');
+  if (fill) {
+    const update = () => {
+      const scrolled = window.scrollY;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const percent = max > 0 ? Math.min(100, (scrolled / max) * 100) : 0;
+      fill.style.width = `${percent}%`;
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+  }
+</script>
+
+<style>
+  .progress-bar {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: transparent;
+    z-index: 90;
+    pointer-events: none;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent-grad);
+    transition: width 0.05s linear;
+  }
+</style>

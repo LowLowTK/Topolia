@@ -1,0 +1,247 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { publishedOnly, formatDateFR } from '../../lib/content-helpers';
+
+export async function getStaticPaths() {
+  const entries = publishedOnly(await getCollection('chantiers'));
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, date, surface, materiel, probleme, lecon, tags } = entry.data;
+---
+
+<BaseLayout title={title} description={`${probleme}. Leçon : ${lecon}`}>
+  <article class="container chantier-page">
+    <a href="/chantiers/" class="back-link">← Retour aux chantiers</a>
+
+    <header class="chantier-header">
+      <span class="chantier-eyebrow">Retour de chantier</span>
+      <h1 class="chantier-title">{title}</h1>
+
+      <dl class="chantier-meta">
+        <div>
+          <dt>Date</dt>
+          <dd><time datetime={date.toISOString()}>{formatDateFR(date)}</time></dd>
+        </div>
+        {
+          surface && (
+            <div>
+              <dt>Surface</dt>
+              <dd>{surface}</dd>
+            </div>
+          )
+        }
+        {
+          materiel.length > 0 && (
+            <div>
+              <dt>Matériel</dt>
+              <dd>
+                <ul class="materiel-list">
+                  {materiel.map((m) => (
+                    <li>{m}</li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          )
+        }
+      </dl>
+
+      <div class="chantier-summary">
+        <div class="summary-card summary-card--probleme">
+          <p class="summary-label">Le problème</p>
+          <p class="summary-text">{probleme}</p>
+        </div>
+        <div class="summary-card summary-card--lecon">
+          <p class="summary-label">La leçon</p>
+          <p class="summary-text">{lecon}</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="chantier-content prose">
+      <Content />
+    </div>
+
+    {
+      tags.length > 0 && (
+        <footer class="chantier-tags">
+          {tags.map((tag) => (
+            <span class="chantier-tag">#{tag}</span>
+          ))}
+        </footer>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .chantier-page {
+    padding: 40px 0 80px;
+    max-width: var(--content-max);
+  }
+  .back-link {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--ink-3);
+    text-decoration: none;
+    margin-bottom: 32px;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+  .back-link:hover {
+    color: var(--amber);
+    background: var(--bg-warm);
+  }
+  .chantier-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+  .chantier-title {
+    margin-top: 14px;
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+  .chantier-meta {
+    margin-top: 28px;
+    display: grid;
+    gap: 16px;
+    padding: 20px;
+    background: var(--bg-warm);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+  }
+  .chantier-meta dt {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+  }
+  .chantier-meta dd {
+    font-size: 0.95rem;
+    color: var(--ink-2);
+  }
+  .materiel-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .materiel-list li {
+    padding: 3px 9px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    font-size: 0.85rem;
+  }
+  .chantier-summary {
+    margin-top: 28px;
+    display: grid;
+    gap: 16px;
+  }
+  .summary-card {
+    padding: 18px 20px;
+    border-radius: 12px;
+    border-left: 3px solid;
+  }
+  .summary-card--probleme {
+    background: rgba(244, 63, 94, 0.06);
+    border-color: var(--rose);
+  }
+  .summary-card--lecon {
+    background: rgba(16, 185, 129, 0.06);
+    border-color: var(--green);
+  }
+  .summary-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    margin-bottom: 6px;
+  }
+  .summary-text {
+    font-size: 1rem;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+  .chantier-content {
+    margin-top: 40px;
+  }
+  .chantier-tags {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--hairline);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chantier-tag {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+  }
+  @media (min-width: 640px) {
+    .chantier-summary {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Prose typo */
+  .prose :global(h2) {
+    font-family: var(--display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 32px 0 12px;
+    color: var(--ink);
+  }
+  .prose :global(h3) {
+    font-family: var(--display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 24px 0 10px;
+    color: var(--ink-2);
+  }
+  .prose :global(p) {
+    margin: 14px 0;
+    font-size: 1.02rem;
+    line-height: 1.65;
+    color: var(--ink-2);
+  }
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 14px 0 14px 22px;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+  .prose :global(li) {
+    margin: 4px 0;
+  }
+  .prose :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+</style>

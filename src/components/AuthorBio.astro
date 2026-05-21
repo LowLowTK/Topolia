@@ -1,0 +1,73 @@
+---
+interface Props {
+  author: string;
+}
+const { author } = Astro.props;
+
+const bios: Record<string, { name: string; role: string; bio: string }> = {
+  loic: {
+    name: 'Loïc',
+    role: 'Topographe, fondateur de Topolia',
+    bio: "Sur le terrain depuis 2018, avec scanner statique, drone et backpack. J'écris ici ce que j'aurais voulu lire à mes débuts.",
+  },
+};
+
+const profile = bios[author] ?? bios.loic;
+---
+
+<aside class="author-bio">
+  <div class="author-avatar" aria-hidden="true">{profile.name.charAt(0)}</div>
+  <div class="author-info">
+    <p class="author-name">{profile.name}</p>
+    <p class="author-role">{profile.role}</p>
+    <p class="author-text">{profile.bio}</p>
+  </div>
+</aside>
+
+<style>
+  .author-bio {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    background: var(--bg-alt);
+    border-radius: 12px;
+  }
+  .author-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--accent-grad);
+    color: var(--surface);
+    font-family: var(--display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .author-name {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .author-role {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .author-text {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+</style>

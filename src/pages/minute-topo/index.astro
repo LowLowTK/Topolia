@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MinuteTopoCard from '../../components/MinuteTopoCard.astro';
+import { getCollection } from 'astro:content';
+import { sortByDateDesc, publishedOnly } from '../../lib/content-helpers';
+
+const minutes = sortByDateDesc(publishedOnly(await getCollection('minute-topo')));
+---
+
+<BaseLayout
+  title="Minute topo"
+  description="Une astuce ou un fait technique par semaine, en moins de 3 minutes de lecture. Pour que ton skill terrain progresse sans y passer la soirée."
+>
+  <section class="container minute-listing">
+    <header class="listing-header">
+      <p class="listing-eyebrow">Feed minute topo</p>
+      <h1 class="listing-title">
+        La <span class="accent">minute topo</span>
+      </h1>
+      <p class="listing-sub">
+        Une astuce terrain par semaine, format ultra-court. À lire entre deux stations ou dans le
+        train du retour. Moins de 3 minutes garanties.
+      </p>
+    </header>
+
+    {
+      minutes.length > 0 ? (
+        <div class="minute-feed">
+          {minutes.map((entry) => (
+            <MinuteTopoCard entry={entry} />
+          ))}
+        </div>
+      ) : (
+        <p class="empty">Aucune minute topo pour l'instant.</p>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .minute-listing {
+    padding: 60px 0 80px;
+  }
+  .listing-header {
+    max-width: var(--content-max);
+    margin-bottom: 40px;
+  }
+  .listing-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .listing-title {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .accent {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .listing-sub {
+    margin-top: 14px;
+    font-size: 1.05rem;
+    color: var(--ink-3);
+    max-width: 580px;
+  }
+  .minute-feed {
+    max-width: var(--content-max);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .empty {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+</style>

@@ -1,165 +1,280 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Logo from '../components/Logo.astro';
-import PulseLoader from '../components/PulseLoader.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import GlossaryCard from '../components/GlossaryCard.astro';
+import ChantierCard from '../components/ChantierCard.astro';
+import MinuteTopoCard from '../components/MinuteTopoCard.astro';
+import { getCollection } from 'astro:content';
+import { sortByDateDesc, publishedOnly } from '../lib/content-helpers';
+
+const articles = sortByDateDesc(publishedOnly(await getCollection('articles'))).slice(0, 3);
+const glossaire = publishedOnly(await getCollection('glossaire'))
+  .sort(() => Math.random() - 0.5)
+  .slice(0, 3);
+const chantiers = sortByDateDesc(publishedOnly(await getCollection('chantiers')));
+const minutes = sortByDateDesc(publishedOnly(await getCollection('minute-topo'))).slice(0, 3);
 ---
 
-<BaseLayout title="Topolia" description="La topographie moderne, sans filtre.">
+<BaseLayout
+  title="Topolia"
+  description="La topographie moderne, sans filtre. Tutoriels, comparatifs, retours terrain — LiDAR, drone, photogrammétrie."
+>
   <section class="hero">
-    <div class="container">
-      <div class="hero-grid">
-        <div class="hero-text">
-          <p class="eyebrow">Phase 1 — Fondations</p>
-          <h1 class="hero-title">
-            La topographie moderne, <span class="hero-accent">sans filtre.</span>
-          </h1>
-          <p class="hero-sub">
-            Design system, Logo, PulseLoader, Nav et Footer opérationnels. Le scaffolding est prêt —
-            la suite arrive en Phase 2.
-          </p>
-        </div>
-
-        <div class="hero-visual">
-          <Logo variant="mark" size={180} animClass="onde" />
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <p class="hero-eyebrow">Topographie moderne · sans filtre</p>
+        <h1 class="hero-title">
+          La topo, <span class="hero-accent">comme tu la fais vraiment.</span>
+        </h1>
+        <p class="hero-sub">
+          Scanner statique, scanner dynamique, LiDAR drone, photogrammétrie. Tutoriels qui marchent,
+          comparatifs honnêtes, chantiers anonymisés que les cabinets ne publient pas.
+        </p>
+        <div class="hero-cta">
+          <a href="/articles/" class="btn btn--primary">Lire les articles</a>
+          <a href="/glossaire/" class="btn btn--secondary">Explorer le glossaire</a>
         </div>
       </div>
-
-      <div class="demo-grid">
-        <div class="demo-card">
-          <h3>Logo · mark</h3>
-          <Logo variant="mark" size={64} animClass="sonar" />
-          <code>sonar</code>
-        </div>
-        <div class="demo-card">
-          <h3>Logo · wordmark</h3>
-          <Logo variant="wordmark" size={40} animClass="sonar" />
-          <code>sonar</code>
-        </div>
-        <div class="demo-card">
-          <h3>Logo · app-icon</h3>
-          <Logo variant="app-icon" size={64} />
-          <code>statique</code>
-        </div>
-        <div class="demo-card demo-card--dark">
-          <h3>Logo · mono</h3>
-          <Logo variant="mono" size={64} />
-          <code>fond sombre</code>
-        </div>
-        <div class="demo-card">
-          <h3>Logo · favicon</h3>
-          <Logo variant="favicon" size={48} />
-          <code>compact</code>
-        </div>
-        <div class="demo-card">
-          <h3>PulseLoader</h3>
-          <PulseLoader size={64} />
-          <code>échos LiDAR</code>
-        </div>
+      <div class="hero-visual">
+        <Logo variant="mark" size={240} animClass="onde" />
       </div>
     </div>
   </section>
 
-  <style>
-    .hero {
-      padding: 80px 0 60px;
-    }
+  <section class="home-section">
+    <div class="container">
+      <header class="home-section-header">
+        <h2>Derniers articles</h2>
+        <a href="/articles/" class="see-all">Voir tous →</a>
+      </header>
+      <div class="cards-grid cards-grid--articles">
+        {articles.map((entry) => <ArticleCard entry={entry} />)}
+      </div>
+    </div>
+  </section>
 
-    .hero-grid {
-      display: grid;
-      gap: 48px;
-      align-items: center;
-    }
+  <section class="home-section home-section--alt">
+    <div class="container">
+      <header class="home-section-header">
+        <h2>Glossaire <span class="muted">— pour s'y retrouver</span></h2>
+        <a href="/glossaire/" class="see-all">Tout le glossaire →</a>
+      </header>
+      <div class="cards-grid cards-grid--glossary">
+        {glossaire.map((entry) => <GlossaryCard entry={entry} />)}
+      </div>
+    </div>
+  </section>
 
-    .eyebrow {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 16px;
-    }
+  <section class="home-section">
+    <div class="container">
+      <header class="home-section-header">
+        <h2>Chantiers <span class="muted">anonymisés</span></h2>
+        <a href="/chantiers/" class="see-all">Tous les chantiers →</a>
+      </header>
+      <div class="cards-grid cards-grid--chantiers">
+        {chantiers.map((entry) => <ChantierCard entry={entry} />)}
+      </div>
+    </div>
+  </section>
 
-    .hero-title {
-      font-family: var(--display);
-      font-size: clamp(2rem, 6vw, 4rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-      color: var(--ink);
-    }
+  <section class="home-section home-section--alt">
+    <div class="container">
+      <header class="home-section-header">
+        <h2>Minute topo <span class="muted">— une astuce par semaine</span></h2>
+        <a href="/minute-topo/" class="see-all">Le feed complet →</a>
+      </header>
+      <div class="minute-feed">
+        {minutes.map((entry) => <MinuteTopoCard entry={entry} />)}
+      </div>
+    </div>
+  </section>
 
-    .hero-accent {
-      background: var(--accent-grad);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero-sub {
-      margin-top: 20px;
-      font-size: 1.1rem;
-      color: var(--ink-3);
-      max-width: 540px;
-    }
-
-    .hero-visual {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .demo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
-      margin-top: 80px;
-    }
-
-    .demo-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      padding: 28px 20px;
-      background: var(--surface);
-      border: 1px solid var(--hairline);
-      border-radius: 14px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .demo-card--dark {
-      background: var(--bg-dark);
-      color: var(--surface);
-      border-color: var(--bg-dark-2);
-    }
-
-    .demo-card h3 {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--ink-muted);
-      letter-spacing: -0.01em;
-    }
-
-    .demo-card--dark h3 {
-      color: var(--ink-light);
-    }
-
-    .demo-card code {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--ink-muted);
-    }
-
-    .demo-card--dark code {
-      color: var(--ink-light);
-    }
-
-    @media (min-width: 900px) {
-      .hero-grid {
-        grid-template-columns: 1.4fr 1fr;
-        gap: 64px;
-      }
-    }
-  </style>
+  <section class="newsletter-cta">
+    <div class="container">
+      <div class="newsletter-inner">
+        <h2>Reste à jour</h2>
+        <p>
+          Un email par semaine : le nouvel article, une astuce, un retour terrain. Pas de bruit, pas
+          de spam.
+        </p>
+        <p class="newsletter-note">Newsletter active en Phase 4 — patience.</p>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .hero {
+    padding: 80px 0 60px;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    gap: 48px;
+    align-items: center;
+  }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: var(--display);
+    font-size: clamp(2.2rem, 8vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    color: var(--ink);
+  }
+  .hero-accent {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-sub {
+    margin-top: 24px;
+    font-size: 1.15rem;
+    color: var(--ink-3);
+    max-width: 560px;
+    line-height: 1.55;
+  }
+  .hero-cta {
+    margin-top: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition:
+      transform 0.15s,
+      box-shadow 0.15s,
+      background 0.15s;
+  }
+  .btn--primary {
+    background: var(--ink);
+    color: var(--surface);
+  }
+  .btn--primary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  .btn--secondary {
+    background: transparent;
+    color: var(--ink-2);
+    border: 1px solid var(--hairline-strong);
+  }
+  .btn--secondary:hover {
+    background: var(--bg-alt);
+  }
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .home-section {
+    padding: 64px 0;
+  }
+  .home-section--alt {
+    background: var(--bg-alt);
+  }
+  .home-section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .home-section-header h2 {
+    font-family: var(--display);
+    font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+  .muted {
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+  .see-all {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .see-all:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .cards-grid {
+    display: grid;
+    gap: 20px;
+  }
+  .cards-grid--articles {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+  .cards-grid--glossary {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  .cards-grid--chantiers {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  .minute-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: var(--content-max);
+    margin-inline: auto;
+  }
+
+  .newsletter-cta {
+    padding: 80px 0;
+    background: var(--bg-dark);
+    color: var(--surface);
+  }
+  .newsletter-inner {
+    text-align: center;
+    max-width: 600px;
+    margin-inline: auto;
+  }
+  .newsletter-inner h2 {
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+  }
+  .newsletter-inner p {
+    margin-top: 16px;
+    color: var(--ink-light);
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+  .newsletter-note {
+    margin-top: 24px;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+
+  @media (min-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1.5fr 1fr;
+      gap: 80px;
+    }
+  }
+</style>

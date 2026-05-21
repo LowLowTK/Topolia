@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GlossaryCard from '../../components/GlossaryCard.astro';
+import AlphabetIndex from '../../components/AlphabetIndex.astro';
+import { getCollection } from 'astro:content';
+import { publishedOnly, groupByFirstLetter } from '../../lib/content-helpers';
+
+const all = publishedOnly(await getCollection('glossaire'));
+const grouped = groupByFirstLetter(all);
+const letters = [...grouped.keys()];
+---
+
+<BaseLayout
+  title="Glossaire de la topographie"
+  description="Les termes essentiels de la topographie moderne, expliqués clairement. LiDAR, SLAM, COPC, recalage, RTK… tout y est."
+>
+  <section class="container glossary-page">
+    <header class="listing-header">
+      <p class="listing-eyebrow">{all.length} terme{all.length > 1 ? 's' : ''}</p>
+      <h1 class="listing-title">
+        Glossaire <span class="accent">topo</span>
+      </h1>
+      <p class="listing-sub">
+        Les mots du métier, expliqués sans jargon inutile. Du débutant à l'expert.
+      </p>
+    </header>
+
+    <div class="alpha-wrap">
+      <AlphabetIndex letters={letters} />
+    </div>
+
+    <div class="letter-sections">
+      {
+        [...grouped.entries()].map(([letter, entries]) => (
+          <section id={`letter-${letter}`} class="letter-section">
+            <h2 class="letter-heading">{letter}</h2>
+            <div class="letter-grid">
+              {entries.map((entry) => (
+                <GlossaryCard entry={entry} />
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .glossary-page {
+    padding: 60px 0 80px;
+  }
+  .listing-header {
+    max-width: var(--content-max);
+  }
+  .listing-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .listing-title {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .accent {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .listing-sub {
+    margin-top: 14px;
+    font-size: 1.05rem;
+    color: var(--ink-3);
+    max-width: 540px;
+  }
+  .alpha-wrap {
+    margin: 36px 0 40px;
+  }
+  .letter-section {
+    margin-top: 48px;
+    scroll-margin-top: 80px;
+  }
+  .letter-heading {
+    font-family: var(--display);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--ink-light);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--hairline);
+    letter-spacing: -0.02em;
+  }
+  .letter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+</style>

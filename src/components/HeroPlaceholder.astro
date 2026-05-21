@@ -1,0 +1,115 @@
+---
+/**
+ * Placeholder visuel pour les articles dont l'image hero n'est pas encore disponible.
+ * Affiche un dégradé Topolia + mark Pulse en filigrane + titre tronqué.
+ * Sert d'image OG par défaut en attendant les vraies illustrations.
+ */
+interface Props {
+  title: string;
+  category?: string;
+  variant?: 'card' | 'hero';
+}
+const { title, category, variant = 'card' } = Astro.props;
+
+// Truncation soft pour la carte
+const displayTitle = variant === 'card' && title.length > 60 ? title.slice(0, 57) + '…' : title;
+
+// ID unique pour le gradient (évite les collisions entre instances)
+const gradId = `hero-grad-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class:list={['hero-placeholder', `hero-placeholder--${variant}`]}>
+  <svg
+    viewBox="0 0 400 225"
+    xmlns="http://www.w3.org/2000/svg"
+    preserveAspectRatio="xMidYMid slice"
+    aria-hidden="true"
+  >
+    <defs>
+      <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#0F172A"></stop>
+        <stop offset="100%" stop-color="#1E293B"></stop>
+      </linearGradient>
+      <linearGradient id={`${gradId}-accent`} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#2D5BFF"></stop>
+        <stop offset="100%" stop-color="#06B6D4"></stop>
+      </linearGradient>
+    </defs>
+    <rect width="400" height="225" fill={`url(#${gradId})`}></rect>
+
+    <!-- Mark Pulse en filigrane, légèrement décalé -->
+    <g transform="translate(310, 50)" opacity="0.18">
+      <circle
+        cx="40"
+        cy="40"
+        r="36"
+        fill="none"
+        stroke={`url(#${gradId}-accent)`}
+        stroke-width="2.5"></circle>
+      <circle cx="40" cy="40" r="26" fill="none" stroke={`url(#${gradId}-accent)`} stroke-width="3"
+      ></circle>
+      <circle
+        cx="40"
+        cy="40"
+        r="16"
+        fill="none"
+        stroke={`url(#${gradId}-accent)`}
+        stroke-width="3.5"></circle>
+      <circle cx="40" cy="40" r="6" fill={`url(#${gradId}-accent)`}></circle>
+    </g>
+  </svg>
+
+  <div class="hero-placeholder-text">
+    {category && <p class="hero-placeholder-eyebrow">{category}</p>}
+    <p class="hero-placeholder-title">{displayTitle}</p>
+  </div>
+</div>
+
+<style>
+  .hero-placeholder {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--bg-dark);
+  }
+  .hero-placeholder svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .hero-placeholder-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 18px 22px;
+    z-index: 1;
+  }
+  .hero-placeholder-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 8px;
+  }
+  .hero-placeholder-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--surface);
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+  }
+  .hero-placeholder--hero .hero-placeholder-text {
+    padding: 32px 36px;
+  }
+  .hero-placeholder--hero .hero-placeholder-title {
+    font-size: 1.4rem;
+  }
+</style>
