@@ -481,6 +481,50 @@ Règle : chaque contenu doit pointer vers au moins un autre type. Jamais un arti
 
 ---
 
+### 9.4 Contributions communautaires — chantiers utilisateurs (V2+)
+
+Les Chantiers anonymisés ne resteront pas un format réservé à Loïc. Les membres connectés pourront soumettre **leurs propres chantiers** via un formulaire dédié — l'objectif est de transformer le format en un référentiel partagé par toute la communauté topo, avec modération éditoriale.
+
+**Principe :**
+- Accessible uniquement aux utilisateurs connectés (auth Clerk — §20)
+- Bouton **« Partager un chantier »** sur l'index `/chantiers/` (visible uniquement si auth)
+- Formulaire avec les mêmes champs que le schéma Zod §8.3 :
+  - Titre, date, surface, matériel (chips multi-select), problème, leçon, tags
+  - Body en éditeur Markdown léger (textarea simple suffit en V2, MDX riche en V3)
+- Soumission → entrée en base Supabase `chantier_submissions` avec `status: 'pending'`
+- Modération par Loïc avant publication (jamais d'auto-publish)
+- Une fois approuvé : génération automatique du `.mdx` correspondant dans `src/content/chantiers/` + commit auto déclenchant un redeploy Netlify
+- L'auteur apparaît crédité (prénom + initiale ou pseudonyme, jamais nom complet client)
+
+**Statuts dans Supabase :**
+
+```
+pending     → soumis par un membre, en attente de relecture
+reviewing   → Loïc travaille dessus
+approved    → validé, en cours de publication automatique
+published   → article généré et visible sur le site
+rejected    → refusé (raison communiquée à l'auteur)
+```
+
+**Pourquoi cette feature :**
+
+- Multiplie la valeur du format chantier (effet réseau, diversité des matériels et régions)
+- Crée une **raison forte de s'inscrire** à l'espace membre — pas juste un commentaire à laisser
+- Renforce la position de Topolia comme communauté de référence, pas juste un blog perso
+- Alimente le pipeline éditorial sans charge de production côté Loïc
+
+**Garde-fous éditoriaux non négociables :**
+
+- **Modération systématique** avant publication, jamais d'auto-publish
+- **Anonymisation client obligatoire** — rappel explicite dans le formulaire, refus si le nom du client ou du chantier identifiable est cité
+- **Structure obligatoire** identique aux chantiers de Loïc : contexte / matériel / problème / leçon — refus si une section manque
+- **Pas de modification après publication** sans nouvelle validation Loïc
+- **Droit de retrait** côté auteur ou côté Topolia à tout moment
+
+**Phase de réalisation :** V2 — après la Phase 5 (espace membre opérationnel) et l'arrivée des premiers commentaires. Pas avant d'avoir au moins **20 chantiers maison** publiés, pour donner le ton et l'exemple de qualité attendu.
+
+---
+
 ## 10. Monétisation & espace membre
 
 **Modèle freemium :**
