@@ -1,26 +1,84 @@
 ---
 /**
  * Placeholder visuel pour les articles dont l'image hero n'est pas encore disponible.
- * Affiche un dégradé Topolia + mark Pulse en filigrane + titre tronqué.
- * Sert d'image OG par défaut en attendant les vraies illustrations.
+ *
+ * Variants :
+ *  - 'card' : aspect 16/9, compact, peu de décoration (utilisé dans ArticleCard, ChantierCard).
+ *  - 'hero' : aspect 3/1 max 400px, riche — point cloud SVG + plusieurs marks Pulse
+ *             (utilisé dans ArticleHeader, fait beaucoup plus "LiDAR" qu'un simple gradient).
+ *
+ * Palettes :
+ *  - 'default' : dégradé bleu→cyan (articles)
+ *  - 'warm'    : dégradé amber (chantiers)
  */
 interface Props {
   title: string;
   category?: string;
   variant?: 'card' | 'hero';
+  palette?: 'default' | 'warm';
 }
-const { title, category, variant = 'card' } = Astro.props;
+const { title, category, variant = 'card', palette = 'default' } = Astro.props;
 
-// Truncation soft pour la carte
 const displayTitle = variant === 'card' && title.length > 60 ? title.slice(0, 57) + '…' : title;
-
-// ID unique pour le gradient (évite les collisions entre instances)
 const gradId = `hero-grad-${Math.random().toString(36).slice(2, 8)}`;
+
+// Couleurs de l'accent gradient selon la palette
+const accent =
+  palette === 'warm' ? { from: '#F59E0B', to: '#FBBF24' } : { from: '#2D5BFF', to: '#06B6D4' };
+
+// ViewBox adapté à la variante (rapport d'aspect)
+const vb = variant === 'hero' ? { w: 600, h: 200 } : { w: 400, h: 225 };
+
+/**
+ * Nuage de points scattered pour la variante hero — feeling LiDAR.
+ * Positions fixées (pas de random côté SSG pour garantir un build reproductible).
+ */
+const heroDots: Array<{ x: number; y: number; r: number; o: number }> =
+  variant === 'hero'
+    ? [
+        { x: 30, y: 80, r: 1, o: 0.4 },
+        { x: 60, y: 120, r: 1.5, o: 0.7 },
+        { x: 90, y: 150, r: 1, o: 0.4 },
+        { x: 110, y: 80, r: 1, o: 0.55 },
+        { x: 130, y: 195, r: 1.5, o: 0.6 },
+        { x: 150, y: 50, r: 1.5, o: 0.65 },
+        { x: 165, y: 105, r: 1, o: 0.45 },
+        { x: 180, y: 160, r: 2, o: 0.8 },
+        { x: 200, y: 30, r: 1, o: 0.45 },
+        { x: 220, y: 175, r: 1, o: 0.5 },
+        { x: 240, y: 90, r: 1, o: 0.5 },
+        { x: 255, y: 145, r: 1.5, o: 0.55 },
+        { x: 270, y: 40, r: 1, o: 0.5 },
+        { x: 290, y: 110, r: 1, o: 0.5 },
+        { x: 305, y: 165, r: 1.5, o: 0.6 },
+        { x: 320, y: 60, r: 1.5, o: 0.7 },
+        { x: 340, y: 130, r: 1, o: 0.45 },
+        { x: 355, y: 175, r: 1, o: 0.5 },
+        { x: 375, y: 90, r: 1.5, o: 0.6 },
+        { x: 395, y: 35, r: 1, o: 0.5 },
+        { x: 415, y: 150, r: 1, o: 0.5 },
+        { x: 430, y: 105, r: 1.5, o: 0.65 },
+        { x: 450, y: 175, r: 1, o: 0.45 },
+        { x: 470, y: 50, r: 2, o: 0.75 },
+        { x: 495, y: 120, r: 1.5, o: 0.6 },
+        { x: 515, y: 175, r: 1, o: 0.5 },
+        { x: 540, y: 80, r: 1.5, o: 0.65 },
+        { x: 560, y: 145, r: 1, o: 0.45 },
+        { x: 580, y: 40, r: 1.5, o: 0.6 },
+      ]
+    : [];
+
+// Position du mark Pulse principal (à droite, centré verticalement)
+const markX = variant === 'hero' ? 510 : 310;
+const markY = variant === 'hero' ? 100 : 50;
+const markScale = variant === 'hero' ? 1 : 1;
 ---
 
-<div class:list={['hero-placeholder', `hero-placeholder--${variant}`]}>
+<div
+  class:list={['hero-placeholder', `hero-placeholder--${variant}`, `hero-placeholder--${palette}`]}
+>
   <svg
-    viewBox="0 0 400 225"
+    viewBox={`0 0 ${vb.w} ${vb.h}`}
     xmlns="http://www.w3.org/2000/svg"
     preserveAspectRatio="xMidYMid slice"
     aria-hidden="true"
@@ -31,31 +89,79 @@ const gradId = `hero-grad-${Math.random().toString(36).slice(2, 8)}`;
         <stop offset="100%" stop-color="#1E293B"></stop>
       </linearGradient>
       <linearGradient id={`${gradId}-accent`} x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#2D5BFF"></stop>
-        <stop offset="100%" stop-color="#06B6D4"></stop>
+        <stop offset="0%" stop-color={accent.from}></stop>
+        <stop offset="100%" stop-color={accent.to}></stop>
       </linearGradient>
     </defs>
-    <rect width="400" height="225" fill={`url(#${gradId})`}></rect>
 
-    <!-- Mark Pulse en filigrane, légèrement décalé -->
-    <g transform="translate(310, 50)" opacity="0.18">
-      <circle
-        cx="40"
-        cy="40"
-        r="36"
-        fill="none"
-        stroke={`url(#${gradId}-accent)`}
-        stroke-width="2.5"></circle>
-      <circle cx="40" cy="40" r="26" fill="none" stroke={`url(#${gradId}-accent)`} stroke-width="3"
+    <!-- Fond gradient -->
+    <rect width={vb.w} height={vb.h} fill={`url(#${gradId})`}></rect>
+
+    <!-- Nuage de points scattered (hero variant uniquement) -->
+    {
+      heroDots.map((d) => (
+        <circle cx={d.x} cy={d.y} r={d.r} fill={`url(#${gradId}-accent)`} opacity={d.o} />
+      ))
+    }
+
+    <!-- Marks Pulse secondaires en filigrane (hero uniquement) -->
+    {
+      variant === 'hero' && (
+        <>
+          <g transform="translate(120, 50)" opacity="0.10">
+            <circle
+              cx="0"
+              cy="0"
+              r="20"
+              fill="none"
+              stroke={`url(#${gradId}-accent)`}
+              stroke-width="1.5"
+            />
+            <circle
+              cx="0"
+              cy="0"
+              r="12"
+              fill="none"
+              stroke={`url(#${gradId}-accent)`}
+              stroke-width="2"
+            />
+            <circle cx="0" cy="0" r="3" fill={`url(#${gradId}-accent)`} />
+          </g>
+          <g transform="translate(310, 165)" opacity="0.12">
+            <circle
+              cx="0"
+              cy="0"
+              r="14"
+              fill="none"
+              stroke={`url(#${gradId}-accent)`}
+              stroke-width="1.5"
+            />
+            <circle
+              cx="0"
+              cy="0"
+              r="8"
+              fill="none"
+              stroke={`url(#${gradId}-accent)`}
+              stroke-width="2"
+            />
+            <circle cx="0" cy="0" r="2.5" fill={`url(#${gradId}-accent)`} />
+          </g>
+        </>
+      )
+    }
+
+    <!-- Mark Pulse principal -->
+    <g
+      transform={`translate(${markX}, ${markY}) scale(${markScale})`}
+      opacity={variant === 'hero' ? '0.28' : '0.18'}
+    >
+      <circle cx="0" cy="0" r="40" fill="none" stroke={`url(#${gradId}-accent)`} stroke-width="2"
       ></circle>
-      <circle
-        cx="40"
-        cy="40"
-        r="16"
-        fill="none"
-        stroke={`url(#${gradId}-accent)`}
-        stroke-width="3.5"></circle>
-      <circle cx="40" cy="40" r="6" fill={`url(#${gradId}-accent)`}></circle>
+      <circle cx="0" cy="0" r="28" fill="none" stroke={`url(#${gradId}-accent)`} stroke-width="2.5"
+      ></circle>
+      <circle cx="0" cy="0" r="16" fill="none" stroke={`url(#${gradId}-accent)`} stroke-width="3"
+      ></circle>
+      <circle cx="0" cy="0" r="6" fill={`url(#${gradId}-accent)`}></circle>
     </g>
   </svg>
 
@@ -69,17 +175,27 @@ const gradId = `hero-grad-${Math.random().toString(36).slice(2, 8)}`;
   .hero-placeholder {
     position: relative;
     width: 100%;
-    height: 100%;
-    aspect-ratio: 16 / 9;
     overflow: hidden;
     background: var(--bg-dark);
   }
+
+  .hero-placeholder--card {
+    aspect-ratio: 16 / 9;
+  }
+
+  .hero-placeholder--hero {
+    aspect-ratio: 3 / 1;
+    max-height: 400px;
+    min-height: 200px;
+  }
+
   .hero-placeholder svg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
   }
+
   .hero-placeholder-text {
     position: absolute;
     inset: 0;
@@ -89,15 +205,21 @@ const gradId = `hero-grad-${Math.random().toString(36).slice(2, 8)}`;
     padding: 18px 22px;
     z-index: 1;
   }
+
   .hero-placeholder-eyebrow {
     font-family: var(--mono);
     font-size: 0.7rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.65);
     margin-bottom: 8px;
   }
+
+  .hero-placeholder--warm .hero-placeholder-eyebrow {
+    color: rgba(245, 158, 11, 0.85);
+  }
+
   .hero-placeholder-title {
     font-family: var(--display);
     font-weight: 700;
@@ -106,10 +228,20 @@ const gradId = `hero-grad-${Math.random().toString(36).slice(2, 8)}`;
     line-height: 1.3;
     letter-spacing: -0.015em;
   }
+
   .hero-placeholder--hero .hero-placeholder-text {
-    padding: 32px 36px;
+    padding: 28px 32px;
+    max-width: 60%;
   }
+
   .hero-placeholder--hero .hero-placeholder-title {
-    font-size: 1.4rem;
+    font-size: clamp(1rem, 2.2vw, 1.5rem);
+  }
+
+  @media (max-width: 639px) {
+    .hero-placeholder--hero .hero-placeholder-text {
+      max-width: 80%;
+      padding: 20px 22px;
+    }
   }
 </style>

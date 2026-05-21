@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import HeroPlaceholder from './HeroPlaceholder.astro';
 
 interface Props {
   entry: CollectionEntry<'chantiers'>;
@@ -9,76 +10,84 @@ const { title, surface, materiel, tags } = entry.data;
 ---
 
 <a href={`/chantiers/${entry.id}/`} class="chantier-card">
-  <header class="chantier-header">
-    <span class="chantier-eyebrow">Retour de chantier</span>
-    {surface && <span class="chantier-surface">{surface}</span>}
-  </header>
-  <h3 class="chantier-title">{title}</h3>
-  {
-    materiel.length > 0 && (
-      <ul class="chantier-materiel">
-        {materiel.slice(0, 3).map((m) => (
-          <li>{m}</li>
-        ))}
-      </ul>
-    )
-  }
-  {
-    tags.length > 0 && (
-      <ul class="chantier-tags">
-        {tags.map((tag) => (
-          <li>#{tag}</li>
-        ))}
-      </ul>
-    )
-  }
+  <div class="chantier-card-visual">
+    <HeroPlaceholder title={title} category="Retour de chantier" variant="card" palette="warm" />
+    {surface && <span class="chantier-surface-badge">{surface}</span>}
+  </div>
+
+  <div class="chantier-card-body">
+    {
+      materiel.length > 0 && (
+        <ul class="chantier-materiel">
+          {materiel.slice(0, 3).map((m) => (
+            <li>{m}</li>
+          ))}
+        </ul>
+      )
+    }
+    {
+      tags.length > 0 && (
+        <ul class="chantier-tags">
+          {tags.map((tag) => (
+            <li>#{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
 </a>
 
 <style>
   .chantier-card {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 24px;
-    background: var(--bg-warm);
+    background: var(--surface);
     border: 1px solid var(--hairline);
-    border-radius: 12px;
+    border-radius: 14px;
+    overflow: hidden;
     text-decoration: none;
     transition:
       border-color 0.15s,
+      box-shadow 0.15s,
       transform 0.15s;
   }
   .chantier-card:hover {
     border-color: var(--amber);
-    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
   }
-  .chantier-header {
+
+  .chantier-card-visual {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-dark);
+  }
+
+  .chantier-surface-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 10px;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: rgba(245, 158, 11, 0.95);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    border-radius: 6px;
+    z-index: 2;
+  }
+
+  .chantier-card-body {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px 20px 20px;
+    background: var(--bg-warm);
   }
-  .chantier-eyebrow {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--amber);
-  }
-  .chantier-surface {
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    color: var(--ink-muted);
-  }
-  .chantier-title {
-    font-family: var(--display);
-    font-size: 1.15rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    line-height: 1.3;
-  }
+
   .chantier-materiel {
     display: flex;
     flex-wrap: wrap;
@@ -86,19 +95,19 @@ const { title, surface, materiel, tags } = entry.data;
     list-style: none;
   }
   .chantier-materiel li {
-    padding: 3px 8px;
+    padding: 4px 9px;
     background: var(--surface);
     border: 1px solid var(--hairline);
     border-radius: 6px;
-    font-size: 0.75rem;
-    color: var(--ink-3);
+    font-size: 0.78rem;
+    color: var(--ink-2);
   }
+
   .chantier-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     list-style: none;
-    margin-top: auto;
   }
   .chantier-tags li {
     font-family: var(--mono);
