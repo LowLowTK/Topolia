@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SignUp } from '@clerk/astro/components';
+
+export const prerender = false;
+---
+
+<BaseLayout title="Inscription — Topolia" description="Crée ton compte Topolia.">
+  <section class="auth-section container">
+    <h1 class="auth-title">Rejoins la communauté.</h1>
+    <p class="auth-subtitle">
+      Crée ton compte pour commenter et échanger avec d'autres topographes.
+    </p>
+    <div class="auth-widget">
+      <SignUp signInUrl="/login" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .auth-section {
+    padding: 80px 0 120px;
+    text-align: center;
+  }
+  .auth-title {
+    font-family: var(--display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+  .auth-subtitle {
+    font-size: 1.05rem;
+    color: var(--ink-3);
+    margin: 0 0 40px;
+  }
+  .auth-widget {
+    display: flex;
+    justify-content: center;
+  }
+</style>
