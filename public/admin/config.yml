@@ -48,3 +48,80 @@ collections:
       - { label: "Premium", name: isPremium, widget: boolean, default: false }
       - { label: "Publié", name: isPublished, widget: boolean, default: true }
       - { label: "Contenu", name: body, widget: markdown }
+
+  - name: chantiers
+    label: Chantiers
+    label_singular: Chantier
+    folder: src/content/chantiers
+    create: true
+    slug: "{{slug}}"
+    extension: mdx
+    format: frontmatter
+    media_folder: /public/images/chantiers
+    public_folder: /images/chantiers
+    fields:
+      - { label: "Titre", name: title, widget: string }
+      - label: "Date"
+        name: date
+        widget: datetime
+        format: "YYYY-MM-DD"
+        date_format: "DD/MM/YYYY"
+        time_format: false
+      - { label: "Surface", name: surface, widget: string, required: false }
+      - { label: "Matériel utilisé", name: materiel, widget: list, required: false }
+      - { label: "Problème rencontré", name: probleme, widget: text }
+      - { label: "Leçon apprise", name: lecon, widget: text }
+      - { label: "Tags", name: tags, widget: list, required: false }
+      - { label: "Publié", name: isPublished, widget: boolean, default: true }
+      - { label: "Contenu", name: body, widget: markdown }
+
+  - name: glossaire
+    label: Glossaire
+    label_singular: Terme
+    folder: src/content/glossaire
+    create: true
+    slug: "{{slug}}"
+    extension: mdx
+    format: frontmatter
+    fields:
+      - { label: "Titre", name: title, widget: string }
+      - label: "Date"
+        name: date
+        widget: datetime
+        format: "YYYY-MM-DD"
+        date_format: "DD/MM/YYYY"
+        time_format: false
+      - label: "Difficulté"
+        name: difficulty
+        widget: select
+        required: false
+        options:
+          - { label: "Débutant", value: debutant }
+          - { label: "Intermédiaire", value: intermediaire }
+          - { label: "Expert", value: expert }
+      - { label: "Articles liés", name: relatedArticles, widget: list, required: false }
+      - { label: "Chantiers liés", name: relatedChantiers, widget: list, required: false }
+      - { label: "Extrait", name: excerpt, widget: text }
+      - { label: "Publié", name: isPublished, widget: boolean, default: true }
+      - { label: "Contenu", name: body, widget: markdown }
+
+  - name: minute-topo
+    label: Minute Topo
+    label_singular: Minute Topo
+    folder: src/content/minute-topo
+    create: true
+    slug: "{{slug}}"
+    extension: mdx
+    format: frontmatter
+    fields:
+      - { label: "Titre", name: title, widget: string }
+      - label: "Date"
+        name: date
+        widget: datetime
+        format: "YYYY-MM-DD"
+        date_format: "DD/MM/YYYY"
+        time_format: false
+      - { label: "Tags", name: tags, widget: list, required: false }
+      - { label: "Extrait", name: excerpt, widget: text }
+      - { label: "Publié", name: isPublished, widget: boolean, default: true }
+      - { label: "Contenu", name: body, widget: markdown }
