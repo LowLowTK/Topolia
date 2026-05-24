@@ -1,6 +1,7 @@
 ---
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
 import RelatedContent from '../../components/RelatedContent.astro';
+import Comments from '../../components/Comments.astro';
 import { getCollection, render } from 'astro:content';
 import { publishedOnly } from '../../lib/content-helpers';
 import { readingTime } from '../../lib/reading-time';
@@ -41,5 +42,6 @@ const related = allArticles
   headings={headings}
 >
   <Content />
+  <Comments slot="comments" contentId={entry.id} contentType="article" />
   <RelatedContent slot="related" title="À lire aussi" items={related} />
 </ArticleLayout>
