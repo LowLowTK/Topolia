@@ -1,0 +1,144 @@
+---
+import CommentForm from './CommentForm.astro';
+
+interface Props {
+  contentId: string;
+  contentType: 'article' | 'chantier';
+}
+
+const { contentId, contentType } = Astro.props;
+---
+
+<section class="comments-section" aria-labelledby="comments-title">
+  <h2 id="comments-title" class="comments-title">Commentaires</h2>
+
+  <div class="comments-list" data-content-id={contentId} data-content-type={contentType}>
+    <p class="comments-empty" data-state="loading">Chargement des commentaires…</p>
+  </div>
+
+  <CommentForm contentId={contentId} contentType={contentType} />
+</section>
+
+<script>
+  interface CommentDto {
+    id: string;
+    author_name: string;
+    created_at: string;
+    body: string;
+  }
+
+  function escapeHtml(s: string): string {
+    return s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function formatDate(iso: string): string {
+    const d = new Date(iso);
+    return new Intl.DateTimeFormat('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }).format(d);
+  }
+
+  function renderComments(container: HTMLElement, comments: CommentDto[]) {
+    if (comments.length === 0) {
+      container.innerHTML =
+        '<p class="comments-empty" data-state="empty">Pas encore de commentaire. Sois le premier.</p>';
+      return;
+    }
+    container.innerHTML = comments
+      .map(
+        (c) => `
+          <article class="comment-item">
+            <header class="comment-head">
+              <span class="comment-author">${escapeHtml(c.author_name)}</span>
+              <time class="comment-date" datetime="${c.created_at}">${formatDate(c.created_at)}</time>
+            </header>
+            <p class="comment-body">${escapeHtml(c.body)}</p>
+          </article>
+        `,
+      )
+      .join('');
+  }
+
+  const list = document.querySelector<HTMLElement>('.comments-list');
+  if (list) {
+    const contentId = list.dataset.contentId;
+    const contentType = list.dataset.contentType;
+    fetch(`/api/comments/${contentType}/${contentId}`)
+      .then((r) => r.json() as Promise<{ ok: boolean; comments?: CommentDto[]; message?: string }>)
+      .then((data) => {
+        if (!data.ok || !data.comments) {
+          list.innerHTML = `<p class="comments-empty" data-state="error">Impossible de charger les commentaires.</p>`;
+          return;
+        }
+        renderComments(list, data.comments);
+      })
+      .catch((err: Error) => {
+        list.innerHTML = `<p class="comments-empty" data-state="error">Erreur réseau : ${err.message}</p>`;
+      });
+  }
+</script>
+
+<style>
+  .comments-section {
+    max-width: var(--content-max);
+    margin: 60px auto 0;
+    padding-top: 40px;
+    border-top: 1px solid var(--hairline);
+  }
+  .comments-title {
+    font-family: var(--display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 24px;
+  }
+  .comments-list {
+    margin: 0 0 24px;
+  }
+  .comments-empty {
+    color: var(--ink-light);
+    font-size: 0.95rem;
+    padding: 16px 0;
+  }
+  .comments-empty[data-state='error'] {
+    color: var(--rose);
+  }
+
+  /* Items rendus dynamiquement */
+  .comments-list :global(.comment-item) {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .comments-list :global(.comment-item):last-child {
+    border-bottom: none;
+  }
+  .comments-list :global(.comment-head) {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .comments-list :global(.comment-author) {
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 0.95rem;
+  }
+  .comments-list :global(.comment-date) {
+    color: var(--ink-light);
+    font-size: 0.85rem;
+  }
+  .comments-list :global(.comment-body) {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 1rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+</style>

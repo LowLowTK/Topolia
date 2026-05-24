@@ -1,0 +1,57 @@
+---
+interface Props {
+  authorName: string;
+  createdAt: string; // ISO timestamp
+  body: string;
+}
+
+const { authorName, createdAt, body } = Astro.props;
+
+const date = new Date(createdAt);
+const formatter = new Intl.DateTimeFormat('fr-FR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+const dateLabel = formatter.format(date);
+---
+
+<article class="comment-item">
+  <header class="comment-head">
+    <span class="comment-author">{authorName}</span>
+    <time class="comment-date" datetime={createdAt}>{dateLabel}</time>
+  </header>
+  <p class="comment-body">{body}</p>
+</article>
+
+<style>
+  .comment-item {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .comment-item:last-child {
+    border-bottom: none;
+  }
+  .comment-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .comment-author {
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 0.95rem;
+  }
+  .comment-date {
+    color: var(--ink-light);
+    font-size: 0.85rem;
+  }
+  .comment-body {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 1rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+</style>
