@@ -34,14 +34,17 @@ collections:
         widget: select
         options:
           - { label: "Tutoriels", value: tutoriels }
-          - { label: "Actualités", value: actualités }
-          - { label: "Analyses", value: analyses }
-          - { label: "Retours terrain", value: retours-terrain }
+          - { label: "Astuces", value: astuces }
+          - { label: "Scanner statique", value: scanner-statique }
+          - { label: "Scanner dynamique", value: scanner-dynamique }
+          - { label: "Drone", value: drone }
+          - { label: "Comparatifs", value: comparatifs }
+          - { label: "Cas concrets", value: cas-concrets }
       - { label: "Tags", name: tags, widget: list, required: false }
       - { label: "Auteur", name: author, widget: string, default: loic }
-      - { label: "Image hero", name: heroImage, widget: image, required: false }
-      - { label: "Alt image hero", name: heroImageAlt, widget: string, required: false }
+      - { label: "Image hero", name: heroImage, widget: image }
+      - { label: "Alt image hero", name: heroImageAlt, widget: string }
       - { label: "Extrait", name: excerpt, widget: text }
       - { label: "Premium", name: isPremium, widget: boolean, default: false }
-      - { label: "Publié", name: isPublished, widget: boolean, default: false }
+      - { label: "Publié", name: isPublished, widget: boolean, default: true }
       - { label: "Contenu", name: body, widget: markdown }
