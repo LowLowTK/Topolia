@@ -1,0 +1,47 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: public/images
+public_folder: /images
+
+locale: fr
+
+collections:
+  - name: articles
+    label: Articles
+    label_singular: Article
+    folder: src/content/articles
+    create: true
+    slug: "{{slug}}"
+    extension: mdx
+    format: frontmatter
+    media_folder: /public/images/articles
+    public_folder: /images/articles
+    fields:
+      - { label: "Titre", name: title, widget: string }
+      - { label: "Sous-titre", name: subtitle, widget: string, required: false }
+      - label: "Date"
+        name: date
+        widget: datetime
+        format: "YYYY-MM-DD"
+        date_format: "DD/MM/YYYY"
+        time_format: false
+      - label: "Catégorie"
+        name: category
+        widget: select
+        options:
+          - { label: "Tutoriels", value: tutoriels }
+          - { label: "Actualités", value: actualités }
+          - { label: "Analyses", value: analyses }
+          - { label: "Retours terrain", value: retours-terrain }
+      - { label: "Tags", name: tags, widget: list, required: false }
+      - { label: "Auteur", name: author, widget: string, default: loic }
+      - { label: "Image hero", name: heroImage, widget: image, required: false }
+      - { label: "Alt image hero", name: heroImageAlt, widget: string, required: false }
+      - { label: "Extrait", name: excerpt, widget: text }
+      - { label: "Premium", name: isPremium, widget: boolean, default: false }
+      - { label: "Publié", name: isPublished, widget: boolean, default: false }
+      - { label: "Contenu", name: body, widget: markdown }
