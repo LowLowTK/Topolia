@@ -94,7 +94,6 @@ collections:
       - label: "Difficulté"
         name: difficulty
         widget: select
-        required: false
         options:
           - { label: "Débutant", value: debutant }
           - { label: "Intermédiaire", value: intermediaire }
