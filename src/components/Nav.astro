@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import { Show, UserButton } from '@clerk/astro/components';
 
 const navLinks = [
   { href: '/articles/', label: 'Articles' },
@@ -30,6 +31,15 @@ const currentPath = Astro.url.pathname;
         ))
       }
     </nav>
+
+    <div class="nav-auth">
+      <Show when="signed-out">
+        <a href="/login" class="nav-auth-cta">Se connecter</a>
+      </Show>
+      <Show when="signed-in">
+        <UserButton afterSignOutUrl="/" />
+      </Show>
+    </div>
 
     <button
       class="nav-burger"
@@ -234,8 +244,35 @@ const currentPath = Astro.url.pathname;
     pointer-events: auto;
   }
 
+  .nav-auth {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    margin-left: 16px;
+  }
+
+  .nav-auth-cta {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--surface);
+    background: var(--ink);
+    border-radius: 8px;
+    text-decoration: none;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    transition: opacity 0.15s;
+  }
+  .nav-auth-cta:hover {
+    opacity: 0.85;
+  }
+
   @media (min-width: 900px) {
     .nav-links {
+      display: flex;
+    }
+    .nav-auth {
       display: flex;
     }
     .nav-burger {
