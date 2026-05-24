@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Comments from '../../components/Comments.astro';
 import { getCollection, render } from 'astro:content';
 import { publishedOnly, formatDateFR } from '../../lib/content-helpers';
 
@@ -68,6 +69,8 @@ const { title, date, surface, materiel, probleme, lecon, tags } = entry.data;
     <div class="chantier-content prose">
       <Content />
     </div>
+
+    <Comments contentId={entry.id} contentType="chantier" />
 
     {
       tags.length > 0 && (
