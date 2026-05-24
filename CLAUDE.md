@@ -120,6 +120,27 @@ Page temporaire `/debug-content` supprimée à la fin de la Phase 3.
 
 ---
 
+## Stratégie de déploiement — crédits Netlify
+
+Le plan gratuit Netlify donne **300 crédits/mois**. Chaque build en consomme beaucoup (génération des images OG, SSR, etc.). Pour ne pas épuiser le quota :
+
+**Pendant le développement :**
+
+- Tester en local avec `npm run dev` (zéro crédit consommé)
+- Pusher sur GitHub librement — ça ne déclenche **pas** de build Netlify si le déploiement automatique est désactivé
+- Vérifier que le build passe en local avec `npm run build` avant de déployer
+
+**Pour déployer en production :**
+
+- Uniquement quand une phase entière est terminée ou qu'un gros ajout est validé en local
+- Déclencher manuellement depuis le dashboard Netlify : **Deploys → Trigger deploy**
+- Ou activer le déploiement auto temporairement, pousser, puis le désactiver
+
+**À désactiver dans Netlify pour éviter les builds automatiques :**
+Dashboard Netlify → Site configuration → Build & deploy → **Stop auto publishing** (désactive les déploiements automatiques à chaque push Git).
+
+---
+
 ## Liens rapides
 
 - Brief complet → [BRIEF.md](./BRIEF.md)
