@@ -25,32 +25,30 @@ const dateFormatted = pubDate
   ? new Date(pubDate).toLocaleDateString('fr-FR', {
       day: 'numeric',
       month: 'short',
-      year: 'numeric',
     })
   : '';
 ---
 
-<article class="rss-item">
-  <div class="rss-item__meta">
-    <span class="rss-item__flag" title={sourceLang}>{flag}</span>
+<li class="rss-item">
+  <div class="rss-item__left">
+    <span class="rss-item__flag">{flag}</span>
     <span class="rss-item__source">{sourceName}</span>
-    {dateFormatted && <span class="rss-item__date">{dateFormatted}</span>}
   </div>
 
-  <h3 class="rss-item__title">
-    <a href={link} target="_blank" rel="noopener noreferrer">{title}</a>
-  </h3>
+  <div class="rss-item__center">
+    <a
+      class="rss-item__title"
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      title={excerpt || title}
+    >
+      {title}
+    </a>
+  </div>
 
-  {
-    excerpt && (
-      <p class="rss-item__excerpt">
-        {excerpt.slice(0, 180)}
-        {excerpt.length > 180 ? '…' : ''}
-      </p>
-    )
-  }
-
-  <div class="rss-item__actions">
+  <div class="rss-item__right">
+    {dateFormatted && <span class="rss-item__date">{dateFormatted}</span>}
     <button
       class="rss-item__btn rss-item__btn--save"
       data-title={title}
@@ -58,82 +56,122 @@ const dateFormatted = pubDate
       data-lang={sourceLang}
       data-source={sourceName}
       data-excerpt={excerpt}
+      aria-label="Sauvegarder ce sujet"
     >
-      💾 Sauvegarder
+      💾
     </button>
-    <button class="rss-item__btn rss-item__btn--prompt" data-title={title} data-url={link}>
-      ✨ Préparer le prompt
+    <button
+      class="rss-item__btn rss-item__btn--prompt"
+      data-title={title}
+      data-url={link}
+      aria-label="Préparer le prompt"
+    >
+      ✨ Prompt
     </button>
   </div>
-</article>
+</li>
 
 <style>
   .rss-item {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: var(--space-4);
-    background: var(--color-surface);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .rss-item__meta {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+    transition: background 0.15s;
+  }
+
+  .rss-item:hover {
+    background: var(--color-bg);
+  }
+
+  .rss-item:last-child {
+    border-bottom: none;
+  }
+
+  /* Colonne gauche — source fixe */
+  .rss-item__left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-width: 180px;
+    max-width: 180px;
+    flex-shrink: 0;
+  }
+
+  .rss-item__flag {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .rss-item__source {
     font-size: var(--text-xs);
     color: var(--color-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Colonne centre — titre */
+  .rss-item__center {
+    flex: 1;
+    min-width: 0;
   }
 
   .rss-item__title {
-    font-size: var(--text-base);
-    margin: 0;
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     line-height: 1.4;
   }
 
-  .rss-item__title a {
-    color: var(--color-text);
-    text-decoration: none;
-  }
-
-  .rss-item__title a:hover {
+  .rss-item__title:hover {
     color: var(--color-primary);
     text-decoration: underline;
   }
 
-  .rss-item__excerpt {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    margin: 0;
-    line-height: 1.5;
+  /* Colonne droite — date + boutons */
+  .rss-item__right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-shrink: 0;
   }
 
-  .rss-item__actions {
-    display: flex;
-    gap: var(--space-2);
-    flex-wrap: wrap;
-    margin-top: var(--space-1);
+  .rss-item__date {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    min-width: 48px;
+    text-align: right;
   }
 
   .rss-item__btn {
     border: none;
     border-radius: var(--radius-sm);
-    padding: var(--space-1) var(--space-3);
-    font-size: var(--text-sm);
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--text-xs);
     cursor: pointer;
     font-weight: 600;
+    white-space: nowrap;
   }
 
   .rss-item__btn--save {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    color: var(--color-text);
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    padding: 2px 6px;
   }
 
   .rss-item__btn--save:hover {
     border-color: var(--color-primary);
-    color: var(--color-primary);
   }
 
   .rss-item__btn--prompt {
@@ -142,6 +180,20 @@ const dateFormatted = pubDate
   }
 
   .rss-item__btn--prompt:hover {
-    opacity: 0.9;
+    opacity: 0.85;
+  }
+
+  /* Mobile : masquer la source, garder le flag */
+  @media (max-width: 640px) {
+    .rss-item__left {
+      min-width: 24px;
+      max-width: 24px;
+    }
+    .rss-item__source {
+      display: none;
+    }
+    .rss-item__date {
+      display: none;
+    }
   }
 </style>
