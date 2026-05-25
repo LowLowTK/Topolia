@@ -20,7 +20,8 @@
     "@astrojs/sitemap": "^3.7.2",
     "@clerk/astro": "^3.3.0",
     "@supabase/supabase-js": "^2.106.1",
-    "astro": "^6.3.5"
+    "astro": "^6.3.5",
+    "rss-parser": "^3.13.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
