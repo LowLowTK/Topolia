@@ -155,6 +155,14 @@ const [rssItems, ideas] = await Promise.all([fetchAllFeeds(), listArticleIdeas()
   });
 
   // ── Prompt magique ─────────────────────────────────────────────────────
+  function escapeHtml(s: string): string {
+    return s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   function buildPromptEtape1(title: string, url: string): string {
     return `Tu es un consultant éditorial pour Topolia.fr, site français de référence sur la topographie moderne (scanner laser, LiDAR drone, photogrammétrie).
 
@@ -179,6 +187,7 @@ TON ÉDITORIAL :
 - Exemples concrets, chiffres réels, pas de généralités
 
 SUJET : ${title}
+ANGLE : [À COMPLÉTER DEPUIS L'ÉTAPE 1]
 SOURCE : ${url}
 
 Rédige un brouillon d'article MDX complet avec :
@@ -218,7 +227,7 @@ RÈGLES ABSOLUES :
           <strong>Résumé et angle</strong>
         </div>
         <p class="prompt-modal__step-desc">Copie ce prompt dans <a href="https://claude.ai" target="_blank" rel="noopener">Claude.ai</a>, lis le résumé, valide l'angle.</p>
-        <pre class="prompt-modal__code" id="prompt-1">${p1}</pre>
+        <pre class="prompt-modal__code" id="prompt-1">${escapeHtml(p1)}</pre>
         <button class="prompt-modal__copy" data-text="${encodeURIComponent(p1)}">📋 Copier l'étape 1</button>
       </div>
       <div class="prompt-modal__divider">↓ Si l'angle est bon, passe à l'étape 2</div>
@@ -228,7 +237,7 @@ RÈGLES ABSOLUES :
           <strong>Brouillon MDX complet</strong>
         </div>
         <p class="prompt-modal__step-desc">Copie ce prompt dans Claude.ai pour obtenir le brouillon MDX à coller dans Decap CMS.</p>
-        <pre class="prompt-modal__code" id="prompt-2">${p2}</pre>
+        <pre class="prompt-modal__code" id="prompt-2">${escapeHtml(p2)}</pre>
         <button class="prompt-modal__copy" data-text="${encodeURIComponent(p2)}">📋 Copier l'étape 2</button>
       </div>
     `;
