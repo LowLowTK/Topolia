@@ -96,7 +96,7 @@ Zéro dépendance npm, zéro clé API, zéro setup. Voir §24.5 du BRIEF.md.
 | Phase 3 — Pages clés             | ✅     | Home, listings + fiches articles/glossaire/chantiers, minute topo, à propos (26 pages)       |
 | Phase 4 — Newsletter + Analytics | ✅     | Brevo API, Plausible, OG dynamiques, adapter Netlify                                         |
 | Phase 5 — Membres & commentaires | ✅     | Clerk (magic link + Google), Supabase commentaires modérés, intégration articles + chantiers |
-| Phase 6 — Decap CMS              | 🔲     | Admin éditorial                                                                              |
+| Phase 6 — Decap CMS              | ✅     | Admin éditorial (`/admin`), Netlify Identity, GitHub OAuth, 4 collections                    |
 | Phase 7 — Pipeline IA            | 🔲     | Veille + rédaction + repurposing                                                             |
 
 Page temporaire `/debug-content` supprimée à la fin de la Phase 3.
