@@ -226,19 +226,35 @@ RÈGLES ABSOLUES :
           <span class="prompt-modal__step-badge">Étape 1</span>
           <strong>Résumé et angle</strong>
         </div>
-        <p class="prompt-modal__step-desc">Copie ce prompt dans <a href="https://claude.ai" target="_blank" rel="noopener">Claude.ai</a>, lis le résumé, valide l'angle.</p>
-        <pre class="prompt-modal__code" id="prompt-1">${escapeHtml(p1)}</pre>
-        <button class="prompt-modal__copy" data-text="${encodeURIComponent(p1)}">📋 Copier l'étape 1</button>
+        <p class="prompt-modal__step-desc">
+          Colle dans <a href="https://claude.ai" target="_blank" rel="noopener">Claude.ai</a>
+          → résumé en français + angle proposé pour Topolia.
+        </p>
+        <button class="prompt-modal__copy prompt-modal__copy--big" data-text="${encodeURIComponent(p1)}">
+          📋 Copier le prompt étape 1
+        </button>
+        <details class="prompt-modal__details">
+          <summary>Voir le texte du prompt</summary>
+          <pre class="prompt-modal__code">${escapeHtml(p1)}</pre>
+        </details>
       </div>
-      <div class="prompt-modal__divider">↓ Si l'angle est bon, passe à l'étape 2</div>
-      <div class="prompt-modal__step">
+      <div class="prompt-modal__divider">↓ Si l'angle te convient, passe à l'étape 2</div>
+      <div class="prompt-modal__step prompt-modal__step--2">
         <div class="prompt-modal__step-header">
           <span class="prompt-modal__step-badge prompt-modal__step-badge--2">Étape 2</span>
           <strong>Brouillon MDX complet</strong>
         </div>
-        <p class="prompt-modal__step-desc">Copie ce prompt dans Claude.ai pour obtenir le brouillon MDX à coller dans Decap CMS.</p>
-        <pre class="prompt-modal__code" id="prompt-2">${escapeHtml(p2)}</pre>
-        <button class="prompt-modal__copy" data-text="${encodeURIComponent(p2)}">📋 Copier l'étape 2</button>
+        <p class="prompt-modal__step-desc">
+          Colle dans Claude.ai → brouillon MDX prêt à coller dans Decap CMS.
+          <br><small>⚠️ Complète le champ ANGLE avec ce que l'étape 1 t'a donné.</small>
+        </p>
+        <button class="prompt-modal__copy prompt-modal__copy--big prompt-modal__copy--accent" data-text="${encodeURIComponent(p2)}">
+          📋 Copier le prompt étape 2
+        </button>
+        <details class="prompt-modal__details">
+          <summary>Voir le texte du prompt</summary>
+          <pre class="prompt-modal__code">${escapeHtml(p2)}</pre>
+        </details>
       </div>
     `;
 
@@ -481,6 +497,34 @@ RÈGLES ABSOLUES :
     font-size: var(--text-sm);
     cursor: pointer;
     font-weight: 600;
+  }
+  .prompt-modal__copy--big {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-base);
+    margin-bottom: var(--space-2);
+  }
+  .prompt-modal__copy--accent {
+    background: #16a34a;
+  }
+  .prompt-modal__step--2 {
+    border-color: #16a34a44;
+  }
+  .prompt-modal__details {
+    margin-top: var(--space-1);
+  }
+  .prompt-modal__details summary {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    user-select: none;
+    padding: var(--space-1) 0;
+  }
+  .prompt-modal__details summary:hover {
+    color: var(--color-text);
+  }
+  .prompt-modal__details .prompt-modal__code {
+    margin-top: var(--space-2);
   }
   .prompt-modal__divider {
     text-align: center;
