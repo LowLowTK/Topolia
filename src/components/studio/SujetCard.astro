@@ -20,9 +20,9 @@ const STATUS_LABELS: Record<ArticleStatus, string> = {
 const STATUS_COLORS: Record<ArticleStatus, string> = {
   pending: 'grey',
   approved: 'blue',
-  drafting: 'orange',
-  draft: 'green-light',
-  published: 'green',
+  drafting: 'amber',
+  draft: 'green',
+  published: 'teal',
   ignored: 'red',
 };
 
@@ -52,11 +52,13 @@ const dateFormatted = new Date(idea.created_at).toLocaleDateString('fr-FR', {
 ---
 
 <article class="sujet-card" data-id={idea.id}>
-  <div class="sujet-card__meta">
-    <span>{flag}</span>
-    {idea.source_name && <span class="sujet-card__source">{idea.source_name}</span>}
-    <span class="sujet-card__date">{dateFormatted}</span>
-    <span class={`sujet-card__status sujet-card__status--${STATUS_COLORS[idea.status]}`}>
+  <div class="sujet-card__header">
+    <div class="sujet-card__meta">
+      <span>{flag}</span>
+      {idea.source_name && <span class="sujet-card__source">{idea.source_name}</span>}
+      <span class="sujet-card__date">{dateFormatted}</span>
+    </div>
+    <span class={`sujet-card__badge sujet-card__badge--${STATUS_COLORS[idea.status]}`}>
       {STATUS_LABELS[idea.status]}
     </span>
   </div>
@@ -73,7 +75,7 @@ const dateFormatted = new Date(idea.created_at).toLocaleDateString('fr-FR', {
   }
 
   <div class="sujet-card__actions">
-    <select class="sujet-card__select status-select" data-id={idea.id} value={idea.status}>
+    <select class="sujet-card__select status-select" data-id={idea.id}>
       {
         ALL_STATUSES.map((s) => (
           <option value={s} selected={s === idea.status}>
@@ -87,13 +89,13 @@ const dateFormatted = new Date(idea.created_at).toLocaleDateString('fr-FR', {
       href={idea.source_url}
       target="_blank"
       rel="noopener"
-      class="sujet-card__btn sujet-card__btn--link"
+      class="sujet-card__btn sujet-card__btn--ghost"
     >
       🔗 Source
     </a>
 
     <button
-      class="sujet-card__btn sujet-card__btn--prompt"
+      class="sujet-card__btn sujet-card__btn--primary sujet-card__btn--prompt"
       data-title={idea.title}
       data-url={idea.source_url}
     >
@@ -101,9 +103,10 @@ const dateFormatted = new Date(idea.created_at).toLocaleDateString('fr-FR', {
     </button>
 
     <button
-      class="sujet-card__btn sujet-card__btn--delete delete-btn"
+      class="sujet-card__btn sujet-card__btn--danger delete-btn"
       data-id={idea.id}
       aria-label="Supprimer ce sujet"
+      title="Supprimer"
     >
       🗑️
     </button>
@@ -112,117 +115,184 @@ const dateFormatted = new Date(idea.created_at).toLocaleDateString('fr-FR', {
 
 <style>
   .sujet-card {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: var(--space-4);
-    background: var(--color-surface);
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: 10px;
+    box-shadow: var(--shadow-sm);
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s;
+  }
+
+  .sujet-card:hover {
+    border-color: var(--hairline-strong);
+    box-shadow: var(--shadow-md);
+  }
+
+  .sujet-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
   }
 
   .sujet-card__meta {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
-    flex-wrap: wrap;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--ink-muted);
+    min-width: 0;
   }
 
-  .sujet-card__title {
-    font-size: var(--text-base);
-    margin: 0;
+  .sujet-card__source {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
   }
 
-  .sujet-card__excerpt {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    margin: 0;
+  .sujet-card__date {
+    color: var(--ink-light);
+    white-space: nowrap;
   }
 
-  .sujet-card__status {
-    padding: 2px 8px;
-    border-radius: var(--radius-full);
+  .sujet-card__badge {
+    font-family: var(--mono);
+    font-size: 0.68rem;
     font-weight: 600;
-    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
-  .sujet-card__status--grey {
-    background: #e5e5e5;
-    color: #555;
+  .sujet-card__badge--grey {
+    background: #f1f5f9;
+    color: #64748b;
   }
-  .sujet-card__status--blue {
+  .sujet-card__badge--blue {
     background: #dbeafe;
     color: #1d4ed8;
   }
-  .sujet-card__status--orange {
-    background: #ffedd5;
-    color: #c2410c;
+  .sujet-card__badge--amber {
+    background: #fef3c7;
+    color: #b45309;
   }
-  .sujet-card__status--green-light {
+  .sujet-card__badge--green {
     background: #dcfce7;
     color: #15803d;
   }
-  .sujet-card__status--green {
-    background: #bbf7d0;
-    color: #166534;
+  .sujet-card__badge--teal {
+    background: #cffafe;
+    color: #0e7490;
   }
-  .sujet-card__status--red {
+  .sujet-card__badge--red {
     background: #fee2e2;
     color: #b91c1c;
   }
 
+  .sujet-card__title {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  .sujet-card__excerpt {
+    font-size: 0.88rem;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+
   .sujet-card__actions {
     display: flex;
-    gap: var(--space-2);
-    flex-wrap: wrap;
     align-items: center;
-    margin-top: var(--space-1);
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid var(--hairline);
   }
 
   .sujet-card__select {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    padding: var(--space-1) var(--space-2);
-    font-size: var(--text-sm);
-    background: var(--color-surface);
-    color: var(--color-text);
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 0.82rem;
+    font-family: var(--body);
+    background: var(--bg-alt);
+    color: var(--ink);
     cursor: pointer;
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .sujet-card__select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
   }
 
   .sujet-card__btn {
     border: none;
-    border-radius: var(--radius-sm);
-    padding: var(--space-1) var(--space-3);
-    font-size: var(--text-sm);
-    cursor: pointer;
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-size: 0.82rem;
+    font-family: var(--body);
     font-weight: 600;
+    cursor: pointer;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    transition:
+      background 0.12s,
+      opacity 0.12s;
   }
 
-  .sujet-card__btn--link {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    color: var(--color-text);
+  .sujet-card__btn--ghost {
+    background: transparent;
+    border: 1px solid var(--hairline-strong);
+    color: var(--ink-3);
   }
 
-  .sujet-card__btn--prompt {
-    background: var(--color-primary);
-    color: white;
+  .sujet-card__btn--ghost:hover {
+    background: var(--bg-alt);
+    border-color: var(--accent);
+    color: var(--accent);
   }
 
-  .sujet-card__btn--delete {
-    background: none;
-    border: 1px solid var(--color-border);
-    color: var(--color-text-muted);
+  .sujet-card__btn--primary {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .sujet-card__btn--primary:hover {
+    opacity: 0.85;
+  }
+
+  .sujet-card__btn--danger {
+    background: transparent;
+    border: 1px solid var(--hairline-strong);
+    color: var(--ink-light);
     margin-left: auto;
+    padding: 5px 8px;
   }
 
-  .sujet-card__btn--delete:hover {
-    border-color: #b91c1c;
-    color: #b91c1c;
+  .sujet-card__btn--danger:hover {
+    border-color: var(--rose);
+    color: var(--rose);
+    background: #fff1f2;
   }
 </style>

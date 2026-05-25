@@ -22,10 +22,7 @@ const LANG_FLAGS: Record<string, string> = {
 const flag = LANG_FLAGS[sourceLang] ?? '🌐';
 
 const dateFormatted = pubDate
-  ? new Date(pubDate).toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'short',
-    })
+  ? new Date(pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
   : '';
 ---
 
@@ -57,6 +54,7 @@ const dateFormatted = pubDate
       data-source={sourceName}
       data-excerpt={excerpt}
       aria-label="Sauvegarder ce sujet"
+      title="Sauvegarder"
     >
       💾
     </button>
@@ -75,42 +73,45 @@ const dateFormatted = pubDate
   .rss-item {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-3) var(--space-4);
-    border-bottom: 1px solid var(--color-border);
-    background: var(--color-surface);
-    transition: background 0.15s;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--hairline);
+    background: var(--surface);
+    transition: background 0.12s;
   }
 
   .rss-item:hover {
-    background: var(--color-bg);
+    background: var(--bg-alt);
   }
 
   .rss-item:last-child {
     border-bottom: none;
   }
 
-  /* Colonne gauche — source fixe */
+  /* Colonne gauche — source */
   .rss-item__left {
     display: flex;
     align-items: center;
-    gap: var(--space-1);
-    min-width: 180px;
-    max-width: 180px;
+    gap: 6px;
+    min-width: 190px;
+    max-width: 190px;
     flex-shrink: 0;
   }
 
   .rss-item__flag {
     font-size: 1rem;
     flex-shrink: 0;
+    line-height: 1;
   }
 
   .rss-item__source {
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--ink-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    letter-spacing: 0.02em;
   }
 
   /* Colonne centre — titre */
@@ -121,77 +122,81 @@ const dateFormatted = pubDate
 
   .rss-item__title {
     display: block;
-    font-size: var(--text-sm);
+    font-size: 0.9rem;
     font-weight: 500;
-    color: var(--color-text);
+    color: var(--ink);
     text-decoration: none;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1.4;
+    transition: color 0.12s;
   }
 
   .rss-item__title:hover {
-    color: var(--color-primary);
+    color: var(--accent);
     text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   /* Colonne droite — date + boutons */
   .rss-item__right {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: 8px;
     flex-shrink: 0;
   }
 
   .rss-item__date {
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--ink-light);
     white-space: nowrap;
-    min-width: 48px;
+    min-width: 44px;
     text-align: right;
   }
 
   .rss-item__btn {
     border: none;
-    border-radius: var(--radius-sm);
-    padding: var(--space-1) var(--space-2);
-    font-size: var(--text-xs);
+    border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
+    font-size: 0.8rem;
     white-space: nowrap;
+    transition:
+      background 0.12s,
+      opacity 0.12s;
   }
 
   .rss-item__btn--save {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    color: var(--color-text-muted);
+    background: transparent;
+    border: 1px solid var(--hairline-strong);
+    color: var(--ink-muted);
+    padding: 4px 8px;
     font-size: 1rem;
-    padding: 2px 6px;
   }
 
   .rss-item__btn--save:hover {
-    border-color: var(--color-primary);
+    border-color: var(--accent);
+    background: var(--accent-soft);
   }
 
   .rss-item__btn--prompt {
-    background: var(--color-primary);
-    color: white;
+    background: var(--accent);
+    color: #fff;
+    padding: 5px 12px;
   }
 
   .rss-item__btn--prompt:hover {
     opacity: 0.85;
   }
 
-  /* Mobile : masquer la source, garder le flag */
   @media (max-width: 640px) {
     .rss-item__left {
-      min-width: 24px;
-      max-width: 24px;
+      min-width: 28px;
+      max-width: 28px;
     }
-    .rss-item__source {
-      display: none;
-    }
+    .rss-item__source,
     .rss-item__date {
       display: none;
     }

@@ -325,48 +325,63 @@ RÈGLES ABSOLUES :
 </script>
 
 <style>
+  /* ── Page layout ───────────────────────────────────────────── */
   .studio {
     max-width: 1100px;
     margin: 0 auto;
-    padding: var(--space-6) var(--space-4);
+    padding: 48px 32px;
   }
 
   .studio__header {
-    margin-bottom: var(--space-6);
+    margin-bottom: 32px;
   }
 
   .studio__title {
-    font-size: var(--text-3xl);
-    margin: 0 0 var(--space-1);
+    font-family: var(--display);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin: 0 0 6px;
   }
 
   .studio__subtitle {
-    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    color: var(--ink-muted);
     margin: 0;
   }
 
+  /* ── Onglets ───────────────────────────────────────────────── */
   .studio__tabs {
     display: flex;
-    gap: var(--space-2);
-    border-bottom: 2px solid var(--color-border);
-    margin-bottom: var(--space-6);
+    gap: 4px;
+    border-bottom: 2px solid var(--hairline);
+    margin-bottom: 28px;
   }
 
   .studio__tab {
     background: none;
     border: none;
-    padding: var(--space-2) var(--space-4);
-    font-size: var(--text-base);
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-family: var(--body);
+    font-weight: 500;
     cursor: pointer;
-    color: var(--color-text-muted);
+    color: var(--ink-muted);
     border-bottom: 2px solid transparent;
     margin-bottom: -2px;
-    font-weight: 500;
+    border-radius: 8px 8px 0 0;
+    transition: color 0.15s;
+  }
+
+  .studio__tab:hover {
+    color: var(--ink);
+    background: var(--bg-alt);
   }
 
   .studio__tab--active {
-    color: var(--color-primary);
-    border-bottom-color: var(--color-primary);
+    color: var(--accent);
+    border-bottom-color: var(--accent);
     font-weight: 700;
   }
 
@@ -374,28 +389,32 @@ RÈGLES ABSOLUES :
     display: none;
   }
 
+  /* ── Liste veille ──────────────────────────────────────────── */
   .studio__list {
     list-style: none;
     padding: 0;
     margin: 0;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
     overflow: hidden;
+    box-shadow: var(--shadow-sm);
   }
 
+  /* ── Grille sujets ─────────────────────────────────────────── */
   .studio__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: var(--space-4);
+    gap: 16px;
   }
 
   .studio__empty {
     text-align: center;
-    color: var(--color-text-muted);
-    padding: var(--space-12) 0;
+    color: var(--ink-muted);
+    padding: 64px 0;
+    font-size: 0.95rem;
   }
 
-  /* Modale */
+  /* ── Modale prompt ─────────────────────────────────────────── */
   .prompt-modal {
     position: fixed;
     inset: 0;
@@ -403,7 +422,7 @@ RÈGLES ABSOLUES :
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--space-4);
+    padding: 20px;
   }
   .prompt-modal[hidden] {
     display: none;
@@ -411,126 +430,160 @@ RÈGLES ABSOLUES :
   .prompt-modal__backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
   }
   .prompt-modal__box {
     position: relative;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-6);
-    max-width: 700px;
+    background: var(--surface);
+    border: 1px solid var(--hairline-strong);
+    border-radius: 18px;
+    padding: 32px;
+    max-width: 660px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    z-index: 1;
   }
   .prompt-modal__close {
     position: absolute;
-    top: var(--space-3);
-    right: var(--space-3);
-    background: none;
-    border: none;
-    font-size: 1.25rem;
+    top: 16px;
+    right: 16px;
+    background: var(--bg-alt);
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
     cursor: pointer;
-    color: var(--color-text-muted);
-    padding: var(--space-1);
+    color: var(--ink-muted);
+    transition:
+      background 0.12s,
+      color 0.12s;
+  }
+  .prompt-modal__close:hover {
+    background: var(--hairline);
+    color: var(--ink);
   }
   .prompt-modal__title {
-    font-size: var(--text-xl);
-    margin: 0 0 var(--space-1);
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 0 0 4px;
   }
   .prompt-modal__subtitle {
-    color: var(--color-text-muted);
-    font-size: var(--text-sm);
-    margin: 0 0 var(--space-5);
+    color: var(--ink-muted);
+    font-size: 0.85rem;
+    margin: 0 0 24px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   .prompt-modal__step {
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: var(--space-4);
-    margin-bottom: var(--space-3);
+    background: var(--bg-alt);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
   }
   .prompt-modal__step-header {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
-    margin-bottom: var(--space-2);
+    gap: 8px;
+    margin-bottom: 8px;
   }
   .prompt-modal__step-badge {
-    background: var(--color-primary);
+    background: var(--accent);
     color: white;
-    font-size: var(--text-xs);
+    font-family: var(--mono);
+    font-size: 0.68rem;
     font-weight: 700;
-    padding: 2px 8px;
-    border-radius: var(--radius-full);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 999px;
   }
   .prompt-modal__step-badge--2 {
-    opacity: 0.8;
+    background: var(--green);
   }
   .prompt-modal__step-desc {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    margin: 0 0 var(--space-3);
+    font-size: 0.88rem;
+    color: var(--ink-3);
+    margin: 0 0 14px;
+    line-height: 1.5;
+  }
+  .prompt-modal__step-desc a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
   .prompt-modal__code {
-    background: var(--color-code-bg, #1e1e1e);
-    color: var(--color-code-text, #d4d4d4);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    padding: var(--space-3);
-    border-radius: var(--radius-sm);
+    background: #0f172a;
+    color: #94a3b8;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 14px 16px;
+    border-radius: 8px;
     white-space: pre-wrap;
     word-break: break-word;
-    max-height: 200px;
+    max-height: 160px;
     overflow-y: auto;
-    margin-bottom: var(--space-2);
+    margin-bottom: 10px;
+    line-height: 1.6;
   }
   .prompt-modal__copy {
-    background: var(--color-primary);
+    background: var(--accent);
     color: white;
     border: none;
-    border-radius: var(--radius-md);
-    padding: var(--space-2) var(--space-4);
-    font-size: var(--text-sm);
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 0.88rem;
+    font-family: var(--body);
     cursor: pointer;
     font-weight: 600;
+    transition: opacity 0.12s;
+  }
+  .prompt-modal__copy:hover {
+    opacity: 0.85;
   }
   .prompt-modal__copy--big {
     width: 100%;
-    padding: var(--space-3) var(--space-4);
-    font-size: var(--text-base);
-    margin-bottom: var(--space-2);
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
   }
   .prompt-modal__copy--accent {
-    background: #16a34a;
+    background: var(--green);
   }
   .prompt-modal__step--2 {
-    border-color: #16a34a44;
+    border-color: rgba(16, 185, 129, 0.25);
   }
   .prompt-modal__details {
-    margin-top: var(--space-1);
+    margin-top: 6px;
   }
   .prompt-modal__details summary {
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    color: var(--ink-light);
     cursor: pointer;
     user-select: none;
-    padding: var(--space-1) 0;
+    padding: 4px 0;
   }
   .prompt-modal__details summary:hover {
-    color: var(--color-text);
+    color: var(--ink);
   }
   .prompt-modal__details .prompt-modal__code {
-    margin-top: var(--space-2);
+    margin-top: 8px;
   }
   .prompt-modal__divider {
     text-align: center;
-    color: var(--color-text-muted);
-    font-size: var(--text-sm);
-    padding: var(--space-2) 0;
+    color: var(--ink-muted);
+    font-size: 0.85rem;
+    padding: 8px 0;
   }
 </style>
