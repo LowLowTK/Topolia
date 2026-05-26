@@ -1,5 +1,6 @@
 ---
 import HeroPlaceholder from './HeroPlaceholder.astro';
+import { Image } from 'astro:assets';
 import { formatDateFR, ARTICLE_CATEGORIES } from '../lib/content-helpers';
 import { formatReadingTime } from '../lib/reading-time';
 
@@ -13,7 +14,8 @@ interface Props {
   heroImageAlt: string;
   readingTime: number;
 }
-const { title, subtitle, date, category, author, readingTime } = Astro.props;
+const { title, subtitle, date, category, author, heroImage, heroImageAlt, readingTime } =
+  Astro.props;
 
 const categoryLabel = ARTICLE_CATEGORIES.find((c) => c.slug === category)?.label ?? category;
 const authorDisplay = author === 'loic' ? 'Loïc' : author;
@@ -35,7 +37,19 @@ const authorDisplay = author === 'loic' ? 'Loïc' : author;
   <div class="article-hero-image-wrap">
     <div class="container">
       <div class="article-hero-image">
-        <HeroPlaceholder title={title} category={categoryLabel} variant="hero" />
+        {
+          heroImage ? (
+            <img
+              src={heroImage}
+              alt={heroImageAlt}
+              class="article-hero-photo"
+              loading="eager"
+              decoding="async"
+            />
+          ) : (
+            <HeroPlaceholder title={title} category={categoryLabel} variant="hero" />
+          )
+        }
       </div>
     </div>
   </div>
@@ -101,5 +115,11 @@ const authorDisplay = author === 'loic' ? 'Loïc' : author;
     border-radius: 16px;
     overflow: hidden;
     border: 1px solid var(--hairline);
+  }
+  .article-hero-photo {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    display: block;
   }
 </style>
