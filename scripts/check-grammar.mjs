@@ -110,6 +110,21 @@ const WHITELIST_TERMS = [
   'Mavic',
   'Phantom',
   'Inspire',
+  'M4E',
+  'M4D',
+  'M4T',
+  'M350',
+  'WingtraOne',
+  'Wingtra',
+  // Réglementation drone EU
+  'DGAC',
+  'AlphaTango',
+  'CofC',
+  // Termes photo/mapping
+  'rolling',
+  'shutter',
+  'GSD',
+  'entreprise',
   // Logiciels
   'CloudCompare',
   'Metashape',

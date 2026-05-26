@@ -41,7 +41,7 @@ const DOTS = [
 export function generateOGSvg({ title, category, palette = 'default' }: OGTemplateOptions): string {
   const accent = palette === 'warm' ? accentWarm : accentDefault;
   const safeTitle = escapeXml(title);
-  const safeCategory = escapeXml(category ?? 'Topolia');
+  const safeCategory = escapeXml((category ?? 'Topolia').toUpperCase());
 
   // Word-wrap manuel sur 3 lignes max, 28 chars par ligne env.
   const lines = wrapText(safeTitle, 28).slice(0, 3);
@@ -82,7 +82,7 @@ export function generateOGSvg({ title, category, palette = 'default' }: OGTempla
   </g>
 
   <!-- Catégorie -->
-  <text x="70" y="380" font-family="JetBrains Mono, monospace" font-size="22" font-weight="500" fill="${accent.from}" letter-spacing="2">${safeCategory.toUpperCase()}</text>
+  <text x="70" y="380" font-family="JetBrains Mono, monospace" font-size="22" font-weight="500" fill="${accent.from}" letter-spacing="2">${safeCategory}</text>
 
   <!-- Titre -->
   ${lines

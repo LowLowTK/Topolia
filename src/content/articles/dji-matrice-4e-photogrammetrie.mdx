@@ -1,0 +1,137 @@
+---
+title: 'DJI Matrice 4E — Test terrain et analyse pour la photogrammétrie'
+subtitle: 'Points forts, limites et réglementation A2/C2 expliqués.'
+date: 2026-05-26
+category: 'drone'
+tags: ['dji', 'matrice-4e', 'photogrammetrie', 'rtk', 'reglementation', 'drone']
+author: 'loic'
+heroImage: '/images/articles/dji-matrice-4e.jpg'
+heroImageAlt: 'DJI Matrice 4E en vol sur un chantier de relevé photogrammétrique'
+excerpt: 'Le Matrice 4E est rapide, précis et robuste. Mais il a ses limites — notamment sur les grands chantiers et face aux capteurs plein format. Retour terrain complet.'
+isPremium: false
+isPublished: true
+---
+
+import Callout from '../../components/mdx/Callout.astro';
+import CompareTable from '../../components/mdx/CompareTable.astro';
+
+Le DJI Matrice 4E est un drone d'entreprise sorti en 2024. Sur le papier, il coche toutes les cases pour la photogrammétrie professionnelle. Sur le terrain, le bilan est globalement positif — avec quelques nuances importantes à connaître avant d'investir.
+
+## Fiche technique
+
+<CompareTable
+  columns={['Spec', 'Valeur']}
+  rows={[
+    { feature: 'Poids décollage', values: ['', '~1,57 kg'] },
+    { feature: 'Autonomie constructeur', values: ['', '41 min'] },
+    { feature: 'Autonomie réelle (terrain)', values: ['', '25–30 min (conditions favorables)'] },
+    { feature: 'Capteur', values: ['', '50 MP, CMOS 1 pouce'] },
+    { feature: 'Obturateur', values: ['', 'Mécanique'] },
+    { feature: 'RTK', values: ['', 'Option (M4E RTK)'] },
+    { feature: 'GNSS', values: ['', 'GPS + GLONASS + Galileo + BeiDou'] },
+    { feature: 'Protection', values: ['', 'IP55'] },
+    { feature: 'Vent max', values: ['', '12 m/s (force 6)'] },
+    { feature: 'Classe EU', values: ['', 'C2'] },
+  ]}
+/>
+
+## Ce qui fonctionne vraiment bien
+
+### L'obturateur mécanique — le critère n°1
+
+C'est le point le plus important pour la photogrammétrie. Un obturateur électronique produit un effet de déformation sur les images prises en déplacement (rolling shutter). L'obturateur mécanique fige l'image en une fraction de milliseconde — les images sont exploitables directement, sans correction logicielle.
+
+Si tu vois un drone de cartographie avec obturateur électronique, c'est un compromis. Le M4E n'en fait pas.
+
+### Rapidité et efficacité terrain
+
+En pratique, le workflow est fluide : planification de mission dans DJI Pilot 2, décollage, retour automatique, traitement sous Metashape. Pas de mauvaise surprise, pas de bug bloquant. Le drone fait ce qu'on lui demande.
+
+### Précision centimétrique avec RTK + GCP
+
+La version M4E RTK combinée à des points de contrôle au sol (GCP) donne une précision centimétrique en planimétrie et altimétrie. C'est la configuration recommandée pour tout relevé topographique professionnel.
+
+<Callout type="tip">
+  Tu peux voler sans GCP avec le RTK, mais la combinaison RTK + GCP reste la plus fiable. Le RTK
+  corrige le positionnement en vol, les GCP servent de contrôle qualité et renforcent la précision
+  absolue.
+</Callout>
+
+### Robustesse
+
+IP55 signifie que le drone résiste à la pluie légère et à la poussière. La résistance au vent force 6 (12 m/s) te permet de voler dans des conditions où beaucoup de drones restent au sol. Pour un usage chantier, c'est non négociable.
+
+## Les limites à connaître
+
+### Autonomie réelle inférieure aux annonces
+
+Le constructeur annonce 41 minutes. Sur le terrain, compte **25 à 30 minutes** en conditions favorables, moins avec du vent. Prévois tes missions en conséquence et anticipe le nombre de batteries nécessaires.
+
+### Grands chantiers : attention au-delà de 50 ha
+
+Sur des sites dépassant **50 hectares**, le M4E montre ses limites si tu voles trop haut. La règle pratique : **ne pas dépasser 60 m d'altitude** pour conserver une précision centimétrique fiable.
+
+Au-delà, la précision se dégrade sensiblement comparée à des capteurs plein format comme le **Zenmuse P1** (45 MP, capteur 35 mm) monté sur M350 RTK. Pour les très grands chantiers, multiplie les points de contrôle au sol et fractionne les missions.
+
+<Callout type="warning">
+  Sur un chantier &gt;50 ha, prévoir davantage de GCP que d'habitude et rester sous les 60 m. Le
+  capteur 1 pouce atteint ses limites géométriques à haute altitude comparé au plein format.
+</Callout>
+
+### Pas de LiDAR
+
+Le M4E ne fait que de la photogrammétrie. Sous couvert végétal dense (forêt, haies épaisses), il ne voit pas le sol. Pour ce type de relevé, il faut se tourner vers le **M4D** (LiDAR intégré) ou un système dédié.
+
+### Prix
+
+Entre **6 000 et 8 000 €** en version standard, plus de **10 000 €** en version RTK avec accessoires. C'est le segment entreprise — pas un achat anodin.
+
+## Réglementation européenne — Catégorie A2 / Classe C2
+
+### Ce que C2 change sur le terrain
+
+Le M4E est certifié **classe C2** (drones de 900 g à 4 kg avec marquage CE DJI). Cette certification ouvre la **catégorie A2** dans le cadre Open.
+
+Concrètement, la C2 est bien plus adaptée aux interventions en zone urbanisée que les classes C3 ou les anciens drones non certifiés qui tombent en catégorie Spécifique par défaut.
+
+<CompareTable
+  columns={['Règle', 'A2 avec C2']}
+  rows={[
+    { feature: 'Distance personnes non impliquées', values: ['', '30 m horizontal (min)'] },
+    { feature: 'Avec mode vitesse réduite', values: ['', 'Réductible à 5 m'] },
+    { feature: 'Zone habitée', values: ['', 'Autorisé sous conditions'] },
+    { feature: 'Survol direct de personnes', values: ['', 'Interdit'] },
+    { feature: 'Vol de nuit', values: ['', 'Interdit (sauf dérogation)'] },
+  ]}
+/>
+
+### Ce qu'il faut avoir avant de décoller
+
+1. **Enregistrement AlphaTango** (DGAC) — obligatoire dès 800 g
+2. **Attestation de suivi de formation** — examen théorique en ligne DGAC
+3. **Certificat A2 CofC** — nécessaire pour voler à moins de 30 m de personnes
+4. **Autorisation préfectorale** selon la zone (CTR, zones R/D/P)
+
+<Callout type="info">
+  Pour les zones à restrictions spécifiques (CTR aéroportuaires, zones P), une déclaration ou
+  autorisation auprès des autorités compétentes est nécessaire. Les démarches sont accessibles mais
+  demandent du temps — anticipe avant le chantier.
+</Callout>
+
+### Avantage C2 vs drones plus lourds
+
+Un drone classé C3 ou C4 (au-dessus de 4 kg) bascule automatiquement en catégorie **Spécifique**, qui demande une autorisation DGAC pour chaque type de mission, un scénario standard ou une étude de sécurité. En C2, tu restes dans le cadre Open pour la majorité de tes missions de chantier — beaucoup plus souple au quotidien.
+
+## Verdict
+
+Le M4E est un outil fiable et efficace pour la photogrammétrie professionnelle. Rapide à déployer, précis en configuration RTK + GCP, robuste sur le terrain. L'obturateur mécanique et la certification C2 en font un choix cohérent pour des relevés en milieu urbanisé ou péri-urbain.
+
+Ses limites sont connues et prévisibles : autonomie réelle à recalibrer, dégradation de précision sur les très grands sites à haute altitude, absence de LiDAR. Pas de mauvaises surprises si tu sais ce que tu achètes.
+
+**Idéal pour :** relevés de chantier, suivi de terrassement, orthophotos jusqu'à ~50 ha, zones proches d'habitations.
+
+**À compléter par autre chose pour :** grands sites forestiers (LiDAR), chantiers massifs >100 ha à haute précision (capteur plein format).
+
+---
+
+_Prochaine étape : comparatif M4E vs DJI Phantom 4 RTK vs WingtraOne — trois scénarios types, trois profils d'usage._
