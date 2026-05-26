@@ -128,6 +128,7 @@ const WHITELIST_TERMS = [
   'shutter',
   'GSD',
   'entreprise',
+  'Care',
   // Logiciels
   'CloudCompare',
   'Metashape',
