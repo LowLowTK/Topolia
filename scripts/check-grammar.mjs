@@ -120,6 +120,9 @@ const WHITELIST_TERMS = [
   'DGAC',
   'AlphaTango',
   'CofC',
+  'STS-01',
+  'STS-02',
+  'STS',
   // Termes photo/mapping
   'rolling',
   'shutter',
