@@ -1,0 +1,59 @@
+---
+// Bandeau de transparence affiliation — sans props, contenu fixe.
+// Réutilisable dans les articles futurs via import direct.
+---
+
+<aside class="affiliate-disclaimer">
+  <svg
+    class="affiliate-disclaimer__icon"
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="12" y1="8" x2="12" y2="12"></line>
+    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+  </svg>
+  <p>
+    Certains liens de cette page sont des <strong>liens d'affiliation</strong>. Si tu achètes via
+    ces liens, je touche une petite commission — sans surcoût pour toi. C'est ce qui me permet de
+    maintenir le site, financer les tests matériel et continuer à produire du contenu gratuit.
+  </p>
+</aside>
+
+<style>
+  .affiliate-disclaimer {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.875rem 1rem;
+    background: var(--surface-alt, #f5f5f4);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 2rem;
+  }
+
+  .affiliate-disclaimer__icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--accent);
+  }
+
+  .affiliate-disclaimer p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  .affiliate-disclaimer strong {
+    color: var(--ink);
+  }
+</style>
