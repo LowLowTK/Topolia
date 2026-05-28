@@ -87,7 +87,7 @@ export async function listApprovedComments(
   contentType: CommentContentType,
   contentId: string,
 ): Promise<Comment[]> {
-  const { data, error } = await supabaseAnon
+  const { data, error } = await supabaseAnon()
     .from('comments')
     .select('id, content_id, content_type, clerk_user_id, author_name, body, status, created_at')
     .eq('content_type', contentType)

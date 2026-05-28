@@ -1,0 +1,529 @@
+---
+title: "DJI Zenmuse L3 — Mon analyse complète avant d'acheter"
+subtitle: 'Specs décryptées, comparatif L2 / M4E, coût réel du système et verdict terrain pour un géomètre-expert.'
+date: 2026-05-28
+category: 'drone'
+tags: ['dji', 'lidar', 'zenmuse-l3', 'nuage-de-points', 'mnt', 'vegetation', 'matrice-400']
+author: 'loic'
+heroImage: '/images/articles/dji-zenmuse-l3.jpg'
+heroImageAlt: "DJI Zenmuse L3 monté sur Matrice 400 RTK en vol au-dessus d'un massif forestier"
+excerpt: "Je suis géomètre-expert et j'hésite à investir dans le Zenmuse L3. Avant de sortir la CB, j'ai épluché toutes les specs, les tests indépendants et les retours terrain. Voici mon analyse honnête."
+isPremium: false
+isPublished: true
+---
+
+import Callout from '../../components/mdx/Callout.astro';
+import CompareTable from '../../components/mdx/CompareTable.astro';
+import PullQuote from '../../components/mdx/PullQuote.astro';
+
+Depuis que DJI a annoncé le Zenmuse L3 en novembre 2025, il tourne dans ma tête. Je travaille déjà avec un Matrice 4E pour mes relevés photogrammétriques, et la question se pose : est-ce que ce LiDAR longue portée change vraiment quelque chose pour un cabinet comme le mien ?
+
+Pas de test terrain de ma part — je ne l'ai pas encore acheté. Mais j'ai passé plusieurs heures à compulser les specs officielles, les tests indépendants ASPRS, les retours des premiers utilisateurs anglophones, les forums de géomètres et les prix réels chez les revendeurs français. Voilà le résultat de cette veille.
+
+Spoiler : c'est impressionnant sur le papier. Mais le budget complet dépasse les 37 000 €, et ce n'est pas pour tout le monde.
+
+---
+
+## Ce qu'est le Zenmuse L3 (et ce qu'il n'est pas)
+
+Le Zenmuse L3 est une nacelle LiDAR aérienne haut de gamme lancée par DJI Enterprise le 4 novembre 2025. Il succède au Zenmuse L2, mais ne lui est pas compatible : il fonctionne **exclusivement sur le Matrice 400 RTK**. Si tu as un M300 ou un M350, tu ne peux pas simplement acheter la nacelle — il te faut aussi le nouveau drone.
+
+Ce n'est pas non plus une "version améliorée" du Matrice 4E. Le M4E est un drone compact à capteur intégré pour la photogrammétrie. Le Zenmuse L3 est une nacelle LiDAR externe qui se fixe sur un drone de la gamme professionnelle M400. Les deux ne se comparent pas directement — ils répondent à des usages différents.
+
+<Callout type="info">
+  Le Zenmuse L3 n'est compatible qu'avec le Matrice 400 RTK (port nacelle E1). Il ne fonctionnera
+  pas sur un M300, M350 ou tout autre drone DJI.
+</Callout>
+
+---
+
+## La fiche technique décryptée
+
+Voilà ce que donnent les specs officielles — avec ce que chaque chiffre veut dire concrètement pour un géomètre.
+
+<CompareTable
+  columns={['Paramètre', 'Valeur', 'Ce que ça signifie']}
+  rows={[
+    {
+      feature: 'Portée effective',
+      values: [
+        '',
+        '950 m (10 % réflectivité, 100 kHz)',
+        "Surface sombre/mouillée à 950 m — le L2 s'arrêtait à ~450 m",
+      ],
+    },
+    {
+      feature: 'Retours par impulsion',
+      values: ['', '16', 'x3 vs le L2 (5 retours) — pénétration végétale radicalement meilleure'],
+    },
+    {
+      feature: "Fréquence d'impulsion",
+      values: [
+        '',
+        '100 kHz / 350 kHz / 1 MHz / 2 MHz',
+        'Réglable selon le compromis portée/densité',
+      ],
+    },
+    {
+      feature: 'Précision verticale à 120 m',
+      values: ['', '3 cm RMSE', 'Meilleur que le L2 (4 cm) — suffisant pour MNT professionnel'],
+    },
+    {
+      feature: 'Précision horizontale à 120 m',
+      values: ['', '4 cm RMSE', 'Limite basse pour bornage direct — voir section dédiée'],
+    },
+    {
+      feature: 'Précision verticale à 300 m',
+      values: ['', '5 cm RMSE', 'Permet de voler haut et couvrir beaucoup'],
+    },
+    {
+      feature: 'Caméras RGB',
+      values: ['', '2 × 100 MP (4/3 CMOS)', '107° de FOV combiné — orthophoto 3 cm/px à 300 m'],
+    },
+    {
+      feature: 'Couverture par vol',
+      values: [
+        '',
+        '10 km² à 300 m (20 % recouvrement)',
+        'Contre ~3-4 km² pour le L2 dans les mêmes conditions',
+      ],
+    },
+    {
+      feature: 'Couverture journalière',
+      values: [
+        '',
+        '100 km²/jour (déclaré)',
+        'Terrain plat à 300 m — chiffre DJI à prendre avec recul',
+      ],
+    },
+    {
+      feature: 'Vitesse maximale',
+      values: ['', '25 m/s', 'Vs 15 m/s pour le L2 — gain de temps sur grands corridors'],
+    },
+    {
+      feature: 'Modes de balayage',
+      values: [
+        '',
+        '3 (Linéaire, Étoile, Non-répétitif)',
+        'Flexibilité accrue selon la nature du levé',
+      ],
+    },
+    {
+      feature: 'Détection de câbles',
+      values: [
+        '',
+        'Câble alu à 300 m, PVC à 100 m',
+        'Relevé de lignes électriques ou téléphoniques',
+      ],
+    },
+    {
+      feature: 'Poids nacelle',
+      values: ['', '1,60 kg', 'Vs 0,93 kg pour le L2 — tient dans les limites du M400'],
+    },
+    {
+      feature: 'Protection IP',
+      values: ['', 'IP54', "Identique au L2 — pluie légère OK, pas d'immersion"],
+    },
+    {
+      feature: 'Température',
+      values: ['', '-20 °C à +50 °C', 'Utilisable en hiver en France'],
+    },
+  ]}
+/>
+
+### Le chiffre qui change tout : 16 retours par impulsion
+
+Dans un LiDAR aérien, quand un rayon laser frappe une canopée, il ne s'arrête pas au premier obstacle — une partie de l'énergie continue et peut traverser des éclaircies pour atteindre le sol. Chaque "écho" enregistré est un **retour**.
+
+Le L2 enregistrait jusqu'à 5 retours. Le L3 en capture jusqu'à **16**. En pratique, sous une forêt dense de pins, le L2 produisait un MNT avec des "tentes" — le logiciel interpolait le sol là où les retours manquaient. Le L3 pénètre correctement et produit un sol classifié sans artefact.
+
+<PullQuote>
+  Sous couvert forestier dense, le L2 produisait des artefacts sur le MNT. Le L3 classifie le sol
+  correctement là où le L2 tâtonnait.
+</PullQuote>
+
+Ce n'est pas une affirmation marketing — le test terrain d'Interpine le confirme (Nouvelle-Zélande, forêt dense de Pinus radiata) : le L3 a produit 278 retours/m² contre 112 pour le L2, avec une résolution de l'architecture des branches individuelles que le L2 ne pouvait pas fournir.
+
+### Densité au sol : ce que le L3 produit vraiment
+
+C'est la question que je me pose concrètement avant d'acheter : est-ce que le L3 produit assez de points au sol pour dessiner de la topo détaillé — courbes de niveau, arêtes de bâtiment, ruptures de terrain — ou est-ce qu'il se limite à des points cotés isolés comme l'était le L1 ?
+
+**Mon expérience avec le L1** : la densité au sol était trop faible pour dessiner de la topo détaillé. Correct pour des points de niveau espacés, mais insuffisant pour générer des courbes à 20-50 cm ou tracer des arêtes précises. Le L1 a 3 retours par impulsion maximum, à 480 kHz.
+
+**Ce que donne le L3** : le test Interpine à 120 m (recouvrement 50 %) a mesuré **278 retours/m² totaux** contre 112 pour le L2. En terrain dégagé, sans végétation, avec les paramètres standard à 120 m / 350 kHz / 20 % de recouvrement, on estime **20 à 50 points/m² au sol** — soit au moins 3× mieux que le L1.
+
+<CompareTable
+  columns={['Niveau qualité', 'Densité min', 'Applications']}
+  rows={[
+    { feature: 'QL3 — basique', values: ['', '≥ 0,5 pts/m²', 'Grands territoires, MNT grossier'] },
+    {
+      feature: 'QL2 — standard',
+      values: ['', '≥ 2 pts/m²', 'Topo standard, courbes de niveau 1 m'],
+    },
+    {
+      feature: 'QL1 — détaillé',
+      values: ['', '≥ 8 pts/m²', 'Topo urbaine, arêtes de bâtiment, courbes 50 cm'],
+    },
+    {
+      feature: 'QL0 — haute résolution',
+      values: ['', '≥ 16 pts/m²', 'Ingénierie, relevé architectural, lignes électriques'],
+    },
+  ]}
+/>
+
+Avec 20-50 pts/m² à 120 m (terrain dégagé, paramètres standards), le L3 dépasse QL1 et atteint QL0 — ce qui était **impossible avec le L1**. Pour du levé architectural fin ou des courbes à 20 cm, descendre à 80-100 m avec un fort recouvrement permet de monter au-delà de 100 pts/m².
+
+**Ce que DJI Terra fait au nuage :** par défaut, Terra ne décime pas le nuage. L'export LAS/LAZ conserve toute la densité brute acquise. La seule option qui réduit la densité est "Smooth Point Cloud" (optionnelle, réduction à ~1/3) — à n'activer que si ton logiciel aval rame sur le volume. Désactive-la pour garder la densité maximale.
+
+<Callout type="tip">
+  Si ton logiciel de post-traitement (Terrasolid, CloudCompare, Civil 3D) est lent sur le nuage L3,
+  essaie d'abord un sous-échantillonnage ciblé dans ces outils plutôt que d'activer "Smooth" dans
+  Terra — tu gardes ainsi le choix de la méthode et du taux.
+</Callout>
+
+---
+
+## Zenmuse L3 vs Zenmuse L2 : ce qui change vraiment
+
+<CompareTable
+  columns={['Paramètre', 'Zenmuse L2', 'Zenmuse L3', 'Avantage']}
+  rows={[
+    {
+      feature: 'Drone requis',
+      values: ['', 'M300, M350, M400 RTK', 'M400 RTK uniquement', 'L2 (plus flexible)'],
+    },
+    { feature: 'Portée effective', values: ['', '~450 m', '950 m', 'L3 (+111 %)'] },
+    { feature: 'Retours / impulsion', values: ['', '5', '16', 'L3 (×3,2)'] },
+    {
+      feature: "Fréquence d'impulsion",
+      values: ['', '240 kHz (fixe)', '100 kHz – 2 MHz (réglable)', 'L3'],
+    },
+    { feature: 'Vitesse max', values: ['', '15 m/s', '25 m/s', 'L3 (+67 %)'] },
+    {
+      feature: 'Caméra RGB',
+      values: ['', '1 × 20 MP 4/3', '2 × 100 MP 4/3', 'L3 (×10 résolution)'],
+    },
+    { feature: 'FOV horizontal', values: ['', '70°', '107° (double caméra)', 'L3'] },
+    { feature: 'Précision V à 120 m', values: ['', '~4 cm RMSE', '3 cm RMSE', 'L3'] },
+    { feature: 'Précision H à 120 m', values: ['', '5 cm RMSE', '4 cm RMSE', 'L3'] },
+    { feature: 'Altitude de travail', values: ['', '120–150 m', '120–500 m', 'L3'] },
+    { feature: 'Couverture /jour', values: ['', '~45 km²', '~100 km²', 'L3 (+122 %)'] },
+    { feature: 'Poids nacelle', values: ['', '0,93 kg', '1,60 kg', 'L2'] },
+    {
+      feature: 'Prix nacelle seule',
+      values: ['', '~9 000 € (fin de série)', '~14 878 € TTC', 'L2'],
+    },
+  ]}
+/>
+
+### La vraie question pour un cabinet équipé L2
+
+Si tu as déjà un M300 ou M350 avec un L2 qui tourne bien, l'upgrade vers le L3 implique de racheter **aussi le Matrice 400 RTK**. Le saut d'investissement total avoisine les 40 000 €.
+
+Est-ce justifié ? Ça dépend de ton portefeuille de missions :
+
+- **Beaucoup de couvert végétal** → le L3 est transformationnel
+- **Grands territoires (+10 km² régulièrement)** → le gain de productivité est réel
+- **Missions purement urbaines / bâtiment sans végétation** → le L2 reste pleinement compétitif
+
+<Callout type="warning">
+  Le L3 ne peut pas s'installer sur un M300 ou M350. Si tu es déjà équipé sur ces plateformes, le
+  budget "upgrade" est en réalité le budget "nouveau système complet".
+</Callout>
+
+---
+
+## Zenmuse L3 vs Matrice 4E : deux outils, deux usages
+
+On ne compare pas réellement deux concurrents — on compare deux philosophies. Mais comme beaucoup de géomètres commencent par le M4E avant d'envisager le LiDAR, le tableau vaut la peine.
+
+<CompareTable
+  columns={['Critère', 'M400 RTK + L3', 'Matrice 4E']}
+  rows={[
+    {
+      feature: 'Type de données',
+      values: ['', 'LiDAR + ortho simultanés', 'Photogrammétrie uniquement'],
+    },
+    { feature: 'Portée LiDAR', values: ['', '950 m', 'Aucun LiDAR intégré'] },
+    {
+      feature: 'Pénétration végétation',
+      values: ['', 'Excellente (16 retours)', 'Nulle — la photo ne voit pas sous canopée'],
+    },
+    {
+      feature: 'Précision verticale',
+      values: ['', '3 cm LiDAR', '3–5 cm photogramm. (RTK + GCP)'],
+    },
+    { feature: 'Couverture par vol', values: ['', '10 km² à 300 m', '~2–3 km² (altitude basse)'] },
+    {
+      feature: 'Portabilité',
+      values: ['', 'Lourd, 2 personnes conseillées', 'Compact, solo possible'],
+    },
+    { feature: 'Coût système complet', values: ['', '~37 000 €', '~4 500 € (estimation EU)'] },
+    { feature: 'Levé en zone boisée', values: ['', 'Résolu par le LiDAR', 'MNT inexploitable'] },
+    { feature: 'Bornage zone dégagée', values: ['', 'Surdimensionné', 'Suffisant avec GCP + RTK'] },
+    {
+      feature: 'Infrastructure / corridor',
+      values: ['', 'Optimal', 'Limité (altitude basse, couverture réduite)'],
+    },
+  ]}
+/>
+
+---
+
+## Les 5 cas d'usage où le L3 s'impose
+
+### 1. Couvert végétal — le cas d'usage numéro un
+
+C'est là que le L3 justifie totalement son prix. Dès qu'il y a de la végétation — même partielle — la photogrammétrie devient aveugle en dessous de la canopée. Le LiDAR traverse. Avec 16 retours par impulsion, le L3 classe correctement le sol sous une forêt dense là où son prédécesseur produisait des artefacts.
+
+Pour un géomètre en zone rurale ou forestière, c'est un game changer : les MNT sous bois sont enfin exploitables directement, sans interpolation hasardeuse.
+
+### 2. Zones inaccessibles — falaises, éboulements, zones de danger
+
+La portée de 950 m permet de se positionner sur un terrain stable et de scanner une falaise ou une zone d'éboulement sans jamais en approcher. À 300 m d'altitude, la précision reste à 5 cm RMSE — suffisant pour un plan topographique coté ou un suivi de mouvement de terrain.
+
+### 3. Couloirs routiers et lignes électriques
+
+Un corridor de 10 km se parcourt en un seul vol. La détection de câble jusqu'à 300 m (câble aluminium) est un bonus de sécurité. La capacité à voler haut (300-400 m) maintient la précision tout en restant largement au-dessus des obstacles latéraux.
+
+### 4. Grands territoires — ZAC, carrières, domaines forestiers
+
+À 100 km² par jour (en conditions optimales), le L3 est hors catégorie pour les levés de grande emprise. Un suivi mensuel de cubatures sur une carrière de 80 ha, un relevé de ZAC de 200 ha : l'amortissement peut être rapide si le volume de missions est là.
+
+### 5. Missions à haute altitude relative
+
+L'altitude de travail s'étend jusqu'à 500 m contre 150 m pour le L2. En terrain montagneux ou sur des sites avec des variations de relief importantes, pouvoir maintenir une altitude constante par rapport au sol change complètement la logistique de mission.
+
+---
+
+## Ce que disent les premiers utilisateurs
+
+<Callout type="info">
+  Le L3 a été lancé en novembre 2025. En mai 2026, il reste relativement peu d'utilisateurs terrain
+  en France. Les retours disponibles viennent majoritairement des États-Unis, du Royaume-Uni,
+  d'Australie et de Nouvelle-Zélande.
+</Callout>
+
+### Test ASPRS (Amérique du Nord, terrain dégagé)
+
+Un test indépendant mené par un photogrammètre certifié ASPRS sur 40 acres de parking asphalte a donné des résultats impressionnants :
+
+- **RMSE vertical brut** : 1,3 cm (sans aucun point d'appui au sol)
+- **RMSE vertical après correction** : 0,7 cm
+
+Pour mettre ça en perspective : 0,7 cm de précision verticale sans GCP, uniquement avec le RTK du M400. C'est un résultat sub-centimétrique sur terrain dur et plat, en conditions favorables.
+
+<PullQuote>
+  0,7 cm de RMSE vertical sans point d'appui au sol — uniquement avec le RTK du Matrice 400.
+</PullQuote>
+
+### Test forestier Interpine (Nouvelle-Zélande)
+
+En forêt dense de pins, le L3 a produit 278 retours/m² contre 112 pour le L2 volant dans les mêmes conditions. L'architecture des branches individuelles était visualisable sur le L3. Le phénomène de "tenting" du MNT (où le logiciel interpolait faute de retours sol) a disparu.
+
+### Points d'attention signalés
+
+- **Enfermement écosystème DJI** : les données brutes IMU/trajectoire ne sont pas accessibles dans un format compatible avec Applanix POSPac ou NovAtel Inertial Explorer. DJI Terra est obligatoire pour la première étape de traitement.
+- **Export vers logiciels tiers** : le workflow passe par Terra → export LAS → logiciel métier (Terrasolid, CloudCompare, QGIS, AutoCAD). Ce n'est pas bloquant, mais c'est une étape supplémentaire.
+- **Disponibilité en France** : en mai 2026, plusieurs revendeurs affichent rupture de stock ou "bientôt disponible". La demande dépasse l'approvisionnement.
+
+---
+
+## Le budget complet — sans se mentir
+
+Voilà ce qu'un système L3 opérationnel coûte vraiment :
+
+<CompareTable
+  columns={['Poste', 'Prix estimé TTC']}
+  rows={[
+    { feature: 'Nacelle Zenmuse L3 seule', values: ['', '14 878 €'] },
+    { feature: 'Matrice 400 RTK (drone)', values: ['', '9 568 €'] },
+    { feature: 'RC Plus 2 Enterprise (télécommande)', values: ['', 'Inclus dans le kit'] },
+    { feature: '3 batteries TB500 + station de charge', values: ['', 'Inclus dans le kit'] },
+    { feature: 'CFexpress 2 × 1 To', values: ['', 'Inclus dans le kit'] },
+    { feature: 'Kit M400 RTK + L3 complet (Drone Parts Center)', values: ['', '30 699 €'] },
+    { feature: 'D-RTK 3 Multifunctional Station (base GNSS)', values: ['', '~5 000 €'] },
+    { feature: 'Batteries supplémentaires (2-3 packs)', values: ['', '~2 000 €'] },
+    { feature: 'DJI Terra LiDAR processing', values: ['', 'Gratuit depuis version 5.1'] },
+    { feature: 'Total système opérationnel estimé', values: ['', '~37 000 – 40 000 €'] },
+  ]}
+/>
+
+<Callout type="tip">
+  Depuis DJI Terra version 5.1 (2025), le traitement LiDAR du L3 est **gratuit**. C'est une économie
+  substantielle — d'autres systèmes facturent 5 000 à 8 000 € de licence de traitement logiciel.
+</Callout>
+
+---
+
+## L'écosystème logiciel — ce qui fonctionne et ce qui manque
+
+### La chaîne DJI (obligatoire pour commencer)
+
+Le traitement commence obligatoirement dans **DJI Terra** :
+
+1. Import des données brutes L3 (LiDAR + IMU + trajectoire)
+2. Génération du nuage de points dense, de l'orthophoto et du MNT
+3. Export en LAS/LAZ pour traitement tiers
+
+Depuis la version 5.1, DJI a rendu ce traitement gratuit et a ajouté des fonctions intéressantes : reconstruction en cluster pour les gros volumes, découpage de zone d'intérêt (ROI), et une intégration Gaussian Splatting LiDAR + RGB.
+
+### Les logiciels tiers validés
+
+<CompareTable
+  columns={['Logiciel', 'Compatibilité', 'Workflow']}
+  rows={[
+    {
+      feature: 'Terrasolid',
+      values: [
+        '',
+        '✅ Confirmée',
+        'Terra → export brut → TerraScan classification → TerraModeler MNT',
+      ],
+    },
+    {
+      feature: 'CloudCompare',
+      values: ['', '✅ Confirmée', 'Import LAS depuis Terra — open source, aucune contrainte'],
+    },
+    {
+      feature: 'QGIS',
+      values: ['', '✅ Confirmée', 'Import LAS/LAZ via plugin PDAL'],
+    },
+    {
+      feature: 'AutoCAD / Civil 3D',
+      values: ['', '✅ Via ReCap', 'LAS → Autodesk ReCap (.rcp) → Civil 3D'],
+    },
+    {
+      feature: 'LAStools',
+      values: ['', '✅ Sur LAS exporté', 'Traitement en ligne de commande classique'],
+    },
+    {
+      feature: 'Applanix POSPac',
+      values: ['', '❌ Non compatible', 'Données IMU brutes non publiées par DJI'],
+    },
+  ]}
+/>
+
+### La limite structurelle à connaître
+
+DJI ne donne pas accès aux données IMU brutes dans un format ouvert. Impossible de post-traiter la trajectoire dans Applanix ou NovAtel Inertial Explorer. Pour les missions nécessitant un audit indépendant de la trajectoire (BVLOS complexe, marchés publics avec exigences strictes), c'est une limite réelle.
+
+---
+
+## La question du bornage — soyons précis
+
+<Callout type="warning">
+  Le bornage réglementaire français exige une précision planimétrique de l'ordre de 2 à 5 cm selon
+  les tolérances cadastrales. Le L3 annonce 4 cm horizontal à 120 m (RMSE). C'est à la limite — et
+  "à la limite" en bornage, ce n'est pas suffisant pour signer.
+</Callout>
+
+En pratique, le workflow géomètre restera hybride pour le bornage :
+
+1. **Vol L3** → levé général, topo détaillé, contexte terrain, limites naturelles
+2. **GNSS RTK au sol** → coordonnées exactes des bornes, pivots, tubes, cibles balisées
+3. **Fusion** → le nuage LiDAR porte la planimétrie d'ensemble, le RTK porte la précision des points de bornage
+
+Le L3 ne remplace pas le GNSS RTK au sol pour la détermination des coordonnées de borne. Il complète le workflow en apportant la topo détaillé de l'environnement — souvent la partie la plus longue à produire.
+
+---
+
+## Tu as un M300 RTK + L1 ? Le cas pour upgrader va au-delà du matériel
+
+Si tu voles actuellement avec un Matrice 300 RTK et un Zenmuse L1, le passage au M400 RTK + L3 n'est pas qu'une mise à jour de capteur. C'est aussi un changement de statut réglementaire — et c'est peut-être l'argument le plus fort.
+
+### Le M300 RTK n'a aucune certification de classe EASA
+
+DJI a officiellement confirmé que le M300 RTK **ne recevra jamais de label C européen**. Il vole sous les dispositions transitoires EASA (régime dérogatoire pour drones mis sur le marché avant le système de classes), qui se restreignent progressivement. Pour tout vol hors catégorie Open, il faut une SORA individuelle — lourd administrativement.
+
+### Le M400 RTK est certifié C3, convertible C5
+
+Le M400 RTK est certifié **C3** nativement par l'EASA. Avec un kit de conversion (parachute + système de terminaison de vol), il devient **C5** — ce qui ouvre l'accès au scénario **STS-01**.
+
+<CompareTable
+  columns={['Critère', 'M300 RTK', 'M400 RTK']}
+  rows={[
+    { feature: 'Certification EASA', values: ['', 'Aucune (pas de label C)', 'C3 certifié'] },
+    {
+      feature: 'STS-01 (zone urbaine VLOS)',
+      values: ['', 'Impossible', 'Possible avec kit C5 (Kronos M400, Dronavia)'],
+    },
+    {
+      feature: 'STS-02 (BVLOS zone rurale)',
+      values: ['', 'Impossible', 'Kit C6 non encore disponible'],
+    },
+    {
+      feature: 'Avenir réglementaire',
+      values: ['', 'Fin de vie progressive', 'Pérenne, roadmap C5/C6'],
+    },
+    { feature: 'Compatible Zenmuse L3', values: ['', 'Non', 'Oui (natif)'] },
+  ]}
+/>
+
+### Ce que STS-01 change concrètement pour un géomètre-expert
+
+Le scénario STS-01 autorise le vol VLOS au-dessus d'une **zone peuplée ou agglomération**, dans une zone au sol définie et contrôlée, jusqu'à 120 m AGL. Déclaration via AlphaTango (valide 2 ans), certification CATS obligatoire pour le télépilote.
+
+**Missions qui deviennent accessibles sans autorisation individuelle :**
+
+- Levé LiDAR de centres-villes et zones urbaines denses
+- Inspection de bâtiments en zone résidentielle
+- Relevé de voirie urbaine et infrastructures en milieu peuplé
+- Levé de chantiers actifs en zone habitée
+
+Pour un géomètre-expert dont une partie du portefeuille est urbaine, c'est un déblocage significatif. Avec le M300, ces missions nécessitaient une SORA au cas par cas.
+
+<Callout type="info">
+  En mai 2026, le kit C5 pour le M400 RTK (Kronos M400, Dronavia) est annoncé pour le T2 2026.
+  Vérifie la disponibilité auprès de Dronavia ou drone-parts-center.com avant de planifier cet
+  upgrade réglementaire.
+</Callout>
+
+---
+
+## Mon verdict — est-ce que j'achète ?
+
+Pour moi, la décision est prise : **j'y passe**.
+
+Mon cas est celui où l'upgrade n'est plus vraiment optionnel. Je vole actuellement avec un M300 RTK + Zenmuse L1, et les deux arguments convergent vers la même conclusion :
+
+**L'argument technique :** le L1 m'a montré ses limites sur les levés où je voulais dessiner de la topo détaillé. Sa densité au sol est trop faible pour générer des courbes à 20-50 cm ou tracer des arêtes propres — il se cantonne aux points de niveau isolés. Le L3 avec ses 20-50 pts/m² en terrain dégagé (et bien plus sous végétation) résout ce problème structurellement.
+
+**L'argument réglementaire :** le M300 RTK n'a aucune certification de classe EASA et n'en aura jamais. Chaque vol hors Open doit passer par une SORA individuelle. Le M400 RTK, lui, est certifié C3 et sera convertible C5 via le kit Kronos M400. Autrement dit, je ne change pas seulement de capteur — je change de statut opérationnel pour les années à venir.
+
+**Ce que j'attends avant de voler en C5 :** la disponibilité du kit de conversion Kronos M400 (Dronavia), annoncée pour le T2 2026. Le M400 + L3 sera commandé, livré et mis en service dès maintenant — mais les missions en zone peuplée (STS-01) attendront que le kit C5 soit disponible et installé.
+
+<Callout type="info">
+  Si tu es dans la même situation — M300 + L1 en service — l'upgrade vers M400 + L3 n'est pas un
+  choix de confort, c'est une mise à niveau réglementaire et technique inévitable. La question n'est
+  plus "si" mais "quand".
+</Callout>
+
+<PullQuote>
+  Je n'achète pas seulement un meilleur LiDAR. J'achète une plateforme qui a un avenir réglementaire
+  — ce que mon M300 n'a plus.
+</PullQuote>
+
+---
+
+## Où l'acheter en France (mai 2026)
+
+| Revendeur                   | Statut                              | Contact                |
+| --------------------------- | ----------------------------------- | ---------------------- |
+| **Drone Parts Center (EU)** | En stock — kit M400 + L3 à 30 699 € | drone-parts-center.com |
+| **Flying Eye**              | Sur devis                           | flyingeye.fr           |
+| **Geomesure**               | Sur devis                           | geomesure.fr           |
+| **DJI Paris**               | "Bientôt disponible" (rupture web)  | boutique.dji-paris.com |
+| **StudioSport**             | Rupture de stock                    | studiosport.fr         |
+
+Si tu as besoin du matériel rapidement, Drone Parts Center EU (livraison en France) et Flying Eye (spécialiste professionnel français) sont les deux contacts les plus fiables à ce jour.
+
+---
+
+## Ressources pour aller plus loin
+
+- [Fiche technique officielle Zenmuse L3](https://enterprise.dji.com/zenmuse-l3/specs) — DJI Enterprise
+- [Test précision ASPRS](https://enterprise-insights.dji.com/blog/evaluating-zenmuse-l3-lidar-accuracy-performance-using-asprs-standards) — DJI Enterprise Insights
+- [Analyse L2 vs L3 en forêt dense](https://interpine.nz/analysis-of-lidar-dji-l2-vs-l3-lidar-sensors/) — Interpine NZ
+- [Support Terrasolid pour le L3](https://www.heliguy.com/blogs/posts/terrasolid-update-dji-zenmuse-l3-support/) — Heliguy
+- [DJI Terra version 5.1 — traitement LiDAR gratuit](https://enterprise-insights.dji.com/blog/dji-terra-version 5.1-release-free-lidar-processing-and-cluster-reconstruction-transform-enterprise-workflows) — DJI Enterprise Insights
