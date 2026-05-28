@@ -41,6 +41,26 @@ const accessoiresTerrain = [
 
 const informatique = [
   {
+    name: 'PC workstation photogrammétrie — config recommandée',
+    description:
+      "Le goulot d'étranglement en photogrammétrie dense c'est le CPU (alignement) et le GPU (calcul dense). Config minimum viable : CPU 12 cœurs (Ryzen 9 ou Core i9), 64 Go RAM, GPU NVIDIA RTX (4070 ou mieux pour l'accélération CUDA dans Metashape). Un bon PC fait passer un traitement de 8h à 45 min.",
+    price: '~1 500 – 2 500 €',
+    affiliateUrl: 'https://www.amazon.fr/s?k=pc+workstation+ryzen+rtx+montage+photogrammetrie',
+    utmContent: 'pc-workstation-photogrammetrie',
+    source: 'amazon' as const,
+    isPlaceholder: true,
+  },
+  {
+    name: 'GPU NVIDIA RTX — accélération CUDA Metashape',
+    description:
+      "Si tu as déjà un PC mais pas de bonne carte graphique : une RTX 4070 ou 4080 divise par 5 à 10 le temps de calcul du nuage dense dans Metashape (accélération CUDA). C'est l'upgrade le plus rentable pour la photogrammétrie.",
+    price: '~600 – 1 200 €',
+    affiliateUrl: 'https://www.amazon.fr/s?k=nvidia+rtx+4070+4080+carte+graphique',
+    utmContent: 'gpu-rtx-metashape',
+    source: 'amazon' as const,
+    isPlaceholder: true,
+  },
+  {
     name: 'SSD externe NVMe — transfert rapide',
     description:
       'Indispensable pour déplacer les fichiers LAS/E57 entre le PC de terrain et la machine de traitement. Préférer 1 To minimum, USB 3.2 Gen2.',
