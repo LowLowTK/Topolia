@@ -1,0 +1,223 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AffiliateDisclaimer from '../../components/ressources/AffiliateDisclaimer.astro';
+import ProductCard from '../../components/ressources/ProductCard.astro';
+
+// Données produits — à compléter par Loïc avec ce qu'il utilise vraiment.
+// isPlaceholder: true = lien pas encore affilié, affiché avec note visuelle.
+
+const accessoiresTerrain = [
+  {
+    name: 'Mires GCP — targets de calage au sol',
+    description:
+      'Indispensables pour caler le nuage de points et le modèle 3D sur des coordonnées réelles. Je les utilise systématiquement sur chaque chantier drone.',
+    price: '~35 €',
+    affiliateUrl: 'https://www.amazon.fr/s?k=mires+gcp+drone+photogrammetrie',
+    utmContent: 'mires-gcp',
+    source: 'amazon' as const,
+    isPlaceholder: true,
+  },
+  {
+    name: 'Jalons topographiques',
+    description:
+      'Pour matérialiser les points de contrôle sur le terrain avant le vol. Pliables et légers à transporter.',
+    price: '~25 €',
+    affiliateUrl: 'https://www.amazon.fr/s?k=jalon+topographique',
+    utmContent: 'jalons-topo',
+    source: 'amazon' as const,
+    isPlaceholder: true,
+  },
+  {
+    name: 'Carnet de terrain waterproof',
+    description:
+      'Pour noter les coordonnées des GCP sur le terrain, même par temps pluvieux. Rite In The Rain ou équivalent.',
+    price: '~15 €',
+    affiliateUrl: 'https://www.amazon.fr/s?k=carnet+terrain+waterproof',
+    utmContent: 'carnet-waterproof',
+    source: 'amazon' as const,
+    isPlaceholder: true,
+  },
+];
+
+const informatique = [
+  {
+    name: 'SSD externe NVMe — transfert rapide',
+    description:
+      'Indispensable pour déplacer les fichiers LAS/E57 entre le PC de terrain et la machine de traitement. Préférer 1 To minimum, USB 3.2 Gen2.',
+    price: '~80 €',
+    affiliateUrl: 'https://www.amazon.fr/s?k=ssd+externe+nvme+1to+usb+3.2',
+    utmContent: 'ssd-externe-nvme',
+    source: 'amazon' as const,
+    isPlaceholder: true,
+  },
+  {
+    name: 'RAM 64 Go DDR5 — traitement Metashape',
+    description:
+      'Metashape et Pix4D sont très gourmands en RAM lors du traitement dense. 64 Go est le minimum confortable pour des projets > 500 photos.',
+    price: '~140 €',
+    affiliateUrl: 'https://www.amazon.fr/s?k=ram+64go+ddr5+pc',
+    utmContent: 'ram-64go',
+    source: 'amazon' as const,
+    isPlaceholder: true,
+  },
+];
+
+const logiciels = [
+  {
+    name: 'Agisoft Metashape Professional',
+    description:
+      "Mon logiciel de référence pour la photogrammétrie. Traitement dense, nuage de points, MNT, orthophoto. Version Professional indispensable pour l'export professionnel.",
+    price: '~3 499 €',
+    affiliateUrl: 'https://www.agisoft.com/buy/',
+    utmContent: 'metashape-pro',
+    source: 'editeur' as const,
+    isPlaceholder: true,
+  },
+  {
+    name: 'Pix4Dmatic',
+    description:
+      'Alternative à Metashape, particulièrement adapté aux grands chantiers en lot. Abonnement mensuel ou annuel.',
+    price: 'Sur devis',
+    affiliateUrl: 'https://www.pix4d.com/product/pix4dmatic/',
+    utmContent: 'pix4dmatic',
+    source: 'editeur' as const,
+    isPlaceholder: true,
+  },
+  {
+    name: 'RealityCapture',
+    description:
+      'Le plus rapide des trois pour les grands nuages. Modèle à la consommation (pay-per-input) depuis le rachat par Epic Games — intéressant pour les chantiers ponctuels.',
+    price: 'Pay-per-input',
+    affiliateUrl: 'https://www.capturingreality.com/',
+    utmContent: 'reality-capture',
+    source: 'editeur' as const,
+    isPlaceholder: true,
+  },
+];
+---
+
+<BaseLayout
+  title="Outils pour la photogrammétrie drone — recommandations testées"
+  description="Accessoires terrain, matériel informatique et logiciels testés par un géomètre-expert. Mes recommandations pour les dronistes en photogrammétrie."
+>
+  <main class="ressources-page">
+    <div class="ressources-page__container">
+      <header class="ressources-page__header">
+        <h1 class="ressources-page__title">Outils recommandés pour la photogrammétrie drone</h1>
+        <p class="ressources-page__intro">
+          Ce sont les outils que j'utilise ou que j'ai testés dans mon activité de géomètre-expert.
+          Pas de liste exhaustive — uniquement ce qui m'a prouvé son utilité sur le terrain.
+        </p>
+      </header>
+
+      <AffiliateDisclaimer />
+
+      <section class="ressources-section">
+        <h2 class="ressources-section__title">Accessoires terrain</h2>
+        <p class="ressources-section__subtitle">
+          Le matériel de terrain pour préparer et cadrer un vol photogrammétrique dans les règles.
+        </p>
+        <div class="ressources-section__grid">
+          {accessoiresTerrain.map((p) => <ProductCard {...p} />)}
+        </div>
+      </section>
+
+      <section class="ressources-section">
+        <h2 class="ressources-section__title">Informatique & stockage</h2>
+        <p class="ressources-section__subtitle">
+          La photogrammétrie dense est CPU et RAM intensive — voici ce qui fait la différence.
+        </p>
+        <div class="ressources-section__grid">
+          {informatique.map((p) => <ProductCard {...p} />)}
+        </div>
+      </section>
+
+      <section class="ressources-section">
+        <h2 class="ressources-section__title">Logiciels photogrammétrie</h2>
+        <p class="ressources-section__subtitle">
+          Les trois références du marché. J'utilise principalement Metashape au quotidien.
+        </p>
+        <div class="ressources-section__grid">
+          {logiciels.map((p) => <ProductCard {...p} />)}
+        </div>
+      </section>
+
+      <footer class="ressources-page__footer">
+        <p>
+          <strong>Comment je sélectionne ces outils :</strong> je ne liste que ce que j'utilise dans mon
+          activité ou que j'ai eu l'occasion de tester sérieusement. Les prix sont indicatifs et peuvent
+          varier. Pour toute question sur un outil, tu peux me contacter directement.
+        </p>
+      </footer>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .ressources-page {
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  .ressources-page__container {
+    max-width: var(--content-max, 800px);
+    margin: 0 auto;
+  }
+
+  .ressources-page__header {
+    margin-bottom: 2rem;
+  }
+
+  .ressources-page__title {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+    margin: 0 0 1rem;
+  }
+
+  .ressources-page__intro {
+    font-size: 1.05rem;
+    color: var(--ink-2);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .ressources-section {
+    margin-bottom: 3rem;
+  }
+
+  .ressources-section__title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 0.4rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent);
+    display: inline-block;
+  }
+
+  .ressources-section__subtitle {
+    font-size: 0.9rem;
+    color: var(--ink-2);
+    margin: 0.5rem 0 1.25rem;
+  }
+
+  .ressources-section__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .ressources-page__footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--hairline);
+    font-size: 0.875rem;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  .ressources-page__footer strong {
+    color: var(--ink);
+  }
+</style>
