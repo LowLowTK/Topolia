@@ -170,6 +170,61 @@ const WHITELIST_TERMS = [
   'L2',
   'L3',
   'Hexagon',
+  // SIG / formats géo
+  'EPSG',
+  'GDAL',
+  'QGIS',
+  'Etalab',
+  'tif',
+  'TIF',
+  'shp',
+  'SHP',
+  'RCP',
+  'rcp',
+  'intervisibilité',
+  'polyligne',
+  'polylignes',
+  'vectorielle',
+  'vectoriels',
+  // Formats / extensions fichier
+  'dxf',
+  'DXF',
+  'laz',
+  'LAZ',
+  'copc',
+  'ELEVATION',
+  'courbes_niveau',
+  'courbes-niveau',
+  'LHD',
+  'v2',
+  'core',
+  // Noms UI CloudCompare / QGIS / AutoCAD
+  'Properties',
+  'Scalar',
+  'Fields',
+  'fields',
+  'Edit',
+  'Subsample',
+  'Resolution',
+  'Advanced',
+  'Produce',
+  'vectors',
+  'Vectors',
+  'Attach',
+  'Specify',
+  'Colors',
+  'Ground',
+  'POINTCLOUDPOINTMAX',
+  'geographic',
+  'Geographic',
+  'screen',
+  // Marques / logiciels SIG
+  'Autodesk',
+  'ReCap',
+  'Covadis',
+  'Mensura',
+  'IMAGINiT',
+  'Landscape',
   // Termes métier
   'photogrammétrique',
   'photogrammétriques',
@@ -347,6 +402,7 @@ function extractText(content) {
     .replace(/~~([^~\n]+)~~/g, '$1') // ~~barré~~
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // [texte](url) → texte
     .replace(/^#{1,6}\s+(.+)$/gm, (_, line) => (/[.!?:;]$/.test(line) ? line : line + '.'))
+    .replace(/^[ \t]+[-*+]\s+(.+)$/gm, (_, line) => (/[.!?:;]$/.test(line) ? line : line + '.'))
     .replace(/^[-*+]\s+(.+)$/gm, (_, line) => (/[.!?:;]$/.test(line) ? line : line + '.'))
     .replace(/^\d+\.\s+(.+)$/gm, (_, line) => (/[.!?:;]$/.test(line) ? line : line + '.'))
     .replace(/[ \t]+/g, ' ') // espaces multiples internes
