@@ -1,0 +1,32 @@
+---
+title: 'MNT'
+date: 2026-05-29
+difficulty: 'debutant'
+relatedArticles: ['lidar-hd-ign']
+relatedChantiers: []
+excerpt: 'Le Modèle Numérique de Terrain représente le sol nu, sans végétation ni bâtiments.'
+isPublished: true
+---
+
+**MNT** signifie _Modèle Numérique de Terrain_. C'est une représentation numérique de la surface du sol, débarrassée de tout ce qui se trouve dessus : arbres, bâtiments, ponts.
+
+## Ce que le MNT contient
+
+Dans un fichier LiDAR, les points sont classés par type de surface. Les points sol portent la **classe 2**. Le MNT est construit uniquement à partir de ces points-là. Résultat : tu obtiens la topographie réelle du terrain, comme si tout avait été rasé.
+
+## Ce que tu peux en faire
+
+Le MNT est la base de presque tous les calculs topo :
+
+- Courbes de niveau et profils en long.
+- Calculs de pente et de dénivelé.
+- Cubatures et bilans de terrassement.
+- Zones inondables et bassins versants.
+
+## Différence avec le MNS
+
+Le MNS (Modèle Numérique de Surface) conserve tout ce qui est au-dessus du sol. Le MNT, lui, ne garde que le sol. Pense au MNT comme à une carte du terrain vu depuis le dessous des arbres.
+
+## Données disponibles
+
+L'IGN distribue un MNT issu du programme LiDAR HD en open data sur [data.gouv.fr](https://www.data.gouv.fr/datasets/mnt-lidar-hd). Précision altimétrique annoncée : inférieure ou égale à 10 cm.

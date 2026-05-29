@@ -1,0 +1,30 @@
+---
+title: 'MNS'
+date: 2026-05-29
+difficulty: 'debutant'
+relatedArticles: ['lidar-hd-ign']
+relatedChantiers: []
+excerpt: 'Le Modèle Numérique de Surface représente tout ce que voit un capteur depuis le ciel : sol, arbres, bâtiments.'
+isPublished: true
+---
+
+**MNS** signifie _Modèle Numérique de Surface_. Contrairement au MNT, il représente la surface telle qu'elle est vue d'en haut : sol, végétation, toitures, ponts, tout est inclus.
+
+## Ce que le MNS contient
+
+Le MNS est construit à partir de tous les points du nuage LiDAR, quelle que soit leur classe. Si le laser a frappé le toit d'un bâtiment ou le sommet d'un arbre, c'est ce point qui entre dans le modèle. C'est une photo du relief vu depuis le ciel, en 3D.
+
+## Ce que tu peux en faire
+
+- Analyses d'ombres portées et d'ensoleillement.
+- Estimation de la hauteur de la végétation.
+- Analyses de visibilité (intervisibilité entre deux points).
+- Études d'impact paysager.
+
+## Le MNSn : la hauteur des objets
+
+En soustrayant le MNT au MNS, on obtient le **MNSn** (Modèle Numérique de Surface normalisé). Ce résultat donne directement la hauteur de chaque objet au-dessus du sol : 12 m pour un arbre, 8 m pour un toit, 0 m pour le terrain nu.
+
+## Données disponibles
+
+L'IGN distribue un MNS issu du programme LiDAR HD en open data sur [data.gouv.fr](https://www.data.gouv.fr/datasets/mns-lidar-hd).

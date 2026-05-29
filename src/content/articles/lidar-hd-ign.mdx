@@ -1,0 +1,348 @@
+---
+title: 'LiDAR HD IGN : comment télécharger les données et les utiliser dans ton DAO'
+subtitle: 'Accès gratuit, formats expliqués, et workflows pas-à-pas dans CloudCompare, QGIS et AutoCAD.'
+date: 2026-05-29
+category: 'tutoriels'
+tags:
+  ['lidar', 'ign', 'open-data', 'cloudcompare', 'qgis', 'autocad', 'mnt', 'nuage-de-points', 'copc']
+author: 'loic'
+heroImage: '/images/articles/lidar-hd-ign.jpg'
+heroImageAlt: "Nuage de points LiDAR HD de l'IGN visualisé dans QGIS, colorisé par altitude sur une zone urbaine"
+excerpt: "L'IGN couvre la France entière en LiDAR haute densité — gratuit, en open data, téléchargeable en quelques clics. Voilà comment accéder aux données et les exploiter dans CloudCompare, QGIS ou AutoCAD."
+isPremium: false
+isPublished: true
+---
+
+import Callout from '../../components/mdx/Callout.astro';
+import CompareTable from '../../components/mdx/CompareTable.astro';
+import PullQuote from '../../components/mdx/PullQuote.astro';
+
+Il existe une base de données LiDAR haute densité couvrant l'ensemble du territoire français. Gratuite. En open data. Avec une précision altimétrique de 10 cm et des données déjà classifiées à la livraison. Et la plupart des géomètres passent à côté.
+
+Le programme **LiDAR HD** de l'IGN, c'est ça. Une acquisition aérienne nationale à ≥ 10 points par mètre carré, distribuée librement sous licence Etalab 2.0. Pour les missions où tu as besoin d'un contexte terrain sans mobiliser un drone ou un scanner, c'est difficile de faire mieux. Voilà comment y accéder et l'exploiter dans CloudCompare, QGIS ou AutoCAD.
+
+---
+
+## Ce que c'est : le programme en chiffres
+
+Le programme LiDAR HD est une campagne d'acquisition nationale lancée par l'IGN en 2021. Objectif : couvrir l'intégralité du territoire en une seule passe de qualité homogène, avec des données accessibles librement.
+
+<CompareTable
+  columns={['Paramètre', 'Valeur', 'Ce que ça signifie']}
+  rows={[
+    {
+      feature: 'Densité',
+      values: [
+        '',
+        '≥ 10 points/m²',
+        'Suffisant pour des arêtes de bâtiment, des ruptures de terrain, des courbes à 20 cm',
+      ],
+    },
+    {
+      feature: 'Précision altimétrique',
+      values: [
+        '',
+        '≤ 10 cm',
+        'Plans topographiques professionnels — comparable à un scanner aérien dédié',
+      ],
+    },
+    {
+      feature: 'Précision planimétrique',
+      values: [
+        '',
+        '30–50 cm',
+        'Bon pour la topo générale et le contexte, insuffisant seul pour le bornage',
+      ],
+    },
+    {
+      feature: 'Format distribué',
+      values: [
+        '',
+        'COPC.LAZ',
+        'Cloud Optimized Point Cloud — LAZ compressé avec index octree intégré, lu par PDAL, QGIS, CloudCompare',
+      ],
+    },
+    {
+      feature: 'Découpage',
+      values: [
+        '',
+        'Dalles 1 km × 1 km',
+        '~200 Mo par dalle en moyenne — de 100 Mo (plateau agricole) à 500 Mo (forêt dense)',
+      ],
+    },
+    {
+      feature: 'Projection',
+      values: [
+        '',
+        'Lambert 93 — EPSG:2154',
+        'Projection légale française, aucune reprojection nécessaire pour un travail en métropole',
+      ],
+    },
+    {
+      feature: 'Licence',
+      values: [
+        '',
+        'Open Data Etalab 2.0',
+        'Usage commercial autorisé — obligation de mentionner "IGN - Programme LiDAR HD" dans les livrables',
+      ],
+    },
+  ]}
+/>
+
+**Couverture nationale :** fin 2025, environ 80 % du territoire métropolitain était couvert, avec une couverture complète prévue fin 2026. Pour vérifier si ta zone est disponible avant de te lancer : [carte interactive de progression](https://macarte.ign.fr/carte/mThSup/diffusionMNxLiDARHD).
+
+<Callout type="info">
+  Les données LiDAR HD sont livrées **déjà classifiées** par l'IGN : sol, végétation, bâtiments,
+  eau, ouvrages d'art. Tu n'as pas à refaire la classification — c'est la différence avec les
+  acquisitions drone ou scanner que tu traites toi-même.
+</Callout>
+
+---
+
+## Accéder aux données : deux portails
+
+### Le portail principal IGN
+
+Le point d'entrée du programme, avec la documentation et les liens vers les outils de téléchargement :
+**[geoservices.ign.fr/lidarhd](https://geoservices.ign.fr/lidarhd)**
+
+### Téléchargement à la carte (pour une zone précise)
+
+C'est l'option la plus directe pour sélectionner quelques dalles sur un fond cartographique :
+
+- **[cartes.gouv.fr](https://cartes.gouv.fr/telechargement/IGNF_MNT-LIDAR-HD)** — sélection interactive par dessin de zone, accès aux nuages de points et aux produits dérivés (MNT, MNS déjà générés)
+
+### Via data.gouv.fr (téléchargement par département ou par script)
+
+Pour récupérer des données par département entier ou automatiser le téléchargement :
+
+- Nuages de points bruts : [data.gouv.fr/datasets/nuages-de-points-lidar-hd](https://www.data.gouv.fr/datasets/nuages-de-points-lidar-hd)
+- MNT déjà généré : [data.gouv.fr/datasets/mnt-lidar-hd](https://www.data.gouv.fr/datasets/mnt-lidar-hd)
+- MNS déjà généré : [data.gouv.fr/datasets/mns-lidar-hd](https://www.data.gouv.fr/datasets/mns-lidar-hd)
+
+<Callout type="tip">
+  Si tu as juste besoin d'un MNT ou d'un MNS pour contextualiser une mission, l'IGN les distribue
+  déjà générés sur data.gouv.fr. Inutile de télécharger les nuages bruts et de les traiter. Réserve
+  le workflow nuage de points pour les cas où tu dois extraire des éléments spécifiques : arêtes de
+  bâtiment, courbes personnalisées, filtrage par classe.
+</Callout>
+
+### Visualiser avant de télécharger
+
+L'IGN met à disposition une visionneuse 3D pour explorer les données avant de les récupérer : **[visionneuse-lidarhd.ign.fr](https://visionneuse-lidarhd.ign.fr)**.
+
+---
+
+## Comprendre les fichiers reçus
+
+Quand tu télécharges une zone, tu reçois des fichiers `.copc.laz`. Voilà ce que ça représente.
+
+**COPC.LAZ** : COPC signifie _Cloud Optimized Point Cloud_. C'est un fichier LAZ (LAS compressé) qui intègre un index spatial permettant de lire uniquement les points d'une zone ciblée, sans charger tout le fichier. QGIS 3.32+, PDAL et CloudCompare (v2.12+) le lisent nativement.
+
+**La nomenclature** : un fichier s'appelle par exemple `LHD_F75_0877_6382_PTS_LAMB93_IGN69.copc.laz`.
+
+| Fragment    | Signification                                                 |
+| ----------- | ------------------------------------------------------------- |
+| `LHD`       | LiDAR HD                                                      |
+| `F75`       | Département (ici Paris — code 75)                             |
+| `0877_6382` | Coordonnées Lambert 93 du coin bas-gauche de la dalle         |
+| `PTS`       | Nuage de points (vs `MNT` ou `MNS` pour les produits dérivés) |
+| `LAMB93`    | Projection Lambert 93 — EPSG:2154                             |
+| `IGN69`     | Système altimétrique IGN 1969                                 |
+| `copc.laz`  | Format COPC compressé                                         |
+
+**Taille des fichiers :** environ 200 Mo par dalle de 1 km² en moyenne. Prévoir ~15 Go pour un bloc de 10 km × 10 km.
+
+---
+
+## Workflow 1 : CloudCompare — visualisation rapide
+
+CloudCompare est l'outil le plus direct pour ouvrir un fichier IGN et l'explorer en 3D. Sa limite principale : il charge tout le fichier en RAM, sans streaming. Une ou deux dalles passent sans problème ; au-delà, ça peut coincer selon ta mémoire disponible.
+
+**Version requise :** CloudCompare 2.12 ou supérieur.
+
+### Importer les dalles
+
+1. **File → Open** → sélectionner ton fichier `.copc.laz`
+2. Si tu as plusieurs dalles adjacentes : sélectionne-les toutes → CloudCompare les assemble automatiquement car elles partagent le même système de coordonnées
+
+### Visualiser par classe
+
+Les données IGN sont déjà classifiées. Pour les afficher par classe :
+
+- Panneau **Properties → Scalar fields** → sélectionner le champ `classification`
+- Les points se colorient selon leur classe (sol, végétation, bâtiment…)
+
+Pour isoler uniquement le sol (classe 2) :
+
+- **Edit → Scalar fields → Filter by value** → plage `[2:2]`
+
+### Exporter en DXF
+
+CloudCompare exporte en DXF, mais chaque point devient une entité `Point` AutoCAD. Sur un nuage dense, le fichier DXF devient inutilisable. Sous-échantillonner avant l'export :
+
+1. **Edit → Subsample** → mode spatial, pas de 0.5–1 m
+2. Sélectionner le nuage réduit → **File → Save selected elements** → format `.dxf`
+
+<Callout type="warning">
+  CloudCompare charge **tout le fichier en RAM** — pas de streaming. Avec 8 Go de RAM, le seuil
+  pratique est autour de 300–400 millions de points. Pour travailler sur plusieurs dalles IGN, QGIS
+  ou PDAL sont mieux adaptés.
+</Callout>
+
+---
+
+## Workflow 2 : QGIS — MNT, courbes de niveau et export DXF
+
+QGIS est l'outil le plus complet pour aller du nuage IGN brut jusqu'à des courbes de niveau exportables en DXF. La chaîne tient en 4 étapes.
+
+**Version requise :** QGIS 3.32 minimum (PDAL intégré au core). QGIS 3.34+ recommandé pour le support COPC optimisé. Aucun plugin supplémentaire nécessaire.
+
+### Étape 1 — Ouvrir le fichier
+
+**Fichier → Ouvrir une couche** → sélectionner ton `.copc.laz`. QGIS affiche le nuage en 2D. Pour basculer en 3D : **Vue → Nouvelle vue cartographique 3D**.
+
+### Étape 2 — Générer le MNT
+
+1. **Traitement → Boîte à outils** → rechercher `Export to raster (using triangulation)`
+2. Paramètres :
+   - **Input point cloud** : ton fichier COPC.LAZ
+   - **Filter expression** : `Classification = 2` — garder uniquement les points sol
+   - **Resolution** : `0.5` pour une précision 50 cm, `1.0` pour 1 m
+   - **Output** : `mnt_ign.tif`
+3. Lancer — quelques minutes pour une dalle de 1 km²
+
+<PullQuote>
+  Sans le filtre `Classification = 2`, le MNT inclut les toits et la canopée. Ce serait un MNS, pas
+  un MNT terrain.
+</PullQuote>
+
+Pour un **MNS** (avec végétation et bâtiments) : utiliser `Classification = 1 OR Classification = 2`.
+
+### Étape 3 — Générer les courbes de niveau
+
+1. **Traitement → Boîte à outils** → rechercher `Contours` (algorithme GDAL)
+2. Paramètres :
+   - **Input raster** : `mnt_ign.tif`
+   - **Interval between contour lines** : `1.0` pour des courbes à 1 m (adapter selon l'échelle)
+   - **Field name** : `ELEVATION`
+   - **Advanced → Produce 3D vectors** : ☑️ obligatoire — sans ça, les courbes perdent leur cote Z à l'export DXF
+3. **Output** : `courbes_niveau.shp`
+
+Résultat : une couche vectorielle de polylignes, chacune portant sa cote en attribut.
+
+### Étape 4 — Exporter en DXF
+
+1. Clic droit sur la couche `courbes_niveau` → **Exporter → Enregistrer les entités sous**
+2. Format : **AutoCAD DXF**
+3. Système de coordonnées : laisser EPSG:2154 (Lambert 93)
+4. Valider
+
+Le DXF produit contient des polylignes 3D cotées, directement exploitables dans AutoCAD, Covadis ou Mensura.
+
+<Callout type="tip">
+  Si ton client travaille en Lambert CC (EPSG:3942 à 3950 selon la zone), reprojecte dans QGIS avant
+  l'export. Dans les propriétés de la couche, changer le CRS de destination — QGIS gère la
+  conversion automatiquement via PROJ.
+</Callout>
+
+---
+
+## Workflow 3 : AutoCAD — surface et courbes de niveau
+
+Depuis AutoCAD 2018, l'import direct de fichiers LAZ n'est plus possible. Le passage par **Autodesk ReCap** est obligatoire. Le chemin : LAZ → ReCap → `.RCP` → AutoCAD.
+
+### Étape 1 — Importer dans ReCap
+
+1. Ouvrir ReCap → **New Project**
+2. **Import point cloud** → faire glisser ton `.copc.laz` ou le sélectionner
+3. Cliquer sur **Advanced Settings** :
+   - **Projection source** : saisir `EPSG:2154` (Lambert 93)
+   - Ne pas activer "Use geographic location"
+4. **Process Scans** → ReCap génère le fichier `.RCP`
+
+<Callout type="warning">
+  Ne pas renseigner EPSG:2154 à cette étape place le nuage quelque part dans l'Atlantique. C'est la
+  seule occasion de définir la projection — impossible de corriger après traitement sans tout
+  recommencer.
+</Callout>
+
+### Étape 2 — Attacher le RCP dans AutoCAD
+
+1. Onglet **Insert → Point Cloud → Attach**
+2. Sélectionner le fichier `.RCP`
+3. Décocher "Specify on-screen" pour utiliser les coordonnées Lambert 93 définies dans ReCap
+
+Pour filtrer par classe : sélectionner le nuage → clic droit → **Colors → Classification** → activer "Ground" uniquement.
+
+### Étape 3 — Créer une surface TIN
+
+Avec le nuage sol isolé :
+
+1. Sélectionner le nuage → **Create Surface from Point Cloud** (clic droit ou onglet contextuel)
+2. AutoCAD génère une surface TIN
+3. Appliquer un style avec contours pour afficher les courbes de niveau
+
+**Limite à connaître :** AutoCAD affiche au maximum **25 millions de points** par projet (variable `POINTCLOUDPOINTMAX`). Une dalle IGN de 1 km² contient ~10 millions de points — une dalle passe, cinq dalles adjacentes risquent de dépasser. Fragmenter par zone si nécessaire.
+
+<Callout type="info">
+  Pour une grande zone IGN (plus de 4–5 dalles), traite-les une par une et crée une surface par
+  dalle, puis fusionne. Tenter de charger 20 dalles d'un coup va ralentir ou planter AutoCAD.
+</Callout>
+
+---
+
+## Quel outil pour quel usage
+
+<CompareTable
+  columns={['Besoin', 'Outil recommandé', 'Pourquoi']}
+  rows={[
+    {
+      feature: 'Explorer visuellement le nuage',
+      values: ['', 'CloudCompare', 'Interface 3D directe, rapide sur 1–2 dalles'],
+    },
+    {
+      feature: 'MNT + courbes de niveau → DXF',
+      values: ['', 'QGIS 3.32+', 'Workflow complet en natif, sortie DXF 3D cotée, gratuit'],
+    },
+    {
+      feature: 'Travailler dans AutoCAD',
+      values: ['', 'ReCap + AutoCAD', 'Seul chemin supporté depuis AutoCAD 2018'],
+    },
+    {
+      feature: 'Traitement automatisé sur N dalles',
+      values: [
+        '',
+        'PDAL en ligne de commande',
+        "Pipeline JSON, traite des centaines de fichiers sans GUI — voir l'article dédié",
+      ],
+    },
+    {
+      feature: 'Livraison DXF pour Covadis / Mensura',
+      values: ['', 'QGIS → export DXF', 'Courbes 3D cotées, Lambert 93, directement exploitables'],
+    },
+  ]}
+/>
+
+---
+
+## Ce que le LiDAR HD IGN ne remplace pas
+
+Quelques cas d'usage restent hors de portée de ces données.
+
+**Le bornage** : la précision planimétrique de 30–50 cm ne suffit pas pour déterminer une coordonnée de borne. Le LiDAR HD donne un excellent contexte terrain, mais les coordonnées des bornes elles-mêmes nécessitent un lever GNSS RTK au sol.
+
+**Les zones non encore couvertes** : si ta zone n'est pas disponible (vérifier la [carte de progression](https://macarte.ign.fr/carte/mThSup/diffusionMNxLiDARHD)), il faut attendre la fin du programme ou acquérir ses propres données. La couverture complète est prévue fin 2026.
+
+**Les éléments fins** : poteaux, bornes, clôtures fines. À 10 pts/m², les éléments de moins de 30 cm de section sont souvent absents. Pour ce niveau de détail, un scanner statique ou mobile reste nécessaire.
+
+---
+
+## Ressources
+
+- [Programme LiDAR HD — IGN](https://www.ign.fr/institut/programme-lidar-hd-vers-une-nouvelle-cartographie-3d-du-territoire)
+- [Portail de téléchargement](https://geoservices.ign.fr/lidarhd)
+- [Descriptif de livraison LiDAR HD 1.0](https://geoservices.ign.fr/sites/default/files/2024-09/DL_LiDAR_HD_1-0.pdf) — nomenclature et spécifications complètes
+- [Tutoriel QGIS + LiDAR HD — Landscape Archaeology](https://landscapearchaeology.org/2023/lidar-hd/) — très complet, inclut des scripts Python
+- [Documentation QGIS 3.44 — Point Cloud Conversion](https://docs.qgis.org/3.44/en/docs/user_manual/processing_algs/qgis/pointcloudconversion.html)
+- [Workflow AutoCAD depuis LiDAR — IMAGINiT](https://resources.imaginit.com/civil-solutions-blog/gis-workflow-lidar-point-cloud-to-civil-3d-surface)
