@@ -17,11 +17,17 @@ interface Props {
   heroImageAlt: string;
   readingTime: number;
   headings: MarkdownHeading[];
+  jsonLd?: string;
 }
 const props = Astro.props;
 ---
 
-<BaseLayout title={props.title} description={props.description} ogImage={props.heroImage}>
+<BaseLayout
+  title={props.title}
+  description={props.description}
+  ogImage={props.heroImage}
+  jsonLd={props.jsonLd}
+>
   <ProgressBar />
 
   <ArticleHeader

@@ -9,6 +9,7 @@ interface Props {
   description?: string;
   ogImage?: string;
   canonicalUrl?: string;
+  jsonLd?: string;
 }
 
 const {
@@ -16,6 +17,7 @@ const {
   description = 'Topolia.fr — La topographie moderne : LiDAR, drone, photogrammétrie. Tutoriels, comparatifs et astuces terrain.',
   ogImage,
   canonicalUrl,
+  jsonLd,
 } = Astro.props;
 
 const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://topolia.fr';
@@ -74,6 +76,8 @@ const ogImageUrl = ogImage
     <meta name="twitter:image" content={ogImageUrl} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
 
     <AnalyticsScript />
   </head>

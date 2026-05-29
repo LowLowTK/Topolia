@@ -27,6 +27,32 @@ const related = allArticles
     label: a.data.title,
     type: 'article' as const,
   }));
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://topolia.fr';
+
+const jsonLdArticle = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: entry.data.title,
+  description: entry.data.excerpt,
+  datePublished: entry.data.date.toISOString(),
+  image: `${siteUrl}${entry.data.heroImage}`,
+  author: {
+    '@type': 'Person',
+    name: 'Loïc',
+    jobTitle: 'Géomètre-expert',
+    url: `${siteUrl}/a-propos`,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Topolia',
+    url: siteUrl,
+    logo: { '@type': 'ImageObject', url: `${siteUrl}/favicon.svg` },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': `${siteUrl}/articles/${entry.id}/` },
+};
+
+const jsonLd = JSON.stringify(jsonLdArticle);
 ---
 
 <ArticleLayout
@@ -40,6 +66,7 @@ const related = allArticles
   heroImageAlt={entry.data.heroImageAlt}
   readingTime={minutes}
   headings={headings}
+  jsonLd={jsonLd}
 >
   <Content />
   <Comments slot="comments" contentId={entry.id} contentType="article" />

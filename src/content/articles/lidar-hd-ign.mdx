@@ -1,5 +1,5 @@
 ---
-title: 'LiDAR HD IGN : comment télécharger les données et les utiliser dans ton DAO'
+title: 'LiDAR HD IGN : télécharger et utiliser les données'
 subtitle: 'Accès gratuit, formats expliqués, et workflows pas-à-pas dans CloudCompare, QGIS et AutoCAD.'
 date: 2026-05-29
 category: 'tutoriels'
@@ -8,7 +8,7 @@ tags:
 author: 'loic'
 heroImage: '/images/articles/lidar-hd-ign.jpg'
 heroImageAlt: "Nuage de points LiDAR HD de l'IGN visualisé dans QGIS, colorisé par altitude sur une zone urbaine"
-excerpt: "L'IGN couvre la France entière en LiDAR haute densité — gratuit, en open data, téléchargeable en quelques clics. Voilà comment accéder aux données et les exploiter dans CloudCompare, QGIS ou AutoCAD."
+excerpt: "L'IGN livre la France entière en LiDAR HD — gratuit, open data, 10 pts/m². Télécharge les données et utilise-les dans CloudCompare, QGIS ou AutoCAD."
 isPremium: false
 isPublished: true
 ---
@@ -23,9 +23,11 @@ Le programme **LiDAR HD** de l'IGN, c'est ça. Une acquisition aérienne nationa
 
 ---
 
-## Ce que c'est : le programme en chiffres
+## Le LiDAR HD IGN en chiffres
 
-Le programme LiDAR HD est une campagne d'acquisition nationale lancée par l'IGN en 2021. Objectif : couvrir l'intégralité du territoire en une seule passe de qualité homogène, avec des données accessibles librement.
+Le programme LiDAR HD IGN est une campagne d'acquisition aérienne nationale lancée en 2021 qui couvre la France entière à plus de 10 points par mètre carré. Les données sont gratuites, distribuées en open data sous licence Etalab 2.0, et disponibles au format COPC.LAZ — un format indexé lisible directement par QGIS, PDAL et CloudCompare.
+
+Voilà les chiffres clés :
 
 <CompareTable
   columns={['Paramètre', 'Valeur', 'Ce que ça signifie']}
@@ -137,7 +139,7 @@ L'IGN met à disposition une visionneuse 3D pour explorer les données avant de 
 
 Quand tu télécharges une zone, tu reçois des fichiers `.copc.laz`. Voilà ce que ça représente.
 
-**COPC.LAZ** : COPC signifie _Cloud Optimized Point Cloud_. C'est un fichier LAZ (LAS compressé) qui intègre un index spatial permettant de lire uniquement les points d'une zone ciblée, sans charger tout le fichier. QGIS 3.32+, PDAL et CloudCompare (v2.12+) le lisent nativement.
+**[COPC.LAZ](/glossaire/copc)** : COPC signifie _Cloud Optimized Point Cloud_. C'est un fichier LAZ (LAS compressé) qui intègre un index spatial permettant de lire uniquement les points d'une zone ciblée, sans charger tout le fichier. QGIS 3.32+, PDAL et CloudCompare (v2.12+) le lisent nativement.
 
 **La nomenclature** : un fichier s'appelle par exemple `LHD_F75_0877_6382_PTS_LAMB93_IGN69.copc.laz`.
 
@@ -202,7 +204,7 @@ QGIS est l'outil le plus complet pour aller du nuage IGN brut jusqu'à des courb
 
 **Fichier → Ouvrir une couche** → sélectionner ton `.copc.laz`. QGIS affiche le nuage en 2D. Pour basculer en 3D : **Vue → Nouvelle vue cartographique 3D**.
 
-### Étape 2 — Générer le MNT
+### Étape 2 — Générer le [MNT](/glossaire/mnt)
 
 1. **Traitement → Boîte à outils** → rechercher `Export to raster (using triangulation)`
 2. Paramètres :
@@ -217,7 +219,7 @@ QGIS est l'outil le plus complet pour aller du nuage IGN brut jusqu'à des courb
   un MNT terrain.
 </PullQuote>
 
-Pour un **MNS** (avec végétation et bâtiments) : utiliser `Classification = 1 OR Classification = 2`.
+Pour un **[MNS](/glossaire/mns)** (avec végétation et bâtiments) : utiliser `Classification = 1 OR Classification = 2`.
 
 ### Étape 3 — Générer les courbes de niveau
 
@@ -324,6 +326,12 @@ Avec le nuage sol isolé :
   ]}
 />
 
+<Callout type="tip">
+  Si tu travailles souvent avec des données LiDAR HD IGN, **Topolia Desktop** lit nativement le
+  format COPC.LAZ — tu ouvres une dalle en quelques secondes, sans passer par ReCap ni par un export
+  intermédiaire, avec navigation 60 fps et dessin directement dans le nuage.
+</Callout>
+
 ---
 
 ## Ce que le LiDAR HD IGN ne remplace pas
@@ -335,6 +343,30 @@ Quelques cas d'usage restent hors de portée de ces données.
 **Les zones non encore couvertes** : si ta zone n'est pas disponible (vérifier la [carte de progression](https://macarte.ign.fr/carte/mThSup/diffusionMNxLiDARHD)), il faut attendre la fin du programme ou acquérir ses propres données. La couverture complète est prévue fin 2026.
 
 **Les éléments fins** : poteaux, bornes, clôtures fines. À 10 pts/m², les éléments de moins de 30 cm de section sont souvent absents. Pour ce niveau de détail, un scanner statique ou mobile reste nécessaire.
+
+---
+
+## Questions fréquentes
+
+**Le LiDAR HD IGN est-il vraiment gratuit ?**
+
+Oui. Les données sont en open data sous licence Etalab 2.0. Tu peux les utiliser librement, y compris pour des livrables commerciaux, à condition de mentionner "IGN - Programme LiDAR HD" dans tes documents.
+
+**Quelle est la précision des données LiDAR HD IGN ?**
+
+La précision altimétrique est inférieure ou égale à 10 cm. La précision planimétrique est de 30 à 50 cm. C'est suffisant pour de la topographie générale et des courbes de niveau, mais insuffisant pour la détermination de coordonnées de bornage.
+
+**Comment savoir si ma zone est couverte ?**
+
+L'IGN tient à jour une [carte interactive de progression](https://macarte.ign.fr/carte/mThSup/diffusionMNxLiDARHD). Fin 2025, environ 80 % du territoire métropolitain était couvert. La couverture complète est prévue fin 2026.
+
+**Puis-je ouvrir les fichiers COPC.LAZ dans AutoCAD directement ?**
+
+Non. Depuis AutoCAD 2018, l'import direct de fichiers LAZ n'est plus possible. Il faut passer par Autodesk ReCap pour convertir le fichier en `.RCP`, puis l'attacher dans AutoCAD.
+
+**Quelle est la taille typique d'une dalle LiDAR HD IGN ?**
+
+Une dalle couvre 1 km × 1 km et pèse en moyenne 200 Mo en format COPC.LAZ. Un bloc de 10 km × 10 km représente ~15 Go.
 
 ---
 
