@@ -1,17 +1,17 @@
 ---
-title: 'Hangar industriel à Rennes — 5 200 m² en backpack'
+title: 'Hangar industriel : 5 200 m² en backpack'
 date: 2026-02-08
 surface: '5200m²'
 materiel: ['Leica BLK2GO', 'Faro Focus Premium', 'CloudCompare']
 probleme: 'Racks métalliques hauts qui créent des réflexions parasites et perturbent le SLAM du backpack'
-lecon: 'Ne jamais scanner un environnement métallique dense uniquement en mobile — toujours mixer avec du statique'
+lecon: 'Ne jamais scanner un environnement métallique dense uniquement en mobile. Toujours mixer avec du statique'
 tags: ['lidar', 'industriel', 'scanner-dynamique', 'blk2go']
 isPublished: true
 ---
 
 ## Contexte
 
-Logisticien régional, plateforme de stockage Rennes nord. Objectif : relevé global pour réorganisation des allées de stockage. Surface au sol 5 200 m², hauteur sous fermes 9,80 m, racks de 8 m de haut sur 80 % de la surface.
+Logisticien régional, plateforme de stockage en périphérie urbaine. Objectif : relevé global pour réorganisation des allées de stockage. Surface au sol 5 200 m², hauteur sous fermes 9,80 m, racks de 8 m de haut sur 80 % de la surface.
 
 ## Matériel
 
@@ -23,7 +23,7 @@ Logisticien régional, plateforme de stockage Rennes nord. Objectif : relevé gl
 
 Les racks métalliques saturés de marchandises créent des **réflexions multi-trajet** sur le laser du BLK2GO. Conséquence : le SLAM voit des points "fantômes" à des positions impossibles, et la trajectoire estimée commence à driver à partir de la 4e allée.
 
-Première passe : nuage inutilisable dans les zones centrales — drift de 8 cm en bout de bâtiment.
+Première passe : nuage inutilisable dans les zones centrales, drift de 8 cm en bout de bâtiment.
 
 ## Ce que j'aurais fait différemment
 
@@ -31,4 +31,4 @@ Première passe : nuage inutilisable dans les zones centrales — drift de 8 cm 
 2. **Démarrer par le statique en périphérie.** Quelques stations Faro autour du bâtiment auraient donné un cadre absolu sur lequel recaler le backpack ensuite.
 3. **Plus de fermetures de boucle pendant le parcours.** Au lieu d'une trajectoire en serpentin classique, repasser tous les 30 m par un point déjà scanné.
 
-Au final : 2e session de terrain (gratuite — c'était mon erreur), recalage manuel du backpack sur les nuages Faro de référence. Livrable propre mais 2 jours de marge perdus. Leçon retenue : **le mobile seul ne suffit jamais en environnement réfléchissant**.
+Au final : 2e session de terrain (gratuite, c'était mon erreur), recalage manuel du backpack sur les nuages Faro de référence. Livrable propre mais 2 jours de marge perdus. Leçon retenue : **le mobile seul ne suffit jamais en environnement réfléchissant**.

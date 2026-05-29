@@ -10,7 +10,7 @@ const accessoiresTerrain = [
   {
     name: 'Mires GCP — targets de calage au sol',
     description:
-      'Indispensables pour caler le nuage de points et le modèle 3D sur des coordonnées réelles. Je les utilise systématiquement sur chaque chantier drone.',
+      'Pour caler le nuage de points et le modèle 3D sur des coordonnées réelles. Je les utilise sur chaque chantier drone, sans exception.',
     price: '~35 €',
     affiliateUrl: 'https://www.amazon.fr/s?k=mires+gcp+drone+photogrammetrie',
     utmContent: 'mires-gcp',
@@ -63,7 +63,7 @@ const informatique = [
   {
     name: 'SSD externe NVMe — transfert rapide',
     description:
-      'Indispensable pour déplacer les fichiers LAS/E57 entre le PC de terrain et la machine de traitement. Préférer 1 To minimum, USB 3.2 Gen2.',
+      'Pour déplacer les fichiers LAS/E57 entre le PC de terrain et la machine de traitement. Préférer 1 To minimum, USB 3.2 Gen2.',
     price: '~80 €',
     affiliateUrl: 'https://www.amazon.fr/s?k=ssd+externe+nvme+1to+usb+3.2',
     utmContent: 'ssd-externe-nvme',
@@ -86,7 +86,7 @@ const logiciels = [
   {
     name: 'Agisoft Metashape Professional',
     description:
-      "Mon logiciel de référence pour la photogrammétrie. Traitement dense, nuage de points, MNT, orthophoto. Version Professional indispensable pour l'export professionnel.",
+      "Mon logiciel de référence pour la photogrammétrie. Traitement dense, nuage de points, MNT, orthophoto. La version Professional est nécessaire pour l'export en formats pro (LAS, E57, GeoTIFF).",
     price: '~3 499 €',
     affiliateUrl: 'https://www.agisoft.com/buy/',
     utmContent: 'metashape-pro',
@@ -106,7 +106,7 @@ const logiciels = [
   {
     name: 'RealityCapture',
     description:
-      'Le plus rapide des trois pour les grands nuages. Modèle à la consommation (pay-per-input) depuis le rachat par Epic Games — intéressant pour les chantiers ponctuels.',
+      'Le plus rapide des trois pour les grands nuages. Modèle à la consommation (pay-per-input) depuis le rachat par Epic Games, ce qui le rend intéressant pour les chantiers ponctuels.',
     price: 'Pay-per-input',
     affiliateUrl: 'https://www.capturingreality.com/',
     utmContent: 'reality-capture',
@@ -118,7 +118,7 @@ const logiciels = [
 
 <BaseLayout
   title="Outils pour la photogrammétrie drone — recommandations testées"
-  description="Accessoires terrain, matériel informatique et logiciels testés par un géomètre-expert. Mes recommandations pour les dronistes en photogrammétrie."
+  description="Accessoires terrain, matériel informatique et logiciels testés par un géomètre. Mes recommandations pour les dronistes en photogrammétrie."
   ogImage="/og/ressources-outils.png"
 >
   <main class="ressources-page">
@@ -126,8 +126,8 @@ const logiciels = [
       <header class="ressources-page__header">
         <h1 class="ressources-page__title">Outils recommandés pour la photogrammétrie drone</h1>
         <p class="ressources-page__intro">
-          Ce sont les outils que j'utilise ou que j'ai testés dans mon activité de géomètre-expert.
-          Pas de liste exhaustive — uniquement ce qui m'a prouvé son utilité sur le terrain.
+          Ce sont les outils que j'utilise ou que j'ai testés dans mon activité de géomètre. Pas de
+          liste exhaustive, uniquement ce qui m'a prouvé son utilité sur le terrain.
         </p>
       </header>
 
@@ -146,7 +146,8 @@ const logiciels = [
       <section class="ressources-section">
         <h2 class="ressources-section__title">Informatique & stockage</h2>
         <p class="ressources-section__subtitle">
-          La photogrammétrie dense est CPU et RAM intensive — voici ce qui fait la différence.
+          La photogrammétrie dense mange du CPU et de la RAM. Ce sont les composants qui dictent tes
+          temps de traitement.
         </p>
         <div class="ressources-section__grid">
           {informatique.map((p) => <ProductCard {...p} />)}

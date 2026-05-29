@@ -1,13 +1,13 @@
 ---
 title: 'PDAL : le couteau suisse en ligne de commande pour tes nuages de points'
-subtitle: 'Filtrer, recaller, convertir — sans GUI.'
+subtitle: 'Filtrer, recaler, convertir. Sans GUI.'
 date: 2026-04-10
 category: 'tutoriels'
 tags: ['pdal', 'lidar', 'cli', 'automation']
 author: 'loic'
 heroImage: '/images/articles/pdal-intro.jpg'
 heroImageAlt: "Capture d'écran d'un terminal exécutant une pipeline PDAL"
-excerpt: "PDAL, c'est l'outil que tu n'utilises pas tant que tu n'en as pas besoin — et que tu ne lâches plus une fois que tu l'as adopté."
+excerpt: "PDAL, c'est l'outil que tu n'utilises pas tant que tu n'en as pas besoin. Et que tu ne lâches plus une fois que tu l'as adopté."
 isPremium: false
 isPublished: true
 ---
@@ -16,7 +16,7 @@ import Callout from '../../components/mdx/Callout.astro';
 
 Si tu fais du LiDAR un peu sérieusement, tu vas vite te heurter à un mur : CloudCompare est génial pour explorer un nuage, mais pour appliquer le même traitement à 200 fichiers `.las` la nuit, ça devient ingérable.
 
-C'est là que PDAL entre en scène.
+PDAL résout ça.
 
 ## Qu'est-ce que PDAL ?
 
@@ -68,11 +68,11 @@ pdal pipeline mon-pipeline.json
 
 ## Les filtres que j'utilise tout le temps
 
-- **`filters.range`** — filtrer par classification, altitude, intensité
-- **`filters.outlier`** — supprimer les points aberrants (oiseaux, drone qui passe…)
-- **`filters.crop`** — découper un polygone d'emprise
-- **`filters.icp`** — recalage entre deux nuages
-- **`filters.smrf`** — extraction sol automatique (Simple Morphological Filter)
+- **`filters.range`** : filtrer par classification, altitude, intensité
+- **`filters.outlier`** : supprimer les points aberrants (oiseaux, drone qui passe…)
+- **`filters.crop`** : découper un polygone d'emprise
+- **`filters.icp`** : recalage entre deux nuages
+- **`filters.smrf`** : extraction sol automatique (Simple Morphological Filter)
 
 ## Quand utiliser PDAL plutôt que CloudCompare ?
 
@@ -87,4 +87,4 @@ Les deux sont complémentaires. Sur Topolia, j'utilise CloudCompare pour cadrer 
 
 La doc officielle PDAL ([pdal.io](https://pdal.io)) est excellente. Tu trouveras la liste complète des filtres + des exemples concrets.
 
-{/* [À VÉRIFIER] — la commande `conda install` sur Windows ARM64 ne fonctionne pas, à confirmer avec le forum. */}
+{/* [À VÉRIFIER] : la commande `conda install` sur Windows ARM64 ne fonctionne pas, à confirmer avec le forum. */}

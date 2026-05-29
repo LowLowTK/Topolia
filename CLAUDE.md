@@ -55,6 +55,20 @@ Si une vérification échoue → **commit bloqué** avec message d'erreur explic
 
 ---
 
+## Rédaction de contenu — skill `humanizer`
+
+**Toute rédaction de contenu pour ce site (articles MDX, descriptions, textes UI, etc.) doit passer par le skill `humanizer`** avant d'être finalisée.
+
+Utiliser `/humanizer` (ou invoquer le skill via l'outil `Skill`) sur tout texte généré par IA pour :
+
+- Supprimer les marqueurs d'écriture IA (em dash excessifs, triades, formules creuses, voix passive systématique…)
+- Rendre le texte naturel, direct, à la voix active
+- Conserver le tutoiement systématique du site
+
+Ce skill est pré-installé dans Claude Code. Ref : https://github.com/blader/humanizer
+
+---
+
 ## Agent orthographe — `scripts/check-grammar.mjs`
 
 Vérifie tout `.mdx` modifié avant chaque commit. Deux passes :

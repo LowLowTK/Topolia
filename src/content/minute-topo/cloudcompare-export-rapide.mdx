@@ -2,7 +2,7 @@
 title: 'CloudCompare : exporter un sous-ensemble en LAS en 3 clics'
 date: 2026-05-05
 tags: ['cloudcompare', 'astuces', 'export']
-excerpt: "Le raccourci qu'on n'apprend nulle part — segmentation polygonale + export filtré."
+excerpt: "Le raccourci qu'on n'apprend nulle part : segmentation polygonale + export filtré."
 isPublished: true
 ---
 
@@ -22,4 +22,4 @@ C'est tout. Pas besoin de séparer définitivement, pas besoin de dupliquer.
 
 La même logique marche avec **`filters.crop`** dans PDAL si tu veux scripter l'opération sur plusieurs fichiers. Voir l'[article PDAL](/articles/pdal-introduction/) pour le pipeline complet.
 
-Le piège classique : si tu coches `Use original coordinates` à l'export, CloudCompare réinjecte le shift global du nuage initial — important pour que ton client ouvre le fichier au bon endroit dans son logiciel SIG.
+Le piège classique : si tu coches `Use original coordinates` à l'export, CloudCompare réinjecte le shift global du nuage initial. Important pour que ton client ouvre le fichier au bon endroit dans son logiciel SIG.
