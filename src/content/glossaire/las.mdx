@@ -1,0 +1,25 @@
+---
+title: 'LAS'
+date: 2026-05-31
+difficulty: 'debutant'
+relatedArticles: ['pdal-introduction', 'lidar-hd-ign']
+relatedChantiers: []
+excerpt: 'Le format standard le plus courant pour échanger des nuages de points LiDAR et topo.'
+isPublished: true
+---
+
+Le **LAS** est un format binaire public utilisé pour stocker et échanger des nuages de points 3D. Il est très courant en LiDAR, mais il peut aussi transporter d'autres nuages de points avec coordonnées x, y, z.
+
+## Ce qu'il peut contenir
+
+Un fichier LAS stocke les points et leurs attributs : coordonnées, intensité, classification, retour laser, couleur selon les cas, informations GPS, etc.
+
+## Pourquoi on l'utilise autant
+
+Le LAS évite les formats propriétaires difficiles à relire ailleurs. Tu peux l'ouvrir dans beaucoup d'outils : CloudCompare, PDAL, QGIS, ArcGIS, Global Mapper, logiciels constructeurs, etc.
+
+## À retenir
+
+Le LAS est pratique, mais il peut être lourd. Pour l'archivage ou l'échange, on rencontre souvent sa version compressée : le LAZ.
+
+Source utile : [ASPRS - LAS format](https://www.asprs.org/divisions-committees/lidar-division/laser-las-file-format-exchange-activities)

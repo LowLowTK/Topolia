@@ -1,0 +1,25 @@
+---
+title: 'LAZ'
+date: 2026-05-31
+difficulty: 'debutant'
+relatedArticles: ['pdal-introduction', 'lidar-hd-ign']
+relatedChantiers: []
+excerpt: 'La version compressée du LAS : même logique de nuage de points, fichiers beaucoup plus légers.'
+isPublished: true
+---
+
+Le **LAZ** est une version compressée du format LAS. L'idée est simple : garder les informations du nuage de points, mais réduire fortement la taille du fichier.
+
+## Pourquoi c'est utile
+
+Un chantier LiDAR ou photogrammétrie peut produire plusieurs gigaoctets de données. En LAZ, les transferts, l'archivage et le téléchargement deviennent plus confortables.
+
+## Usage terrain
+
+Le LiDAR HD de l'IGN, par exemple, est souvent manipulé sous forme de fichiers LAZ/COPC selon les usages. Beaucoup d'outils savent lire le LAZ directement, sans conversion manuelle.
+
+## Le piège classique
+
+Un LAZ ouvert dans un logiciel peut prendre beaucoup plus de place en mémoire que sur le disque. Petit fichier ne veut pas dire petit nuage.
+
+Source utile : [LASzip - LAZ compression](https://laszip.org/)
