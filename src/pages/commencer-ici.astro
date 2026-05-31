@@ -132,6 +132,80 @@ const faqJsonLd = {
     </article>
   </section>
 
+  <section class="container express-section" aria-label="Parcours express 30 minutes">
+    <div class="express-panel">
+      <div class="express-intro">
+        <p class="eyebrow">Parcours express</p>
+        <h2>30 minutes pour ne plus etre perdu</h2>
+        <p>
+          Si tu arrives ici sans vocabulaire topo, fais ce petit parcours dans l'ordre. Tu ne vas
+          pas devenir expert en une demi-heure, mais tu sauras enfin quoi lire, quoi chercher et
+          pourquoi certains mots reviennent partout.
+        </p>
+      </div>
+
+      <ol class="express-steps">
+        <li>
+          <span>5 min</span>
+          <div>
+            <strong>Comprends le nuage de points</strong>
+            <p>
+              C'est la base de tout : scanner, LiDAR drone, photogrammetrie et donnees IGN finissent
+              souvent par produire ce type de fichier.
+              <a href="/glossaire/nuage-de-points/">Lire la fiche</a>
+            </p>
+          </div>
+        </li>
+        <li>
+          <span>5 min</span>
+          <div>
+            <strong>Separe LiDAR et photogrammetrie</strong>
+            <p>
+              L'un mesure avec un laser, l'autre reconstruit depuis des photos. Meme objectif 3D,
+              pas les memes forces ni les memes pieges.
+              <a href="/glossaire/lidar/">Voir LiDAR</a> ·
+              <a href="/glossaire/photogrammetrie/">voir photogrammetrie</a>
+            </p>
+          </div>
+        </li>
+        <li>
+          <span>10 min</span>
+          <div>
+            <strong>Lis un workflow complet</strong>
+            <p>
+              Preparation, vol, traitement, controle, export : c'est la que les mots commencent a
+              s'assembler dans un vrai enchainement terrain.
+              <a href="/articles/workflow-drone-complet/">Lire le workflow drone</a>
+            </p>
+          </div>
+        </li>
+        <li>
+          <span>5 min</span>
+          <div>
+            <strong>Comprends le calage</strong>
+            <p>
+              RTK, PPK, GCP et georeferencement servent a une chose : eviter une belle donnee mal
+              placee.
+              <a href="/glossaire/rtk/">RTK</a> · <a href="/glossaire/gcp/">GCP</a> ·
+              <a href="/glossaire/georeferencement/">georeferencement</a>
+            </p>
+          </div>
+        </li>
+        <li>
+          <span>5 min</span>
+          <div>
+            <strong>Choisis ta suite</strong>
+            <p>
+              Si tu veux pratiquer, pars sur le LiDAR HD IGN. Si tu veux acheter, lis les tests
+              materiel. Si tu veux traiter, commence par CloudCompare puis PDAL.
+              <a href="/articles/lidar-hd-ign/">Manipuler une vraie donnee</a>
+            </p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
   <section class="start-section start-section--alt">
     <div class="container split-layout">
       <div>
@@ -398,6 +472,72 @@ const faqJsonLd = {
     padding: 52px 0;
   }
 
+  .express-section {
+    padding: 0 0 60px;
+  }
+
+  .express-panel {
+    display: grid;
+    gap: 28px;
+    padding: 28px;
+    border: 1px solid rgba(45, 91, 255, 0.18);
+    border-radius: 8px;
+    background:
+      linear-gradient(135deg, rgba(45, 91, 255, 0.08), rgba(6, 182, 212, 0.08)), var(--surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .express-intro p {
+    margin-top: 16px;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+
+  .express-steps {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .express-steps li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    padding: 16px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .express-steps span {
+    min-width: 54px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .express-steps strong {
+    display: block;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .express-steps p {
+    margin: 0;
+    color: var(--ink-3);
+    line-height: 1.55;
+  }
+
+  .express-steps a {
+    color: var(--accent);
+    font-weight: 650;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
   .route-card {
     padding: 26px;
     scroll-margin-top: 90px;
@@ -598,6 +738,11 @@ const faqJsonLd = {
 
     .route-grid {
       grid-template-columns: 1fr 1fr;
+    }
+
+    .express-panel {
+      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
+      align-items: start;
     }
 
     .split-layout,
