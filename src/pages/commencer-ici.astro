@@ -206,6 +206,54 @@ const faqJsonLd = {
     </div>
   </section>
 
+  <section class="container point-cloud-section" aria-label="Visualisation d'un nuage de points">
+    <div class="point-cloud-panel">
+      <div class="point-cloud-copy">
+        <p class="eyebrow">Visualiser</p>
+        <h2>A quoi ressemble un nuage de points ?</h2>
+        <p>
+          Un <a href="/glossaire/nuage-de-points/">nuage de points</a>, ce n'est pas une photo.
+          C'est un paquet de points 3D. Chaque point a au minimum une position, et parfois une
+          couleur, une intensite laser ou une classe comme sol, vegetation ou batiment.
+        </p>
+        <p>
+          Plus les points sont denses et bien classes, plus tu peux comprendre la scene, mesurer,
+          filtrer et produire des livrables propres.
+        </p>
+      </div>
+
+      <figure class="point-cloud-visual">
+        <div class="point-scene" aria-hidden="true">
+          <span style="--x: 8%; --y: 62%; --s: 7px; --c: var(--accent);"></span>
+          <span style="--x: 14%; --y: 56%; --s: 5px; --c: var(--accent);"></span>
+          <span style="--x: 20%; --y: 66%; --s: 6px; --c: var(--green);"></span>
+          <span style="--x: 25%; --y: 47%; --s: 4px; --c: var(--accent-2);"></span>
+          <span style="--x: 31%; --y: 58%; --s: 7px; --c: var(--accent);"></span>
+          <span style="--x: 37%; --y: 42%; --s: 5px; --c: var(--accent-2);"></span>
+          <span style="--x: 43%; --y: 52%; --s: 6px; --c: var(--green);"></span>
+          <span style="--x: 48%; --y: 36%; --s: 5px; --c: var(--accent);"></span>
+          <span style="--x: 53%; --y: 48%; --s: 8px; --c: var(--accent-2);"></span>
+          <span style="--x: 59%; --y: 30%; --s: 5px; --c: var(--accent);"></span>
+          <span style="--x: 64%; --y: 43%; --s: 6px; --c: var(--green);"></span>
+          <span style="--x: 70%; --y: 28%; --s: 4px; --c: var(--accent-2);"></span>
+          <span style="--x: 76%; --y: 39%; --s: 7px; --c: var(--accent);"></span>
+          <span style="--x: 82%; --y: 24%; --s: 5px; --c: var(--accent-2);"></span>
+          <span style="--x: 88%; --y: 34%; --s: 6px; --c: var(--green);"></span>
+          <span style="--x: 18%; --y: 78%; --s: 4px; --c: var(--ink-light);"></span>
+          <span style="--x: 35%; --y: 74%; --s: 5px; --c: var(--ink-light);"></span>
+          <span style="--x: 51%; --y: 70%; --s: 4px; --c: var(--ink-light);"></span>
+          <span style="--x: 68%; --y: 66%; --s: 5px; --c: var(--ink-light);"></span>
+          <span style="--x: 84%; --y: 62%; --s: 4px; --c: var(--ink-light);"></span>
+        </div>
+        <figcaption>
+          <span><strong>Position</strong> x, y, z</span>
+          <span><strong>Densite</strong> nombre de points</span>
+          <span><strong>Classe</strong> sol, vegetation, batiment</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
   <section class="start-section start-section--alt">
     <div class="container split-layout">
       <div>
@@ -538,6 +586,100 @@ const faqJsonLd = {
     text-underline-offset: 3px;
   }
 
+  .point-cloud-section {
+    padding: 0 0 64px;
+  }
+
+  .point-cloud-panel {
+    display: grid;
+    gap: 28px;
+    align-items: center;
+    padding: 28px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .point-cloud-copy p {
+    margin-top: 14px;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+
+  .point-cloud-copy a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .point-cloud-visual {
+    margin: 0;
+  }
+
+  .point-scene {
+    position: relative;
+    min-height: 260px;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid rgba(15, 23, 42, 0.09);
+    background:
+      linear-gradient(180deg, rgba(15, 23, 42, 0.04), transparent 45%),
+      radial-gradient(circle at 50% 38%, rgba(45, 91, 255, 0.18), transparent 44%), var(--bg-alt);
+  }
+
+  .point-scene::before,
+  .point-scene::after {
+    content: '';
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    transform: skewX(-18deg);
+  }
+
+  .point-scene::before {
+    bottom: 40px;
+    height: 54px;
+  }
+
+  .point-scene::after {
+    bottom: 78px;
+    height: 108px;
+    opacity: 0.55;
+  }
+
+  .point-scene span {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--s);
+    height: var(--s);
+    border-radius: 50%;
+    background: var(--c);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--c), transparent 78%);
+  }
+
+  .point-cloud-visual figcaption {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+    font-size: 0.86rem;
+    color: var(--ink-3);
+  }
+
+  .point-cloud-visual figcaption span {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .point-cloud-visual figcaption strong {
+    color: var(--ink);
+  }
+
   .route-card {
     padding: 26px;
     scroll-margin-top: 90px;
@@ -743,6 +885,10 @@ const faqJsonLd = {
     .express-panel {
       grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
       align-items: start;
+    }
+
+    .point-cloud-panel {
+      grid-template-columns: minmax(0, 0.9fr) minmax(300px, 1fr);
     }
 
     .split-layout,
