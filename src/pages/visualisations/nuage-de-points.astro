@@ -160,7 +160,7 @@
       window.__TOPOLIA_POINT_CLOUD_VIEWER__ = true;
     </script>
 
-    <script type="module">
+    <script>
       import * as THREE from 'three';
 
       const canvas = document.getElementById('viewer');
@@ -175,7 +175,8 @@
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
       const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 100);
-      camera.position.set(5.4, 3.2, 7.2);
+      camera.position.set(4.4, 2.4, 6.2);
+      camera.lookAt(0, -0.25, 0);
 
       const group = new THREE.Group();
       scene.add(group);
@@ -239,10 +240,10 @@
       geometry.computeBoundingSphere();
 
       const material = new THREE.PointsMaterial({
-        size: 0.034,
+        size: 0.062,
         vertexColors: true,
         transparent: true,
-        opacity: 0.92,
+        opacity: 0.98,
         sizeAttenuation: true,
       });
 
@@ -264,6 +265,7 @@
         renderer.setSize(width, height, false);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
+        camera.lookAt(0, -0.25, 0);
       }
 
       window.addEventListener('resize', resize);
@@ -283,6 +285,7 @@
         group.rotation.y = t * 0.22 + pointerX;
         group.rotation.x = -0.16 + pointerY;
         points.rotation.z = Math.sin(t * 0.55) * 0.015;
+        camera.lookAt(0, -0.25, 0);
         renderer.render(scene, camera);
         requestAnimationFrame(animate);
       }
