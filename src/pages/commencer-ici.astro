@@ -223,32 +223,18 @@ const faqJsonLd = {
       </div>
 
       <figure class="point-cloud-visual">
-        <div class="point-scene" aria-hidden="true">
-          <span style="--x: 8%; --y: 62%; --s: 7px; --c: var(--accent);"></span>
-          <span style="--x: 14%; --y: 56%; --s: 5px; --c: var(--accent);"></span>
-          <span style="--x: 20%; --y: 66%; --s: 6px; --c: var(--green);"></span>
-          <span style="--x: 25%; --y: 47%; --s: 4px; --c: var(--accent-2);"></span>
-          <span style="--x: 31%; --y: 58%; --s: 7px; --c: var(--accent);"></span>
-          <span style="--x: 37%; --y: 42%; --s: 5px; --c: var(--accent-2);"></span>
-          <span style="--x: 43%; --y: 52%; --s: 6px; --c: var(--green);"></span>
-          <span style="--x: 48%; --y: 36%; --s: 5px; --c: var(--accent);"></span>
-          <span style="--x: 53%; --y: 48%; --s: 8px; --c: var(--accent-2);"></span>
-          <span style="--x: 59%; --y: 30%; --s: 5px; --c: var(--accent);"></span>
-          <span style="--x: 64%; --y: 43%; --s: 6px; --c: var(--green);"></span>
-          <span style="--x: 70%; --y: 28%; --s: 4px; --c: var(--accent-2);"></span>
-          <span style="--x: 76%; --y: 39%; --s: 7px; --c: var(--accent);"></span>
-          <span style="--x: 82%; --y: 24%; --s: 5px; --c: var(--accent-2);"></span>
-          <span style="--x: 88%; --y: 34%; --s: 6px; --c: var(--green);"></span>
-          <span style="--x: 18%; --y: 78%; --s: 4px; --c: var(--ink-light);"></span>
-          <span style="--x: 35%; --y: 74%; --s: 5px; --c: var(--ink-light);"></span>
-          <span style="--x: 51%; --y: 70%; --s: 4px; --c: var(--ink-light);"></span>
-          <span style="--x: 68%; --y: 66%; --s: 5px; --c: var(--ink-light);"></span>
-          <span style="--x: 84%; --y: 62%; --s: 4px; --c: var(--ink-light);"></span>
-        </div>
+        <iframe
+          src="/visualisations/nuage-de-points/"
+          title="Visualisation animée d'un nuage de points"
+          loading="lazy"
+          class="point-cloud-frame"></iframe>
         <figcaption>
           <span><strong>Position</strong> x, y, z</span>
           <span><strong>Densite</strong> nombre de points</span>
           <span><strong>Classe</strong> sol, vegetation, batiment</span>
+          <em
+            >Demo legere generee dans le navigateur. Remplacable plus tard par ton vrai extrait.</em
+          >
         </figcaption>
       </figure>
     </div>
@@ -617,47 +603,14 @@ const faqJsonLd = {
     margin: 0;
   }
 
-  .point-scene {
-    position: relative;
-    min-height: 260px;
-    overflow: hidden;
+  .point-cloud-frame {
+    display: block;
+    width: 100%;
+    min-height: 320px;
+    border: 0;
     border-radius: 8px;
-    border: 1px solid rgba(15, 23, 42, 0.09);
-    background:
-      linear-gradient(180deg, rgba(15, 23, 42, 0.04), transparent 45%),
-      radial-gradient(circle at 50% 38%, rgba(45, 91, 255, 0.18), transparent 44%), var(--bg-alt);
-  }
-
-  .point-scene::before,
-  .point-scene::after {
-    content: '';
-    position: absolute;
-    left: 8%;
-    right: 8%;
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    transform: skewX(-18deg);
-  }
-
-  .point-scene::before {
-    bottom: 40px;
-    height: 54px;
-  }
-
-  .point-scene::after {
-    bottom: 78px;
-    height: 108px;
-    opacity: 0.55;
-  }
-
-  .point-scene span {
-    position: absolute;
-    left: var(--x);
-    top: var(--y);
-    width: var(--s);
-    height: var(--s);
-    border-radius: 50%;
-    background: var(--c);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--c), transparent 78%);
+    background: var(--bg-dark);
+    box-shadow: var(--shadow-md);
   }
 
   .point-cloud-visual figcaption {
@@ -678,6 +631,12 @@ const faqJsonLd = {
 
   .point-cloud-visual figcaption strong {
     color: var(--ink);
+  }
+
+  .point-cloud-visual figcaption em {
+    color: var(--ink-muted);
+    font-style: normal;
+    line-height: 1.45;
   }
 
   .route-card {
