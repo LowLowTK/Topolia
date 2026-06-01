@@ -2,13 +2,13 @@
 title: 'Recalage (registration)'
 date: 2026-05-19
 difficulty: 'intermediaire'
-relatedArticles: []
-relatedChantiers: ['facade-haussmannien']
+relatedArticles: ['pdal-introduction']
+relatedChantiers: ['facade-haussmannien', 'batiment-industriel-rennes']
 excerpt: "L'opération qui aligne plusieurs nuages dans un même référentiel spatial : l'étape qui fait ou défait un chantier."
 isPublished: true
 ---
 
-Le **recalage** (ou _registration_ en anglais) est l'opération qui consiste à aligner deux ou plusieurs nuages de points dans un référentiel commun. Sans recalage, chaque station de scan reste dans son propre repère local.
+Le **recalage** (ou _registration_ en anglais) est l'opération qui consiste à aligner deux ou plusieurs [nuages de points](/glossaire/nuage-de-points/) dans un référentiel commun. Sans recalage, chaque station de scan reste dans son propre repère local.
 
 ## Les deux familles d'approches
 
@@ -25,4 +25,4 @@ L'**erreur RMS** (Root Mean Square) entre les cibles ou entre les points homolog
 - **Leica Cyclone REGISTER 360**
 - **Faro Scene**
 - **CloudCompare** (gratuit, mode `Fine Registration`)
-- **PDAL** (`filters.icp`) pour automatiser
+- **[PDAL](/articles/pdal-introduction/)** (`filters.icp`) pour automatiser

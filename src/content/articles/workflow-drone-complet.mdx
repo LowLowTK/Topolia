@@ -8,6 +8,15 @@ author: 'loic'
 heroImage: '/images/articles/workflow-drone.jpg'
 heroImageAlt: 'Drone DJI Mavic 3 Enterprise survolant un chantier de construction'
 excerpt: "De la préparation du vol à l'export du nuage de points dense : le workflow drone photogrammétrie complet, sans rien zapper."
+faq:
+  - q: 'Quel recouvrement viser pour un vol drone photogrammétrie ?'
+    a: 'Sur un terrain plat, vise au minimum 80 % de recouvrement frontal et 70 % de recouvrement latéral. Pour du bâti complexe ou de la végétation, monte à 85/75. Un recouvrement insuffisant crée des zones moins denses que le calcul photogrammétrique ne rattrapera pas.'
+  - q: 'Combien de GCP faut-il pour un chantier drone ?'
+    a: "Place au minimum 5 cibles GCP bien réparties sur ta zone, et passe à 8 si la surface dépasse l'hectare. Une bonne répartition compte autant que le nombre : couvre les bords et le centre, pas seulement une grappe au même endroit, sinon ton calage perd en fiabilité."
+  - q: 'Quels réglages Metashape pour le nuage dense ?'
+    a: 'Aligne les photos en précision Élevée (40 000 points clés, 10 000 points liens), importe et repère tes GCP sur 3-4 photos chacun, puis optimise la caméra. Construis ensuite le nuage dense en qualité Élevée avec filtrage Modéré. La qualité Très élevée ne gagne que 5 % de densité pour 4× le temps de calcul.'
+  - q: 'Quelle erreur RMS viser pour un livrable cadastral ?'
+    a: "Vise une erreur RMS sur les GCP sous 3 cm en planimétrique pour un livrable cadastral. Contrôle-la dans CloudCompare avant de livrer, en même temps que l'absence de trous dans la couverture et l'homogénéité de la densité. Au-delà de ce seuil, reprends ton calage ou ton recouvrement."
 isPremium: false
 isPublished: true
 ---
@@ -24,8 +33,8 @@ Si je devais ne garder qu'une leçon de trois ans de drone topo, ce serait celle
 **Ce que tu prépares avant d'arriver sur site :**
 
 - Un plan de vol avec recouvrement **frontal 80 % / latéral 70 %** minimum sur un terrain plat. Pour du bâti complexe ou de la végétation, monte à 85/75.
-- Une grille de **GCP (Ground Control Points)** : au minimum 5 cibles bien réparties, 8 si la surface dépasse l'hectare.
-- Une vérification météo : pas de vent > 25 km/h, pas de pluie dans les 2h précédentes (les flaques cassent la photogrammétrie).
+- Une grille de [**GCP (Ground Control Points)**](/glossaire/gcp/) : au minimum 5 cibles bien réparties, 8 si la surface dépasse l'hectare.
+- Une vérification météo : pas de vent > 25 km/h, pas de pluie dans les 2h précédentes (les flaques cassent la [photogrammétrie](/glossaire/photogrammetrie/)).
 
 <Callout type="warning" title="Le piège du soleil rasant">
   Évite les vols entre 17h et 19h en été. Les ombres longues créent des zones noires que Metashape
@@ -35,7 +44,7 @@ Si je devais ne garder qu'une leçon de trois ans de drone topo, ce serait celle
 
 ## 2. Le vol lui-même
 
-Sur DJI Pilot ou DJI Terra, charge ton plan, vérifie l'orientation du capteur (nadir pour une cartographie classique, oblique à 45° si tu veux du 3D fidèle sur les façades) et lance.
+Sur DJI Pilot ou DJI Terra, charge ton plan, vérifie l'orientation du capteur (nadir pour une cartographie classique, oblique à 45° si tu veux du 3D fidèle sur les façades) et lance. Côté matériel, [le drone que j'utilise en photogrammétrie](/articles/dji-matrice-4e-photogrammetrie/) change pas mal la donne sur la qualité des prises de vue.
 
 Pendant le vol, surveille :
 
@@ -50,7 +59,7 @@ Voici un workflow Metashape Pro qui marche à 95 % du temps sans bricolage :
 1. **Aligner les photos** → précision `Élevée`, paires `Génériques`, points clés `40 000`, points liens `10 000`.
 2. **Importer les GCP**, repérer manuellement les cibles sur 3-4 photos minimum chacun, puis `Optimiser` la caméra.
 3. **Construire le nuage dense** → qualité `Élevée`, filtrage `Modéré`. Sur un PC moyen, table sur 4-8h pour 500 photos.
-4. **Exporter** en `.las` ou `.laz` pour la suite (CloudCompare, AutoCAD Civil 3D, etc.).
+4. **Exporter** en `.las` ou `.laz` pour la suite (CloudCompare, AutoCAD Civil 3D, etc.). Si tu enchaînes plusieurs chantiers, [automatise le post-traitement de tes fichiers avec PDAL](/articles/pdal-introduction/) plutôt que de tout refaire à la main.
 
 <PullQuote cite="Loïc, Topolia">
   La qualité `Très élevée` te fait gagner 5 % de densité pour 4× le temps de calcul. Sauf cas
@@ -70,7 +79,9 @@ Ouvre le nuage dans CloudCompare avant de livrer. Points à vérifier :
 Le nuage est un livrable, mais c'est rarement le livrable final. Le client attend souvent :
 
 - Une **orthophoto** (Metashape la génère depuis le maillage)
-- Un **MNT/MNS** au pas de 5 ou 10 cm
+- Un **[MNT](/glossaire/mnt/)/[MNS](/glossaire/mns/)** au pas de 5 ou 10 cm
 - Parfois un **modèle CAO** sur les bâtiments, c'est là que CloudCompare et AutoCAD prennent le relais
 
 Bon vol.
+
+Une fois ton nuage exporté, tu peux l'ouvrir et le dessiner directement dans [Topolia Desktop](/a-propos/), sans repasser par AutoCAD. Et si tu veux les prochains workflows terrain dès qu'ils sortent, [abonne-toi à la newsletter](/newsletter/).

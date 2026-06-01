@@ -12,10 +12,12 @@ Tu as scanné un long couloir ou une zone linéaire, et tu remarques que ton nua
 
 ## Comment éviter ça
 
-Pendant l'acquisition, repasse par ton point de départ ou par une zone déjà scannée toutes les 30 à 50 m. Le SLAM utilise ces fermetures de boucle pour recaler ses estimations de position en temps réel. Sans boucle, l'erreur s'accumule linéairement.
+Pendant l'acquisition, repasse par ton point de départ ou par une zone déjà scannée toutes les 30 à 50 m. Le [SLAM](/glossaire/slam/) utilise ces fermetures de boucle pour [recaler](/glossaire/recalage/) ses estimations de position en temps réel. Sans boucle, l'erreur s'accumule linéairement.
 
 ## Le vrai test
 
 Si tu fais un long couloir A → B → A, ton point final doit retomber à moins de 2-3 cm de ton point de départ. Au-delà, ton SLAM a dérivé et tu vas devoir recaler manuellement.
 
 C'est tout. 30 secondes de planification d'acquisition économisent 3 h de post-traitement.
+
+Cas réel où ce drift m'a coûté 2 jours : [le hangar industriel de Rennes](/chantiers/batiment-industriel-rennes/), en environnement métallique réfléchissant.

@@ -21,14 +21,18 @@ Logisticien régional, plateforme de stockage en périphérie urbaine. Objectif 
 
 ## Le problème
 
-Les racks métalliques saturés de marchandises créent des **réflexions multi-trajet** sur le laser du BLK2GO. Conséquence : le SLAM voit des points "fantômes" à des positions impossibles, et la trajectoire estimée commence à driver à partir de la 4e allée.
+Les racks métalliques saturés de marchandises créent des **réflexions multi-trajet** sur le laser du BLK2GO. Conséquence : le [SLAM](/glossaire/slam/) voit des points "fantômes" à des positions impossibles, et la trajectoire estimée commence à driver à partir de la 4e allée.
 
 Première passe : nuage inutilisable dans les zones centrales, drift de 8 cm en bout de bâtiment.
 
 ## Ce que j'aurais fait différemment
 
 1. **Faire une reconnaissance avant l'acquisition.** Un coup d'œil aux racks aurait suffi pour anticiper le souci.
-2. **Démarrer par le statique en périphérie.** Quelques stations Faro autour du bâtiment auraient donné un cadre absolu sur lequel recaler le backpack ensuite.
+2. **Démarrer par le statique en périphérie.** Quelques stations Faro autour du bâtiment auraient donné un cadre absolu sur lequel recaler le backpack ensuite (sur le choix d'un scanner statique, voir mon [comparatif RTC360 vs Faro Focus](/articles/rtc360-vs-faro-focus/)).
 3. **Plus de fermetures de boucle pendant le parcours.** Au lieu d'une trajectoire en serpentin classique, repasser tous les 30 m par un point déjà scanné.
 
-Au final : 2e session de terrain (gratuite, c'était mon erreur), recalage manuel du backpack sur les nuages Faro de référence. Livrable propre mais 2 jours de marge perdus. Leçon retenue : **le mobile seul ne suffit jamais en environnement réfléchissant**.
+Au final : 2e session de terrain (gratuite, c'était mon erreur), [recalage manuel](/glossaire/recalage/) du backpack sur les nuages Faro de référence. Livrable propre mais 2 jours de marge perdus. Leçon retenue : **le mobile seul ne suffit jamais en environnement réfléchissant**.
+
+---
+
+J'archive ce genre de retours d'expérience terrain dans la [newsletter Topolia](/newsletter/) — les ratés autant que les réussites.

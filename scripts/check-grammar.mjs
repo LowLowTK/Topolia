@@ -230,6 +230,7 @@ const WHITELIST_TERMS = [
   'photogrammétriques',
   // Marque Topolia
   'Topolia',
+  'Desktop',
   'Loïc',
   // Termes JSX / framework
   'JSX',

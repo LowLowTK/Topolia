@@ -8,6 +8,18 @@ author: 'loic'
 heroImage: '/images/articles/dji-matrice-4e.png'
 heroImageAlt: 'DJI Matrice 4E en vol sur un chantier de relevé photogrammétrique'
 excerpt: 'Le Matrice 4E est rapide, précis et robuste. Mais il a ses limites, notamment sur les grands chantiers et face aux capteurs plein format. Retour terrain complet.'
+updatedDate: 2026-05-29
+faq:
+  - q: "Quelle est l'autonomie réelle du DJI Matrice 4E ?"
+    a: "DJI annonce 41 minutes, mais sur le terrain tu tomberas plutôt à 25-30 minutes en conditions favorables, et encore moins avec du vent. Prévois tes missions en conséquence et emporte plusieurs batteries : c'est le seul vrai point à anticiper pour ne pas écourter un chantier."
+  - q: 'Le Matrice 4E a-t-il un obturateur mécanique ?'
+    a: "Oui, et c'est son atout n°1 pour la photogrammétrie. L'obturateur mécanique fige l'image en une fraction de milliseconde et supprime la déformation (rolling shutter) des prises en déplacement. Résultat : tes clichés sont exploitables directement, sans correction logicielle, contrairement à un drone à obturateur électronique."
+  - q: 'Faut-il le permis A2 / classe C2 pour voler avec le M4E ?'
+    a: "Le M4E est certifié classe C2, ce qui ouvre la catégorie A2 dans le cadre Open. Tu dois t'enregistrer sur AlphaTango (dès 800 g), passer l'examen théorique DGAC et obtenir le certificat A2 CofC pour voler à moins de 30 m de personnes. Plus souple que les classes C5/C6 en milieu urbanisé."
+  - q: 'Le Matrice 4E fait-il du LiDAR ?'
+    a: "Non, le M4E ne fait que de la photogrammétrie. Sous couvert végétal dense (forêt, haies épaisses), il ne voit pas le sol. Pour du LiDAR chez DJI, il faut passer sur un Matrice 400 RTK équipé d'un Zenmuse L3 : une autre catégorie de drone et un tout autre budget."
+  - q: 'Quel prix pour le DJI Matrice 4E ?'
+    a: "Compte environ 4 500 € en version standard (DJI Care 1 an inclus chez certains revendeurs), et 6 500 à 8 000 € en version RTK avec accessoires. On est clairement sur le segment entreprise : ce n'est pas un achat anodin, mais c'est cohérent face aux capteurs plein format plus chers."
 isPremium: false
 isPublished: true
 ---
@@ -15,7 +27,7 @@ isPublished: true
 import Callout from '../../components/mdx/Callout.astro';
 import CompareTable from '../../components/mdx/CompareTable.astro';
 
-Le DJI Matrice 4E est un drone d'entreprise sorti en 2024. Sur le papier, il coche toutes les cases pour la photogrammétrie professionnelle. Sur le terrain, le bilan est globalement positif, avec quelques nuances importantes à connaître avant d'investir.
+Le DJI Matrice 4E est un drone d'entreprise sorti en 2024. Sur le papier, il coche toutes les cases pour la [photogrammétrie](/glossaire/photogrammetrie/) professionnelle. Sur le terrain, le bilan est globalement positif, avec quelques nuances importantes à connaître avant d'investir.
 
 ## Fiche technique
 
@@ -45,11 +57,11 @@ Si tu vois un drone de cartographie avec obturateur électronique, c'est un comp
 
 ### Rapidité et efficacité terrain
 
-En pratique, le workflow est fluide : planification de mission dans DJI Pilot 2, décollage, retour automatique, traitement sous Metashape. Pas de mauvaise surprise, pas de bug bloquant. Le drone fait ce qu'on lui demande.
+En pratique, le workflow est fluide : planification de mission dans DJI Pilot 2, décollage, retour automatique, traitement sous Metashape ([j'ai détaillé mon workflow complet ici](/articles/workflow-drone-complet/)). Pas de mauvaise surprise, pas de bug bloquant. Le drone fait ce qu'on lui demande.
 
 ### Précision centimétrique avec RTK + GCP
 
-La version M4E RTK combinée à des points de contrôle au sol (GCP) donne une précision centimétrique en planimétrie et altimétrie. C'est la configuration recommandée pour tout relevé topographique professionnel.
+La version M4E [RTK](/glossaire/rtk/) combinée à des [points de contrôle au sol (GCP)](/glossaire/gcp/) donne une précision centimétrique en planimétrie et altimétrie. C'est la configuration recommandée pour tout relevé topographique professionnel.
 
 <Callout type="tip">
   Tu peux voler sans GCP avec le RTK, mais la combinaison RTK + GCP reste la plus fiable. Le RTK
@@ -127,6 +139,8 @@ Les drones de topo plus lourds ou non certifiés C2 (typiquement les plateformes
 Le M4E est un outil fiable pour la photogrammétrie professionnelle. L'obturateur mécanique et la certification C2 en font un choix cohérent pour des relevés en milieu urbanisé ou péri-urbain.
 
 Ses limites sont connues et prévisibles : autonomie réelle à recalibrer, dégradation de précision sur les très grands sites à haute altitude, absence de LiDAR. Pas de mauvaises surprises si tu sais ce que tu achètes.
+
+Une fois la mission traitée, le M4E te sort un [nuage de points](/glossaire/nuage-de-points/) dense que tu peux ouvrir et dessiner directement dans [Topolia Desktop](/a-propos/), l'appli que je développe pour produire des plans 2D sans repasser par AutoCAD.
 
 **Idéal pour :** relevés de chantier, suivi de terrassement, orthophotos jusqu'à ~50 ha, zones proches d'habitations.
 

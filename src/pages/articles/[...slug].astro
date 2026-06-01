@@ -3,7 +3,7 @@ import ArticleLayout from '../../layouts/ArticleLayout.astro';
 import RelatedContent from '../../components/RelatedContent.astro';
 import Comments from '../../components/Comments.astro';
 import { getCollection, render } from 'astro:content';
-import { publishedOnly } from '../../lib/content-helpers';
+import { publishedOnly, ARTICLE_CATEGORIES } from '../../lib/content-helpers';
 import { readingTime } from '../../lib/reading-time';
 
 export async function getStaticPaths() {
@@ -30,12 +30,15 @@ const related = allArticles
 
 const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://topolia.fr';
 
+const categoryMeta = ARTICLE_CATEGORIES.find((c) => c.slug === entry.data.category);
+
 const jsonLdArticle = {
   '@context': 'https://schema.org',
   '@type': 'TechArticle',
   headline: entry.data.title,
   description: entry.data.excerpt,
   datePublished: entry.data.date.toISOString(),
+  dateModified: (entry.data.updatedDate ?? entry.data.date).toISOString(),
   image: `${siteUrl}${entry.data.heroImage}`,
   author: {
     '@type': 'Person',
@@ -52,7 +55,47 @@ const jsonLdArticle = {
   mainEntityOfPage: { '@type': 'WebPage', '@id': `${siteUrl}/articles/${entry.id}/` },
 };
 
-const jsonLd = JSON.stringify(jsonLdArticle);
+// Fil d'Ariane : aide la navigation SERP et les moteurs IA à situer la page.
+const jsonLdBreadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Articles', item: `${siteUrl}/articles/` },
+    ...(categoryMeta
+      ? [
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: categoryMeta.label,
+            item: `${siteUrl}/articles/c/${categoryMeta.slug}/`,
+          },
+        ]
+      : []),
+    {
+      '@type': 'ListItem',
+      position: categoryMeta ? 3 : 2,
+      name: entry.data.title,
+      item: `${siteUrl}/articles/${entry.id}/`,
+    },
+  ],
+};
+
+// FAQPage : format le plus cité par les moteurs IA (ChatGPT, Perplexity, Gemini).
+const faq = entry.data.faq ?? [];
+const jsonLdFaq =
+  faq.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map((item) => ({
+          '@type': 'Question',
+          name: item.q,
+          acceptedAnswer: { '@type': 'Answer', text: item.a },
+        })),
+      }
+    : null;
+
+const jsonLd = JSON.stringify([jsonLdArticle, jsonLdBreadcrumb, jsonLdFaq].filter(Boolean));
 ---
 
 <ArticleLayout
@@ -69,6 +112,71 @@ const jsonLd = JSON.stringify(jsonLdArticle);
   jsonLd={jsonLd}
 >
   <Content />
+
+  {
+    faq.length > 0 && (
+      <section class="article-faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">Questions fréquentes</h2>
+        {faq.map((item) => (
+          <details class="faq-item">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </section>
+    )
+  }
+
   <Comments slot="comments" contentId={entry.id} contentType="article" />
   <RelatedContent slot="related" title="À lire aussi" items={related} />
 </ArticleLayout>
+
+<style>
+  .article-faq {
+    margin-top: 56px;
+    padding-top: 8px;
+    border-top: 1px solid var(--hairline);
+  }
+  .article-faq h2 {
+    font-family: var(--display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 32px 0 16px;
+    color: var(--ink);
+    scroll-margin-top: 100px;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--hairline);
+    padding: 4px 0;
+  }
+  .faq-item summary {
+    cursor: pointer;
+    padding: 14px 0;
+    font-weight: 600;
+    color: var(--ink);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-item summary::after {
+    content: '+';
+    color: var(--accent);
+    font-size: 1.3rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .faq-item[open] summary::after {
+    content: '−';
+  }
+  .faq-item p {
+    margin: 0 0 16px;
+    font-size: 1.02rem;
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+</style>

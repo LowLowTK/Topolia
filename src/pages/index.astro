@@ -15,18 +15,50 @@ const glossaire = publishedOnly(await getCollection('glossaire'))
   .slice(0, 3);
 const chantiers = sortByDateDesc(publishedOnly(await getCollection('chantiers')));
 const minutes = sortByDateDesc(publishedOnly(await getCollection('minute-topo'))).slice(0, 3);
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://topolia.fr';
+
+// Schema racine du site : WebSite + Organization. C'est ce que Google et les moteurs IA
+// lisent pour identifier la marque, son domaine et son fondateur (E-E-A-T).
+const jsonLd = JSON.stringify([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Topolia',
+    url: siteUrl,
+    description:
+      'La topographie moderne : LiDAR, drone, photogrammétrie. Tutoriels, comparatifs et retours terrain.',
+    inLanguage: 'fr-FR',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Topolia',
+    url: siteUrl,
+    logo: { '@type': 'ImageObject', url: `${siteUrl}/favicon.svg` },
+    description:
+      'Site média sur la topographie moderne : scanner laser, LiDAR drone et photogrammétrie pour géomètres et topographes.',
+    founder: {
+      '@type': 'Person',
+      name: 'Loïc',
+      jobTitle: 'Géomètre-expert',
+      url: `${siteUrl}/a-propos`,
+    },
+  },
+]);
 ---
 
 <BaseLayout
-  title="Topolia"
-  description="La topographie moderne, sans filtre. Tutoriels, comparatifs, retours terrain : LiDAR, drone, photogrammétrie."
+  title="Topolia — Topographie moderne : LiDAR, drone, photogrammétrie"
+  description="La topographie moderne, sans filtre. Tutoriels, comparatifs, retours terrain : LiDAR, scanner laser, drone et photogrammétrie."
+  jsonLd={jsonLd}
 >
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-text">
         <p class="hero-eyebrow">Topographie moderne · sans filtre</p>
         <h1 class="hero-title">
-          La topo, <span class="hero-accent">comme tu la fais vraiment.</span>
+          La topographie moderne, <span class="hero-accent">comme tu la fais vraiment.</span>
         </h1>
         <p class="hero-sub">
           Scanner statique, scanner dynamique, LiDAR drone, photogrammétrie. Tutoriels qui marchent,

@@ -8,13 +8,22 @@ author: 'loic'
 heroImage: '/images/articles/pdal-intro.jpg'
 heroImageAlt: "Capture d'écran d'un terminal exécutant une pipeline PDAL"
 excerpt: "PDAL, c'est l'outil que tu n'utilises pas tant que tu n'en as pas besoin. Et que tu ne lâches plus une fois que tu l'as adopté."
+faq:
+  - q: "C'est quoi PDAL ?"
+    a: 'PDAL (Point Data Abstraction Library) est une bibliothèque open-source qui te permet de manipuler des nuages de points en ligne de commande, via des pipelines décrits en JSON. Tu enchaînes lecture, filtres et écriture sans interface graphique, ce qui est parfait pour automatiser des traitements répétitifs.'
+  - q: 'PDAL ou CloudCompare, lequel choisir ?'
+    a: "Les deux sont complémentaires. CloudCompare gagne quand tu veux explorer visuellement un nuage ou faire une opération ponctuelle. PDAL gagne quand tu appliques le même traitement à N fichiers ou que tu veux scripter et automatiser. En pratique : tu cadres ta méthode dans CloudCompare, puis tu l'appliques à la chaîne avec PDAL."
+  - q: 'Comment installer PDAL sur Windows ?'
+    a: 'Sur Windows, le plus simple est de passer par Conda : lance la commande conda install -c conda-forge pdal. Sur Mac ou Linux, tu peux utiliser brew install pdal ou apt install pdal selon ta distribution.'
+  - q: 'À quoi sert un pipeline PDAL ?'
+    a: "Un pipeline PDAL décrit une suite d'opérations dans un fichier JSON : lecture d'un fichier, application de filtres, puis écriture du résultat. Tu lances PDAL sur ce fichier et il enchaîne tout automatiquement. C'est l'équivalent d'un Photoshop d'actions, mais pour tes nuages de points."
 isPremium: false
 isPublished: true
 ---
 
 import Callout from '../../components/mdx/Callout.astro';
 
-Si tu fais du LiDAR un peu sérieusement, tu vas vite te heurter à un mur : CloudCompare est génial pour explorer un nuage, mais pour appliquer le même traitement à 200 fichiers `.las` la nuit, ça devient ingérable.
+Si tu fais du [LiDAR](/glossaire/lidar/) un peu sérieusement, tu vas vite te heurter à un mur : CloudCompare est génial pour explorer un [nuage de points](/glossaire/nuage-de-points/), mais pour appliquer le même traitement à 200 fichiers `.las` la nuit, ça devient ingérable.
 
 PDAL résout ça.
 
@@ -66,12 +75,14 @@ pdal pipeline mon-pipeline.json
   C'est typiquement ce qui te fait passer de 2h de manip à 5 minutes de café pendant que ça tourne.
 </Callout>
 
+Typiquement, [après ton vol drone](/articles/workflow-drone-complet/), PDAL automatise toute la chaîne de post-traitement : nettoyage des points aberrants, extraction sol, puis export. Et si tu veux des nuages prêts pour le streaming, `writers.copc` te sort directement du [COPC](/glossaire/copc/), le format LAZ indexé par octree pour les gros fichiers.
+
 ## Les filtres que j'utilise tout le temps
 
 - **`filters.range`** : filtrer par classification, altitude, intensité
 - **`filters.outlier`** : supprimer les points aberrants (oiseaux, drone qui passe…)
 - **`filters.crop`** : découper un polygone d'emprise
-- **`filters.icp`** : recalage entre deux nuages
+- **`filters.icp`** : [recalage](/glossaire/recalage/) entre deux nuages
 - **`filters.smrf`** : extraction sol automatique (Simple Morphological Filter)
 
 ## Quand utiliser PDAL plutôt que CloudCompare ?
@@ -86,5 +97,7 @@ Les deux sont complémentaires. Sur Topolia, j'utilise CloudCompare pour cadrer 
 ## Pour aller plus loin
 
 La doc officielle PDAL ([pdal.io](https://pdal.io)) est excellente. Tu trouveras la liste complète des filtres + des exemples concrets.
+
+Et si tu te demandes à quoi ça sert concrètement : PDAL est exactement le moteur sur lequel s'appuie [Topolia Desktop](/a-propos/) pour streamer des nuages de plusieurs dizaines de Go sans tout charger en RAM. Le même outil que celui dont je te parle ici, mais intégré sous le capot.
 
 {/* [À VÉRIFIER] : la commande `conda install` sur Windows ARM64 ne fonctionne pas, à confirmer avec le forum. */}

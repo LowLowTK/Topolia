@@ -7,6 +7,7 @@ const articles = defineCollection({
     title: z.string(),
     subtitle: z.string().optional(),
     date: z.date(),
+    updatedDate: z.date().optional(),
     category: z.enum([
       'tutoriels',
       'astuces',
@@ -21,6 +22,8 @@ const articles = defineCollection({
     heroImage: z.string(),
     heroImageAlt: z.string(),
     excerpt: z.string(),
+    // FAQ optionnelle rendue en bas d'article + injectée en JSON-LD FAQPage (AEO).
+    faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
     isPremium: z.boolean().default(false),
     isPublished: z.boolean().default(true),
   }),

@@ -13,7 +13,7 @@ Créer une page statique unique listant les outils recommandés pour les dronist
 1. **Monétisation** — liens d'affiliation Amazon Associates (futur) et programmes directs éditeurs logiciels (Metashape, Pix4D, RealityCapture) avec UTM tracking dès maintenant.
 2. **Positionnement SEO et DJI Partnership** — renforcer la crédibilité de topolia.fr comme ressource de référence francophone sur le sujet.
 
-**Ce que cette page n'est PAS :** une boutique, une liste exhaustive, un contenu générique. Uniquement du matériel que Loïc utilise ou a testé.
+**Ce que cette page n'est PAS :** une boutique, une liste exhaustive, un contenu générique. Uniquement du matériel que Loïc utilise ou a testé/ou que l'on trouve intérrésant
 
 ---
 

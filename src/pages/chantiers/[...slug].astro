@@ -15,9 +15,34 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const { title, date, surface, materiel, probleme, lecon, tags } = entry.data;
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://topolia.fr';
+
+// Retour de chantier = article d'expérience terrain → schéma Article (E-E-A-T "Experience").
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: `${probleme}. Leçon : ${lecon}`,
+  datePublished: date.toISOString(),
+  dateModified: date.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: 'Loïc',
+    jobTitle: 'Géomètre-expert',
+    url: `${siteUrl}/a-propos`,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Topolia',
+    url: siteUrl,
+    logo: { '@type': 'ImageObject', url: `${siteUrl}/favicon.svg` },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': `${siteUrl}/chantiers/${entry.id}/` },
+});
 ---
 
-<BaseLayout title={title} description={`${probleme}. Leçon : ${lecon}`}>
+<BaseLayout title={title} description={`${probleme}. Leçon : ${lecon}`} jsonLd={jsonLd}>
   <article class="container chantier-page">
     <a href="/chantiers/" class="back-link">← Retour aux chantiers</a>
 

@@ -22,7 +22,9 @@ const {
 
 const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://topolia.fr';
 const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`;
-const fullTitle = title === 'Topolia' ? title : `${title} — Topolia`;
+// La home passe déjà un titre commençant par "Topolia" (proposition de valeur complète) :
+// on ne lui ajoute pas le suffixe. Les autres pages reçoivent " — Topolia".
+const fullTitle = title.startsWith('Topolia') ? title : `${title} — Topolia`;
 
 /** Déduit le slug OG depuis le pathname courant. */
 function inferOgSlug(pathname: string): string {

@@ -41,9 +41,25 @@ const relatedChantiers = (entry.data.relatedChantiers ?? [])
     label: c.data.title,
     type: 'chantier' as const,
   }));
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://topolia.fr';
+
+// DefinedTerm : schéma idéal pour une page de définition — très repris par les moteurs IA.
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTerm',
+  name: entry.data.title,
+  description: entry.data.excerpt,
+  url: `${siteUrl}/glossaire/${entry.id}/`,
+  inDefinedTermSet: {
+    '@type': 'DefinedTermSet',
+    name: 'Glossaire Topolia — topographie moderne',
+    url: `${siteUrl}/glossaire/`,
+  },
+});
 ---
 
-<BaseLayout title={entry.data.title} description={entry.data.excerpt}>
+<BaseLayout title={entry.data.title} description={entry.data.excerpt} jsonLd={jsonLd}>
   <article class="container glossary-page">
     <a href="/glossaire/" class="back-link">← Retour au glossaire</a>
 
