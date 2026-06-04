@@ -1,74 +1,568 @@
 ---
-title: 'Leica RTC360 vs Faro Focus Premium : le comparatif terrain'
-subtitle: 'Lequel choisir en 2026 selon ton usage.'
-date: 2026-04-22
+title: 'Leica RTC360 vs FARO Focus Premium vs Trimble X9 : le comparatif terrain'
+subtitle: 'Trois scanners statiques haut de gamme, trois philosophies. Specs vérifiées, retours utilisateurs, logiciels et verdict par type de chantier.'
+date: 2026-06-01
 category: 'comparatifs'
-tags: ['leica', 'faro', 'scanner-statique', 'comparatif']
+tags:
+  ['leica', 'faro', 'trimble', 'rtc360', 'focus-premium', 'x9', 'scanner-statique', 'comparatif']
 author: 'loic'
-heroImage: '/images/articles/rtc360-vs-faro.jpg'
-heroImageAlt: 'Scanner Leica RTC360 et Faro Focus Premium côte à côte sur un trépied'
-excerpt: 'Deux scanners haut de gamme, deux philosophies. Test sur trois chantiers types : façade, intérieur industriel, monument historique.'
+heroImage: ''
+heroImageAlt: ''
+excerpt: 'RTC360, FARO Focus Premium ou Trimble X9 ? Le bon choix dépend moins de la fiche technique que de ton vrai workflow : terrain, logiciel, contrôle qualité et livrables.'
 isPremium: false
 isPublished: true
 ---
 
 import Callout from '../../components/mdx/Callout.astro';
 import CompareTable from '../../components/mdx/CompareTable.astro';
+import PullQuote from '../../components/mdx/PullQuote.astro';
 
-Si tu hésites entre le **Leica RTC360** et le **Faro Focus Premium**, c'est que tu es sur un budget 80-120 k€ et que tu vas vivre avec ce scanner les 5 prochaines années. Autant choisir avec les bonnes informations.
+Le **Leica RTC360**, le **FARO Focus Premium** et le **Trimble X9** jouent dans la même cour : celle des scanners laser statiques professionnels qu'on achète pour plusieurs années, pas pour "essayer le scan 3D".
 
-J'ai testé les deux sur trois chantiers différents en mars 2026. Voilà ce qui en sort.
+Mais les mettre dans un tableau et choisir celui qui a le plus grand chiffre de portée serait une erreur. Ces trois machines ne racontent pas la même histoire.
 
-## La fiche technique en un tableau
+Le RTC360 mise sur la cadence terrain et le pré-recalage avec VIS. Le FARO Focus Premium pousse la compacité, la vitesse couleur avec Flash Technology et la portée selon les versions. Le Trimble X9 joue une carte plus topo : auto-calibration, auto-nivellement, contrôle sur le terrain et écosystème Trimble.
+
+J'ai donc repris les fiches techniques officielles, les documents constructeurs, plusieurs articles indépendants, des retours d'intégrateurs et des discussions de professionnels. L'objectif n'est pas de couronner un vainqueur universel. L'objectif est plus utile : savoir lequel choisir selon tes chantiers réels.
+
+<Callout type="info" title="Méthode de lecture">
+  Les chiffres de ce comparatif viennent des fiches officielles Leica, FARO et Trimble consultées en
+  juin 2026. Les avis terrain cités en synthèse viennent d'articles spécialisés et de discussions
+  utilisateurs : ils sont utiles pour comprendre les irritants, mais ils ne remplacent pas un
+  protocole de test instrumenté.
+</Callout>
+
+---
+
+## Le verdict rapide
+
+Si tu veux la version courte avant d'entrer dans les détails :
 
 <CompareTable
-  columns={['Leica RTC360', 'Faro Focus Premium']}
+  columns={['Choix le plus logique', 'Pourquoi']}
   rows={[
-    { feature: 'Portée', values: ['130 m', '350 m'] },
-    { feature: 'Vitesse', values: ['2 M pts/s', '2 M pts/s'] },
-    { feature: 'Précision (10 m)', values: ['1,9 mm', '1 mm'] },
-    { feature: 'Poids', values: ['5,35 kg', '4,2 kg'] },
-    { feature: 'Autonomie batterie', values: ['~ 4 h', '~ 4,5 h'] },
-    { feature: 'Prix indicatif', values: ['~ 100 k€', '~ 85 k€'] },
+    {
+      feature: 'Tu fais beaucoup de stations courtes, façades, intérieurs complexes',
+      values: [
+        'Leica RTC360',
+        'Très rapide, VIS efficace, workflow terrain fluide avec Cyclone FIELD 360',
+      ],
+    },
+    {
+      feature: 'Tu veux un scanner compact, rapide, avec bonne portée et couleur efficace',
+      values: [
+        'FARO Focus Premium / Premium Max',
+        '4,4 kg, Flash Technology, portée jusqu’à 200 m ou 400 m selon version',
+      ],
+    },
+    {
+      feature: 'Tu travailles déjà dans Trimble ou tu veux un workflow topo/BIM robuste',
+      values: [
+        'Trimble X9',
+        'Auto-calibration, auto-nivellement, Perspective, RealWorks et Business Center',
+      ],
+    },
+    {
+      feature: 'Tu fais surtout du Scan to BIM intérieur contractuel',
+      values: [
+        'FARO ou RTC360',
+        'FARO pour compacité/couleur, RTC360 pour cadence et enchaînement des stations',
+      ],
+    },
+    {
+      feature: 'Tu fais de la topo géoréférencée avec contrôle qualité sérieux',
+      values: ['Trimble X9', 'Le contrôle terrain et l’écosystème Trimble pèsent lourd'],
+    },
+    {
+      feature: 'Tu veux un seul scanner très polyvalent sans être enfermé dans une niche',
+      values: [
+        'RTC360 ou X9',
+        'RTC360 si priorité vitesse, X9 si priorité workflow topo et contrôle',
+      ],
+    },
   ]}
 />
 
-Sur le papier, le Faro semble gagnant. Sur le terrain, c'est plus nuancé.
+Mon avis : **le RTC360 reste la référence de productivité terrain**, le **FARO Focus Premium est probablement le plus séduisant sur le papier**, et le **Trimble X9 est celui qu'on sous-estime le plus quand on ne regarde que les specs brutes**.
 
-## Test 1 : Façade haussmannienne 5 niveaux
+---
 
-**Contexte :** rue parisienne, 25 stations prévues sur 2 demi-journées.
+## Les trois machines, en une phrase
 
-Le RTC360 a un avantage net : la fonction `Visual Inertial System` (VIS) qui pré-recale les stations en temps réel. Sur ce type de relevé répétitif, je gagne **30 % de temps terrain** vs le Faro.
+### Leica RTC360 : la machine à produire
 
-Le Faro rattrape une partie du retard au bureau : son logiciel `Scene` recale plus rapidement les nuages en post-prod.
+Le RTC360 est pensé pour enchaîner les stations vite. Leica annonce jusqu'à **2 millions de points par seconde**, une portée de **0,5 à 130 m**, une précision 3D de **1,9 mm à 10 m**, et surtout le **VIS** (Visual Inertial System), qui suit le déplacement du scanner entre deux stations pour pré-aligner les scans sur le terrain.
 
-<Callout type="info" title="Mon avis sur ce chantier">
-  Si tu fais beaucoup de relevés urbains où tu enchaînes les stations courtes, le RTC360 te paiera
-  sa différence de prix en gain de temps.
+Ce n'est pas juste un gadget. Sur des missions avec 50, 80 ou 120 stations, la différence entre "je scanne" et "je scanne en gardant déjà une logique de recalage" devient énorme.
+
+### FARO Focus Premium : le compact rapide qui voit loin
+
+Le FARO Focus Premium est plus léger que le RTC360, avec **4,4 kg batterie incluse**. La gamme récente distingue notamment le **Focus Premium** et le **Focus Premium Max**. Dans la brochure 2024, FARO annonce une portée jusqu'à **200 m** pour le Premium et **400 m** pour le Premium Max sur cible blanche à 90 % de réflectivité, jusqu'à **2 millions de points par seconde**, une précision 3D de **2 mm à 10 m**, et des scans couleur Flash en moins de **30 secondes** avec l'équipement adapté.
+
+Sur le papier, il coche beaucoup de cases : compact, rapide, long range, couleur efficace, bon écosystème FARO Stream / SCENE / Sphere.
+
+### Trimble X9 : le scanner topo qui rassure
+
+Le X9 est moins spectaculaire sur la vitesse brute : Trimble annonce jusqu'à **1000 kHz**, une portée de **0,6 à 150 m**, des temps de scan de **moins d'une minute à 6 minutes**, et une précision de distance de l'ordre de **2 mm** selon les documents techniques.
+
+Mais sa force est ailleurs : **auto-calibration**, **auto-nivellement**, compensation d'inclinaison large, contrôles dans Trimble Perspective, mesure de points de référence avec pointeur laser, et intégration avec **Trimble RealWorks**, **Trimble Business Center** et les workflows construction/topo.
+
+<PullQuote>
+  Le X9 ne gagne pas toujours la bataille de la fiche technique. Il gagne souvent quand la question
+  devient : "est-ce que mon équipe va produire un livrable fiable, contrôlé et répétable ?"
+</PullQuote>
+
+---
+
+## Tableau technique vérifié
+
+<CompareTable
+  columns={['Leica RTC360', 'FARO Focus Premium / Max', 'Trimble X9']}
+  rows={[
+    {
+      feature: 'Portée annoncée',
+      values: [
+        '0,5 à 130 m',
+        'Premium : 0,5 à 200 m / Max : 0,5 à 400 m sur cible blanche',
+        '0,6 à 150 m',
+      ],
+    },
+    {
+      feature: 'Vitesse de mesure',
+      values: ['Jusqu’à 2 M pts/s', 'Jusqu’à 2 M pts/s', 'Jusqu’à 1000 kHz'],
+    },
+    {
+      feature: 'Précision / exactitude annoncée',
+      values: [
+        '1,9 mm à 10 m, 2,9 mm à 20 m',
+        '2 mm à 10 m, 3,5 mm à 25 m',
+        'Précision de distance 2 mm',
+      ],
+    },
+    {
+      feature: 'Poids',
+      values: ['5,35 kg sans batteries', '4,4 kg batterie incluse', '6,045 kg batterie incluse'],
+    },
+    {
+      feature: 'Imagerie couleur',
+      values: [
+        'Système 3 caméras, image sphérique HDR',
+        'Couleur jusqu’à 266 MPx, Flash Scan couleur < 30 s selon configuration',
+        'HDR intégré',
+      ],
+    },
+    {
+      feature: 'Aide au recalage terrain',
+      values: [
+        'VIS + Cyclone FIELD 360',
+        'FARO Stream + SCENE / Sphere',
+        'Trimble Registration Assist + Perspective',
+      ],
+    },
+    {
+      feature: 'Nivellement / contrôle',
+      values: [
+        'IMU, précision tilt annoncée 3 minutes d’arc',
+        'Compensateur / workflow FARO selon version',
+        'Auto-nivellement < 3 secondes, compensation ±10°',
+      ],
+    },
+    {
+      feature: 'Protection',
+      values: ['IP54', 'IP54', 'IP55'],
+    },
+    {
+      feature: 'Philosophie',
+      values: [
+        'Productivité terrain',
+        'Compacité, vitesse couleur, portée',
+        'Fiabilité workflow topo/BIM',
+      ],
+    },
+  ]}
+/>
+
+Attention à la portée : elle dépend énormément de la réflectivité, de l'angle d'incidence, de la météo, de la résolution choisie et du niveau de bruit acceptable. Un "400 m" sur cible claire ne veut pas dire que tu peux faire un relevé industriel propre à 400 m sur métal sombre, tuyauteries, zones brillantes et pénombre.
+
+---
+
+## Ce que les fiches techniques ne disent pas
+
+### 1. La vitesse réelle, c'est la station complète
+
+Les constructeurs annoncent des millions de points par seconde, mais sur chantier tu ne factures pas des points par seconde. Tu factures une mission terminée.
+
+Le vrai temps à mesurer, c'est :
+
+- poser le trépied ;
+- mettre le scanner à niveau ou vérifier l'inclinaison ;
+- lancer le scan ;
+- capturer la couleur ;
+- contrôler la couverture ;
+- déplacer la station ;
+- vérifier que le recalage terrain reste cohérent.
+
+Le RTC360 est très fort sur cette chaîne complète. Son VIS aide à garder le fil entre les stations, surtout dans les escaliers, couloirs, cours intérieures, façades et intérieurs où tu bouges souvent.
+
+Le FARO Focus Premium peut reprendre l'avantage dès qu'on active un workflow Flash efficace : les retours utilisateurs évoquent des stations couleur très rapides quand la configuration est bien maîtrisée. Mais il faut regarder le système complet, pas seulement le scanner nu.
+
+Le Trimble X9 est parfois moins rapide station par station, mais il compense par le contrôle qualité, l'auto-calibration et la logique terrain dans Perspective. Pour un cabinet qui préfère perdre 20 secondes sur site mais éviter deux heures de doute au bureau, ce n'est pas un détail.
+
+### 2. La précision annoncée n'est pas ton livrable final
+
+Un scanner peut annoncer 1,9 mm, 2 mm ou 3 mm. Ton livrable final dépend aussi de :
+
+- la géométrie du réseau de stations ;
+- le nombre de recouvrements ;
+- la présence ou non de cibles ;
+- le géoréférencement ;
+- la stabilité du trépied ;
+- les surfaces scannées ;
+- le logiciel de recalage ;
+- la rigueur de ton contrôle qualité.
+
+Une étude publiée dans _Applied Geomatics_ a comparé plusieurs scanners terrestres, dont le Leica RTC360 et un FARO Focus 3D X330, en laboratoire et sur terrain. Le point intéressant n'est pas de transposer directement ces résultats à tous les modèles actuels. Le point intéressant, c'est la leçon : **la fiche technique ne suffit jamais à prédire la qualité finale d'un réseau de scans**.
+
+<Callout type="warning" title="Le piège du millimètre marketing">
+  Ne choisis pas un scanner parce qu'il annonce 1 mm de mieux dans un tableau. Sur chantier, un
+  mauvais réseau de stations avec un très bon scanner donnera un mauvais nuage. Un bon protocole
+  avec un scanner un peu moins flatteur sur le papier donnera souvent un meilleur livrable.
 </Callout>
 
-## Test 2 : Intérieur industriel (hangar 5000 m²)
+### 3. Le logiciel peut te faire aimer ou détester la machine
 
-**Contexte :** grand volume, peu d'occlusions, distances longues.
+On parle souvent du scanner. On oublie que tu vas vivre avec le logiciel.
 
-Le Faro prend l'avantage. Sa portée 350 m permet de couvrir le hangar en **8 stations** là où le RTC360 en demande **14**. Sur ce type de chantier, le Faro est plus rentable.
+Leica, FARO et Trimble ont chacun leur monde. Et une fois que tu as formé l'équipe, acheté les licences, défini tes exports, tes gabarits, tes méthodes de QA/QC, changer de scanner devient aussi changer de culture de production.
 
-## Test 3 : Monument historique (chapelle XVIIe)
+---
 
-**Contexte :** précision millimétrique requise, beaucoup de détails ornementaux.
+## Leica RTC360 : ses forces et ses limites
 
-Le Faro gagne sur la précision pure (1 mm vs 1,9 mm à 10 m). Mais le RTC360 est plus rapide à mettre en station et à déplacer dans des escaliers étroits. Sa poignée intégrée fait la différence sur ce type de chantier.
+### Ce qu'il fait très bien
 
-## Ma recommandation
+Le RTC360 est probablement le scanner le plus évident quand ton objectif est de **produire beaucoup de stations vite**.
 
-| Si tu fais surtout...                              | Choisis...         |
-| -------------------------------------------------- | ------------------ |
-| Du relevé urbain rapide, enchaînement de stations  | RTC360             |
-| De l'industriel, grands volumes, longues portées   | Faro Focus Premium |
-| Du patrimoine et de la précision pure              | Faro Focus Premium |
-| Du polyvalent terrain compliqué (escaliers, accès) | RTC360             |
+Sur une façade urbaine, un bâtiment avec plusieurs niveaux, une cage d'escalier, un hôtel particulier, une école, une copropriété ou un site avec beaucoup d'occlusions, tu passes ton temps à déplacer le scanner. C'est là que le VIS devient concret.
 
-Aucun des deux n'est universellement meilleur. La question juste, c'est **« quel mix de chantiers je fais réellement ? »**.
+Le scanner suit son déplacement relatif entre deux positions avec ses caméras et son IMU. Dans Cyclone FIELD 360, les scans peuvent être pré-alignés sur le terrain. Ça ne remplace pas un contrôle sérieux au bureau, mais ça réduit le risque de rentrer avec une séquence incohérente.
 
-{/* [DONNÉE TERRAIN LOÏC] : affiner avec les chiffres précis du chantier rue de Rivoli après le bilan d'avril. */}
+Autre point fort : le RTC360 a une vraie réputation de "workhorse". Il est sorti depuis plusieurs années, il est connu, documenté, utilisé par beaucoup d'équipes. Cette maturité compte.
+
+### Là où il est moins confortable
+
+Sa portée de 130 m suffit pour beaucoup de chantiers bâtiment, mais elle peut devenir courte en grands volumes industriels, infrastructures, carrières, ouvrages extérieurs, parkings ouverts ou sites où tu veux limiter le nombre de stations.
+
+Le prix est aussi un sujet. Leica annonce un prix de départ élevé sur son shop US, et en Europe le coût réel dépend fortement du pack, des licences Cyclone, du support et des accessoires. Sur un investissement complet, le RTC360 peut vite devenir l'option la plus chère.
+
+Enfin, plusieurs retours utilisateurs opposent souvent Leica et Trimble sur le logiciel : Leica est fluide pour capturer et enregistrer, mais Trimble RealWorks est régulièrement cité comme plus puissant pour certaines opérations avancées de production, classification, dessin et analyse.
+
+### Le bon profil RTC360
+
+Choisis le RTC360 si :
+
+- tu fais beaucoup de missions courtes et moyennes avec beaucoup de stations ;
+- tu veux réduire le stress du recalage terrain ;
+- tu as une équipe qui doit être productive vite ;
+- tu es déjà dans l'écosystème Leica ;
+- tu travailles surtout en bâtiment, façade, patrimoine, intérieur complexe, rénovation ou architecture.
+
+Évite de le choisir uniquement pour sa précision annoncée. Son vrai avantage, c'est la cadence et le workflow terrain.
+
+---
+
+## FARO Focus Premium : ses forces et ses limites
+
+### Ce qu'il fait très bien
+
+Le FARO Focus Premium a deux arguments très forts : **le format** et **la polyvalence de gamme**.
+
+À 4,4 kg batterie incluse, il est plus compact que le RTC360 et le X9. Quand tu montes des escaliers toute la journée, quand tu te déplaces seul, quand tu dois intervenir dans des locaux occupés, ce poids compte.
+
+La gamme récente permet aussi de choisir selon la portée : Focus Premium jusqu'à 200 m, Focus Premium Max jusqu'à 400 m dans les conditions annoncées par FARO. Pour certains sites industriels ou extérieurs, cette marge peut réduire le nombre de stations.
+
+La Flash Technology est l'autre sujet important. FARO met en avant une logique Hybrid Reality Capture qui combine scanner laser et capture panoramique rapide. Dans les retours utilisateurs, ceux qui exploitent bien Panocam / Flash parlent d'un gros gain de cadence pour obtenir des stations couleur.
+
+### Là où il faut rester prudent
+
+Le FARO a un côté très séduisant sur le papier. Mais il faut regarder le workflow complet.
+
+FARO SCENE divise. Certains utilisateurs le maîtrisent très bien et en tirent une production rapide. D'autres le trouvent frustrant, surtout quand le recalage automatique ne se passe pas comme prévu. C'est un point qui ressort dans les discussions professionnelles : le matériel est apprécié, mais le logiciel peut être un facteur d'irritation.
+
+Autre prudence : plusieurs articles pro-FARO sont publiés par des intégrateurs qui utilisent ou vendent du FARO. Ils peuvent être très utiles, mais ils ne sont pas neutres. Quand un prestataire explique pourquoi il a standardisé tout son réseau sur FARO, il donne une information intéressante sur son workflow, pas une vérité universelle sur le marché.
+
+### Le bon profil FARO
+
+Choisis le FARO Focus Premium ou Premium Max si :
+
+- tu veux un scanner compact et facile à transporter ;
+- tu fais beaucoup de Scan to BIM intérieur ou semi-ouvert ;
+- tu veux une bonne portée sans passer sur une machine très lourde ;
+- la couleur rapide est importante pour tes livrables ;
+- tu es à l'aise avec SCENE / Sphere ou tu as déjà un workflow FARO en place.
+
+Le FARO est probablement le plus "agile" des trois, mais il demande de valider le workflow logiciel avant achat. Une démo hardware sans test SCENE complet ne suffit pas.
+
+---
+
+## Trimble X9 : ses forces et ses limites
+
+### Ce qu'il fait très bien
+
+Le Trimble X9 est le scanner qu'on risque de sous-estimer si on lit seulement les chiffres.
+
+Il n'annonce pas 2 millions de points par seconde. Il ne met pas en avant une portée de 400 m. Il pèse plus lourd que le FARO et le RTC360. Et pourtant, il a une vraie cohérence de terrain.
+
+Son auto-calibration est un gros argument. Trimble explique que le système surveille et corrige automatiquement les paramètres de mesure quand nécessaire, sans cible ni intervention utilisateur. L'auto-nivellement et la compensation d'inclinaison à ±10° rendent aussi la mise en station plus tolérante.
+
+Autre détail très utile pour un géomètre : le X9 peut mesurer des **points de référence** directement avec son pointeur laser. Sur le terrain, tu peux viser un point connu, une cible, un repère ou un point de canevas et l'utiliser pour raccrocher plus proprement ton nuage. Pour du géoréférencement, c'est beaucoup plus confortable que de compter uniquement sur un recalage a posteriori.
+
+Pour un cabinet de géomètre, ce n'est pas secondaire. Le scanner n'est pas juste un appareil photo 3D. C'est un instrument de mesure qui doit produire des données contrôlables, répétables, défendables.
+
+Le logiciel est l'autre force. Trimble Perspective sert au contrôle terrain, puis RealWorks et Business Center prennent le relais. Dans les retours utilisateurs, RealWorks revient souvent comme un outil puissant, parfois moins simple au départ, mais très solide pour la production avancée.
+
+### Là où il est moins confortable
+
+Le X9 n'est pas le meilleur choix si ton critère principal est la vitesse brute sur une mission avec énormément de stations simples.
+
+Sur un bâtiment très fragmenté où tu veux aller vite, très vite, le RTC360 garde un avantage naturel. Sur un workflow couleur ultra-rapide avec Flash, FARO peut aussi être plus séduisant.
+
+Son poids de plus de 6 kg batterie incluse se sent aussi. Ce n'est pas dramatique, mais sur une journée d'intérieur avec étages, escaliers, portes et circulation, le confort opérateur penche plutôt vers FARO ou Leica.
+
+### Le bon profil X9
+
+Choisis le Trimble X9 si :
+
+- tu es déjà dans Trimble ;
+- tu utilises RealWorks, Business Center, GNSS ou stations Trimble ;
+- tu fais de la topo, du contrôle, du géoréférencement ou des livrables exigeants ;
+- tu veux un scanner très rassurant côté calibration et qualité ;
+- tu préfères un workflow robuste à une fiche technique spectaculaire.
+
+Le X9 est le choix le plus rationnel pour une structure qui pense "processus de mesure" avant de penser "temps de scan".
+
+---
+
+## Comparatif par type de chantier
+
+### Façade urbaine et bâtiment fragmenté
+
+Le RTC360 est très difficile à battre ici. Beaucoup de stations, déplacements courts, besoin de vérifier rapidement la couverture, géométries répétitives, escaliers, cours, balcons, masques : c'est son terrain naturel.
+
+Le FARO reste très bon, surtout si la compacité et la couleur sont importantes. Le X9 est fiable, mais son avantage logiciel ne compense pas toujours l'écart de cadence sur ce type de mission.
+
+**Choix Topolia : RTC360.**
+
+### Scan to BIM intérieur
+
+Ici, le match est plus serré.
+
+FARO a de très bons arguments : poids, compacité, couleur rapide, workflows vers SCENE / ReCap / Revit. Des intégrateurs Scan to BIM défendent clairement cette approche, notamment pour des livrables LOD 300 à 500 en bâtiment et industrie.
+
+Le RTC360 reste très fort quand le bâtiment est complexe et que le nombre de stations explose. Le Trimble X9 devient intéressant si le projet s'inscrit dans un environnement Trimble ou si le contrôle qualité prime.
+
+**Choix Topolia : FARO pour intérieur standard et couleur rapide, RTC360 pour intérieur complexe à nombreuses stations.**
+
+### Grand volume industriel
+
+La portée redevient importante. Le FARO Focus Premium Max, avec sa portée annoncée jusqu'à 400 m sur cible claire, a un vrai argument. Même si tu n'exploites pas les 400 m comme une distance de production précise, avoir de la marge peut simplifier certains relevés.
+
+Le RTC360 reste efficace, mais sa limite à 130 m peut imposer plus de stations. Le X9 est sérieux, mais sa portée de 150 m le place plutôt dans une logique de contrôle et de production méthodique que de couverture maximale.
+
+**Choix Topolia : FARO Focus Premium Max si la portée est le critère principal, X9 si le workflow topo/contrôle prime.**
+
+### Patrimoine et architecture détaillée
+
+Le patrimoine demande souvent une combinaison pénible : beaucoup de stations, zones sombres, escaliers, détails fins, accès compliqués, parfois peu de place.
+
+Le RTC360 a un avantage terrain évident grâce à sa cadence. Le FARO peut être excellent si la couleur et la compacité comptent beaucoup. Le X9 rassure pour la rigueur, mais son poids et sa vitesse peuvent le rendre moins agréable dans les sites très contraints.
+
+**Choix Topolia : RTC360 en premier, FARO si la couleur rapide est centrale.**
+
+### Topographie géoréférencée et contrôle
+
+Le Trimble X9 prend du poids dans la décision. Auto-calibration, auto-nivellement, Perspective, RealWorks, Business Center, intégration avec les outils Trimble : tout ça parle directement à un géomètre.
+
+Le point à ne pas oublier, c'est la **mesure de points de référence au pointeur laser**. Quand tu dois géoréférencer un nuage, contrôler une station ou raccrocher le scan à un canevas existant, pouvoir viser un point précis depuis le scanner simplifie énormément la méthode. Ce n'est pas l'argument le plus spectaculaire dans une brochure, mais sur chantier c'est exactement le genre de fonction qui évite des bricolages au bureau.
+
+Le RTC360 peut très bien s'intégrer dans un workflow topo, surtout avec de bonnes cibles et une méthode propre. FARO aussi. Mais si ton cabinet vit déjà dans Trimble, choisir X9 évite de multiplier les écosystèmes.
+
+**Choix Topolia : Trimble X9.**
+
+### Équipe débutante en scan 3D
+
+Pour une équipe qui démarre, je ne regarderais pas seulement la machine. Je regarderais :
+
+- qualité de formation du revendeur ;
+- support local ;
+- clarté du logiciel ;
+- facilité à exporter vers les outils déjà utilisés ;
+- disponibilité des accessoires ;
+- coût des licences sur 3 à 5 ans.
+
+Le RTC360 est très rassurant par sa productivité terrain. Le FARO est séduisant mais demande de bien valider SCENE / Sphere. Le X9 peut être excellent si l'équipe vient déjà du monde Trimble.
+
+**Choix Topolia : RTC360 pour démarrer vite, X9 si l'entreprise est déjà Trimble, FARO si l'intégrateur accompagne vraiment le workflow.**
+
+---
+
+## Les retours utilisateurs qui reviennent souvent
+
+Je ne prends pas Reddit ou les forums comme des sources scientifiques. Mais ils sont utiles pour repérer les irritants récurrents, surtout quand plusieurs professionnels disent la même chose avec des mots différents.
+
+Ce qui revient souvent :
+
+- **RTC360** : très apprécié pour la vitesse terrain, la qualité du workflow et la simplicité d'enchaînement des stations.
+- **FARO Focus Premium** : matériel compact et performant, très intéressant avec Flash / Panocam, mais SCENE peut frustrer certains utilisateurs.
+- **Trimble X9** : moins "sexy" en vitesse brute, mais RealWorks et l'écosystème Trimble sont souvent cités comme gros avantages de production.
+- **Prix** : Leica est souvent perçu comme cher, Trimble comme rationnel selon le pack, FARO comme compétitif mais dépendant des options et licences.
+- **Logiciel** : c'est le vrai sujet caché. Beaucoup d'utilisateurs ne changent pas seulement de scanner, ils changent de chaîne de production.
+
+<Callout type="tip" title="Avant d’acheter">
+  Demande une démo sur un vrai mini-chantier, pas dans une salle propre. Fais scanner 8 à 12
+  stations, impose une zone avec occlusions, récupère les données, puis regarde le recalage et
+  l’export dans ton logiciel final. C’est là que le choix devient évident.
+</Callout>
+
+---
+
+## Le coût réel : ne regarde pas seulement le prix du scanner
+
+Un scanner statique haut de gamme, ce n'est pas seulement un boîtier.
+
+Il faut compter :
+
+- scanner ;
+- trépied adapté ;
+- batteries ;
+- chargeurs ;
+- tablette ou contrôleur ;
+- cibles / sphères / accessoires ;
+- valise ou sac de transport ;
+- licences terrain ;
+- licences bureau ;
+- formation ;
+- support ;
+- maintenance et calibration ;
+- temps de montée en compétence.
+
+Le prix affiché par un constructeur ou un revendeur donne une base, pas le coût complet de possession.
+
+Leica affiche un prix de départ US pour le RTC360 sur son shop officiel, mais le coût européen réel dépend du pack. FARO et Trimble passent souvent par devis selon version, licences et accessoires. Les articles comparatifs donnent parfois des prix en euros, mais ils peuvent être datés, incomplets ou liés à un marché local.
+
+La bonne question n'est donc pas : "Combien coûte le scanner ?"  
+La bonne question est : **"Combien me coûte une mission complète produite proprement pendant 5 ans ?"**
+
+---
+
+## Les questions à poser au revendeur
+
+Avant de signer, pose ces questions. Elles valent plus qu'une brochure.
+
+1. Quelle version exacte du scanner est incluse ?
+2. Quelles licences terrain et bureau sont incluses la première année ?
+3. Que se passe-t-il après un an : abonnement, maintenance, mise à jour ?
+4. Combien coûte une batterie supplémentaire ?
+5. Quelle est la fréquence de calibration recommandée ?
+6. Quel est le délai moyen de SAV ?
+7. Peut-on tester le scanner sur un vrai chantier ?
+8. Peut-on récupérer les données brutes de la démo ?
+9. Quels formats d'export sont disponibles sans licence additionnelle ?
+10. Quel workflow tu conseilles vers ReCap, Revit, AutoCAD, CloudCompare, RealWorks ou Cyclone 3DR ?
+11. Le support est-il assuré par un technicien qui a déjà traité des nuages de points ?
+12. Est-ce que tu peux fournir un exemple de rapport de recalage / QA ?
+
+Si le revendeur répond très bien aux specs mais devient vague sur le workflow, prudence.
+
+---
+
+## Mon classement par critère
+
+<CompareTable
+  columns={['Meilleur choix', 'Pourquoi']}
+  rows={[
+    {
+      feature: 'Vitesse terrain globale',
+      values: ['Leica RTC360', 'VIS + cadence station + maturité du workflow'],
+    },
+    {
+      feature: 'Compacité',
+      values: ['FARO Focus Premium', '4,4 kg batterie incluse, format très transportable'],
+    },
+    {
+      feature: 'Portée annoncée',
+      values: ['FARO Focus Premium Max', 'Jusqu’à 400 m sur cible blanche selon FARO'],
+    },
+    {
+      feature: 'Contrôle topo et calibration',
+      values: ['Trimble X9', 'Auto-calibration, auto-nivellement, logique instrument de mesure'],
+    },
+    {
+      feature: 'Écosystème logiciel terrain + bureau',
+      values: [
+        'Trimble ou Leica selon équipe',
+        'Trimble très fort en production, Leica très fluide en capture/recalage',
+      ],
+    },
+    {
+      feature: 'Scan to BIM intérieur',
+      values: ['FARO ou RTC360', 'FARO pour compacité/couleur, RTC360 pour cadence stations'],
+    },
+    {
+      feature: 'Investissement polyvalent',
+      values: ['RTC360 ou X9', 'RTC360 pour productivité, X9 pour workflow topo durable'],
+    },
+  ]}
+/>
+
+---
+
+## Recommandation finale
+
+Si je devais résumer sans langue de bois :
+
+**Leica RTC360** : je le choisirais pour une équipe qui doit produire vite, faire beaucoup de stations, travailler en bâtiment, façade, patrimoine, rénovation, intérieur complexe. C'est le choix productivité.
+
+**FARO Focus Premium / Premium Max** : je le choisirais pour une équipe qui veut un scanner compact, rapide, moderne, avec une bonne portée et une vraie stratégie couleur. C'est le choix agile, à condition de valider le workflow logiciel.
+
+**Trimble X9** : je le choisirais pour un cabinet qui pense mesure, contrôle, géoréférencement, intégration Trimble et production robuste. C'est le choix rationnel, surtout si l'écosystème Trimble est déjà en place.
+
+<PullQuote>
+  Le meilleur scanner n'est pas celui qui gagne le tableau. C'est celui qui réduit le plus tes
+  risques entre la première station sur site et le livrable final.
+</PullQuote>
+
+Mon choix Topolia serait donc :
+
+| Ton profil réel                                                  | Scanner recommandé         |
+| ---------------------------------------------------------------- | -------------------------- |
+| Cabinet bâtiment / façade / patrimoine avec beaucoup de stations | **Leica RTC360**           |
+| Scan to BIM intérieur, couleur rapide, équipe mobile             | **FARO Focus Premium**     |
+| Grands volumes où la portée compte                               | **FARO Focus Premium Max** |
+| Cabinet topo déjà équipé Trimble                                 | **Trimble X9**             |
+| Missions contrôlées, géoréférencées, workflow qualité            | **Trimble X9**             |
+| Premier scanner haut de gamme pour produire vite                 | **Leica RTC360**           |
+
+Aucun des trois n'est un mauvais choix. Mais chacun peut devenir un mauvais achat si tu le prends pour la mauvaise raison.
+
+Si tu achètes le RTC360 en pensant "longue portée", tu risques d'être frustré.  
+Si tu achètes le FARO sans tester SCENE/Sphere sur ton workflow, tu prends un risque logiciel.  
+Si tu achètes le X9 en espérant battre tout le monde en vitesse brute, tu n'achètes pas son vrai avantage.
+
+La bonne décision, c'est de partir de tes chantiers : combien de stations, quelle portée utile, quel niveau de contrôle, quel logiciel final, quelle équipe, quel support local. Le scanner vient après.
+
+---
+
+## Sources consultées
+
+- [Leica Geosystems - RTC360 Overview et fiche technique](https://shop.leica-geosystems.com/laser-scanner/rtc360/overview)
+- [FARO - Focus Premium / Premium Max brochure 2024](https://media.faro.com/-/media/Project/FARO/FARO/FARO/Resources/1_BROCHURE/2024/FARO-Focus/AECO/CMO9773_Brochure_FocusPremiumMax_AECO_ENG_LT_Web.pdf)
+- [FARO Knowledge Base - Technical Specification Sheet for the Focus Laser Scanner](https://knowledge.faro.com/Hardware/Focus/Focus/Technical_Specification_Sheet_for_the_Focus_Laser_Scanner)
+- [Trimble Geospatial - Trimble X9](https://geospatial.trimble.com/en/products/hardware/trimble-x9)
+- [Trimble - X9 datasheet](https://fieldtech.trimble.com/resources/i/1499511-trimble-x9-datasheet/2)
+- [Laserscanner.info - FARO Focus Premium vs Leica RTC360](https://www.laserscanner.info/farofocuspremium-vs-leicartc360)
+- [S3D Engineering - Leica vs FARO pour bâtiment et industrie](https://s3dengineering.net/blog/leica-vs-faro-quelles-differences-pour-le-scan-3d-de-batiments-et-sites-industriels/)
+- [Lightpoint Data - Leica vs FARO](https://lightpointdata.com/articles/2021/5/10/leica-vs-faro)
+- [Applied Geomatics - Geometric accuracy investigations of terrestrial laser scanner systems](https://link.springer.com/article/10.1007/s12518-022-00442-2)
+- [Reddit r/3DScanning - FARO vs Leica post-processing](https://www.reddit.com/r/3DScanning/comments/16i1xre/post_processing_and_faro_vs_leica_comparison/)
+- [Reddit r/Surveying - Leica vs Trimble](https://www.reddit.com/r/Surveying/comments/17emwzd/leica_vs_trimble/)

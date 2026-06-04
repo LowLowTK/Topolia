@@ -11,5 +11,12 @@ export default defineConfig({
   site: 'https://topolia.fr',
   output: 'static',
   adapter: netlify(),
-  integrations: [mdx(), sitemap(), clerk()],
+  integrations: [
+    mdx(),
+    sitemap({
+      filter: (page) =>
+        !page.includes('/admin/') && !page.endsWith('/login/') && !page.endsWith('/signup/'),
+    }),
+    clerk(),
+  ],
 });

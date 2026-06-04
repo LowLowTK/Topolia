@@ -13,7 +13,7 @@ function json(body: unknown, status = 200): Response {
 }
 
 export const POST: APIRoute = async ({ request, locals }) => {
-  const auth = locals.auth();
+  const auth = typeof locals.auth === 'function' ? locals.auth() : null;
   const userId = auth?.userId;
   if (!userId) {
     return json({ ok: false, message: 'Connexion requise.' }, 401);

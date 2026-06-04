@@ -1,0 +1,88 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Workflow Metashape du relevé drone aux exports</title>
+  <desc id="desc">Schéma de la chaîne de traitement : mission drone, GCP, alignement, optimisation, nuage, DEM, orthophoto et exports.</desc>
+  <rect width="1280" height="720" fill="#F7F5EF"/>
+  <rect x="70" y="72" width="1140" height="576" rx="28" fill="#FFFFFF" stroke="#D8D2C2" stroke-width="2"/>
+  <text x="110" y="132" fill="#181713" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">Workflow Metashape : du vol aux livrables</text>
+  <text x="110" y="168" fill="#655F52" font-family="Inter, Arial, sans-serif" font-size="18">Le contrôle qualité commence avant le calcul : chaque étape dépend de la précédente.</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2 2L10 6L2 10V2Z" fill="#2D6A6A"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <g filter="url(#shadow)">
+      <rect x="110" y="235" width="170" height="120" rx="18" fill="#E9F2EF" stroke="#AFCBC3"/>
+      <text x="195" y="276" text-anchor="middle" fill="#183B3B" font-size="19" font-weight="700">Mission</text>
+      <text x="195" y="306" text-anchor="middle" fill="#315858" font-size="15">recouvrement</text>
+      <text x="195" y="328" text-anchor="middle" fill="#315858" font-size="15">GSD + lumière</text>
+    </g>
+
+    <g filter="url(#shadow)">
+      <rect x="335" y="235" width="170" height="120" rx="18" fill="#FFF2D8" stroke="#E2BF73"/>
+      <text x="420" y="276" text-anchor="middle" fill="#5C4211" font-size="19" font-weight="700">GCP</text>
+      <text x="420" y="306" text-anchor="middle" fill="#76591E" font-size="15">points d'appui</text>
+      <text x="420" y="328" text-anchor="middle" fill="#76591E" font-size="15">+ check points</text>
+    </g>
+
+    <g filter="url(#shadow)">
+      <rect x="560" y="235" width="170" height="120" rx="18" fill="#EAF0FF" stroke="#B7C5EA"/>
+      <text x="645" y="276" text-anchor="middle" fill="#253A69" font-size="19" font-weight="700">Alignement</text>
+      <text x="645" y="306" text-anchor="middle" fill="#465A88" font-size="15">caméras</text>
+      <text x="645" y="328" text-anchor="middle" fill="#465A88" font-size="15">points de liaison</text>
+    </g>
+
+    <g filter="url(#shadow)">
+      <rect x="785" y="235" width="170" height="120" rx="18" fill="#F0E9FF" stroke="#C9B6EA"/>
+      <text x="870" y="276" text-anchor="middle" fill="#46306A" font-size="19" font-weight="700">Optimisation</text>
+      <text x="870" y="306" text-anchor="middle" fill="#604A86" font-size="15">caméras</text>
+      <text x="870" y="328" text-anchor="middle" fill="#604A86" font-size="15">erreurs RMS</text>
+    </g>
+
+    <g filter="url(#shadow)">
+      <rect x="1010" y="235" width="170" height="120" rx="18" fill="#FFE9E3" stroke="#E9B29F"/>
+      <text x="1095" y="276" text-anchor="middle" fill="#653020" font-size="19" font-weight="700">Nuage</text>
+      <text x="1095" y="306" text-anchor="middle" fill="#824733" font-size="15">dense</text>
+      <text x="1095" y="328" text-anchor="middle" fill="#824733" font-size="15">nettoyé</text>
+    </g>
+
+    <path d="M280 295H325" stroke="#2D6A6A" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M505 295H550" stroke="#2D6A6A" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M730 295H775" stroke="#2D6A6A" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M955 295H1000" stroke="#2D6A6A" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <path d="M1095 355V420H645" stroke="#2D6A6A" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <g filter="url(#shadow)">
+      <rect x="420" y="430" width="190" height="120" rx="18" fill="#EEF1E6" stroke="#C6D0A9"/>
+      <text x="515" y="472" text-anchor="middle" fill="#394522" font-size="19" font-weight="700">DEM / DSM</text>
+      <text x="515" y="502" text-anchor="middle" fill="#566137" font-size="15">surface de</text>
+      <text x="515" y="524" text-anchor="middle" fill="#566137" font-size="15">projection</text>
+    </g>
+
+    <g filter="url(#shadow)">
+      <rect x="685" y="430" width="190" height="120" rx="18" fill="#E8F5FB" stroke="#A9D0DF"/>
+      <text x="780" y="472" text-anchor="middle" fill="#1E4B5E" font-size="19" font-weight="700">Orthophoto</text>
+      <text x="780" y="502" text-anchor="middle" fill="#38667A" font-size="15">orthorectifiée</text>
+      <text x="780" y="524" text-anchor="middle" fill="#38667A" font-size="15">contrôlée</text>
+    </g>
+
+    <g filter="url(#shadow)">
+      <rect x="950" y="430" width="190" height="120" rx="18" fill="#F4EFE7" stroke="#D4C3A7"/>
+      <text x="1045" y="472" text-anchor="middle" fill="#55422A" font-size="19" font-weight="700">Exports</text>
+      <text x="1045" y="502" text-anchor="middle" fill="#725A3C" font-size="15">GeoTIFF</text>
+      <text x="1045" y="524" text-anchor="middle" fill="#725A3C" font-size="15">LAZ / E57 / PDF</text>
+    </g>
+
+    <path d="M610 490H675" stroke="#2D6A6A" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M875 490H940" stroke="#2D6A6A" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <rect x="110" y="584" width="1070" height="36" rx="18" fill="#183B3B"/>
+    <text x="645" y="608" text-anchor="middle" fill="#FFFFFF" font-size="16" font-weight="600">A chaque étape : vérifier avant de calculer plus loin.</text>
+  </g>
+</svg>

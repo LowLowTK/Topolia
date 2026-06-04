@@ -8,77 +8,95 @@ import ProductCard from '../../components/ressources/ProductCard.astro';
 
 const accessoiresTerrain = [
   {
-    name: 'Mires GCP — targets de calage au sol',
+    name: 'Cibles photogrammetrie drone - lot de 10 grande taille',
     description:
-      'Pour caler le nuage de points et le modèle 3D sur des coordonnées réelles. Je les utilise sur chaque chantier drone, sans exception.',
-    price: '~35 €',
-    affiliateUrl: 'https://www.amazon.fr/s?k=mires+gcp+drone+photogrammetrie',
-    utmContent: 'mires-gcp',
+      'Pour poser des points de controle visibles sur les photos aeriennes. Format compact, pratique quand tu veux plusieurs reperes numerotes sans charger le sac terrain.',
+    price: 'Lot de 10 - grande taille',
+    affiliateUrl: 'https://www.amazon.fr/dp/B0DHXXYGSD?tag=topolia-21',
+    utmContent: 'cibles-photogrammetrie-compact',
     source: 'amazon' as const,
-    isPlaceholder: true,
   },
   {
-    name: 'Jalons topographiques',
+    name: 'Cibles photogrammetrie drone - lot de 5 petite taille',
     description:
-      'Pour matérialiser les points de contrôle sur le terrain avant le vol. Pliables et légers à transporter.',
-    price: '~25 €',
-    affiliateUrl: 'https://www.amazon.fr/s?k=jalon+topographique',
-    utmContent: 'jalons-topo',
+      'Lot de 5 marqueurs de controle au sol en petite taille. Pratique pour des vols bas ou des chantiers compacts. Attention : entre 50 et 70 m, la lisibilite depend beaucoup du capteur photo, de la nettete des images et de la taille pixel/GSD. Au-dela, mieux vaut passer sur de plus grandes cibles.',
+    price: 'Lot de 5 - petite taille',
+    affiliateUrl: 'https://www.amazon.fr/dp/B0GWMGYSK3?tag=topolia-21',
+    utmContent: 'cibles-photogrammetrie-grand-format',
     source: 'amazon' as const,
-    isPlaceholder: true,
   },
   {
-    name: 'Carnet de terrain waterproof',
+    name: 'Anemometre numerique - controle du vent avant vol',
     description:
-      'Pour noter les coordonnées des GCP sur le terrain, même par temps pluvieux. Rite In The Rain ou équivalent.',
-    price: '~15 €',
-    affiliateUrl: 'https://www.amazon.fr/s?k=carnet+terrain+waterproof',
-    utmContent: 'carnet-waterproof',
+      'Pour mesurer le vent sur site avant de lancer un vol drone. La reglementation europeenne demande au telepilote de tenir compte des conditions meteo, dont les effets du vent. Un anemometre aide a verifier et documenter cette decision avant vol.',
+    affiliateUrl: 'https://www.amazon.fr/dp/B00ZHKWCP4?tag=topolia-21',
+    utmContent: 'anemometre-controle-vent',
     source: 'amazon' as const,
-    isPlaceholder: true,
   },
 ];
 
 const informatique = [
   {
-    name: 'PC workstation photogrammétrie — config recommandée',
+    name: 'PC photogrammetrie - gamme autour de 1500 euros',
     description:
-      "Le goulot d'étranglement en photogrammétrie dense c'est le CPU (alignement) et le GPU (calcul dense). Config minimum viable : CPU 12 cœurs (Ryzen 9 ou Core i9), 64 Go RAM, GPU NVIDIA RTX (4070 ou mieux pour l'accélération CUDA dans Metashape). Un bon PC fait passer un traitement de 8h à 45 min.",
-    price: '~1 500 – 2 500 €',
-    affiliateUrl: 'https://www.amazon.fr/s?k=pc+workstation+ryzen+rtx+montage+photogrammetrie',
-    utmContent: 'pc-workstation-photogrammetrie',
+      'Base correcte pour debuter sur des chantiers drone petits a moyens : Intel Core i9-12900KF, RTX 5070 Ti 16 Go, 32 Go DDR5 et SSD NVMe 1 To. Suffisant pour apprendre et traiter regulierement, mais pas ideal pour les tres gros lots photo.',
+    price: 'Environ 1500 euros',
+    affiliateUrl: 'https://www.amazon.fr/dp/B0DZJ1LS6X?tag=topolia-21',
+    utmContent: 'pc-photogrammetrie-1500',
     source: 'amazon' as const,
-    isPlaceholder: true,
+  },
+  {
+    name: 'PC photogrammetrie - gamme autour de 2200 euros',
+    description:
+      'Gamme confort pour un usage plus regulier : Intel Core i9-12900KF, RTX 5070 Ti 16 Go, 32 Go DDR5 et SSD NVMe 1 To. Bon palier pour traiter des projets drone plus serieux sans partir directement sur une grosse station.',
+    price: 'Environ 2200 euros',
+    affiliateUrl: 'https://www.amazon.fr/dp/B0DZJ1LS6X?tag=topolia-21',
+    utmContent: 'pc-photogrammetrie-2200',
+    source: 'amazon' as const,
+  },
+  {
+    name: 'PC photogrammetrie - gros budget',
+    description:
+      'Pour gros volumes photo, traitements lourds et machine principale de production : viser RTX 5090, 64 Go RAM minimum, SSD 2 To et refroidissement solide. A reserver si tu traites souvent de gros chantiers.',
+    price: 'Gros budget',
+    affiliateUrl: 'https://www.amazon.fr/dp/B0DMPGXRCM?tag=topolia-21',
+    utmContent: 'pc-photogrammetrie-gros-budget',
+    source: 'amazon' as const,
+  },
+  {
+    name: 'PC portable photogrammetrie - minimum autour de 2000 euros',
+    description:
+      'Option transportable pour traiter sur chantier ou en deplacement : Ryzen 9, 32 Go DDR5, SSD NVMe 1 To et RTX 5070. Moins evolutif et souvent plus bruyant qu une tour, mais coherent si tu as besoin de mobilite.',
+    price: 'Minimum autour de 2000 euros',
+    affiliateUrl: 'https://www.amazon.fr/dp/B0F13PC15F?tag=topolia-21',
+    utmContent: 'pc-portable-photogrammetrie-2000',
+    source: 'amazon' as const,
   },
   {
     name: 'GPU NVIDIA RTX — accélération CUDA Metashape',
     description:
       "Si tu as déjà un PC mais pas de bonne carte graphique : une RTX 4070 ou 4080 divise par 5 à 10 le temps de calcul du nuage dense dans Metashape (accélération CUDA). C'est l'upgrade le plus rentable pour la photogrammétrie.",
     price: '~600 – 1 200 €',
-    affiliateUrl: 'https://www.amazon.fr/s?k=nvidia+rtx+4070+4080+carte+graphique',
+    affiliateUrl: 'https://www.amazon.fr/s?k=nvidia+rtx+4070+4080+carte+graphique&tag=topolia-21',
     utmContent: 'gpu-rtx-metashape',
     source: 'amazon' as const,
-    isPlaceholder: true,
   },
   {
-    name: 'SSD externe NVMe — transfert rapide',
+    name: 'SSD NVMe interne 1 To - Lexar ARES PRO',
     description:
-      'Pour déplacer les fichiers LAS/E57 entre le PC de terrain et la machine de traitement. Préférer 1 To minimum, USB 3.2 Gen2.',
-    price: '~80 €',
-    affiliateUrl: 'https://www.amazon.fr/s?k=ssd+externe+nvme+1to+usb+3.2',
-    utmContent: 'ssd-externe-nvme',
+      'Pour stocker les projets photogrammetrie directement dans la machine de traitement : photos drone, caches, exports LAS/E57 et orthophotos. Un NVMe 1 To est une bonne base pour travailler proprement sur les chantiers courants.',
+    price: 'NVMe 1 To',
+    affiliateUrl: 'https://www.amazon.fr/dp/B0FJLZVXFG?tag=topolia-21',
+    utmContent: 'ssd-nvme-interne-1to',
     source: 'amazon' as const,
-    isPlaceholder: true,
   },
   {
-    name: 'RAM 64 Go DDR5 — traitement Metashape',
+    name: 'RAM 64 Go DDR5 - achat deconseille en ce moment',
     description:
-      'Metashape et Pix4D sont très gourmands en RAM lors du traitement dense. 64 Go est le minimum confortable pour des projets > 500 photos.',
-    price: '~140 €',
-    affiliateUrl: 'https://www.amazon.fr/s?k=ram+64go+ddr5+pc',
+      'Je deconseille d acheter de la RAM en ce moment : les prix sont trop eleves. Pour Metashape et Pix4D, 64 Go reste le minimum confortable sur les gros projets, mais mieux vaut attendre une baisse avant d upgrader.',
+    price: 'A eviter maintenant',
     utmContent: 'ram-64go',
-    source: 'amazon' as const,
-    isPlaceholder: true,
+    source: 'autre' as const,
   },
 ];
 
@@ -104,12 +122,12 @@ const logiciels = [
     isPlaceholder: true,
   },
   {
-    name: 'RealityCapture',
+    name: 'RealityScan',
     description:
-      'Le plus rapide des trois pour les grands nuages. Modèle à la consommation (pay-per-input) depuis le rachat par Epic Games, ce qui le rend intéressant pour les chantiers ponctuels.',
-    price: 'Pay-per-input',
-    affiliateUrl: 'https://www.capturingreality.com/',
-    utmContent: 'reality-capture',
+      'RealityCapture est devenu RealityScan. Le logiciel est gratuit pour les particuliers et petites entreprises sous 1 million USD de revenu annuel, ce qui est interessant pour tester sans licence lourde. En revanche, la prise en main est moins evidente que Metashape au debut.',
+    price: 'Gratuit sous conditions',
+    affiliateUrl: 'https://www.realityscan.com/',
+    utmContent: 'realityscan',
     source: 'editeur' as const,
     isPlaceholder: true,
   },

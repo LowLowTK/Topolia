@@ -5,7 +5,7 @@ import { createArticleIdea, listArticleIdeas } from '../../../lib/article-ideas'
 export const prerender = false;
 
 export const GET: APIRoute = async ({ locals }) => {
-  const { userId } = locals.auth();
+  const { userId } = typeof locals.auth === 'function' ? locals.auth() : { userId: null };
   if (!userId) {
     return new Response(JSON.stringify({ ok: false, message: 'Non autorisé.' }), { status: 401 });
   }
@@ -21,7 +21,7 @@ export const GET: APIRoute = async ({ locals }) => {
 };
 
 export const POST: APIRoute = async ({ request, locals }) => {
-  const { userId } = locals.auth();
+  const { userId } = typeof locals.auth === 'function' ? locals.auth() : { userId: null };
   if (!userId) {
     return new Response(JSON.stringify({ ok: false, message: 'Non autorisé.' }), { status: 401 });
   }

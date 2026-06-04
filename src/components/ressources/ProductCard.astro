@@ -4,7 +4,7 @@ interface Props {
   description: string;
   price?: string; // ex: "~89 €" — indicatif, pas contractuel
   imageUrl?: string;
-  affiliateUrl: string; // URL de base sans UTM
+  affiliateUrl?: string; // URL de base sans UTM
   utmContent: string; // slug produit pour utm_content, ex: "mires-gcp"
   source: 'amazon' | 'editeur' | 'autre';
   isPlaceholder?: boolean; // true = lien non encore affilié
@@ -24,15 +24,14 @@ const {
 // Construction de l'URL avec UTM — tracké dans Cloudflare/Plausible.
 // Quand le compte Amazon Associates sera actif, remplacer PLACEHOLDER_TAG
 // dans affiliateUrl par le vrai tag (ex: &tag=topolia-21).
-const separator = affiliateUrl.includes('?') ? '&' : '?';
-const trackedUrl =
-  `${affiliateUrl}${separator}` +
-  `utm_source=topolia&utm_medium=ressources&utm_campaign=outils-drone&utm_content=${utmContent}`;
+const trackedUrl = affiliateUrl
+  ? `${affiliateUrl}${affiliateUrl.includes('?') ? '&' : '?'}utm_source=topolia&utm_medium=ressources&utm_campaign=outils-drone&utm_content=${utmContent}`
+  : null;
 
 const sourceLabel: Record<Props['source'], string> = {
   amazon: 'Amazon',
   editeur: 'Site officiel',
-  autre: 'Lien externe',
+  autre: 'Conseil',
 };
 
 const ctaLabel: Record<Props['source'], string> = {
@@ -60,15 +59,19 @@ const ctaLabel: Record<Props['source'], string> = {
     <p class="product-card__description">{description}</p>
     <div class="product-card__footer">
       {price && <span class="product-card__price">{price}</span>}
-      <a
-        href={trackedUrl}
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-        class="product-card__cta"
-        aria-label={`${ctaLabel[source]} — ${name}`}
-      >
-        {ctaLabel[source]} →
-      </a>
+      {
+        trackedUrl && (
+          <a
+            href={trackedUrl}
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            class="product-card__cta"
+            aria-label={`${ctaLabel[source]} - ${name}`}
+          >
+            {ctaLabel[source]} -&gt;
+          </a>
+        )
+      }
     </div>
     {
       isPlaceholder && (

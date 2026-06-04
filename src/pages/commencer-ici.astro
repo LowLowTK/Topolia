@@ -112,6 +112,19 @@ const faqJsonLd = {
           </span>
         </li>
       </ol>
+
+      <div class="scan-teaser">
+        <p class="scan-teaser__label">Bientot sur iOS</p>
+        <h3>Premier test LiDAR avec Topolia Scan</h3>
+        <p>
+          Pour t'initier sans investir dans un scanner professionnel, Topolia Scan permettra de
+          realiser un petit releve interieur avec un iPhone ou un iPad compatible LiDAR. L'objectif
+          n'est pas de remplacer un scanner de chantier, mais de comprendre concretement ce qu'est
+          un scan 3D : les points, les trous, la trajectoire, les surfaces difficiles et les limites
+          d'un releve rapide.
+        </p>
+        <a href="/topolia-scan/" class="scan-teaser__cta">Decouvrir Topolia Scan bientot</a>
+      </div>
     </article>
 
     <article class="route-card route-card--pro" id="terrain">
@@ -124,10 +137,23 @@ const faqJsonLd = {
       <div class="quick-links">
         <a href="/articles/dji-matrice-4e-photogrammetrie/">Test DJI Matrice 4E</a>
         <a href="/articles/dji-zenmuse-l3-analyse-achat/">Analyse Zenmuse L3</a>
-        <a href="/articles/rtc360-vs-faro-focus/">RTC360 vs Faro Focus</a>
+        <a href="/articles/rtc360-vs-faro-focus/">RTC360 vs FARO vs Trimble X9</a>
         <a href="/articles/pdal-introduction/">PDAL pour nuages de points</a>
         <a href="/chantiers/">Chantiers anonymises</a>
         <a href="/ressources/outils-drone-photogrammetrie/">Ressources materiel</a>
+      </div>
+
+      <div class="terrain-focus">
+        <p class="terrain-focus__label">Pour aller plus vite</p>
+        <h3>Tu cherches une info terrain ?</h3>
+        <p>
+          Pars directement d'un probleme concret : choisir un capteur, verifier un
+          <a href="/glossaire/recalage/">recalage</a>, comprendre une derive
+          <a href="/glossaire/slam/">SLAM</a>, convertir un fichier
+          <a href="/glossaire/las/">LAS</a> / <a href="/glossaire/laz/">LAZ</a> ou comparer deux workflows
+          avant un chantier.
+        </p>
+        <a href="/chantiers/" class="terrain-focus__cta">Voir les retours de chantier</a>
       </div>
     </article>
   </section>
@@ -232,11 +258,143 @@ const faqJsonLd = {
           <span><strong>Position</strong> x, y, z</span>
           <span><strong>Densite</strong> nombre de points</span>
           <span><strong>Classe</strong> sol, vegetation, batiment</span>
-          <em
-            >Demo legere generee dans le navigateur. Remplacable plus tard par ton vrai extrait.</em
-          >
+          <em>Demo legere generee dans le navigateur pour expliquer le principe.</em>
         </figcaption>
       </figure>
+    </div>
+  </section>
+
+  <section class="container tool-fit-section" aria-label="Quel outil pour quel chantier">
+    <div class="tool-fit-panel">
+      <div class="tool-fit-intro">
+        <p class="eyebrow">Choisir sans se precipiter</p>
+        <h2>Quel outil pour quel chantier ?</h2>
+        <p>
+          La mauvaise question, c'est souvent : "quel est le meilleur materiel ?" La bonne question,
+          c'est plutot : "qu'est-ce que je dois livrer, dans quel environnement, avec quel niveau de
+          controle ?" Un drone, un scanner statique ou un LiDAR mobile peuvent tous produire un
+          <a href="/glossaire/nuage-de-points/">nuage de points</a>, mais pas avec les memes forces.
+        </p>
+      </div>
+
+      <div class="tool-cards">
+        <article class="tool-card tool-card--terrain">
+          <span class="tool-card__badge">Terrain ouvert</span>
+          <h3>Je veux relever un terrain, une plateforme ou une carriere</h3>
+          <dl class="tool-card__facts">
+            <div>
+              <dt>Outil conseille</dt>
+              <dd>
+                Drone photo +
+                <a href="/glossaire/photogrammetrie/">photogrammetrie</a>
+              </dd>
+            </div>
+            <div>
+              <dt>A surveiller</dt>
+              <dd>
+                <a href="/glossaire/gcp/">GCP</a>, controle terrain, recouvrement et
+                <a href="/glossaire/gsd/">GSD</a>
+              </dd>
+            </div>
+          </dl>
+          <p>
+            Bon point d'entree en terrain degage : tu obtiens une
+            <a href="/glossaire/orthophoto/">orthophoto</a>, un modele de surface et un rendu facile
+            a expliquer au client.
+          </p>
+          <a class="tool-card__cta" href="/articles/workflow-drone-complet/"
+            >Lire le workflow drone</a
+          >
+        </article>
+
+        <article class="tool-card tool-card--vegetation">
+          <span class="tool-card__badge">Vegetation</span>
+          <h3>Je dois voir le sol sous des arbres ou des haies</h3>
+          <dl class="tool-card__facts">
+            <div>
+              <dt>Outil conseille</dt>
+              <dd>
+                <a href="/glossaire/lidar/">LiDAR</a> drone, mobile ou donnees LiDAR existantes
+              </dd>
+            </div>
+            <div>
+              <dt>A surveiller</dt>
+              <dd>Budget, densite utile, sous-traitance possible et besoin reel du chantier</dd>
+            </div>
+          </dl>
+          <p>
+            Le LiDAR ne traverse pas tout, mais certains retours laser peuvent atteindre le sol
+            entre les feuilles et les branches, la ou une photo reste bloquee sur ce qu'elle voit.
+          </p>
+          <a class="tool-card__cta" href="/articles/lidar-hd-ign/"
+            >Tester avec une vraie donnee IGN</a
+          >
+        </article>
+
+        <article class="tool-card tool-card--building">
+          <span class="tool-card__badge">Batiment</span>
+          <h3>Je veux scanner une facade, une cour ou un interieur</h3>
+          <dl class="tool-card__facts">
+            <div>
+              <dt>Outil conseille</dt>
+              <dd>Scanner statique, avec export <a href="/glossaire/e57/">E57</a></dd>
+            </div>
+            <div>
+              <dt>A surveiller</dt>
+              <dd>Masques, angles morts, stations mal placees et recalage trop confiant</dd>
+            </div>
+          </dl>
+          <p>
+            Plus lent a poser, mais solide quand il faut une geometrie propre et defendable. Sur une
+            facade ou un interieur, le placement des stations compte autant que le modele choisi.
+          </p>
+          <a class="tool-card__cta" href="/articles/rtc360-vs-faro-focus/"
+            >Comparer RTC360, FARO et Trimble X9</a
+          >
+        </article>
+
+        <article class="tool-card tool-card--speed">
+          <span class="tool-card__badge">Vitesse</span>
+          <h3>Je veux aller vite dans un couloir, un entrepot ou une cage d'escalier</h3>
+          <dl class="tool-card__facts">
+            <div>
+              <dt>Outil conseille</dt>
+              <dd>Scanner mobile ou backpack avec <a href="/glossaire/slam/">SLAM</a></dd>
+            </div>
+            <div>
+              <dt>A surveiller</dt>
+              <dd>Derive, longs couloirs, zones repetitives et environnements metalliques</dd>
+            </div>
+          </dl>
+          <p>
+            Tres confortable pour de la reconnaissance, du volume interieur ou un premier passage
+            rapide. Le gain de temps est reel, mais il ne remplace pas une strategie de controle.
+          </p>
+          <a class="tool-card__cta" href="/minute-topo/">Comprendre la derive SLAM</a>
+        </article>
+
+        <article class="tool-card tool-card--wide tool-card--starter">
+          <span class="tool-card__badge">Premier achat</span>
+          <h3>Je debute et je ne veux pas acheter trop vite</h3>
+          <dl class="tool-card__facts">
+            <div>
+              <dt>Outil conseille</dt>
+              <dd>Cibles, stockage, PC stable, logiciel de lecture et methode de controle</dd>
+            </div>
+            <div>
+              <dt>A surveiller</dt>
+              <dd>Acheter un capteur cher avant de savoir expliquer le livrable attendu</dd>
+            </div>
+          </dl>
+          <p>
+            Le capteur vient apres, quand le type de chantier est clair. Avant ca, les petits achats
+            et une bonne methode evitent deja beaucoup de chantiers refaits.
+          </p>
+          <a class="tool-card__cta" href="/ressources/outils-drone-photogrammetrie/"
+            >Voir les ressources materiel</a
+          >
+        </article>
+      </div>
     </div>
   </section>
 
@@ -639,6 +797,149 @@ const faqJsonLd = {
     line-height: 1.45;
   }
 
+  .tool-fit-section {
+    padding: 0 0 64px;
+  }
+
+  .tool-fit-panel {
+    display: grid;
+    gap: 28px;
+    padding: 28px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .tool-fit-intro p {
+    margin-top: 14px;
+    color: var(--ink-2);
+    line-height: 1.65;
+    max-width: 760px;
+  }
+
+  .tool-fit-intro a,
+  .tool-card a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .tool-cards {
+    display: grid;
+    gap: 14px;
+  }
+
+  .tool-card {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    padding: 18px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    background: var(--bg-alt);
+  }
+
+  .tool-card__badge {
+    width: fit-content;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: rgba(45, 91, 255, 0.08);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .tool-card--terrain .tool-card__badge {
+    background: rgba(16, 185, 129, 0.1);
+    color: #047857;
+  }
+
+  .tool-card--vegetation .tool-card__badge {
+    background: rgba(63, 125, 58, 0.12);
+    color: #2f6f31;
+  }
+
+  .tool-card--building .tool-card__badge {
+    background: rgba(148, 116, 78, 0.14);
+    color: #7a542b;
+  }
+
+  .tool-card--speed .tool-card__badge {
+    background: rgba(45, 91, 255, 0.1);
+    color: var(--accent);
+  }
+
+  .tool-card--starter .tool-card__badge {
+    background: rgba(15, 23, 42, 0.08);
+    color: var(--ink-2);
+  }
+
+  .tool-card h3 {
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 1.18rem;
+    line-height: 1.25;
+  }
+
+  .tool-card__facts {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .tool-card__facts div {
+    display: grid;
+    gap: 4px;
+    padding: 10px 12px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .tool-card__facts dt {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .tool-card__facts dd {
+    margin: 0;
+    color: var(--ink-2);
+    line-height: 1.45;
+  }
+
+  .tool-card p {
+    margin: 0;
+    color: var(--ink-3);
+    line-height: 1.58;
+  }
+
+  .tool-card__cta {
+    display: inline-flex;
+    justify-content: center;
+    width: fit-content;
+    margin-top: 2px;
+    padding: 9px 12px;
+    border: 1px solid rgba(45, 91, 255, 0.18);
+    border-radius: 8px;
+    background: var(--surface);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .tool-card__cta:hover {
+    border-color: var(--accent);
+    text-decoration: underline;
+  }
+
   .route-card {
     padding: 26px;
     scroll-margin-top: 90px;
@@ -670,6 +971,113 @@ const faqJsonLd = {
   .path-list span {
     color: var(--ink-3);
     line-height: 1.6;
+  }
+
+  .scan-teaser {
+    display: grid;
+    gap: 10px;
+    margin-top: 24px;
+    padding: 18px;
+    border: 1px solid rgba(45, 91, 255, 0.18);
+    border-radius: 8px;
+    background:
+      linear-gradient(135deg, rgba(45, 91, 255, 0.08), rgba(6, 182, 212, 0.08)), var(--bg-alt);
+  }
+
+  .scan-teaser__label {
+    width: fit-content;
+    margin: 0;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: rgba(45, 91, 255, 0.1);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .scan-teaser h3 {
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 1.2rem;
+    line-height: 1.25;
+  }
+
+  .scan-teaser p:not(.scan-teaser__label) {
+    margin: 0;
+    color: var(--ink-2);
+    line-height: 1.58;
+  }
+
+  .scan-teaser__cta {
+    width: fit-content;
+    color: var(--accent);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .scan-teaser__cta:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .terrain-focus {
+    display: grid;
+    gap: 10px;
+    margin-top: 24px;
+    padding: 18px;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    border-radius: 8px;
+    background:
+      linear-gradient(135deg, rgba(15, 23, 42, 0.05), rgba(45, 91, 255, 0.07)), var(--bg-alt);
+  }
+
+  .terrain-focus__label {
+    width: fit-content;
+    margin: 0;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.08);
+    color: var(--ink-2);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .terrain-focus h3 {
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 1.2rem;
+    line-height: 1.25;
+  }
+
+  .terrain-focus p:not(.terrain-focus__label) {
+    margin: 0;
+    color: var(--ink-2);
+    line-height: 1.58;
+  }
+
+  .terrain-focus a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .terrain-focus__cta {
+    width: fit-content;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .terrain-focus__cta:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .quick-links {
@@ -848,6 +1256,14 @@ const faqJsonLd = {
 
     .point-cloud-panel {
       grid-template-columns: minmax(0, 0.9fr) minmax(300px, 1fr);
+    }
+
+    .tool-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tool-card--wide {
+      grid-column: 1 / -1;
     }
 
     .split-layout,

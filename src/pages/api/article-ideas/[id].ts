@@ -18,7 +18,7 @@ const VALID_STATUSES: ArticleStatus[] = [
 ];
 
 export const PATCH: APIRoute = async ({ params, request, locals }) => {
-  const { userId } = locals.auth();
+  const { userId } = typeof locals.auth === 'function' ? locals.auth() : { userId: null };
   if (!userId) {
     return new Response(JSON.stringify({ ok: false, message: 'Non autorisé.' }), { status: 401 });
   }
@@ -48,7 +48,7 @@ export const PATCH: APIRoute = async ({ params, request, locals }) => {
 };
 
 export const DELETE: APIRoute = async ({ params, locals }) => {
-  const { userId } = locals.auth();
+  const { userId } = typeof locals.auth === 'function' ? locals.auth() : { userId: null };
   if (!userId) {
     return new Response(JSON.stringify({ ok: false, message: 'Non autorisé.' }), { status: 401 });
   }

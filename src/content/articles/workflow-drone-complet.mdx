@@ -1,76 +1,512 @@
 ---
-title: 'Du vol drone au nuage de points : le workflow complet'
-subtitle: 'Étape par étape, sans raccourci.'
-date: 2026-05-03
+title: 'Metashape : workflow complet du relevé drone à l’orthophoto'
+subtitle: 'Préparer, traiter, contrôler, exporter.'
+date: 2026-06-01
 category: 'tutoriels'
-tags: ['metashape', 'drone', 'photogrammetrie', 'workflow']
+tags: ['metashape', 'drone', 'photogrammetrie', 'orthophoto', 'nuage-de-points', 'gcp']
 author: 'loic'
 heroImage: '/images/articles/workflow-drone.jpg'
-heroImageAlt: 'Drone DJI Mavic 3 Enterprise survolant un chantier de construction'
-excerpt: "De la préparation du vol à l'export du nuage de points dense : le workflow drone photogrammétrie complet, sans rien zapper."
+heroImageAlt: 'Ordinateur affichant un nuage de points et une orthophoto avec drone et cibles GCP sur un chantier'
+excerpt: "Le workflow complet pour passer d'un relevé drone à un nuage de points exploitable et une orthophoto de référence dans Agisoft Metashape."
 isPremium: false
 isPublished: true
 ---
 
 import Callout from '../../components/mdx/Callout.astro';
 import PullQuote from '../../components/mdx/PullQuote.astro';
+import CompareTable from '../../components/mdx/CompareTable.astro';
+import Figure from '../../components/mdx/Figure.astro';
 
-Tu viens d'acheter un drone, ou tu galères avec un workflow qui te donne des résultats inégaux d'un chantier à l'autre. Cet article te détaille toute la chaîne, du briefing client à l'export du nuage de points livrable.
+Tu peux avoir le meilleur drone du monde, si ton vol est mal préparé, Metashape ne fera pas de miracle.
 
-## 1. La préparation du vol : 50 % du job
+L'objectif de cet article est simple : te donner un workflow propre pour produire deux livrables à partir d'un relevé drone :
 
-Si je devais ne garder qu'une leçon de trois ans de drone topo, ce serait celle-là : un mauvais vol ne se rattrape pas en post-traitement. Le calcul photogrammétrique amplifie tes erreurs, il ne les corrige pas.
+- un **nuage de points géoréférencé**, exploitable dans CloudCompare, AutoCAD, QGIS, Civil 3D ou un viewer 3D ;
+- une **orthophoto de référence**, exportée en GeoTIFF, utilisable comme fond de plan ou support de mesure.
 
-**Ce que tu prépares avant d'arriver sur site :**
+On part sur un workflow Agisoft Metashape Professional, avec points d'appui au sol quand la précision compte. C'est la chaîne que tu veux quand le livrable doit être défendable, pas juste joli.
 
-- Un plan de vol avec recouvrement **frontal 80 % / latéral 70 %** minimum sur un terrain plat. Pour du bâti complexe ou de la végétation, monte à 85/75.
-- Une grille de **GCP (Ground Control Points)** : au minimum 5 cibles bien réparties, 8 si la surface dépasse l'hectare.
-- Une vérification météo : pas de vent > 25 km/h, pas de pluie dans les 2h précédentes (les flaques cassent la photogrammétrie).
-
-<Callout type="warning" title="Le piège du soleil rasant">
-  Évite les vols entre 17h et 19h en été. Les ombres longues créent des zones noires que Metashape
-  interprète comme du bruit. Vise plutôt entre 10h et 15h, ou alors un ciel uniformément couvert
-  (bonus : pas de surex sur les toits clairs).
+<Callout type="info" title="Version courte">
+  Le bon résultat se joue dans cet ordre : mission bien recouverte, GCP propres, alignement
+  contrôlé, optimisation, nuage dense, DEM/DSM, orthomosaic, contrôle qualité, export.
 </Callout>
 
-## 2. Le vol lui-même
+<Figure
+  src="/images/articles/metashape-workflow-schema.svg"
+  alt="Schéma du workflow Metashape depuis la mission drone jusqu'aux exports GeoTIFF, LAZ et rapport"
+  caption="La chaîne complète : chaque bloc doit être validé avant de lancer le calcul suivant."
+/>
 
-Sur DJI Pilot ou DJI Terra, charge ton plan, vérifie l'orientation du capteur (nadir pour une cartographie classique, oblique à 45° si tu veux du 3D fidèle sur les façades) et lance.
+## 1. Avant le vol : définir ce que tu dois livrer
 
-Pendant le vol, surveille :
+Avant même d'ouvrir DJI Pilot, Litchi, UgCS ou n'importe quel outil de planification, clarifie le livrable.
 
-1. **L'autonomie** : prévoir une batterie en plus de ce que l'app indique.
-2. **La couverture GPS** : sur les vols RTK, ne lance pas tant que tu n'es pas en `FIX`.
-3. **Le bon recouvrement** : si tu vois que ton drone "saute" des bandes, arrête et redémarre proprement.
+Tu dois savoir :
 
-## 3. Traitement Metashape : les bons réglages
+- Quel système de coordonnées est attendu ;
+- Quelle précision est demandée ;
+- Quel GSD viser ;
+- Si l'orthophoto doit servir de fond de plan, de preuve chantier ou de support de mesure ;
+- Si le client veut un nuage de points brut, nettoyé, classifié ou seulement visualisable ;
+- Quels formats sont nécessaires à la fin.
 
-Voici un workflow Metashape Pro qui marche à 95 % du temps sans bricolage :
+Pour un chantier classique, je viserais souvent :
 
-1. **Aligner les photos** → précision `Élevée`, paires `Génériques`, points clés `40 000`, points liens `10 000`.
-2. **Importer les GCP**, repérer manuellement les cibles sur 3-4 photos minimum chacun, puis `Optimiser` la caméra.
-3. **Construire le nuage dense** → qualité `Élevée`, filtrage `Modéré`. Sur un PC moyen, table sur 4-8h pour 500 photos.
-4. **Exporter** en `.las` ou `.laz` pour la suite (CloudCompare, AutoCAD Civil 3D, etc.).
+<CompareTable
+  columns={['Livrable', 'Format recommandé', 'Usage']}
+  rows={[
+    {
+      feature: 'Orthophoto',
+      values: ['', 'GeoTIFF .tif', 'QGIS, AutoCAD Map, fond de plan, archive'],
+    },
+    { feature: 'Nuage de points', values: ['', 'LAZ ou E57', 'CloudCompare, DAO, viewer 3D'] },
+    {
+      feature: 'Surface utilisée',
+      values: ['', 'DEM/DSM GeoTIFF', 'contrôle, reprojection, altimétrie'],
+    },
+    {
+      feature: 'Contrôle qualité',
+      values: ['', 'rapport PDF Metashape', 'traçabilité du traitement'],
+    },
+  ]}
+/>
 
-<PullQuote cite="Loïc, Topolia">
-  La qualité `Très élevée` te fait gagner 5 % de densité pour 4× le temps de calcul. Sauf cas
-  spécifique (relevé patrimonial fin), reste sur `Élevée`.
+Le système de coordonnées doit être fixé dès le début. Si tu travailles en France, ça peut être du Lambert-93, une projection CC locale, du RGF93 / CCxx, ou un système chantier. Le piège classique : voler en WGS84, importer des GCP en Lambert, exporter sans vérifier la transformation, puis découvrir un décalage au moment d'ouvrir dans QGIS.
+
+## 2. Préparer les GCP et check points
+
+Pour une orthophoto de référence, je recommande de ne pas compter uniquement sur le GPS du drone. Même avec RTK/PPK, garde des points au sol.
+
+Il y a deux familles de points :
+
+- Les **GCP** servent à contraindre le modèle ;
+- Les **check points** servent à mesurer l'erreur finale sans participer au recalage.
+
+Dans Metashape, les deux sont gérés avec des marqueurs. Un point coché dans le panneau `Reference` sert de contrôle. Un point décoché sert de check point.
+
+<Callout type="tip" title="La règle simple">
+  Garde toujours quelques points en check points. Si tu utilises tous tes points comme GCP, tu peux
+  avoir un beau rapport, mais tu n'as plus de contrôle indépendant.
+</Callout>
+
+Sur le terrain :
+
+- Répartis les cibles sur toute l'emprise ;
+- Mets-en aux coins, au centre et près des ruptures de relief ;
+- Évite les points tous alignés ;
+- Pose des cibles bien contrastées ;
+- Mesure X, Y, Z avec GNSS RTK, PPK ou station totale ;
+- Note le système de coordonnées exact ;
+- Garde un CSV propre avec `nom, x, y, z`.
+
+Agisoft recommande d'avoir au moins quelques points pour l'évaluation de précision. Dans la vraie vie, je préfère avoir 5 à 8 points minimum sur un petit site, puis augmenter dès que la surface ou le relief se complique.
+
+<Figure
+  src="/images/articles/gcp-checkpoints-schema.svg"
+  alt="Schéma de répartition des GCP et check points sur une emprise de relevé drone"
+  caption="Exemple simple : des GCP répartis sur l'emprise, et des check points gardés hors ajustement pour valider le résultat."
+/>
+
+## 3. Planifier le vol drone
+
+La photogrammétrie aime la redondance. Trop peu de recouvrement, et tu obtiens des images qui ne s'alignent pas, des trous dans le nuage ou une orthophoto bancale.
+
+Base de départ :
+
+- **80 % longitudinal / 70 % latéral** sur terrain simple ;
+- **85 % / 75 %** sur terrain avec relief, végétation ou bâtiments ;
+- vol croisé si la zone est urbaine ou géométriquement complexe ;
+- caméra en **nadir** pour l'orthophoto ;
+- images obliques en complément si tu veux aussi un bon rendu 3D des façades.
+
+Agisoft conseille de ne pas descendre sous 80 % de recouvrement avant et 60 % latéral pour de bons résultats. En pratique, sur chantier, je préfère garder une marge. Le temps gagné avec un recouvrement trop faible se perd au traitement.
+
+<PullQuote cite="Topolia">
+  Un mauvais vol ne se sauve pas avec un réglage magique dans Metashape. Il se refait.
 </PullQuote>
 
-## 4. Contrôle qualité avant livraison
+Choisis l'altitude en fonction du GSD attendu, pas juste en fonction de l'autonomie. Plus tu voles bas, plus tu as de détail, mais plus tu as d'images, de variations locales et de risques de flou. Plus tu voles haut, plus le traitement est confortable, mais tu perds en finesse.
 
-Ouvre le nuage dans CloudCompare avant de livrer. Points à vérifier :
+## 4. Réaliser l'acquisition terrain
 
-- **Erreur RMS** sur les GCP : sous 3 cm en planimétrique pour un livrable cadastral.
-- **Pas de "trous"** dans la couverture : un toit manquant, c'est immédiatement repéré par le client.
-- **Densité homogène** : si une zone est nettement moins dense, c'est probablement un défaut de recouvrement à corriger.
+Avant de décoller, vérifie :
 
-## 5. Et après ?
+- Météo stable ;
+- Vent acceptable ;
+- Lumière homogène ;
+- Pas d'ombres trop longues ;
+- Cibles GCP visibles ;
+- Drone en bon état ;
+- Carte mémoire vide ;
+- Batterie suffisante ;
+- RTK en `FIX` si tu l'utilises.
 
-Le nuage est un livrable, mais c'est rarement le livrable final. Le client attend souvent :
+Évite les vols étalés sur toute une journée. La lumière change, les ombres bougent, et Metashape peut avoir plus de mal à retrouver des points communs entre images.
 
-- Une **orthophoto** (Metashape la génère depuis le maillage)
-- Un **MNT/MNS** au pas de 5 ou 10 cm
-- Parfois un **modèle CAO** sur les bâtiments, c'est là que CloudCompare et AutoCAD prennent le relais
+Pendant le vol, surveille surtout :
 
-Bon vol.
+- la netteté ;
+- la couverture réelle ;
+- les zones masquées ;
+- les reflets sur eau, vitrages, métal ;
+- les changements d'exposition.
+
+Mieux vaut refaire une bande sur site que découvrir au bureau qu'il manque une zone de recouvrement. Là, tu n'as plus qu'à expliquer au client pourquoi le trou est "normal". Mauvais moment.
+
+## 5. Créer le projet Metashape
+
+Dans Metashape Professional :
+
+1. Crée un nouveau projet ;
+2. Enregistre le projet en `.psx` ;
+3. Ajoute les photos avec `Workflow > Add Photos` ou `Add Folder` ;
+4. Vérifie les métadonnées caméra ;
+5. Ouvre le panneau `Reference` ;
+6. Vérifie le système de coordonnées des caméras ;
+7. Importe les positions si elles viennent d'un fichier séparé.
+
+Si les coordonnées sont dans les EXIF, Metashape les importe parfois automatiquement. Sinon, tu peux les importer depuis le panneau `Reference`.
+
+Point important : renseigne les précisions. Une position drone GPS standard, une position RTK et un GCP mesuré au GNSS n'ont pas du tout le même poids. Si tu laisses des valeurs par défaut incohérentes, tu demandes au logiciel de deviner.
+
+## 6. Aligner les photos
+
+L'alignement construit le squelette du projet : positions caméra, orientation et points de liaison.
+
+Menu :
+
+```text
+Workflow > Align Photos
+```
+
+Réglage courant pour un chantier propre :
+
+- Accuracy : `High` ;
+- Generic preselection : activé ;
+- Reference preselection : activé si les images sont géoréférencées ;
+- Key point limit : `40 000` ;
+- Tie point limit : `10 000`.
+
+Après calcul, ne passe pas directement à l'étape suivante. Regarde :
+
+- Combien de caméras sont alignées ;
+- Si le bloc est continu ;
+- Si des images partent dans tous les sens ;
+- Si le nuage de points de liaison ressemble à ton terrain ;
+- Si les bords sont couverts correctement.
+
+Si beaucoup d'images ne s'alignent pas, cherche la cause avant d'empiler les traitements : flou, manque de recouvrement, eau, surfaces brillantes, végétation mouvante, hauteur trop basse, lumière trop changeante.
+
+## 7. Importer et placer les GCP
+
+Dans le panneau `Reference` :
+
+1. clique sur `Import` ;
+2. charge le CSV des points ;
+3. choisis le séparateur ;
+4. indique les colonnes X, Y, Z ;
+5. choisis le bon système de coordonnées ;
+6. valide la création des marqueurs.
+
+Ensuite, marque les cibles dans les images.
+
+Pour chaque GCP :
+
+- Ouvre les photos où la cible est visible ;
+- Place le marqueur au centre de la cible ;
+- Fais-le sur au moins 3 images ;
+- Idéalement, vérifie plus d'images autour du point ;
+- Utilise `Tools > Markers > Refine Markers` seulement après avoir placé quelques projections propres ;
+- Contrôle les projections automatiques.
+
+Un marqueur automatique mal placé est pire qu'un marqueur absent. Il donne une fausse certitude au calcul.
+
+## 8. Optimiser les caméras
+
+Quand les GCP sont placés :
+
+```text
+Reference pane > Optimize Cameras
+```
+
+L'optimisation ajuste les caméras, les paramètres internes et les points de liaison en tenant compte des GCP, des check points et des précisions renseignées.
+
+Après optimisation, regarde :
+
+- L'erreur sur les GCP ;
+- L'erreur sur les check points ;
+- Les résidus en X, Y, Z ;
+- Les points qui explosent par rapport aux autres ;
+- Les marqueurs potentiellement mal piqués.
+
+<Callout type="warning" title="Ne poursuis pas avec un mauvais calage">
+  Si tes check points sont mauvais à ce stade, construire un nuage dense ne réglera rien. Corrige
+  les GCP, les systèmes de coordonnées ou l'alignement avant de lancer les étapes lourdes.
+</Callout>
+
+## 9. Construire le nuage de points
+
+Une fois le modèle calé, tu peux générer le nuage.
+
+Selon la version de Metashape, le workflow passe par les cartes de profondeur puis par la construction du point cloud.
+
+Réglage terrain courant :
+
+- Quality : `High` ;
+- Filtering : `Moderate` ;
+- calcul GPU activé si disponible ;
+- région de traitement ajustée à l'emprise utile.
+
+Évite `Ultra High` par réflexe. C'est séduisant, mais souvent très cher en temps de calcul pour un gain faible sur un livrable chantier. Je le réserve aux petits objets, au patrimoine ou aux besoins très fins.
+
+Après génération, nettoie :
+
+- Points flottants ;
+- Bruit sur eau ou surfaces réfléchissantes ;
+- Artefacts sur végétation ;
+- Zones hors emprise ;
+- Objets mobiles si nécessaire.
+
+Si tu dois produire un MNT, classe le nuage pour distinguer le sol du reste. Pour une orthophoto de chantier, un DSM propre suffit dans la plupart des cas.
+
+## 10. Construire le DEM ou DSM
+
+L'orthophoto n'est pas une simple mosaïque d'images. Elle est projetée sur une surface.
+
+Dans Metashape :
+
+```text
+Workflow > Build DEM
+```
+
+Choisis :
+
+- Le système de coordonnées final ;
+- La source de données ;
+- La résolution ;
+- Les classes de points si le nuage est classé.
+
+Deux cas :
+
+<CompareTable
+  columns={['Surface', 'Ce que ça représente', 'Quand l’utiliser']}
+  rows={[
+    {
+      feature: 'DSM / MNS',
+      values: [
+        '',
+        'sol + bâtiments + végétation + objets',
+        'orthophoto chantier, bâti, état des lieux',
+      ],
+    },
+    {
+      feature: 'DTM / MNT',
+      values: ['', 'terrain nu', 'topographie, terrassement, courbes de niveau'],
+    },
+  ]}
+/>
+
+Pour une orthophoto de référence en contexte chantier, j'utilise un DSM/MNS, sauf si le besoin est explicitement topographique terrain nu.
+
+## 11. Construire l'orthophoto
+
+Menu :
+
+```text
+Workflow > Build Orthomosaic
+```
+
+Paramètres à vérifier :
+
+- Système de coordonnées ;
+- Surface de projection ;
+- Résolution ;
+- Mode de fusion ;
+- Zone d'export.
+
+Agisoft rappelle que la qualité de l'orthomosaic dépend de deux choses : l'alignement des images et la surface utilisée pour l'orthorectification. Si le DEM est mauvais, l'orthophoto le montrera.
+
+Après génération, inspecte :
+
+- Raccords entre images ;
+- Bâtiments et bordures ;
+- Zones verticales ;
+- Arbres ;
+- Trous ;
+- Zones floues ;
+- Décalages par rapport aux check points.
+
+Si besoin, utilise les outils de seamline editing / patching pour corriger certains raccords. Mais garde en tête que l'édition cosmétique ne doit pas masquer une erreur géométrique.
+
+## 12. Contrôle qualité avant export
+
+Avant de livrer, fais un vrai contrôle.
+
+Sur le rapport Metashape :
+
+- Nombre d'images ;
+- Résolution de l'orthophoto ;
+- Résolution du DEM ;
+- Erreur GCP ;
+- Erreur check points ;
+- Paramètres de traitement ;
+- Système de coordonnées.
+
+Dans un SIG ou CloudCompare :
+
+- Ouvre l'orthophoto ;
+- Vérifie son emplacement ;
+- Compare avec les points de contrôle ;
+- Vérifie le nuage en 3D ;
+- Contrôle les altitudes ;
+- Regarde les zones bruitées.
+
+<Callout type="tip" title="Le contrôle qui évite les mauvaises surprises">
+  Ouvre toujours le GeoTIFF dans QGIS avant livraison. Pas dans Metashape, pas dans le viewer qui
+  vient de le produire. Dans un outil externe.
+</Callout>
+
+## 13. Exporter le nuage de points
+
+Menu :
+
+```text
+File > Export > Export Points
+```
+
+Choisis :
+
+- Source data : `Point cloud` ;
+- Système de coordonnées ;
+- Classes à exporter ;
+- Format.
+
+Formats utiles :
+
+- `.laz` : mon choix par défaut, compact et standard ;
+- `.las` : standard, mais plus lourd ;
+- `.e57` : pratique pour échange 3D, scan, inspection ;
+- `.xyz` : simple, mais pauvre et volumineux ;
+- Potree ou Cesium 3D Tiles : pour visualisation web.
+
+Agisoft indique que Metashape exporte notamment en LAS, LAZ, E57, PLY, XYZ, PTS, DXF, Potree et Cesium 3D Tiles. Attention quand même : certains formats ne conservent pas toutes les informations. Par exemple, OBJ et DXF ne sont pas les meilleurs choix pour livrer un nuage colorisé complet.
+
+## 14. Exporter l'orthophoto
+
+Menu :
+
+```text
+File > Export > Export Orthomosaic
+```
+
+Pour un livrable propre :
+
+- Format : `GeoTIFF` ;
+- Système de coordonnées final ;
+- Résolution native ou demandée ;
+- Compression adaptée ;
+- World file si le logiciel cible en a besoin ;
+- Découpage en tuiles si le fichier est trop lourd.
+
+Le GeoTIFF est le format de référence. Il garde le géoréférencement dans le fichier et s'ouvre directement dans QGIS, ArcGIS, AutoCAD Map ou la plupart des outils SIG.
+
+Si le fichier doit être publié en ligne, tu peux ensuite convertir le GeoTIFF en COG, MBTiles ou tuiles web. Mais pour l'archive projet, garde un GeoTIFF source.
+
+## 15. Exporter le DEM/DSM et le rapport
+
+Même si le client ne l'a pas demandé, j'aime livrer ou au minimum archiver la surface utilisée.
+
+Menu :
+
+```text
+File > Export > Export DEM
+File > Export > Export Report
+```
+
+Le DEM/DSM permet de comprendre sur quelle surface l'orthophoto a été générée. Le rapport permet de prouver comment le projet a été traité.
+
+Structure de livraison simple :
+
+```text
+projet-drone/
+  01_images_source/
+  02_gcp_checkpoints/
+  03_metashape/
+  04_exports/
+    orthophoto/
+      projet_orthophoto_EPSGxxxx_GSDxxcm.tif
+    nuage_points/
+      projet_nuage_points_EPSGxxxx.laz
+    surface/
+      projet_dsm_EPSGxxxx.tif
+    rapport/
+      projet_rapport_metashape.pdf
+  05_notes/
+    systeme_coordonnees.txt
+    parametres_traitement.txt
+```
+
+## 16. Les erreurs qui reviennent tout le temps
+
+### Trop peu de recouvrement
+
+C'est la cause numéro un des projets fragiles. Si les images ne se recouvrent pas assez, Metashape ne peut pas inventer des points communs.
+
+### GCP mal répartis
+
+Des GCP tous du même côté donnent un modèle qui peut être bon localement et mauvais ailleurs. Répartis-les sur l'emprise.
+
+### Pas de check points
+
+Sans check points, tu ne valides pas vraiment la précision. Tu constates seulement que le modèle colle aux points qui l'ont contraint.
+
+### Mauvais système de coordonnées
+
+Erreur classique, surtout avec les exports entre WGS84, Lambert-93, projections CC et systèmes locaux. Toujours vérifier dans un logiciel externe.
+
+### Orthophoto construite sur une surface sale
+
+Un DEM bruité donne une ortho bruitée. Nettoie ou classe le nuage avant de générer la surface si l'enjeu est important.
+
+## Workflow résumé
+
+1. Définir livrables, précision, GSD et coordonnées.
+2. Planifier le vol avec recouvrement suffisant.
+3. Poser et mesurer GCP + check points.
+4. Voler en lumière stable, avec images nettes.
+5. Créer le projet Metashape en `.psx`.
+6. Aligner les photos.
+7. Importer et marquer les GCP.
+8. Garder des check points indépendants.
+9. Optimiser les caméras.
+10. Générer le nuage de points.
+11. Nettoyer et classer si nécessaire.
+12. Construire le DEM/DSM.
+13. Construire l'orthophoto.
+14. Contrôler dans Metashape et dans un outil externe.
+15. Exporter LAZ/E57, GeoTIFF, DEM/DSM et rapport.
+
+## Mon avis
+
+Metashape est très solide, mais il récompense les workflows propres. Si tu lui donnes un vol bien couvert, des GCP fiables et un système de coordonnées cohérent, il sort des livrables sérieux.
+
+Le bon réflexe, c'est de considérer l'orthophoto comme le dernier maillon d'une chaîne, pas comme un bouton magique. L'orthophoto est bonne si le vol, l'alignement, les GCP, le nuage et la surface sont bons.
+
+Pour un livrable de référence, mon pack minimum serait :
+
+- Orthophoto GeoTIFF ;
+- Nuage de points LAZ ;
+- DSM ou MNT GeoTIFF ;
+- Rapport Metashape ;
+- Fichier des GCP/check points ;
+- Note sur le système de coordonnées.
+
+Avec ça, tu livres quelque chose d'exploitable, vérifiable et réutilisable.
+
+## Sources
+
+- [Tutoriels officiels Agisoft Metashape](https://www.agisoft.com/support/tutorials/)
+- [Aerial data processing with GCPs - Orthomosaic & DEM generation](https://agisoft.freshdesk.com/support/solutions/articles/31000153696-aerial-data-processing-with-gcps-orthomosaic-dem-generation)
+- [Control and Check points for aerial surveys](https://agisoft.freshdesk.com/support/solutions/articles/31000154132-control-and-check-points-for-aerial-surveys)
+- [Aerial survey tips](https://agisoft.freshdesk.com/support/solutions/articles/31000149338-aerial-survey-tips)
+- [Agisoft Metashape Professional User Manual 2.3](https://www.agisoft.com/pdf/metashape-pro_2_3_en.pdf)

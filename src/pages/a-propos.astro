@@ -1,158 +1,463 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Logo from '../components/Logo.astro';
+import NewsletterInline from '../components/NewsletterInline.astro';
 ---
 
 <BaseLayout
-  title="À propos"
-  description="Pourquoi Topolia existe, qui je suis, et ce que tu vas trouver ici."
+  title="À propos de Topolia"
+  description="Topolia est un média terrain sur la topographie moderne : scanner 3D, LiDAR, drone, photogrammétrie, nuages de points et retours de chantier."
 >
-  <section class="container apropos-page">
-    <header class="apropos-header">
-      <Logo variant="mark" size={120} animClass="sonar" />
-      <p class="eyebrow">À propos</p>
-      <h1 class="apropos-title">
-        Topolia, c'est <span class="accent">quoi exactement ?</span>
-      </h1>
-    </header>
+  <section class="about-hero">
+    <div class="container about-hero__grid">
+      <div>
+        <p class="eyebrow">À propos</p>
+        <h1>Topolia, la topo moderne sans vernis marketing.</h1>
+        <p class="hero-sub">
+          Scanner statique, LiDAR drone, photogrammétrie, SLAM, nuages de points : Topolia existe
+          pour traduire les technologies 3D en méthodes utilisables sur de vrais chantiers.
+        </p>
+        <div class="hero-actions">
+          <a href="/commencer-ici/" class="btn btn--primary">Commencer ici</a>
+          <a href="/articles/" class="btn btn--secondary">Lire les articles</a>
+        </div>
+      </div>
 
-    <div class="apropos-content prose">
-      <h2>L'idée de départ</h2>
-      <p>
-        Quand j'ai commencé la topo en 2018, j'ai galéré à trouver du contenu sérieux en français
-        sur les scanners laser, le LiDAR drone et la photogrammétrie. Beaucoup de marketing
-        constructeur, peu de retours terrain honnêtes, encore moins de tutoriels qui marchent
-        vraiment quand tu es sur un chantier.
-      </p>
-      <p>
-        Topolia, c'est l'inverse. Du contenu écrit par quelqu'un qui fait le métier, pour des gens
-        qui le font. Avec des chiffres réels, des erreurs assumées, et des outils qu'on utilise
-        vraiment.
-      </p>
+      <aside class="about-mark" aria-label="Marque Topolia">
+        <Logo variant="mark" size={150} animClass="sonar" />
+        <p>
+          Un média pour celles et ceux qui doivent produire des livrables propres, pas seulement
+          admirer une fiche technique.
+        </p>
+      </aside>
+    </div>
+  </section>
 
-      <h2>Qui je suis</h2>
-      <p>
-        Loïc, topographe indépendant. Six ans de terrain avec scanner statique (Leica RTC360
-        principalement), backpack LiDAR (BLK2GO) et drone photogrammétrie / LiDAR (Matrice 4E +
-        Zenmuse L2).
-      </p>
-      <p>
-        En parallèle, je développe deux applis qui me servent au quotidien :
-        <strong>Topolia Scan</strong> (iOS, en beta) et <strong>Topolia Desktop</strong>
-        (Windows pro, en cours). Le site est la vitrine éditoriale qui supporte ces produits, mais surtout,
-        c'est l'endroit où je partage ce que j'apprends.
-      </p>
+  <main class="container about-page">
+    <section class="about-section about-section--lead">
+      <p class="section-kicker">Pourquoi ça existe</p>
+      <h2>Parce qu'entre la brochure constructeur et le chantier, il manque souvent une couche.</h2>
+      <div class="prose">
+        <p>
+          Quand j'ai commencé la topo, j'ai vite trouvé des plaquettes commerciales, des vidéos de
+          démonstration et des promesses de précision millimétrique. Ce que je trouvais beaucoup
+          moins, c'était du contenu en français qui explique ce qui se passe vraiment quand tu es
+          dehors, avec un client, une météo moyenne, une batterie qui descend et un nuage de points
+          à livrer proprement.
+        </p>
+        <p>
+          Topolia part de là : rendre la topographie moderne plus lisible, plus concrète, plus
+          honnête. On parle matériel, logiciels et méthodes, mais toujours avec la même question :
+          qu'est-ce que ça change sur le terrain et dans le livrable final ?
+        </p>
+      </div>
+    </section>
 
-      <h2>Ce que tu trouves ici</h2>
-      <ul>
-        <li>
-          <strong>Articles tutoriels et comparatifs</strong> : workflows complets, tests matériel, méthodes
-          terrain. Un nouveau par semaine.
-        </li>
-        <li>
-          <strong>Glossaire</strong> : les termes du métier, expliqués clairement. De LiDAR à COPC en
-          passant par SLAM et RTK.
-        </li>
-        <li>
-          <strong>Chantiers anonymisés</strong> : vrais projets, vrais problèmes, vraies leçons. Ce que
-          les cabinets ne publient jamais.
-        </li>
-        <li>
-          <strong>Minute topo</strong> : une astuce ultra-courte par semaine, moins de 3 minutes de lecture.
-        </li>
+    <section class="about-grid">
+      <article class="info-panel">
+        <p class="section-kicker">Qui écrit</p>
+        <h2>Loïc, topographe sur le terrain avant d'être rédacteur.</h2>
+        <div class="prose">
+          <p>
+            Je travaille en topographie et en acquisition 3D : scanner statique, scanner mobile,
+            drone photogrammétrie, LiDAR et traitement de nuages de points. Le site n'est pas écrit
+            depuis un bureau marketing. Il vient des questions qui reviennent quand il faut préparer
+            une mission, contrôler une donnée, choisir un capteur ou expliquer un livrable.
+          </p>
+          <p>
+            Je ne prétends pas avoir tout testé ni avoir raison sur tout. Quand un article repose
+            sur une fiche constructeur, je le dis. Quand il s'appuie sur des retours utilisateurs,
+            je le précise. Quand c'est un avis terrain, il est assumé comme tel.
+          </p>
+        </div>
+      </article>
+
+      <article class="info-panel info-panel--accent">
+        <p class="section-kicker">La règle</p>
+        <h2>Pas de faux banc d'essai.</h2>
+        <div class="prose">
+          <p>
+            Un comparatif ne doit pas inventer un test terrain. Une analyse ne doit pas confondre
+            chiffre officiel et résultat garanti. Un tutoriel doit pouvoir être suivi par quelqu'un
+            qui a vraiment un fichier à traiter.
+          </p>
+          <p>
+            C'est le contrat éditorial de Topolia : sourcer ce qui est factuel, signaler les
+            limites, et garder un ton direct. Si un outil est bon mais pénible, on peut dire les
+            deux.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="about-section">
+      <p class="section-kicker">Ce que tu trouves ici</p>
+      <h2>Un média construit autour des vrais usages topo.</h2>
+      <div class="format-grid">
+        <a href="/articles/" class="format-card">
+          <span>Articles</span>
+          <strong>Tests, comparatifs et workflows</strong>
+          <p>Des dossiers longs sur les scanners, drones, logiciels et méthodes de production.</p>
+        </a>
+        <a href="/glossaire/" class="format-card">
+          <span>Glossaire</span>
+          <strong>Les mots du métier, sans flou</strong>
+          <p>LiDAR, E57, GCP, recalage, RTK, COPC : les notions expliquées simplement.</p>
+        </a>
+        <a href="/chantiers/" class="format-card">
+          <span>Chantiers</span>
+          <strong>Des retours anonymisés</strong>
+          <p>
+            De vrais problèmes terrain, les choix faits, et ce qu'il faudrait refaire autrement.
+          </p>
+        </a>
+        <a href="/minute-topo/" class="format-card">
+          <span>Minute topo</span>
+          <strong>Une idée courte, utile vite</strong>
+          <p>Des rappels, astuces et pièges fréquents à lire en quelques minutes.</p>
+        </a>
+        <a href="/ressources/outils-drone-photogrammetrie/" class="format-card">
+          <span>Ressources</span>
+          <strong>Matériel et outils</strong>
+          <p>Des listes commentées pour choisir sans confondre accessoire utile et gadget.</p>
+        </a>
+        <a href="/commencer-ici/" class="format-card">
+          <span>Parcours</span>
+          <strong>Pour ne pas se perdre</strong>
+          <p>Une porte d'entrée si tu découvres le scan 3D, le drone ou les nuages de points.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="about-section split">
+      <div>
+        <p class="section-kicker">Ce que Topolia n'est pas</p>
+        <h2>Pas un catalogue déguisé.</h2>
+      </div>
+      <ul class="principles-list">
+        <li>Pas de marketing constructeur recopié sans contexte.</li>
+        <li>Pas de promesse de précision sans parler contrôle, recalage et méthode.</li>
+        <li>Pas de jargon pour faire savant quand une phrase simple suffit.</li>
+        <li>Pas de neutralité molle : un avis peut être tranché, tant qu'il est expliqué.</li>
+        <li>Pas de contenu premium avant d'avoir construit une vraie base gratuite.</li>
       </ul>
+    </section>
 
-      <h2>Ce que tu ne trouves pas</h2>
-      <ul>
-        <li>Du marketing déguisé en article</li>
-        <li>Des tutoriels copiés-collés sans avoir testé l'outil</li>
-        <li>Du jargon pour faire savant, sauf si le terme est vraiment nécessaire</li>
-        <li>Le « vous » corporate qui rend tout contenu sans saveur</li>
-      </ul>
+    <section class="about-section product-section">
+      <div>
+        <p class="section-kicker">Projets en développement</p>
+        <h2>Topolia, ce n'est pas seulement un site.</h2>
+        <div class="prose">
+          <p>
+            En parallèle du média, je travaille sur des outils autour de l'acquisition et du
+            traitement 3D. Ils ne remplacent pas le contenu : ils viennent du même besoin, celui de
+            rendre les workflows topo plus simples à comprendre, contrôler et partager.
+          </p>
+        </div>
+      </div>
 
-      <h2>Et après ?</h2>
-      <p>
-        En V2, des formations payantes pour aller au-delà du blog. Quand il y aura assez de contenu
-        gratuit pour valider l'intérêt. Pas avant.
-      </p>
-      <p>
-        En V3, peut-être un viewer web pour partager des nuages de points avec tes clients. Mais on
-        n'y est pas encore.
-      </p>
+      <div class="product-cards">
+        <article class="product-card">
+          <span>iOS</span>
+          <h3>Topolia Scan</h3>
+          <p>
+            Un projet d'application mobile pour expérimenter le scan 3D léger, comprendre les
+            limites d'un relevé rapide et rendre l'acquisition plus pédagogique.
+          </p>
+        </article>
+        <article class="product-card">
+          <span>Desktop</span>
+          <h3>Topolia Desktop</h3>
+          <p>
+            Un projet d'outil Windows orienté production, contrôle et manipulation de données 3D.
+            Encore en développement, avec une logique très terrain.
+          </p>
+        </article>
+      </div>
+    </section>
 
-      <h2>On reste en contact ?</h2>
-      <p>
-        La newsletter arrive en Phase 4 du dev. En attendant,
-        <a href="/articles/">parcours les articles</a>
-        ou <a href="/glossaire/">explore le glossaire</a>.
-      </p>
+    <section class="about-section about-section--cta">
+      <div>
+        <p class="section-kicker">La suite</p>
+        <h2>Si tu arrives ici pour la première fois, commence simple.</h2>
+        <p>
+          Lis le parcours d'entrée, puis choisis selon ton besoin : comprendre les bases, comparer
+          un capteur, traiter un nuage de points ou lire un retour de chantier.
+        </p>
+        <div class="cta-row">
+          <a href="/commencer-ici/" class="btn btn--primary">Voir le parcours</a>
+          <a href="/newsletter/" class="btn btn--secondary">Suivre la newsletter</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="newsletter-band">
+    <div class="container newsletter-wrap">
+      <NewsletterInline variant="dark" />
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .apropos-page {
-    padding: 60px 0 80px;
-    max-width: var(--content-max);
+  .about-hero {
+    padding: 76px 0 58px;
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
   }
-  .apropos-header {
-    text-align: center;
-    margin-bottom: 56px;
+
+  .about-hero__grid {
+    display: grid;
+    gap: 32px;
+    align-items: center;
   }
-  .eyebrow {
-    margin-top: 24px;
+
+  .eyebrow,
+  .section-kicker {
     font-family: var(--mono);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--accent);
     margin-bottom: 14px;
   }
-  .apropos-title {
+
+  h1,
+  h2,
+  h3 {
     font-family: var(--display);
-    font-size: clamp(1.8rem, 5vw, 3rem);
-    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.08;
     letter-spacing: -0.03em;
-    line-height: 1.1;
-    color: var(--ink);
   }
-  .accent {
-    background: var(--accent-grad);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+
+  h1 {
+    max-width: 820px;
+    font-size: clamp(2.25rem, 7vw, 4.7rem);
+    font-weight: 800;
   }
-  .apropos-content {
-    margin-top: 40px;
+
+  h2 {
+    font-size: clamp(1.55rem, 4vw, 2.45rem);
+    font-weight: 800;
   }
-  .prose h2 {
-    font-family: var(--display);
-    font-size: 1.5rem;
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 750;
+  }
+
+  .hero-sub {
+    margin-top: 20px;
+    max-width: 680px;
+    color: var(--ink-3);
+    font-size: 1.1rem;
+    line-height: 1.65;
+  }
+
+  .hero-actions,
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .btn {
+    display: inline-flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 18px;
+    border-radius: 8px;
     font-weight: 700;
-    margin: 48px 0 14px;
-    color: var(--ink);
+    text-decoration: none;
   }
-  .prose p {
-    margin: 14px 0;
-    font-size: 1.05rem;
-    line-height: 1.7;
+
+  .btn--primary {
+    color: var(--surface);
+    background: var(--ink);
+  }
+
+  .btn--secondary {
     color: var(--ink-2);
+    border: 1px solid var(--hairline-strong);
+    background: var(--surface);
   }
-  .prose ul {
-    margin: 18px 0 18px 22px;
+
+  .about-mark,
+  .info-panel,
+  .format-card,
+  .product-card,
+  .about-section--cta {
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .about-mark {
+    display: grid;
+    justify-items: center;
+    gap: 18px;
+    padding: 28px;
+    text-align: center;
+  }
+
+  .about-mark p {
+    margin: 0;
     color: var(--ink-2);
-    line-height: 1.7;
+    line-height: 1.6;
   }
-  .prose li {
-    margin: 8px 0;
+
+  .about-page {
+    padding: 64px 0;
   }
-  .prose a {
+
+  .about-section {
+    margin-top: 72px;
+  }
+
+  .about-section:first-child {
+    margin-top: 0;
+  }
+
+  .about-section--lead {
+    max-width: 860px;
+  }
+
+  .prose {
+    margin-top: 18px;
+  }
+
+  .prose p,
+  .about-section--cta p {
+    margin: 14px 0 0;
+    color: var(--ink-2);
+    font-size: 1.03rem;
+    line-height: 1.72;
+  }
+
+  .about-grid,
+  .format-grid,
+  .product-cards {
+    display: grid;
+    gap: 18px;
+  }
+
+  .info-panel,
+  .product-card {
+    padding: 24px;
+  }
+
+  .info-panel--accent {
+    border-color: rgba(45, 91, 255, 0.18);
+    background:
+      linear-gradient(135deg, rgba(45, 91, 255, 0.07), rgba(6, 182, 212, 0.07)), var(--surface);
+  }
+
+  .format-grid {
+    margin-top: 26px;
+  }
+
+  .format-card {
+    display: grid;
+    gap: 8px;
+    padding: 18px;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .format-card:hover {
+    border-color: var(--accent);
+  }
+
+  .format-card span,
+  .product-card span {
+    width: fit-content;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: var(--accent-soft);
     color: var(--accent);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
-  .prose strong {
+
+  .format-card strong {
     color: var(--ink);
-    font-weight: 600;
+    font-size: 1.02rem;
+  }
+
+  .format-card p,
+  .product-card p {
+    margin: 0;
+    color: var(--ink-3);
+    line-height: 1.58;
+  }
+
+  .split,
+  .product-section {
+    display: grid;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .principles-list {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .principles-list li {
+    padding: 14px 16px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    background: var(--bg-alt);
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  .product-card {
+    display: grid;
+    gap: 12px;
+  }
+
+  .about-section--cta {
+    padding: 28px;
+    background:
+      linear-gradient(135deg, rgba(45, 91, 255, 0.08), rgba(6, 182, 212, 0.08)), var(--surface);
+  }
+
+  .newsletter-band {
+    padding: 70px 0 86px;
+    background: var(--bg-dark);
+  }
+
+  .newsletter-wrap {
+    max-width: 640px;
+  }
+
+  @media (min-width: 820px) {
+    .about-hero__grid {
+      grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.65fr);
+    }
+
+    .about-grid,
+    .product-section,
+    .split {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .format-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .product-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 </style>
