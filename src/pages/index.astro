@@ -15,11 +15,31 @@ const glossaire = publishedOnly(await getCollection('glossaire'))
   .slice(0, 3);
 const chantiers = sortByDateDesc(publishedOnly(await getCollection('chantiers')));
 const minutes = sortByDateDesc(publishedOnly(await getCollection('minute-topo'))).slice(0, 3);
+
+const homeJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Topolia',
+  url: 'https://topolia.fr/',
+  description:
+    'Topolia explique la topographie moderne : LiDAR, scanner 3D, drone, photogrammétrie et nuages de points.',
+  inLanguage: 'fr-FR',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Topolia',
+    url: 'https://topolia.fr/',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://topolia.fr/favicon.svg',
+    },
+  },
+});
 ---
 
 <BaseLayout
-  title="Topolia"
-  description="La topographie moderne, sans filtre. Tutoriels, comparatifs, retours terrain : LiDAR, drone, photogrammétrie."
+  title="Topolia - LiDAR, drone et photogrammétrie pour la topographie"
+  description="Topolia explique la topographie moderne : LiDAR, scanner 3D, drone, photogrammétrie, nuages de points, comparatifs matériel et retours terrain."
+  jsonLd={homeJsonLd}
 >
   <section class="hero">
     <div class="container hero-grid">

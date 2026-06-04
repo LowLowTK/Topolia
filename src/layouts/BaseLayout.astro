@@ -22,7 +22,7 @@ const {
 
 const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://topolia.fr';
 const canonical = canonicalUrl ?? `${siteUrl}${Astro.url.pathname}`;
-const fullTitle = title === 'Topolia' ? title : `${title} — Topolia`;
+const fullTitle = title.includes('Topolia') ? title : `${title} — Topolia`;
 
 /** Déduit le slug OG depuis le pathname courant. */
 function inferOgSlug(pathname: string): string {
@@ -61,6 +61,7 @@ const ogImageUrl = ogImage
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href={`${siteUrl}/sitemap-index.xml`} />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
