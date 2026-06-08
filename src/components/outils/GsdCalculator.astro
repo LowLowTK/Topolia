@@ -1,0 +1,427 @@
+---
+const defaultAltitude = 80;
+const defaultSensorWidth = 17.3;
+const defaultSensorHeight = 13;
+const defaultImageWidth = 5280;
+const defaultImageHeight = 3956;
+const defaultFocal = 12.29;
+---
+
+<section class="gsd-tool" aria-labelledby="gsd-tool-title">
+  <div class="gsd-tool__intro">
+    <p class="gsd-tool__eyebrow">Calculateur terrain</p>
+    <h2 id="gsd-tool-title">Calcule ton GSD avant le vol</h2>
+    <p>
+      Entre les caractéristiques de ta caméra et ton altitude de vol. Le calculateur te donne la
+      taille d'un pixel au sol et l'emprise couverte par une photo.
+    </p>
+  </div>
+
+  <div class="gsd-tool__grid">
+    <form class="gsd-form" id="gsd-form">
+      <label class="gsd-field" for="altitude">
+        <span>Altitude de vol</span>
+        <span class="gsd-input-wrap">
+          <input
+            id="altitude"
+            name="altitude"
+            type="number"
+            min="1"
+            step="1"
+            value={defaultAltitude}
+          />
+          <span>m</span>
+        </span>
+      </label>
+
+      <label class="gsd-field" for="sensor-width">
+        <span>Largeur capteur</span>
+        <span class="gsd-input-wrap">
+          <input
+            id="sensor-width"
+            name="sensor-width"
+            type="number"
+            min="1"
+            step="0.1"
+            value={defaultSensorWidth}
+          />
+          <span>mm</span>
+        </span>
+      </label>
+
+      <label class="gsd-field" for="sensor-height">
+        <span>Hauteur capteur</span>
+        <span class="gsd-input-wrap">
+          <input
+            id="sensor-height"
+            name="sensor-height"
+            type="number"
+            min="1"
+            step="0.1"
+            value={defaultSensorHeight}
+          />
+          <span>mm</span>
+        </span>
+      </label>
+
+      <label class="gsd-field" for="focal">
+        <span>Focale réelle</span>
+        <span class="gsd-input-wrap">
+          <input id="focal" name="focal" type="number" min="1" step="0.01" value={defaultFocal} />
+          <span>mm</span>
+        </span>
+      </label>
+
+      <label class="gsd-field" for="image-width">
+        <span>Largeur image</span>
+        <span class="gsd-input-wrap">
+          <input
+            id="image-width"
+            name="image-width"
+            type="number"
+            min="1"
+            step="1"
+            value={defaultImageWidth}
+          />
+          <span>px</span>
+        </span>
+      </label>
+
+      <label class="gsd-field" for="image-height">
+        <span>Hauteur image</span>
+        <span class="gsd-input-wrap">
+          <input
+            id="image-height"
+            name="image-height"
+            type="number"
+            min="1"
+            step="1"
+            value={defaultImageHeight}
+          />
+          <span>px</span>
+        </span>
+      </label>
+
+      <button class="gsd-reset" type="button" id="gsd-reset">Réinitialiser l'exemple</button>
+    </form>
+
+    <aside class="gsd-results" aria-live="polite">
+      <p class="gsd-results__label">Résultat principal</p>
+      <div class="gsd-results__primary">
+        <output id="gsd-value">--</output>
+        <span>cm / pixel</span>
+      </div>
+
+      <dl class="gsd-results__list">
+        <div>
+          <dt>Largeur couverte</dt>
+          <dd><output id="footprint-width">--</output> m</dd>
+        </div>
+        <div>
+          <dt>Hauteur couverte</dt>
+          <dd><output id="footprint-height">--</output> m</dd>
+        </div>
+        <div>
+          <dt>Surface par photo</dt>
+          <dd><output id="footprint-area">--</output> m²</dd>
+        </div>
+      </dl>
+
+      <p class="gsd-results__note" id="gsd-note">
+        Exemple prérempli avec un capteur 4/3 proche d'un drone topo courant.
+      </p>
+    </aside>
+  </div>
+</section>
+
+<script>
+  const defaults = {
+    altitude: 80,
+    sensorWidth: 17.3,
+    sensorHeight: 13,
+    imageWidth: 5280,
+    imageHeight: 3956,
+    focal: 12.29,
+  };
+
+  const form = document.getElementById('gsd-form');
+  const resetButton = document.getElementById('gsd-reset');
+  const fields = {
+    altitude: document.getElementById('altitude'),
+    sensorWidth: document.getElementById('sensor-width'),
+    sensorHeight: document.getElementById('sensor-height'),
+    imageWidth: document.getElementById('image-width'),
+    imageHeight: document.getElementById('image-height'),
+    focal: document.getElementById('focal'),
+  };
+  const outputs = {
+    gsd: document.getElementById('gsd-value'),
+    width: document.getElementById('footprint-width'),
+    height: document.getElementById('footprint-height'),
+    area: document.getElementById('footprint-area'),
+  };
+
+  function readNumber(input) {
+    if (!(input instanceof HTMLInputElement)) return 0;
+    return Number.parseFloat(input.value);
+  }
+
+  function writeOutput(output, value, decimals) {
+    if (!(output instanceof HTMLOutputElement) || !Number.isFinite(value)) return;
+    output.value = value.toLocaleString('fr-FR', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+  }
+
+  function calculateGsd() {
+    const altitude = readNumber(fields.altitude);
+    const sensorWidth = readNumber(fields.sensorWidth);
+    const sensorHeight = readNumber(fields.sensorHeight);
+    const imageWidth = readNumber(fields.imageWidth);
+    const imageHeight = readNumber(fields.imageHeight);
+    const focal = readNumber(fields.focal);
+
+    if (
+      altitude <= 0 ||
+      sensorWidth <= 0 ||
+      sensorHeight <= 0 ||
+      imageWidth <= 0 ||
+      imageHeight <= 0 ||
+      focal <= 0
+    ) {
+      return;
+    }
+
+    const footprintWidth = (altitude * sensorWidth) / focal;
+    const footprintHeight = (altitude * sensorHeight) / focal;
+    const gsdCm = (footprintWidth / imageWidth) * 100;
+    const footprintArea = footprintWidth * footprintHeight;
+
+    writeOutput(outputs.gsd, gsdCm, 2);
+    writeOutput(outputs.width, footprintWidth, 1);
+    writeOutput(outputs.height, footprintHeight, 1);
+    writeOutput(outputs.area, footprintArea, 0);
+  }
+
+  form?.addEventListener('input', calculateGsd);
+  resetButton?.addEventListener('click', () => {
+    if (fields.altitude instanceof HTMLInputElement)
+      fields.altitude.value = String(defaults.altitude);
+    if (fields.sensorWidth instanceof HTMLInputElement)
+      fields.sensorWidth.value = String(defaults.sensorWidth);
+    if (fields.sensorHeight instanceof HTMLInputElement)
+      fields.sensorHeight.value = String(defaults.sensorHeight);
+    if (fields.imageWidth instanceof HTMLInputElement)
+      fields.imageWidth.value = String(defaults.imageWidth);
+    if (fields.imageHeight instanceof HTMLInputElement)
+      fields.imageHeight.value = String(defaults.imageHeight);
+    if (fields.focal instanceof HTMLInputElement) fields.focal.value = String(defaults.focal);
+    calculateGsd();
+  });
+
+  calculateGsd();
+</script>
+
+<style>
+  .gsd-tool {
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+
+  .gsd-tool__intro {
+    padding: 24px;
+    border-bottom: 1px solid var(--hairline);
+    background: var(--bg-alt);
+  }
+
+  .gsd-tool__eyebrow {
+    margin-bottom: 8px;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .gsd-tool__intro h2 {
+    font-family: var(--display);
+    font-size: clamp(1.45rem, 4vw, 2rem);
+    font-weight: 800;
+    line-height: 1.12;
+    color: var(--ink);
+  }
+
+  .gsd-tool__intro p:last-child {
+    margin-top: 10px;
+    color: var(--ink-3);
+    max-width: 680px;
+  }
+
+  .gsd-tool__grid {
+    display: grid;
+    gap: 0;
+  }
+
+  .gsd-form {
+    display: grid;
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .gsd-field {
+    display: grid;
+    gap: 8px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--ink-2);
+  }
+
+  .gsd-input-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 48px;
+    align-items: center;
+    min-height: 48px;
+    overflow: hidden;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+
+  .gsd-input-wrap input {
+    width: 100%;
+    min-height: 48px;
+    border: 0;
+    padding: 10px 12px;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    outline: none;
+  }
+
+  .gsd-input-wrap input:focus {
+    box-shadow: inset 0 0 0 2px var(--accent);
+  }
+
+  .gsd-input-wrap span {
+    height: 100%;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--hairline);
+    background: var(--bg-alt);
+    color: var(--ink-muted);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+  }
+
+  .gsd-reset {
+    min-height: 44px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--ink-2);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .gsd-reset:hover {
+    background: var(--bg-alt);
+  }
+
+  .gsd-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 24px;
+    background: var(--bg-dark);
+    color: var(--surface);
+  }
+
+  .gsd-results__label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+
+  .gsd-results__primary {
+    margin-top: 12px;
+  }
+
+  .gsd-results__primary output {
+    display: block;
+    font-family: var(--display);
+    font-size: clamp(3rem, 12vw, 5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    color: var(--surface);
+  }
+
+  .gsd-results__primary span {
+    display: block;
+    margin-top: 8px;
+    color: var(--ink-light);
+    font-weight: 700;
+  }
+
+  .gsd-results__list {
+    display: grid;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .gsd-results__list div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 10px;
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+
+  .gsd-results__list dt {
+    color: var(--ink-light);
+  }
+
+  .gsd-results__list dd {
+    font-weight: 800;
+    color: var(--surface);
+  }
+
+  .gsd-results__note {
+    margin-top: 22px;
+    color: var(--ink-light);
+    font-size: 0.88rem;
+  }
+
+  @media (min-width: 900px) {
+    .gsd-tool__intro {
+      padding: 32px;
+    }
+
+    .gsd-tool__grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+    }
+
+    .gsd-form {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      padding: 28px;
+    }
+
+    .gsd-reset {
+      grid-column: 1 / -1;
+      justify-self: start;
+      padding-inline: 18px;
+    }
+
+    .gsd-results {
+      padding: 32px;
+    }
+  }
+</style>

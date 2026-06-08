@@ -1,0 +1,391 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GsdCalculator from '../../components/outils/GsdCalculator.astro';
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://topolia.fr';
+
+const faq = [
+  {
+    question: 'Qu’est-ce que le GSD en drone ?',
+    answer:
+      "Le GSD, ou Ground Sampling Distance, correspond à la taille réelle représentée par un pixel sur ta photo. Un GSD de 2 cm/pixel veut dire qu'un pixel représente environ 2 cm au sol.",
+  },
+  {
+    question: 'Quel GSD choisir pour un relevé topographique ?',
+    answer:
+      'Pour un relevé topo courant, vise souvent entre 1 et 3 cm/pixel. Descends plus bas si tu dois lire des détails fins, reste plus haut si tu cartographies une grande zone sans besoin de détail serré.',
+  },
+  {
+    question: "L'altitude change-t-elle vraiment la précision ?",
+    answer:
+      'Oui. Plus tu voles haut, plus le GSD augmente. Tu couvres plus large, mais chaque pixel représente une zone plus grande au sol.',
+  },
+  {
+    question: 'Le GSD suffit-il à garantir la précision finale ?',
+    answer:
+      'Non. Le GSD donne une résolution image. La précision finale dépend aussi du RTK, des GCP, du recouvrement, de la qualité des photos, du traitement et du calage.',
+  },
+  {
+    question: 'Pourquoi renseigner la focale réelle et pas la focale équivalente 35 mm ?',
+    answer:
+      "La formule du GSD utilise la focale réelle de l'objectif. La focale équivalente 35 mm sert surtout à comparer l'angle de vue entre appareils.",
+  },
+  {
+    question: 'Comment trouver la taille du capteur ?',
+    answer:
+      'Tu peux la récupérer dans la fiche technique du drone ou de la caméra. Si le fabricant donne seulement le format, cherche la largeur et la hauteur réelles en millimètres.',
+  },
+  {
+    question: 'Pourquoi calculer aussi l’emprise photo ?',
+    answer:
+      "L'emprise t'aide à estimer combien de photos seront nécessaires pour couvrir une zone, surtout quand tu prépares ensuite le recouvrement frontal et latéral.",
+  },
+  {
+    question: 'Un GSD plus petit est-il toujours meilleur ?',
+    answer:
+      'Pas forcément. Un GSD plus fin crée plus de photos, plus de temps de vol, plus de stockage et plus de traitement. Le bon GSD est celui qui répond au besoin du chantier.',
+  },
+  {
+    question: 'Le vent ou le flou changent-ils le GSD ?',
+    answer:
+      "Ils ne changent pas le GSD théorique, mais ils peuvent dégrader l'image et donc la qualité du modèle final. Un bon GSD ne rattrape pas des photos floues.",
+  },
+  {
+    question: 'Puis-je utiliser ce calculateur sur mobile ?',
+    answer:
+      'Oui. Il est prévu pour fonctionner vite sur téléphone, directement sur le terrain ou pendant la préparation de mission.',
+  },
+];
+
+const jsonLd = JSON.stringify([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Calculateur GSD Drone Topolia',
+    url: `${siteUrl}/outils/calculateur-gsd-drone/`,
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Web',
+    inLanguage: 'fr-FR',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'EUR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  },
+]);
+---
+
+<BaseLayout
+  title="Calculateur GSD Drone Gratuit"
+  description="Calcule gratuitement le GSD de ton drone : cm par pixel, largeur couverte, hauteur couverte et surface par photo selon l'altitude, le capteur et la focale."
+  jsonLd={jsonLd}
+>
+  <article class="tool-page">
+    <header class="tool-hero">
+      <div class="container tool-hero__inner">
+        <div>
+          <p class="tool-hero__eyebrow">Drone · Photogrammétrie</p>
+          <h1>Calculateur GSD drone gratuit</h1>
+          <p>
+            Prépare ton vol avant de décoller. Le GSD te dit quelle taille représente un pixel au
+            sol, donc le niveau de détail réel que tu peux espérer dans tes images.
+          </p>
+        </div>
+        <div class="tool-hero__facts" aria-label="Points clés">
+          <span>Sans compte</span>
+          <span>Calcul instantané</span>
+          <span>Mobile terrain</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="container tool-section tool-section--calculator">
+      <GsdCalculator />
+    </section>
+
+    <section class="container tool-content">
+      <div class="tool-content__main">
+        <section>
+          <h2>Comment se calcule le GSD ?</h2>
+          <p>
+            La formule utilisée ici part de l'emprise au sol de la photo. On calcule d'abord la
+            largeur couverte par l'image, puis on divise cette largeur par le nombre de pixels.
+          </p>
+          <p class="formula">GSD = altitude x largeur capteur / focale / largeur image</p>
+          <p>
+            Le résultat est affiché en centimètres par pixel. Si tu doubles ton altitude, ton GSD
+            double aussi. C'est simple, mais c'est souvent le détail qui change tout sur un
+            chantier.
+          </p>
+        </section>
+
+        <section>
+          <h2>Exemple concret</h2>
+          <p>
+            Tu prépares un vol à 80 m avec un capteur 4/3, une focale réelle de 12,29 mm et une
+            image de 5280 px de large. Le calcul donne environ 2,13 cm/pixel. Sur une mission topo,
+            c'est une base correcte pour lire les formes, les limites et les détails courants.
+          </p>
+          <p>
+            Si tu dois contrôler des détails plus fins, tu peux baisser l'altitude. Si tu dois
+            couvrir une grande emprise rapidement, tu peux monter, mais tu acceptes de perdre du
+            détail.
+          </p>
+        </section>
+
+        <section>
+          <h2>Ce que le GSD ne dit pas</h2>
+          <p>
+            Le GSD n'est pas une promesse de précision. Deux missions avec le même GSD peuvent
+            donner des résultats très différents selon le recouvrement, la netteté des images, la
+            qualité du calage RTK ou GCP, et la façon dont le logiciel reconstruit le modèle.
+          </p>
+        </section>
+
+        <section class="faq-section">
+          <h2>FAQ</h2>
+          <div class="faq-list">
+            {
+              faq.map((item) => (
+                <details>
+                  <summary>{item.question}</summary>
+                  <p>{item.answer}</p>
+                </details>
+              ))
+            }
+          </div>
+        </section>
+      </div>
+
+      <aside class="tool-content__side" aria-label="Liens utiles">
+        <div class="side-panel">
+          <h2>À lire ensuite</h2>
+          <a href="/articles/workflow-drone-complet/">Workflow drone complet</a>
+          <a href="/articles/dji-matrice-4e-photogrammetrie/">DJI Matrice 4E en photogrammétrie</a>
+          <a href="/glossaire/photogrammetrie/">Photogrammétrie</a>
+          <a href="/glossaire/gcp/">GCP</a>
+        </div>
+        <div class="side-panel side-panel--dark">
+          <h2>Topolia</h2>
+          <p>
+            Les outils gratuits servent à préparer tes missions. Les articles t'aident à comprendre
+            les choix derrière les chiffres.
+          </p>
+          <a href="/outils/">Voir tous les outils</a>
+        </div>
+      </aside>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .tool-page {
+    background: var(--bg);
+  }
+
+  .tool-hero {
+    padding: 64px 0 44px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .tool-hero__inner {
+    display: grid;
+    gap: 28px;
+    align-items: end;
+  }
+
+  .tool-hero__eyebrow {
+    margin-bottom: 14px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .tool-hero h1 {
+    max-width: 820px;
+    font-family: var(--display);
+    font-size: clamp(2.15rem, 7vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.02;
+    color: var(--ink);
+  }
+
+  .tool-hero p:last-child {
+    max-width: 680px;
+    margin-top: 18px;
+    color: var(--ink-3);
+    font-size: 1.08rem;
+  }
+
+  .tool-hero__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tool-hero__facts span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 999px;
+    padding: 6px 12px;
+    background: var(--surface);
+    color: var(--ink-2);
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+
+  .tool-section {
+    padding-top: 40px;
+    padding-bottom: 36px;
+  }
+
+  .tool-content {
+    display: grid;
+    gap: 32px;
+    padding-bottom: 84px;
+  }
+
+  .tool-content__main {
+    max-width: var(--content-max);
+  }
+
+  .tool-content__main section + section {
+    margin-top: 44px;
+  }
+
+  .tool-content h2 {
+    font-family: var(--display);
+    font-size: clamp(1.45rem, 4vw, 2rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+
+  .tool-content p {
+    margin-top: 14px;
+    color: var(--ink-3);
+  }
+
+  .formula {
+    display: block;
+    border-left: 4px solid var(--accent);
+    padding: 14px 16px;
+    background: var(--bg-alt);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 0.9rem;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .faq-list details {
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+
+  .faq-list summary {
+    min-height: 52px;
+    padding: 14px 16px;
+    cursor: pointer;
+    font-weight: 800;
+    color: var(--ink);
+  }
+
+  .faq-list details[open] summary {
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .faq-list p {
+    margin: 0;
+    padding: 14px 16px 16px;
+  }
+
+  .tool-content__side {
+    display: grid;
+    gap: 16px;
+    align-content: start;
+  }
+
+  .side-panel {
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    padding: 20px;
+    background: var(--surface);
+  }
+
+  .side-panel h2 {
+    font-size: 1.1rem;
+  }
+
+  .side-panel a {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    border-bottom: 1px solid var(--hairline);
+    color: var(--accent);
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .side-panel a:last-child {
+    border-bottom: 0;
+  }
+
+  .side-panel a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .side-panel--dark {
+    background: var(--bg-dark);
+    color: var(--surface);
+  }
+
+  .side-panel--dark h2,
+  .side-panel--dark p {
+    color: var(--surface);
+  }
+
+  .side-panel--dark a {
+    border-bottom: 0;
+    color: var(--accent-2);
+  }
+
+  @media (min-width: 900px) {
+    .tool-hero__inner {
+      grid-template-columns: minmax(0, 1fr) 300px;
+    }
+
+    .tool-content {
+      grid-template-columns: minmax(0, 1fr) 320px;
+      align-items: start;
+    }
+
+    .tool-content__side {
+      position: sticky;
+      top: 88px;
+    }
+  }
+</style>

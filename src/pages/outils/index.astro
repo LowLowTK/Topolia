@@ -1,0 +1,199 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const tools = [
+  {
+    title: 'Calculateur GSD drone',
+    status: 'Disponible',
+    description:
+      "Calcule la taille d'un pixel au sol, l'emprise d'une photo et la surface couverte selon ton altitude.",
+    href: '/outils/calculateur-gsd-drone/',
+    category: 'Drone',
+  },
+  {
+    title: 'Calculateur mission drone',
+    status: 'Bientôt',
+    description:
+      'Estime le nombre de photos, le temps de vol et les batteries nécessaires pour une mission photogrammétrique.',
+    href: '/outils/calculateur-mission-drone/',
+    category: 'Drone',
+  },
+  {
+    title: 'Calculateur stockage nuage',
+    status: 'Bientôt',
+    description:
+      "Prévois la taille d'un projet E57, RCP ou LAS selon ton scanner et ton nombre de stations.",
+    href: '/outils/calculateur-stockage-nuage/',
+    category: 'Scanner 3D',
+  },
+  {
+    title: 'Convertisseur de pente',
+    status: 'Bientôt',
+    description: 'Convertis rapidement une pente en pourcentage, degrés ou ratio.',
+    href: '/outils/convertisseur-pente/',
+    category: 'Topographie',
+  },
+];
+---
+
+<BaseLayout
+  title="Outils gratuits pour la topographie, le drone et le scan 3D"
+  description="Calculateurs gratuits pour préparer tes missions drone, scan 3D et topographie : GSD, emprise photo, mission photogrammétrique, stockage nuage de points."
+>
+  <section class="tools-hero">
+    <div class="container tools-hero__inner">
+      <p class="tools-hero__eyebrow">Outils gratuits</p>
+      <h1>Des calculateurs simples pour préparer tes missions terrain.</h1>
+      <p>
+        GSD drone, emprise photo, temps de mission, stockage nuage de points. Les outils Topolia
+        restent gratuits, rapides et utilisables sans compte.
+      </p>
+    </div>
+  </section>
+
+  <section class="container tools-list" aria-label="Liste des outils Topolia">
+    {
+      tools.map((tool) => (
+        <article class="tool-card">
+          <div class="tool-card__meta">
+            <span>{tool.category}</span>
+            <span
+              class:list={[
+                'tool-card__status',
+                { 'tool-card__status--live': tool.status === 'Disponible' },
+              ]}
+            >
+              {tool.status}
+            </span>
+          </div>
+          <h2>{tool.title}</h2>
+          <p>{tool.description}</p>
+          {tool.status === 'Disponible' ? (
+            <a href={tool.href} class="tool-card__link">
+              Ouvrir l'outil
+            </a>
+          ) : (
+            <span class="tool-card__disabled">En préparation</span>
+          )}
+        </article>
+      ))
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .tools-hero {
+    padding: 64px 0 48px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .tools-hero__inner {
+    max-width: 820px;
+  }
+
+  .tools-hero__eyebrow {
+    margin-bottom: 14px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .tools-hero h1 {
+    font-family: var(--display);
+    font-size: clamp(2.1rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.04;
+    color: var(--ink);
+  }
+
+  .tools-hero p:last-child {
+    margin-top: 18px;
+    max-width: 620px;
+    color: var(--ink-3);
+    font-size: 1.08rem;
+  }
+
+  .tools-list {
+    display: grid;
+    gap: 18px;
+    padding-top: 44px;
+    padding-bottom: 80px;
+  }
+
+  .tool-card {
+    display: flex;
+    min-height: 230px;
+    flex-direction: column;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    padding: 22px;
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .tool-card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .tool-card__status {
+    border: 1px solid var(--hairline-strong);
+    border-radius: 999px;
+    padding: 4px 9px;
+    color: var(--ink-muted);
+  }
+
+  .tool-card__status--live {
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .tool-card h2 {
+    font-size: 1.2rem;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  .tool-card p {
+    margin-top: 10px;
+    color: var(--ink-3);
+  }
+
+  .tool-card__link,
+  .tool-card__disabled {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: auto;
+    padding-top: 18px;
+    font-weight: 800;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .tool-card__disabled {
+    color: var(--ink-muted);
+  }
+
+  .tool-card__link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (min-width: 760px) {
+    .tools-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>
