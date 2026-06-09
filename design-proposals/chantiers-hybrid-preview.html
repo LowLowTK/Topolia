@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aperçu hybride - Chantiers Topolia</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+      :root {
+        --bg: #fbfbfd;
+        --surface: #ffffff;
+        --ink: #0f172a;
+        --ink-2: #1e293b;
+        --ink-3: #475569;
+        --muted: #64748b;
+        --hairline: rgba(15, 23, 42, 0.08);
+        --blue: #2d5bff;
+        --cyan: #06b6d4;
+        --amber: #f59e0b;
+        --dark: #07111f;
+        --dark-2: #101c2e;
+        --mono: 'JetBrains Mono', monospace;
+        --display: 'Onest', system-ui, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at 70% 0%, rgba(45, 91, 255, 0.08), transparent 32%),
+          var(--bg);
+        color: var(--ink);
+        font-family: var(--display);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .page {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 54px 36px 92px;
+      }
+
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 44px;
+        margin-bottom: 72px;
+        color: var(--ink-2);
+        font-size: 14px;
+      }
+
+      .brand {
+        font-weight: 800;
+        letter-spacing: -0.035em;
+      }
+
+      .links {
+        display: flex;
+        gap: 26px;
+        color: var(--muted);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 300px;
+        gap: 48px;
+        align-items: end;
+        margin-bottom: 52px;
+      }
+
+      .kicker,
+      .eyebrow,
+      .meta,
+      .spec-label,
+      .tag {
+        font-family: var(--mono);
+        letter-spacing: 0.055em;
+      }
+
+      .kicker {
+        margin: 0 0 16px;
+        color: var(--amber);
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 850px;
+        margin: 0;
+        font-size: clamp(56px, 8vw, 112px);
+        line-height: 0.92;
+        letter-spacing: -0.065em;
+      }
+
+      .gradient {
+        background: linear-gradient(135deg, var(--blue), var(--cyan));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero-copy {
+        margin: 28px 0 0;
+        max-width: 650px;
+        color: var(--ink-3);
+        font-size: 20px;
+        line-height: 1.55;
+      }
+
+      .hero-note {
+        padding: 22px;
+        border: 1px solid var(--hairline);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.68);
+        box-shadow: 0 20px 70px rgba(15, 23, 42, 0.06);
+        backdrop-filter: blur(18px);
+      }
+
+      .hero-note .spec-label {
+        display: block;
+        margin-bottom: 12px;
+        color: var(--blue);
+        font-size: 11px;
+        text-transform: uppercase;
+      }
+
+      .hero-note p {
+        margin: 0;
+        color: var(--ink-2);
+        font-size: 17px;
+        line-height: 1.45;
+        letter-spacing: -0.018em;
+      }
+
+      .cases {
+        display: grid;
+        gap: 26px;
+      }
+
+      .case-card {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        min-height: 560px;
+        overflow: hidden;
+        border: 1px solid var(--hairline);
+        border-radius: 34px;
+        background: var(--surface);
+        box-shadow: 0 28px 90px rgba(15, 23, 42, 0.08);
+      }
+
+      .case-visual {
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 70% 23%, rgba(45, 91, 255, 0.42), transparent 28%),
+          radial-gradient(circle at 28% 84%, rgba(6, 182, 212, 0.18), transparent 34%),
+          linear-gradient(145deg, #06101f, #101b2e 62%, #07111f);
+        color: white;
+      }
+
+      .case-visual:before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+        background-size: 38px 38px;
+        mask-image: radial-gradient(circle at 62% 40%, black, transparent 72%);
+      }
+
+      .case-visual:after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 20% 28%, rgba(255, 255, 255, 0.75) 0 1px, transparent 2px),
+          radial-gradient(circle at 44% 38%, rgba(6, 182, 212, 0.9) 0 1px, transparent 2px),
+          radial-gradient(circle at 70% 26%, rgba(245, 158, 11, 0.85) 0 1px, transparent 2px),
+          radial-gradient(circle at 62% 62%, rgba(255, 255, 255, 0.85) 0 1px, transparent 2px),
+          radial-gradient(circle at 32% 70%, rgba(45, 91, 255, 0.9) 0 1px, transparent 2px);
+        background-size: 94px 86px, 72px 68px, 112px 96px, 88px 80px, 126px 114px;
+        opacity: 0.72;
+      }
+
+      .visual-inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+        padding: 34px;
+      }
+
+      .visual-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        padding: 6px 11px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.82);
+        font-family: var(--mono);
+        font-size: 11px;
+      }
+
+      .surface {
+        font-family: var(--mono);
+        color: #fbbf24;
+        font-weight: 700;
+      }
+
+      .visual-title {
+        margin-top: auto;
+      }
+
+      .visual-title .eyebrow {
+        margin-bottom: 14px;
+        color: #f59e0b;
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+
+      .visual-title h2 {
+        max-width: 540px;
+        margin: 0;
+        font-size: clamp(36px, 4vw, 62px);
+        line-height: 0.98;
+        letter-spacing: -0.058em;
+      }
+
+      .tools {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 28px;
+      }
+
+      .tool {
+        padding: 7px 10px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.78);
+        font-family: var(--mono);
+        font-size: 11px;
+      }
+
+      .case-info {
+        display: flex;
+        flex-direction: column;
+        padding: 36px;
+      }
+
+      .info-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 32px;
+      }
+
+      .date {
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 12px;
+      }
+
+      .info-header p {
+        max-width: 330px;
+        margin: 0;
+        color: var(--ink-3);
+        font-size: 15px;
+        line-height: 1.5;
+      }
+
+      .diagnostic {
+        display: grid;
+        gap: 14px;
+      }
+
+      .diagnostic-block {
+        padding: 22px;
+        border-radius: 24px;
+        background: #f8fafc;
+        border: 1px solid rgba(15, 23, 42, 0.06);
+      }
+
+      .diagnostic-block.problem {
+        background: #fff8eb;
+      }
+
+      .diagnostic-block.lesson {
+        background:
+          radial-gradient(circle at 90% 20%, rgba(6, 182, 212, 0.12), transparent 28%),
+          #eef6ff;
+      }
+
+      .diagnostic-block .meta {
+        display: block;
+        margin-bottom: 10px;
+        color: var(--muted);
+        font-size: 11px;
+        text-transform: uppercase;
+      }
+
+      .diagnostic-block.problem .meta {
+        color: var(--amber);
+      }
+
+      .diagnostic-block.lesson .meta {
+        color: var(--blue);
+      }
+
+      .diagnostic-block p {
+        margin: 0;
+        color: var(--ink-2);
+        font-size: 18px;
+        line-height: 1.42;
+        letter-spacing: -0.025em;
+      }
+
+      .spec-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: auto;
+        padding-top: 26px;
+      }
+
+      .spec {
+        min-height: 118px;
+        padding: 16px;
+        border-radius: 20px;
+        background: #fff;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+      }
+
+      .spec .spec-label {
+        color: var(--muted);
+        font-size: 10px;
+        text-transform: uppercase;
+      }
+
+      .spec strong {
+        display: block;
+        margin-top: 12px;
+        color: var(--ink);
+        font-size: 26px;
+        line-height: 0.98;
+        letter-spacing: -0.045em;
+      }
+
+      .spec small {
+        display: block;
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.3;
+      }
+
+      .case-card.alt .case-visual {
+        background:
+          radial-gradient(circle at 72% 20%, rgba(245, 158, 11, 0.28), transparent 28%),
+          radial-gradient(circle at 26% 82%, rgba(45, 91, 255, 0.22), transparent 34%),
+          linear-gradient(145deg, #06101f, #101b2e 62%, #07111f);
+      }
+
+      .footer-choice {
+        margin-top: 34px;
+        padding: 24px 28px;
+        border: 1px solid var(--hairline);
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.72);
+        color: var(--ink-3);
+        backdrop-filter: blur(18px);
+      }
+
+      .footer-choice strong {
+        color: var(--ink);
+      }
+
+      @media (max-width: 980px) {
+        .page {
+          padding: 32px 16px 64px;
+        }
+
+        .hero,
+        .case-card {
+          grid-template-columns: 1fr;
+        }
+
+        .links {
+          display: none;
+        }
+
+        .case-visual {
+          min-height: 520px;
+        }
+
+        .spec-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <nav class="nav">
+        <div class="brand">Topolia</div>
+        <div class="links">
+          <span>Articles</span>
+          <span>Glossaire</span>
+          <span>Chantiers</span>
+          <span>Minute topo</span>
+        </div>
+      </nav>
+
+      <section class="hero">
+        <div>
+          <p class="kicker">Chantiers anonymisés</p>
+          <h1>Des dossiers terrain, <span class="gradient">sans filtre.</span></h1>
+          <p class="hero-copy">
+            Vrais projets, vrais problèmes, vraies décisions. Chaque retour condense le contexte,
+            l'incident, la leçon et les chiffres qui auraient changé le devis.
+          </p>
+        </div>
+        <aside class="hero-note">
+          <span class="spec-label">Angle éditorial</span>
+          <p>Une lecture premium, mais utile : tu comprends le chantier avant même d'ouvrir l'article.</p>
+        </aside>
+      </section>
+
+      <section class="cases">
+        <article class="case-card">
+          <div class="case-visual">
+            <div class="visual-inner">
+              <div class="visual-top">
+                <span class="pill">Retour de chantier</span>
+                <span class="surface">850 m²</span>
+              </div>
+              <div class="visual-title">
+                <div class="eyebrow">Façade haussmannienne</div>
+                <h2>Occlusions côté cour, 24 stations au lieu de 16.</h2>
+                <div class="tools">
+                  <span class="tool">Leica RTC360</span>
+                  <span class="tool">DJI Matrice 4E</span>
+                  <span class="tool">CloudCompare</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="case-info">
+            <div class="info-header">
+              <span class="date">15 mars 2026</span>
+              <p>Bureau d'études parisien, relevé pour ravalement complet d'un immeuble de 5 niveaux.</p>
+            </div>
+
+            <div class="diagnostic">
+              <div class="diagnostic-block problem">
+                <span class="meta">Problème</span>
+                <p>Les balcons en encorbellement masquent les façades du dessous depuis tout angle accessible au scanner.</p>
+              </div>
+              <div class="diagnostic-block lesson">
+                <span class="meta">Leçon</span>
+                <p>Prévoir +40% de stations sur les géométries complexes en milieu urbain dense.</p>
+              </div>
+            </div>
+
+            <div class="spec-grid">
+              <div class="spec">
+                <span class="spec-label">Écart terrain</span>
+                <strong>+1,5 j</strong>
+                <small>hors devis initial</small>
+              </div>
+              <div class="spec">
+                <span class="spec-label">Stations</span>
+                <strong>24</strong>
+                <small>8 de plus que prévu</small>
+              </div>
+              <div class="spec">
+                <span class="spec-label">Marge</span>
+                <strong>≈ zéro</strong>
+                <small>job livré, rentabilité perdue</small>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="case-card alt">
+          <div class="case-visual">
+            <div class="visual-inner">
+              <div class="visual-top">
+                <span class="pill">Retour de chantier</span>
+                <span class="surface">5 200 m²</span>
+              </div>
+              <div class="visual-title">
+                <div class="eyebrow">Hangar industriel</div>
+                <h2>Le mobile seul décroche dans les racks métalliques.</h2>
+                <div class="tools">
+                  <span class="tool">Leica BLK2GO</span>
+                  <span class="tool">Faro Focus Premium</span>
+                  <span class="tool">CloudCompare</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="case-info">
+            <div class="info-header">
+              <span class="date">8 février 2026</span>
+              <p>Plateforme logistique, racks de 8 m sur 80% de la surface, objectif réorganisation des allées.</p>
+            </div>
+
+            <div class="diagnostic">
+              <div class="diagnostic-block problem">
+                <span class="meta">Problème</span>
+                <p>Réflexions multi-trajet, points fantômes et trajectoire SLAM qui commence à driver dès la quatrième allée.</p>
+              </div>
+              <div class="diagnostic-block lesson">
+                <span class="meta">Leçon</span>
+                <p>Ne jamais scanner un environnement métallique dense uniquement en mobile. Toujours mixer avec du statique.</p>
+              </div>
+            </div>
+
+            <div class="spec-grid">
+              <div class="spec">
+                <span class="spec-label">Drift</span>
+                <strong>8 cm</strong>
+                <small>en bout de bâtiment</small>
+              </div>
+              <div class="spec">
+                <span class="spec-label">Coût réel</span>
+                <strong>2 jours</strong>
+                <small>de marge perdus</small>
+              </div>
+              <div class="spec">
+                <span class="spec-label">Correction</span>
+                <strong>mix</strong>
+                <small>mobile + statique</small>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <div class="footer-choice">
+        <strong>Intention finale :</strong> garder le côté confidentiel de l'incident report, mais le traiter comme une page premium.
+        Les cartes ne sont plus des vignettes : ce sont des dossiers terrain scannables.
+      </div>
+    </main>
+  </body>
+</html>

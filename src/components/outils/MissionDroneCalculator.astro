@@ -1,4 +1,4 @@
----
+﻿---
 import {
   djiCameraPresetGroups,
   djiCameraPresets,
@@ -519,6 +519,7 @@ const defaultFocal = 12.29;
     <span id="mission-map-area">Surface tracée : --</span>
     <span id="mission-map-points">0 point</span>
   </div>
+  <p class="mission-map__feedback" id="mission-map-feedback" aria-live="polite"></p>
   <p class="mission-map__note">
     Attention : cette carte sert uniquement à estimer une surface de mission. Elle ne fait pas
     office de déclaration de vol, d'autorisation administrative ou de vérification des zones
@@ -540,18 +541,19 @@ const defaultFocal = 12.29;
   const mapSearchResults = document.getElementById('mission-map-search-results');
   const mapLayerSelect = document.getElementById('mission-map-layer');
   const missionSurfaceInput = document.getElementById('mission-surface');
+  const mapFeedback = document.getElementById('mission-map-feedback');
 
   let missionMap;
   let missionBaseLayersActive = [];
   let missionPolygonLayer;
   let missionLineLayer;
   let missionPointLayer;
+  let missionDistanceLayer;
   let missionSearchMarker;
   let missionMapPoints = [];
   let missionMapAreaHa = 0;
-  let missionSearchTimeout;
   let missionSearchController;
-  let missionLastSearchQuery = '';
+  let missionFeedbackTimeout;
 
   const missionBaseLayers = {
     osm: {
@@ -607,6 +609,39 @@ const defaultFocal = 12.29;
     return `${areaHa.toLocaleString('fr-FR', { maximumFractionDigits: 2 })} ha`;
   }
 
+  function formatDistance(distanceMeters) {
+    if (distanceMeters < 1000) {
+      return `${distanceMeters.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} m`;
+    }
+    return `${(distanceMeters / 1000).toLocaleString('fr-FR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })} km`;
+  }
+
+  function midpointBetween(start, end) {
+    return {
+      lat: (start.lat + end.lat) / 2,
+      lng: (start.lng + end.lng) / 2,
+    };
+  }
+
+  function showMapFeedback(message, type = 'success') {
+    if (!(mapFeedback instanceof HTMLParagraphElement)) return;
+
+    if (missionFeedbackTimeout) {
+      window.clearTimeout(missionFeedbackTimeout);
+    }
+
+    mapFeedback.textContent = message;
+    mapFeedback.dataset.state = type;
+
+    missionFeedbackTimeout = window.setTimeout(() => {
+      mapFeedback.textContent = '';
+      delete mapFeedback.dataset.state;
+    }, 6000);
+  }
+
   function calculateGeodesicArea(points) {
     if (points.length < 3) return 0;
 
@@ -643,22 +678,12 @@ const defaultFocal = 12.29;
     }
   }
 
-  function redrawMissionMap() {
-    if (!window.L || !missionMap || !missionPointLayer) return;
+  function redrawMissionOverlays() {
+    if (!window.L || !missionMap || !missionDistanceLayer) return;
     const accentColor = getComputedStyle(document.documentElement)
       .getPropertyValue('--accent')
       .trim();
-    missionPointLayer.clearLayers();
-
-    missionMapPoints.forEach((point) => {
-      window.L.circleMarker(point, {
-        radius: 5,
-        color: accentColor,
-        weight: 2,
-        fillColor: getComputedStyle(document.documentElement).getPropertyValue('--surface').trim(),
-        fillOpacity: 1,
-      }).addTo(missionPointLayer);
-    });
+    missionDistanceLayer.clearLayers();
 
     if (missionLineLayer) missionLineLayer.remove();
     if (missionPolygonLayer) missionPolygonLayer.remove();
@@ -680,7 +705,74 @@ const defaultFocal = 12.29;
       }).addTo(missionMap);
     }
 
+    const measuredSegments = missionMapPoints
+      .slice(0, -1)
+      .map((point, index) => [point, missionMapPoints[index + 1]]);
+
+    if (missionMapPoints.length >= 3) {
+      measuredSegments.push([missionMapPoints[missionMapPoints.length - 1], missionMapPoints[0]]);
+    }
+
+    measuredSegments.forEach(([start, end]) => {
+      const distance = start.distanceTo(end);
+      window.L.marker(midpointBetween(start, end), {
+        interactive: false,
+        icon: window.L.divIcon({
+          className: 'mission-map__segment-label',
+          html: `<span>${formatDistance(distance)}</span>`,
+          iconSize: [92, 28],
+          iconAnchor: [46, 14],
+        }),
+      }).addTo(missionDistanceLayer);
+    });
+
     updateMapStatus();
+  }
+
+  function removeMissionMapPoint(index) {
+    missionMapPoints = missionMapPoints.filter((_, pointIndex) => pointIndex !== index);
+    redrawMissionMap();
+    showMapFeedback('Point supprimé. La surface a été recalculée.', 'warning');
+  }
+
+  function redrawMissionMap() {
+    if (!window.L || !missionMap || !missionPointLayer || !missionDistanceLayer) return;
+    missionPointLayer.clearLayers();
+
+    missionMapPoints.forEach((point, index) => {
+      const marker = window.L.marker(point, {
+        draggable: true,
+        icon: window.L.divIcon({
+          className: 'mission-map__point-marker',
+          html: '<span></span>',
+          iconSize: [24, 24],
+          iconAnchor: [12, 12],
+        }),
+      }).addTo(missionPointLayer);
+
+      marker.bindPopup('<button type="button" class="mission-map__delete-point">Supprimer ce point</button>');
+
+      marker.on('drag', (event) => {
+        missionMapPoints[index] = event.target.getLatLng();
+        redrawMissionOverlays();
+      });
+
+      marker.on('dragend', (event) => {
+        missionMapPoints[index] = event.target.getLatLng();
+        redrawMissionMap();
+      });
+
+      marker.on('popupopen', (event) => {
+        const popupElement = event.popup.getElement();
+        const deleteButton = popupElement?.querySelector('.mission-map__delete-point');
+        deleteButton?.addEventListener('click', () => {
+          removeMissionMapPoint(index);
+          missionMap.closePopup();
+        });
+      });
+    });
+
+    redrawMissionOverlays();
   }
 
   function setMissionBaseLayer(layerKey) {
@@ -758,8 +850,6 @@ const defaultFocal = 12.29;
       return;
     }
 
-    if (cleaned === missionLastSearchQuery) return;
-    missionLastSearchQuery = cleaned;
     mapSearchResults.textContent = 'Recherche en cours...';
 
     try {
@@ -786,31 +876,11 @@ const defaultFocal = 12.29;
     }
   }
 
-  function queueMissionPlaceSearch(query) {
-    if (missionSearchTimeout) {
-      window.clearTimeout(missionSearchTimeout);
-    }
-
-    if (!mapSearchResults) return;
-
-    const cleaned = query.trim();
-    if (cleaned.length === 0) {
+  function queueMissionPlaceSearch() {
+    if (mapSearchResults) {
       mapSearchResults.innerHTML = '';
       mapSearchResults.classList.remove('mission-map__search-results--open');
-      return;
     }
-
-    if (cleaned.length < 3) {
-      mapSearchResults.textContent = 'Continue à taper pour afficher les propositions.';
-      mapSearchResults.classList.add('mission-map__search-results--open');
-      return;
-    }
-
-    mapSearchResults.textContent = 'Préparation des propositions...';
-    mapSearchResults.classList.add('mission-map__search-results--open');
-    missionSearchTimeout = window.setTimeout(() => {
-      searchMissionPlace(cleaned);
-    }, 900);
   }
 
   async function initMissionMap() {
@@ -828,14 +898,19 @@ const defaultFocal = 12.29;
     missionMap = window.L.map(mapContainer, {
       center: [46.8, 2.4],
       zoom: 6,
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
     });
 
     setMissionBaseLayer('osm');
     missionPointLayer = window.L.layerGroup().addTo(missionMap);
+    missionDistanceLayer = window.L.layerGroup().addTo(missionMap);
 
     missionMap.on('click', (event) => {
       missionMapPoints = [...missionMapPoints, event.latlng];
+      if (mapFeedback instanceof HTMLParagraphElement && mapFeedback.dataset.state === 'success') {
+        mapFeedback.textContent = '';
+        delete mapFeedback.dataset.state;
+      }
       redrawMissionMap();
     });
 
@@ -843,14 +918,19 @@ const defaultFocal = 12.29;
   }
 
   useAreaButton?.addEventListener('click', () => {
-    if (!(missionSurfaceInput instanceof HTMLInputElement) || missionMapAreaHa <= 0) return;
+    if (!(missionSurfaceInput instanceof HTMLInputElement) || missionMapAreaHa <= 0) {
+      showMapFeedback("Trace au moins 3 points avant d'utiliser la surface.", 'warning');
+      return;
+    }
     missionSurfaceInput.value = missionMapAreaHa.toFixed(2);
     missionSurfaceInput.dispatchEvent(new Event('input', { bubbles: true }));
+    showMapFeedback(`Surface appliquée au calculateur : ${formatArea(missionMapAreaHa)}.`);
   });
 
   clearMapButton?.addEventListener('click', () => {
     missionMapPoints = [];
     redrawMissionMap();
+    showMapFeedback('Zone effac\u00e9e. Trace une nouvelle surface quand tu veux.', 'warning');
   });
 
   mapSearchForm?.addEventListener('submit', (event) => {
@@ -1094,6 +1174,75 @@ const defaultFocal = 12.29;
     margin-top: 12px;
     color: var(--ink-2);
     font-weight: 800;
+  }
+
+  .mission-map__feedback {
+    min-height: 1.4em;
+    margin-top: 10px;
+    color: var(--green);
+    font-size: 0.9rem;
+    font-weight: 800;
+  }
+
+  .mission-map__feedback[data-state='warning'] {
+    color: var(--amber);
+  }
+
+  :global(.mission-map__segment-label) {
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+  }
+
+  :global(.mission-map__segment-label span) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 58px;
+    min-height: 24px;
+    padding: 3px 8px;
+    border: 1px solid rgba(15, 23, 42, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.14);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  :global(.mission-map__point-marker) {
+    display: grid;
+    place-items: center;
+  }
+
+  :global(.mission-map__point-marker span) {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border: 3px solid var(--accent);
+    border-radius: 999px;
+    background: var(--surface);
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.28);
+  }
+
+  :global(.mission-map__delete-point) {
+    min-height: 34px;
+    border: 0;
+    border-radius: 8px;
+    padding: 7px 10px;
+    background: var(--rose);
+    color: var(--surface);
+    font: inherit;
+    font-size: 0.84rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  :global(.mission-map__delete-point:hover) {
+    opacity: 0.9;
   }
 
   .mission-map__note {

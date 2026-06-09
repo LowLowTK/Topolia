@@ -1,0 +1,23 @@
+---
+title: 'Géoréférencement'
+date: 2026-05-31
+difficulty: 'debutant'
+relatedArticles: ['workflow-drone-complet', 'lidar-hd-ign']
+relatedChantiers: ['facade-haussmannien']
+excerpt: "Le fait de placer une donnée dans le bon système de coordonnées pour qu'elle tombe au bon endroit sur le terrain."
+isPublished: true
+---
+
+Le **géoréférencement** consiste à placer une donnée dans un système de coordonnées connu. En clair : faire en sorte qu'un nuage de points, une orthophoto ou un plan tombe au bon endroit dans le monde réel.
+
+## Exemple simple
+
+Une photo drone peut être belle mais non géoréférencée. Une orthophoto géoréférencée, elle, peut être ouverte dans QGIS ou AutoCAD Map et se superposer à d'autres données.
+
+## Comment on le fait
+
+Selon le chantier, le géoréférencement peut venir du RTK, du PPK, de GCP, d'une station totale, d'un recalage avec des points connus ou d'un système de coordonnées fourni par le client.
+
+## Le piège classique
+
+La précision ne suffit pas : il faut aussi livrer dans le bon système de coordonnées. Une donnée précise mais livrée dans le mauvais système peut être inutilisable pour le client.
