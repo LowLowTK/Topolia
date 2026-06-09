@@ -1,0 +1,26 @@
+---
+title: 'PPK : Post-Processed Kinematic'
+date: 2026-05-31
+difficulty: 'intermediaire'
+relatedArticles: ['workflow-drone-complet', 'dji-matrice-4e-photogrammetrie']
+relatedChantiers: []
+excerpt: "Une méthode GNSS où les corrections sont appliquées après la mission, au lieu d'être reçues en temps réel comme en RTK."
+isPublished: true
+---
+
+Le **PPK** (_Post-Processed Kinematic_) est une méthode de positionnement GNSS différentiel. Contrairement au RTK, la correction n'est pas appliquée en direct : elle est calculée après la mission avec les observations du rover et d'une base.
+
+## À quoi ça sert
+
+En drone, le PPK permet de corriger la position des photos après le vol. C'est utile quand la liaison RTK est instable, quand le réseau mobile passe mal ou quand tu veux garder une trace de correction propre en post-traitement.
+
+## Différence avec le RTK
+
+- **RTK** : correction en temps réel pendant la mission.
+- **PPK** : correction après la mission.
+
+Dans les deux cas, l'objectif est d'améliorer la qualité du géoréférencement. Mais ni le RTK ni le PPK ne dispensent automatiquement de vérifier le chantier avec des points de contrôle si le livrable demande de la précision.
+
+## Le piège classique
+
+Penser que "drone RTK/PPK" veut dire "plus besoin de contrôle terrain". En topo, tu gardes toujours une logique de vérification.

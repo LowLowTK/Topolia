@@ -1,0 +1,497 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Topolia Scan : bêta iOS pour relevé intérieur LiDAR"
+  description="Rejoins la bêta Topolia Scan, une app iOS en développement pour scanner, mesurer, annoter et exporter des relevés intérieurs depuis un iPhone ou iPad compatible LiDAR."
+>
+  <section class="scan-hero">
+    <div class="container scan-hero__grid">
+      <div>
+        <p class="eyebrow">Bêta iOS en préparation</p>
+        <h1>Topolia Scan transforme un relevé intérieur en plan exploitable.</h1>
+        <p class="scan-hero__intro">
+          Une app mobile en développement pour capturer un intérieur, retrouver ses projets,
+          visualiser le plan en 2D ou en 3D, mesurer, annoter, gérer les calques et préparer
+          l'export. L'objectif n'est pas de remplacer un scanner pro : c'est de rendre le scan
+          d'intérieur plus simple à comprendre, tester et partager.
+        </p>
+        <div class="scan-hero__actions">
+          <a href="#beta" class="btn btn--primary">Tester la bêta</a>
+          <a href="#apercu" class="btn btn--secondary">Voir l'aperçu</a>
+        </div>
+      </div>
+
+      <aside class="beta-card" id="beta">
+        <span class="beta-card__label">Liste d'attente</span>
+        <h2>Recevoir l'invitation TestFlight</h2>
+        <p>
+          Laisse ton email pour être prévenu quand la bêta Topolia Scan ouvre. Un iPhone ou iPad
+          compatible LiDAR sera recommandé pour tester l'app dans de bonnes conditions.
+        </p>
+        <form class="beta-form" data-beta-form>
+          <label class="visually-hidden" for="beta-email">Adresse email</label>
+          <input
+            id="beta-email"
+            type="email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="ton@email.fr"
+          />
+          <button type="submit">Rejoindre la bêta</button>
+          <p class="beta-form__message" data-beta-message aria-live="polite"></p>
+        </form>
+        <p class="beta-card__note">
+          Pas de spam. Ton email servira à te contacter pour la bêta et les nouvelles importantes
+          autour de Topolia Scan.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <main>
+    <section class="container app-preview-section" id="apercu">
+      <div class="section-heading">
+        <p class="eyebrow">Aperçu de l'app</p>
+        <h2>Une logique de projet, pas juste un scan jetable.</h2>
+        <p>
+          Les captures montrent la direction produit : retrouver ses relevés, ouvrir un projet,
+          passer du plan 2D à la vue 3D, contrôler les calques et agir depuis des menus contextuels
+          compacts.
+        </p>
+      </div>
+
+      <figure class="preview-figure">
+        <img
+          src="/images/topolia-scan/topolia-scan-app-overview.png"
+          alt="Captures de Topolia Scan montrant la liste des projets, le détail d'un appartement, le plan 2D, les outils, les calques, la mesure, les épingles et la vue 3D"
+          loading="eager"
+        />
+      </figure>
+    </section>
+
+    <section class="container feature-section">
+      <div class="feature-grid">
+        <article class="feature-card">
+          <span>01</span>
+          <h3>Projets</h3>
+          <p>
+            Retrouver les scans par appartement, maison, bureau ou commerce, avec surface, nombre de
+            points et qualité du scan.
+          </p>
+        </article>
+        <article class="feature-card">
+          <span>02</span>
+          <h3>Plan 2D et vue 3D</h3>
+          <p>
+            Passer d'un plan annoté à une vue 3D pour comprendre rapidement la géométrie du relevé.
+          </p>
+        </article>
+        <article class="feature-card">
+          <span>03</span>
+          <h3>Mesures et annotations</h3>
+          <p>
+            Mesurer des distances, ajouter des épingles, noter un problème ou repérer une prise, un
+            mur ou une ouverture.
+          </p>
+        </article>
+        <article class="feature-card">
+          <span>04</span>
+          <h3>Calques et nettoyage</h3>
+          <p>
+            Afficher murs, portes, mobilier, cotations et labels, puis optimiser le plan pour le
+            rendre plus lisible.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="context-section">
+      <div class="container context-grid">
+        <div class="section-heading">
+          <p class="eyebrow">Menus contextuels</p>
+          <h2>Les outils restent au service du plan.</h2>
+          <p>
+            La v2 travaille avec des menus courts qui apparaissent au bon moment : modifier un mur,
+            une porte, une fenêtre ou une pièce ; mesurer ; ajouter une épingle ; gérer les labels.
+            Le plan reste au centre, l'action vient quand tu en as besoin.
+          </p>
+        </div>
+
+        <figure class="context-figure">
+          <img
+            src="/images/topolia-scan/topolia-scan-context-menus.png"
+            alt="Aperçu des menus contextuels Topolia Scan pour calques, modification de murs, portes, fenêtres, pièces, mesure, épingles, cotations, optimisation du plan et labels"
+            loading="lazy"
+          />
+        </figure>
+      </div>
+    </section>
+
+    <section class="container limits-section">
+      <div class="limits-panel">
+        <div>
+          <p class="eyebrow">Important</p>
+          <h2>Ce que la bêta devra valider.</h2>
+        </div>
+        <ul>
+          <li>La qualité du plan 2D obtenu après un scan intérieur rapide.</li>
+          <li>La lisibilité des mesures, labels et annotations sur de petits espaces.</li>
+          <li>La fluidité sur iPhone/iPad compatibles LiDAR.</li>
+          <li>Les exports réellement utiles pour un usage terrain ou pré-visite.</li>
+          <li>Les limites : surfaces vitrées, pièces encombrées, dérive et zones mal capturées.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <section class="beta-bottom">
+    <div class="container beta-bottom__panel">
+      <div>
+        <p class="eyebrow eyebrow--light">Bêta privée</p>
+        <h2>Tu veux tester Topolia Scan quand la bêta ouvre ?</h2>
+        <p>
+          Inscris-toi maintenant. Je privilégierai les retours de personnes qui ont un vrai cas
+          d'usage : appartement, bureau, pré-visite, relevé simple, contrôle ou expérimentation
+          LiDAR.
+        </p>
+      </div>
+      <a href="#beta" class="btn btn--light">Rejoindre la liste</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const betaForms = document.querySelectorAll<HTMLFormElement>('[data-beta-form]');
+  for (const form of betaForms) {
+    const msg = form.querySelector<HTMLParagraphElement>('[data-beta-message]');
+    const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (!msg || !btn) continue;
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const input = form.querySelector<HTMLInputElement>('input[name="email"]');
+      if (!input) return;
+
+      msg.textContent = '';
+      msg.classList.remove('beta-form__message--ok', 'beta-form__message--error');
+      btn.disabled = true;
+      btn.textContent = 'Inscription...';
+
+      try {
+        const response = await fetch('/api/topolia-scan-beta', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: input.value.trim() }),
+        });
+        const data = await response.json();
+        msg.textContent = data.message;
+        msg.classList.add(data.ok ? 'beta-form__message--ok' : 'beta-form__message--error');
+        if (data.ok) input.value = '';
+      } catch {
+        msg.textContent = 'Erreur réseau, réessaye dans un instant.';
+        msg.classList.add('beta-form__message--error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Rejoindre la bêta';
+      }
+    });
+  }
+</script>
+
+<style>
+  .scan-hero {
+    padding: 76px 0 58px;
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
+  }
+
+  .scan-hero__grid,
+  .context-grid,
+  .limits-panel,
+  .beta-bottom__panel {
+    display: grid;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .eyebrow {
+    margin-bottom: 14px;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow--light {
+    color: var(--accent-2);
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: var(--ink);
+    font-family: var(--display);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+
+  h1 {
+    max-width: 820px;
+    font-size: clamp(2.3rem, 7vw, 4.8rem);
+    font-weight: 800;
+  }
+
+  h2 {
+    font-size: clamp(1.55rem, 4vw, 2.35rem);
+    font-weight: 800;
+  }
+
+  h3 {
+    font-size: 1.14rem;
+    font-weight: 750;
+  }
+
+  .scan-hero__intro,
+  .section-heading p,
+  .beta-bottom p {
+    max-width: 700px;
+    margin-top: 18px;
+    color: var(--ink-3);
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+
+  .scan-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+  }
+
+  .btn {
+    display: inline-flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .btn--primary {
+    color: var(--surface);
+    background: var(--ink);
+  }
+
+  .btn--secondary {
+    color: var(--ink-2);
+    border: 1px solid var(--hairline-strong);
+    background: var(--surface);
+  }
+
+  .btn--light {
+    width: fit-content;
+    color: var(--ink);
+    background: var(--surface);
+  }
+
+  .beta-card,
+  .feature-card,
+  .limits-panel {
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .beta-card {
+    padding: 24px;
+  }
+
+  .beta-card__label,
+  .feature-card span {
+    display: inline-flex;
+    width: fit-content;
+    margin-bottom: 12px;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .beta-card p,
+  .feature-card p {
+    margin: 12px 0 0;
+    color: var(--ink-2);
+    line-height: 1.58;
+  }
+
+  .beta-form {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .beta-form input,
+  .beta-form button {
+    min-height: 46px;
+    border-radius: 8px;
+    font: inherit;
+  }
+
+  .beta-form input {
+    width: 100%;
+    border: 1px solid var(--hairline-strong);
+    padding: 10px 14px;
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  .beta-form input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .beta-form button {
+    border: 0;
+    padding: 10px 16px;
+    color: var(--surface);
+    background: var(--accent-grad);
+    font-weight: 750;
+    cursor: pointer;
+  }
+
+  .beta-form button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+
+  .beta-form__message {
+    min-height: 1.2em;
+    margin: 0;
+    font-size: 0.87rem;
+  }
+
+  .beta-form__message--ok {
+    color: var(--green);
+  }
+
+  .beta-form__message--error {
+    color: var(--rose);
+  }
+
+  .beta-card__note {
+    color: var(--ink-muted);
+    font-size: 0.82rem;
+  }
+
+  .app-preview-section,
+  .feature-section,
+  .limits-section {
+    padding: 64px 0;
+  }
+
+  .preview-figure,
+  .context-figure {
+    margin: 28px 0 0;
+  }
+
+  .preview-figure img,
+  .context-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .feature-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .feature-card {
+    padding: 20px;
+  }
+
+  .context-section {
+    padding: 64px 0;
+    background: var(--bg-alt);
+  }
+
+  .limits-panel {
+    padding: 26px;
+  }
+
+  .limits-panel ul {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .limits-panel li {
+    padding: 13px 15px;
+    border-radius: 8px;
+    background: var(--bg-alt);
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  .beta-bottom {
+    padding: 64px 0 78px;
+    background: var(--bg-dark);
+  }
+
+  .beta-bottom h2,
+  .beta-bottom p {
+    color: var(--surface);
+  }
+
+  .beta-bottom p {
+    opacity: 0.84;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (min-width: 820px) {
+    .scan-hero__grid {
+      grid-template-columns: minmax(0, 1.35fr) minmax(310px, 0.7fr);
+    }
+
+    .feature-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .context-grid,
+    .limits-panel,
+    .beta-bottom__panel {
+      grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
+    }
+
+    .beta-bottom__panel {
+      align-items: center;
+    }
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+title: 'Classification de nuage de points'
+date: 2026-05-31
+difficulty: 'intermediaire'
+relatedArticles: ['pdal-introduction', 'lidar-hd-ign']
+relatedChantiers: []
+excerpt: 'L’action de ranger les points par type : sol, végétation, bâtiment, bruit, eau, etc.'
+isPublished: true
+---
+
+La **classification** d'un nuage de points consiste à attribuer une classe à chaque point : sol, bâtiment, végétation, bruit, eau, ligne électrique, etc.
+
+## Pourquoi c'est important
+
+Sans classification, un nuage mélange tout ce que le capteur a vu. Pour produire un MNT, il faut isoler les points du sol. Pour analyser une forêt, il faut distinguer végétation, terrain et parfois bâtiments.
+
+## Usage terrain
+
+Sur un fichier LAS/LAZ, la classification peut être produite par un logiciel constructeur, un outil SIG, PDAL, LAStools ou un traitement automatique. Elle doit souvent être contrôlée, surtout en zone complexe.
+
+## Le piège classique
+
+Ne prends pas une classification automatique comme une vérité. Un talus, un muret, une voiture ou une végétation basse peuvent être mal rangés.
+
+Source utile : [PDAL filters - Classification](https://pdal.io/en/latest/stages/filters.html)

@@ -1,0 +1,98 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Comparatif Leica RTC360, FARO Focus Premium et Trimble X9</title>
+  <desc id="desc">Visuel éditorial vectoriel avec silhouettes inspirées des trois scanners : Leica RTC360, FARO Focus Premium et Trimble X9.</desc>
+  <rect width="1600" height="900" fill="#F7F5EF"/>
+  <rect x="80" y="76" width="1440" height="748" rx="34" fill="#FFFFFF" stroke="#D8D2C2" stroke-width="2"/>
+
+  <text x="140" y="154" fill="#181713" font-family="Inter, Arial, sans-serif" font-size="52" font-weight="800">RTC360 vs Focus Premium vs X9</text>
+  <text x="140" y="202" fill="#655F52" font-family="Inter, Arial, sans-serif" font-size="24">Trois scanners statiques haut de gamme, trois logiques de terrain.</text>
+
+  <defs>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7F5EF"/>
+      <stop offset="1" stop-color="#ECE6D8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000000" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect x="120" y="252" width="1360" height="478" rx="30" fill="url(#floor)" stroke="#E2DBC9"/>
+  <path d="M140 650H1460" stroke="#D7CFBD" stroke-width="2"/>
+
+  <g font-family="Inter, Arial, sans-serif" filter="url(#shadow)">
+    <rect x="172" y="290" width="360" height="394" rx="28" fill="#FFFFFF" stroke="#D8D2C2"/>
+    <text x="352" y="352" text-anchor="middle" fill="#181713" font-size="32" font-weight="800">Leica RTC360</text>
+    <text x="352" y="386" text-anchor="middle" fill="#6B6254" font-size="18">cadence + VIS</text>
+
+    <!-- Leica RTC360 inspired silhouette: compact white scanner, side fins, black rotating core -->
+    <g transform="translate(252 418)">
+      <ellipse cx="100" cy="242" rx="102" ry="16" fill="#D7CFBD" opacity="0.65"/>
+      <path d="M31 56C31 27 48 14 74 14H126C152 14 169 27 169 56V170C169 199 152 214 126 214H74C48 214 31 199 31 170V56Z" fill="#F4F3EF" stroke="#BCB7AD" stroke-width="4"/>
+      <path d="M53 56C53 39 64 31 82 31H118C136 31 147 39 147 56V170C147 187 136 197 118 197H82C64 197 53 187 53 170V56Z" fill="#FFFFFF"/>
+      <rect x="72" y="52" width="56" height="124" rx="24" fill="#232526"/>
+      <circle cx="100" cy="114" r="28" fill="#0F1112"/>
+      <circle cx="100" cy="114" r="13" fill="#2F363A"/>
+      <path d="M44 42H68V185H44C33 185 25 177 25 166V61C25 50 33 42 44 42Z" fill="#D7D9D6"/>
+      <path d="M132 42H156C167 42 175 50 175 61V166C175 177 167 185 156 185H132V42Z" fill="#D7D9D6"/>
+      <rect x="58" y="214" width="84" height="24" rx="8" fill="#191B1D"/>
+      <path d="M100 238V266" stroke="#191B1D" stroke-width="10" stroke-linecap="round"/>
+      <path d="M100 266L52 330" stroke="#191B1D" stroke-width="10" stroke-linecap="round"/>
+      <path d="M100 266L148 330" stroke="#191B1D" stroke-width="10" stroke-linecap="round"/>
+      <path d="M62 266H138" stroke="#191B1D" stroke-width="10" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif" filter="url(#shadow)">
+    <rect x="620" y="290" width="360" height="394" rx="28" fill="#FFFFFF" stroke="#D8D2C2"/>
+    <text x="800" y="352" text-anchor="middle" fill="#181713" font-size="32" font-weight="800">FARO Focus Premium</text>
+    <text x="800" y="386" text-anchor="middle" fill="#6B6254" font-size="18">compact + portée</text>
+
+    <!-- FARO Focus inspired silhouette: black/grey boxy compact scanner with elevated camera -->
+    <g transform="translate(700 422)">
+      <ellipse cx="100" cy="238" rx="102" ry="16" fill="#D7CFBD" opacity="0.65"/>
+      <rect x="63" y="17" width="74" height="34" rx="12" fill="#333638"/>
+      <rect x="46" y="48" width="108" height="120" rx="16" fill="#303336" stroke="#161719" stroke-width="4"/>
+      <path d="M63 60H137V154H63V60Z" fill="#56595C"/>
+      <path d="M77 76L123 76L100 137L77 76Z" fill="#E9ECEA"/>
+      <circle cx="100" cy="91" r="24" fill="#0F1112"/>
+      <circle cx="100" cy="91" r="10" fill="#3A4148"/>
+      <rect x="72" y="168" width="56" height="30" rx="8" fill="#191B1D"/>
+      <path d="M100 198V262" stroke="#191B1D" stroke-width="10" stroke-linecap="round"/>
+      <path d="M100 262L52 326" stroke="#191B1D" stroke-width="10" stroke-linecap="round"/>
+      <path d="M100 262L148 326" stroke="#191B1D" stroke-width="10" stroke-linecap="round"/>
+      <path d="M61 262H139" stroke="#191B1D" stroke-width="10" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif" filter="url(#shadow)">
+    <rect x="1068" y="290" width="360" height="394" rx="28" fill="#FFFFFF" stroke="#D8D2C2"/>
+    <text x="1248" y="352" text-anchor="middle" fill="#181713" font-size="32" font-weight="800">Trimble X9</text>
+    <text x="1248" y="386" text-anchor="middle" fill="#6B6254" font-size="18">contrôle + topo</text>
+
+    <!-- Trimble X9 inspired silhouette: handle, open rotating core, grey body, yellow side accent -->
+    <g transform="translate(1148 406)">
+      <ellipse cx="100" cy="254" rx="106" ry="16" fill="#D7CFBD" opacity="0.65"/>
+      <path d="M63 24C63 11 73 2 86 2H114C127 2 137 11 137 24V59H119V27C119 23 116 20 112 20H88C84 20 81 23 81 27V59H63V24Z" fill="#AEB7B4" stroke="#8D9894" stroke-width="4"/>
+      <path d="M36 69C36 42 53 28 80 28H120C147 28 164 42 164 69V185C164 212 147 228 120 228H80C53 228 36 212 36 185V69Z" fill="#C5CECB" stroke="#8D9894" stroke-width="4"/>
+      <path d="M112 50H145C155 50 162 58 162 68V190C162 200 155 208 145 208H112V50Z" fill="#707A7A"/>
+      <path d="M127 70H149V188H127C121 188 116 183 116 177V81C116 75 121 70 127 70Z" fill="#3A3F40" stroke="#E3B423" stroke-width="5"/>
+      <rect x="70" y="51" width="52" height="142" rx="26" fill="#E8EBE8"/>
+      <rect x="57" y="72" width="74" height="98" rx="28" fill="#15181A"/>
+      <circle cx="94" cy="95" r="17" fill="#0B0D0E"/>
+      <circle cx="94" cy="95" r="7" fill="#3F4850"/>
+      <circle cx="94" cy="146" r="17" fill="#0B0D0E"/>
+      <circle cx="94" cy="146" r="7" fill="#3F4850"/>
+      <rect x="54" y="228" width="92" height="28" rx="9" fill="#191B1D"/>
+      <path d="M100 256V282" stroke="#191B1D" stroke-width="10" stroke-linecap="round"/>
+      <path d="M100 282L52 346" stroke="#191B1D" stroke-width="10" stroke-linecap="round"/>
+      <path d="M100 282L148 346" stroke="#191B1D" stroke-width="10" stroke-linecap="round"/>
+      <path d="M61 282H139" stroke="#191B1D" stroke-width="10" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="140" y="758" width="1320" height="38" rx="19" fill="#181713"/>
+    <text x="800" y="783" text-anchor="middle" fill="#FFFFFF" font-size="18" font-weight="700">Silhouettes vectorielles inspirées des références fournies, sans logos constructeur.</text>
+  </g>
+</svg>
