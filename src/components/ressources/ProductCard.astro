@@ -2,12 +2,14 @@
 interface Props {
   name: string;
   description: string;
-  price?: string; // ex: "~89 €" — indicatif, pas contractuel
+  price?: string; // ex: "~89 €", indicatif, pas contractuel
   imageUrl?: string;
   affiliateUrl: string; // URL de base sans UTM
   utmContent: string; // slug produit pour utm_content, ex: "mires-gcp"
   source: 'amazon' | 'editeur' | 'autre';
   isPlaceholder?: boolean; // true = lien non encore affilié
+  purchasePaused?: boolean; // true = achat déconseillé temporairement
+  pausedLabel?: string;
 }
 
 const {
@@ -19,15 +21,19 @@ const {
   utmContent,
   source,
   isPlaceholder = false,
+  purchasePaused = false,
+  pausedLabel = 'Achat déconseillé',
 } = Astro.props;
 
-// Construction de l'URL avec UTM — tracké dans Cloudflare/Plausible.
-// Quand le compte Amazon Associates sera actif, remplacer PLACEHOLDER_TAG
-// dans affiliateUrl par le vrai tag (ex: &tag=topolia-21).
-const separator = affiliateUrl.includes('?') ? '&' : '?';
-const trackedUrl =
-  `${affiliateUrl}${separator}` +
-  `utm_source=topolia&utm_medium=ressources&utm_campaign=outils-drone&utm_content=${utmContent}`;
+// Construction de l'URL avec affiliation Amazon et UTM Topolia.
+const trackedUrl = new URL(affiliateUrl);
+if (source === 'amazon') {
+  trackedUrl.searchParams.set('tag', 'topolia-21');
+}
+trackedUrl.searchParams.set('utm_source', 'topolia');
+trackedUrl.searchParams.set('utm_medium', 'ressources');
+trackedUrl.searchParams.set('utm_campaign', 'outils-drone');
+trackedUrl.searchParams.set('utm_content', utmContent);
 
 const sourceLabel: Record<Props['source'], string> = {
   amazon: 'Amazon',
@@ -60,20 +66,28 @@ const ctaLabel: Record<Props['source'], string> = {
     <p class="product-card__description">{description}</p>
     <div class="product-card__footer">
       {price && <span class="product-card__price">{price}</span>}
-      <a
-        href={trackedUrl}
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-        class="product-card__cta"
-        aria-label={`${ctaLabel[source]} — ${name}`}
-      >
-        {ctaLabel[source]} →
-      </a>
+      {
+        purchasePaused ? (
+          <span class="product-card__cta product-card__cta--disabled" aria-disabled="true">
+            {pausedLabel}
+          </span>
+        ) : (
+          <a
+            href={trackedUrl.toString()}
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            class="product-card__cta"
+            aria-label={`${ctaLabel[source]} : ${name}`}
+          >
+            {ctaLabel[source]} →
+          </a>
+        )
+      }
     </div>
     {
-      isPlaceholder && (
+      isPlaceholder && source !== 'amazon' && (
         <p class="product-card__placeholder-note">
-          Lien non affilié pour l'instant — mis à jour dès l'activation du programme.
+          Lien externe non affilié, conservé pour orienter la recherche.
         </p>
       )
     }
@@ -87,7 +101,7 @@ const ctaLabel: Record<Props['source'], string> = {
     padding: 1.25rem;
     background: var(--surface);
     border: 1px solid var(--hairline);
-    border-radius: 10px;
+    border-radius: 8px;
     transition: box-shadow 0.2s ease;
   }
 
@@ -144,16 +158,19 @@ const ctaLabel: Record<Props['source'], string> = {
   }
 
   .product-card__badge--amazon {
-    background: #fff3cd;
-    color: #856404;
+    border: 1px solid var(--hairline-strong);
+    background: var(--bg-alt);
+    color: var(--ink-2);
   }
 
   .product-card__badge--editeur {
-    background: #d1e7dd;
-    color: #0a3622;
+    border: 1px solid var(--hairline-strong);
+    background: var(--bg-alt);
+    color: var(--ink-2);
   }
 
   .product-card__badge--autre {
+    border: 1px solid var(--hairline-strong);
     background: var(--surface-alt);
     color: var(--ink-2);
   }
@@ -180,15 +197,34 @@ const ctaLabel: Record<Props['source'], string> = {
   }
 
   .product-card__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: var(--ink);
     font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--accent);
+    font-weight: 800;
+    color: var(--surface);
     text-decoration: none;
     white-space: nowrap;
   }
 
   .product-card__cta:hover {
-    text-decoration: underline;
+    opacity: 0.86;
+  }
+
+  .product-card__cta--disabled {
+    background: var(--surface-alt);
+    border: 1px solid var(--hairline-strong);
+    color: var(--ink-2);
+    cursor: not-allowed;
+    opacity: 0.72;
+  }
+
+  .product-card__cta--disabled:hover {
+    opacity: 0.72;
   }
 
   .product-card__placeholder-note {

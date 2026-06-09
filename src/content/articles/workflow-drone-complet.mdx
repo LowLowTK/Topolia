@@ -36,6 +36,8 @@ Si je devais ne garder qu'une leçon de trois ans de drone topo, ce serait celle
 - Une grille de [**GCP (Ground Control Points)**](/glossaire/gcp/) : au minimum 5 cibles bien réparties, 8 si la surface dépasse l'hectare.
 - Une vérification météo : pas de vent > 25 km/h, pas de pluie dans les 2h précédentes (les flaques cassent la [photogrammétrie](/glossaire/photogrammetrie/)).
 
+Si tu veux cadrer les ordres de grandeur avant de dessiner le plan de vol, commence par le [calculateur GSD drone](/outils/calculateur-gsd-drone/), puis passe au [calculateur mission drone](/outils/calculateur-mission-drone/) pour estimer photos, surface et batteries.
+
 <Callout type="warning" title="Le piège du soleil rasant">
   Évite les vols entre 17h et 19h en été. Les ombres longues créent des zones noires que Metashape
   interprète comme du bruit. Vise plutôt entre 10h et 15h, ou alors un ciel uniformément couvert
@@ -58,7 +60,7 @@ Voici un workflow Metashape Pro qui marche à 95 % du temps sans bricolage :
 
 1. **Aligner les photos** → précision `Élevée`, paires `Génériques`, points clés `40 000`, points liens `10 000`.
 2. **Importer les GCP**, repérer manuellement les cibles sur 3-4 photos minimum chacun, puis `Optimiser` la caméra.
-3. **Construire le nuage dense** → qualité `Élevée`, filtrage `Modéré`. Sur un PC moyen, table sur 4-8h pour 500 photos.
+3. **Construire le nuage dense** → qualité `Élevée`, filtrage `Modéré`. Sur un PC moyen, table sur 4-8h pour 500 photos. Si tu veux comprendre pourquoi cette étape est aussi lourde, j’ai détaillé le rôle du CPU, de la RAM, du GPU et du SSD dans [cet article sur le traitement photogrammétrique](/articles/pourquoi-photogrammetrie-lourde-traitement/).
 4. **Exporter** en `.las` ou `.laz` pour la suite (CloudCompare, AutoCAD Civil 3D, etc.). Si tu enchaînes plusieurs chantiers, [automatise le post-traitement de tes fichiers avec PDAL](/articles/pdal-introduction/) plutôt que de tout refaire à la main.
 
 <PullQuote cite="Loïc, Topolia">

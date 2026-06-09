@@ -1,0 +1,1364 @@
+---
+import {
+  djiCameraPresetGroups,
+  djiCameraPresets,
+  djiMissionDronePresetGroups,
+  djiMissionDronePresets,
+} from '../../lib/dji-camera-presets';
+
+const defaultSurface = 5;
+const defaultAltitude = 80;
+const defaultFrontOverlap = 80;
+const defaultSideOverlap = 70;
+const defaultSpeed = 8;
+const defaultBatteryMinutes = 25;
+const defaultSensorWidth = 17.3;
+const defaultSensorHeight = 13;
+const defaultImageWidth = 5280;
+const defaultImageHeight = 3956;
+const defaultFocal = 12.29;
+---
+
+<section class="mission-tool" aria-labelledby="mission-tool-title">
+  <div class="mission-tool__intro">
+    <p class="mission-tool__eyebrow">Préparation de vol</p>
+    <h2 id="mission-tool-title">Estime ta mission drone</h2>
+    <p>
+      Entre la surface à couvrir, tes recouvrements et la caméra. Le calculateur estime le nombre de
+      photos, la durée de vol et les batteries à prévoir.
+    </p>
+  </div>
+
+  <div class="mission-tool__grid">
+    <form class="mission-form" id="mission-form">
+      <label class="mission-field mission-field--wide" for="mission-drone-preset">
+        <span>Profil drone</span>
+        <span class="mission-select-wrap">
+          <select id="mission-drone-preset" name="mission-drone-preset">
+            <option value="manual">Mode manuel</option>
+            {
+              djiMissionDronePresetGroups.map((group) => (
+                <optgroup label={group}>
+                  {djiMissionDronePresets
+                    .filter((preset) => preset.group === group)
+                    .map((preset) => (
+                      <option
+                        value={preset.id}
+                        data-camera-preset-id={preset.cameraPresetId}
+                        data-speed={preset.speed}
+                        data-battery-minutes={preset.batteryMinutes}
+                        data-note={preset.note}
+                      >
+                        {preset.label}
+                      </option>
+                    ))}
+                </optgroup>
+              ))
+            }
+          </select>
+        </span>
+      </label>
+
+      <label class="mission-field mission-field--wide" for="mission-camera-preset">
+        <span>Caméra DJI</span>
+        <span class="mission-select-wrap">
+          <select id="mission-camera-preset" name="mission-camera-preset">
+            <option value="manual">Mode manuel</option>
+            {
+              djiCameraPresetGroups.map((group) => (
+                <optgroup label={group}>
+                  {djiCameraPresets
+                    .filter((preset) => preset.group === group)
+                    .map((preset) => (
+                      <option
+                        value={preset.id}
+                        data-sensor-width={preset.sensorWidth}
+                        data-sensor-height={preset.sensorHeight}
+                        data-image-width={preset.imageWidth}
+                        data-image-height={preset.imageHeight}
+                        data-focal={preset.focal}
+                        data-note={preset.note}
+                      >
+                        {preset.label}
+                      </option>
+                    ))}
+                </optgroup>
+              ))
+            }
+          </select>
+        </span>
+      </label>
+
+      <label class="mission-field" for="mission-surface">
+        <span>Surface à couvrir</span>
+        <span class="mission-input-wrap">
+          <input id="mission-surface" type="number" min="0.1" step="0.1" value={defaultSurface} />
+          <span>ha</span>
+        </span>
+      </label>
+
+      <label class="mission-field" for="mission-altitude">
+        <span>Altitude de vol</span>
+        <span class="mission-input-wrap">
+          <input id="mission-altitude" type="number" min="1" step="1" value={defaultAltitude} />
+          <span>m</span>
+        </span>
+      </label>
+
+      <label class="mission-field" for="mission-front-overlap">
+        <span>Recouvrement frontal</span>
+        <span class="mission-input-wrap">
+          <input
+            id="mission-front-overlap"
+            type="number"
+            min="0"
+            max="95"
+            step="1"
+            value={defaultFrontOverlap}
+          />
+          <span>%</span>
+        </span>
+      </label>
+
+      <label class="mission-field" for="mission-side-overlap">
+        <span>Recouvrement latéral</span>
+        <span class="mission-input-wrap">
+          <input
+            id="mission-side-overlap"
+            type="number"
+            min="0"
+            max="95"
+            step="1"
+            value={defaultSideOverlap}
+          />
+          <span>%</span>
+        </span>
+      </label>
+
+      <label class="mission-field" for="mission-speed">
+        <span>Vitesse moyenne</span>
+        <span class="mission-input-wrap">
+          <input id="mission-speed" type="number" min="1" step="0.5" value={defaultSpeed} />
+          <span>m/s</span>
+        </span>
+      </label>
+
+      <label class="mission-field" for="mission-battery">
+        <span>Autonomie utile</span>
+        <span class="mission-input-wrap">
+          <input
+            id="mission-battery"
+            type="number"
+            min="5"
+            step="1"
+            value={defaultBatteryMinutes}
+          />
+          <span>min</span>
+        </span>
+      </label>
+
+      <div class="mission-fieldset">
+        <p>Caméra manuelle</p>
+        <div class="mission-fieldset__grid">
+          <label class="mission-field" for="mission-sensor-width">
+            <span>Largeur capteur</span>
+            <span class="mission-input-wrap">
+              <input
+                id="mission-sensor-width"
+                type="number"
+                min="1"
+                step="0.1"
+                value={defaultSensorWidth}
+              />
+              <span>mm</span>
+            </span>
+          </label>
+          <label class="mission-field" for="mission-sensor-height">
+            <span>Hauteur capteur</span>
+            <span class="mission-input-wrap">
+              <input
+                id="mission-sensor-height"
+                type="number"
+                min="1"
+                step="0.1"
+                value={defaultSensorHeight}
+              />
+              <span>mm</span>
+            </span>
+          </label>
+          <label class="mission-field" for="mission-focal">
+            <span>Focale réelle</span>
+            <span class="mission-input-wrap">
+              <input id="mission-focal" type="number" min="1" step="0.01" value={defaultFocal} />
+              <span>mm</span>
+            </span>
+          </label>
+          <label class="mission-field" for="mission-image-width">
+            <span>Largeur image</span>
+            <span class="mission-input-wrap">
+              <input
+                id="mission-image-width"
+                type="number"
+                min="1"
+                step="1"
+                value={defaultImageWidth}
+              />
+              <span>px</span>
+            </span>
+          </label>
+          <label class="mission-field" for="mission-image-height">
+            <span>Hauteur image</span>
+            <span class="mission-input-wrap">
+              <input
+                id="mission-image-height"
+                type="number"
+                min="1"
+                step="1"
+                value={defaultImageHeight}
+              />
+              <span>px</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <button class="mission-reset" type="button" id="mission-reset">Réinitialiser l'exemple</button
+      >
+    </form>
+
+    <aside class="mission-results" aria-live="polite">
+      <p class="mission-results__label">Résultats estimés</p>
+      <div class="mission-results__primary">
+        <output id="mission-photo-count">--</output>
+        <span>photos environ</span>
+      </div>
+
+      <dl class="mission-results__list">
+        <div>
+          <dt>Temps de vol</dt>
+          <dd><output id="mission-flight-time">--</output> min</dd>
+        </div>
+        <div>
+          <dt>Batteries à prévoir</dt>
+          <dd><output id="mission-batteries">--</output></dd>
+        </div>
+        <div>
+          <dt>GSD estimé</dt>
+          <dd><output id="mission-gsd">--</output> cm/px</dd>
+        </div>
+        <div>
+          <dt>Emprise photo</dt>
+          <dd><output id="mission-footprint">--</output></dd>
+        </div>
+        <div>
+          <dt>Distance lignes</dt>
+          <dd><output id="mission-distance">--</output> km</dd>
+        </div>
+      </dl>
+
+      <div class="mission-note">
+        <p class="mission-note__label">Hypothèse</p>
+        <p id="mission-note">
+          Estimation pour une zone carrée, avec 15 % de marge pour les virages, débords et reprises.
+        </p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<script>
+  const missionDefaults = {
+    surface: 5,
+    altitude: 80,
+    frontOverlap: 80,
+    sideOverlap: 70,
+    speed: 8,
+    batteryMinutes: 25,
+    sensorWidth: 17.3,
+    sensorHeight: 13,
+    imageWidth: 5280,
+    imageHeight: 3956,
+    focal: 12.29,
+  };
+
+  const missionForm = document.getElementById('mission-form');
+  const missionReset = document.getElementById('mission-reset');
+  const missionDronePreset = document.getElementById('mission-drone-preset');
+  const missionPreset = document.getElementById('mission-camera-preset');
+  const missionNote = document.getElementById('mission-note');
+  const missionFields = {
+    surface: document.getElementById('mission-surface'),
+    altitude: document.getElementById('mission-altitude'),
+    frontOverlap: document.getElementById('mission-front-overlap'),
+    sideOverlap: document.getElementById('mission-side-overlap'),
+    speed: document.getElementById('mission-speed'),
+    batteryMinutes: document.getElementById('mission-battery'),
+    sensorWidth: document.getElementById('mission-sensor-width'),
+    sensorHeight: document.getElementById('mission-sensor-height'),
+    imageWidth: document.getElementById('mission-image-width'),
+    imageHeight: document.getElementById('mission-image-height'),
+    focal: document.getElementById('mission-focal'),
+  };
+  let missionPresetNote = '';
+  const missionOutputs = {
+    photos: document.getElementById('mission-photo-count'),
+    time: document.getElementById('mission-flight-time'),
+    batteries: document.getElementById('mission-batteries'),
+    gsd: document.getElementById('mission-gsd'),
+    footprint: document.getElementById('mission-footprint'),
+    distance: document.getElementById('mission-distance'),
+  };
+
+  function readMissionNumber(input) {
+    if (!(input instanceof HTMLInputElement)) return 0;
+    return Number.parseFloat(input.value);
+  }
+
+  function writeMissionInput(input, value) {
+    if (!(input instanceof HTMLInputElement)) return;
+    input.value = String(value);
+  }
+
+  function writeMissionOutput(output, value, decimals) {
+    if (!(output instanceof HTMLOutputElement) || !Number.isFinite(value)) return;
+    output.value = value.toLocaleString('fr-FR', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+  }
+
+  function writeMissionText(output, text) {
+    if (!(output instanceof HTMLOutputElement)) return;
+    output.value = text;
+  }
+
+  function calculateMission() {
+    const surfaceM2 = readMissionNumber(missionFields.surface) * 10000;
+    const altitude = readMissionNumber(missionFields.altitude);
+    const frontOverlap = readMissionNumber(missionFields.frontOverlap) / 100;
+    const sideOverlap = readMissionNumber(missionFields.sideOverlap) / 100;
+    const speed = readMissionNumber(missionFields.speed);
+    const batteryMinutes = readMissionNumber(missionFields.batteryMinutes);
+    const sensorWidth = readMissionNumber(missionFields.sensorWidth);
+    const sensorHeight = readMissionNumber(missionFields.sensorHeight);
+    const imageWidth = readMissionNumber(missionFields.imageWidth);
+    const imageHeight = readMissionNumber(missionFields.imageHeight);
+    const focal = readMissionNumber(missionFields.focal);
+
+    if (
+      surfaceM2 <= 0 ||
+      altitude <= 0 ||
+      frontOverlap < 0 ||
+      frontOverlap >= 0.96 ||
+      sideOverlap < 0 ||
+      sideOverlap >= 0.96 ||
+      speed <= 0 ||
+      batteryMinutes <= 0 ||
+      sensorWidth <= 0 ||
+      sensorHeight <= 0 ||
+      imageWidth <= 0 ||
+      imageHeight <= 0 ||
+      focal <= 0
+    ) {
+      return;
+    }
+
+    const footprintWidth = (altitude * sensorWidth) / focal;
+    const footprintHeight = (altitude * sensorHeight) / focal;
+    const gsdCm = (footprintWidth / imageWidth) * 100;
+    const lineSpacing = footprintWidth * (1 - sideOverlap);
+    const triggerSpacing = footprintHeight * (1 - frontOverlap);
+    const effectivePhotoArea = lineSpacing * triggerSpacing;
+    const missionSide = Math.sqrt(surfaceM2);
+    const lineCount = Math.max(1, Math.ceil(missionSide / lineSpacing) + 1);
+    const photosPerLine = Math.max(1, Math.ceil(missionSide / triggerSpacing) + 1);
+    const photoCount = Math.ceil(lineCount * photosPerLine * 1.15);
+    const flightDistanceM = lineCount * missionSide * 1.15;
+    const flightTimeMinutes = flightDistanceM / speed / 60 + lineCount * 0.25;
+    const batteries = Math.max(1, Math.ceil(flightTimeMinutes / batteryMinutes));
+
+    writeMissionOutput(missionOutputs.photos, photoCount, 0);
+    writeMissionOutput(missionOutputs.time, flightTimeMinutes, 1);
+    writeMissionOutput(missionOutputs.batteries, batteries, 0);
+    writeMissionOutput(missionOutputs.gsd, gsdCm, 2);
+    writeMissionText(
+      missionOutputs.footprint,
+      `${footprintWidth.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} x ${footprintHeight.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} m`,
+    );
+    writeMissionOutput(missionOutputs.distance, flightDistanceM / 1000, 2);
+
+    if (missionNote instanceof HTMLParagraphElement) {
+      const estimateText = `Chaque photo couvre environ ${effectivePhotoArea.toLocaleString('fr-FR', { maximumFractionDigits: 0 })} m² utiles après recouvrement. L'estimation reste volontairement prudente.`;
+      missionNote.textContent = missionPresetNote
+        ? `${missionPresetNote} ${estimateText}`
+        : estimateText;
+    }
+  }
+
+  function applyMissionCameraPreset(selected) {
+    if (!(selected instanceof HTMLOptionElement) || selected.value === 'manual') return;
+    writeMissionInput(missionFields.sensorWidth, selected.dataset.sensorWidth);
+    writeMissionInput(missionFields.sensorHeight, selected.dataset.sensorHeight);
+    writeMissionInput(missionFields.imageWidth, selected.dataset.imageWidth);
+    writeMissionInput(missionFields.imageHeight, selected.dataset.imageHeight);
+    writeMissionInput(missionFields.focal, selected.dataset.focal);
+  }
+
+  missionForm?.addEventListener('input', calculateMission);
+  missionDronePreset?.addEventListener('change', () => {
+    if (!(missionDronePreset instanceof HTMLSelectElement)) return;
+    const selected = missionDronePreset.selectedOptions[0];
+
+    if (!selected || selected.value === 'manual') {
+      missionPresetNote = '';
+      calculateMission();
+      return;
+    }
+
+    if (missionPreset instanceof HTMLSelectElement && selected.dataset.cameraPresetId) {
+      missionPreset.value = selected.dataset.cameraPresetId;
+      applyMissionCameraPreset(missionPreset.selectedOptions[0]);
+    }
+
+    writeMissionInput(missionFields.speed, selected.dataset.speed);
+    writeMissionInput(missionFields.batteryMinutes, selected.dataset.batteryMinutes);
+    missionPresetNote = selected.dataset.note ? `${selected.dataset.note}` : '';
+    calculateMission();
+  });
+
+  missionPreset?.addEventListener('change', () => {
+    if (!(missionPreset instanceof HTMLSelectElement)) return;
+    const selected = missionPreset.selectedOptions[0];
+
+    if (!selected || selected.value === 'manual') {
+      missionPresetNote = '';
+      calculateMission();
+      return;
+    }
+
+    if (missionDronePreset instanceof HTMLSelectElement) missionDronePreset.value = 'manual';
+    applyMissionCameraPreset(selected);
+    missionPresetNote = selected.dataset.note ? `${selected.dataset.note}` : '';
+    calculateMission();
+  });
+
+  missionReset?.addEventListener('click', () => {
+    if (missionDronePreset instanceof HTMLSelectElement) missionDronePreset.value = 'manual';
+    if (missionPreset instanceof HTMLSelectElement) missionPreset.value = 'manual';
+    missionPresetNote = '';
+    writeMissionInput(missionFields.surface, missionDefaults.surface);
+    writeMissionInput(missionFields.altitude, missionDefaults.altitude);
+    writeMissionInput(missionFields.frontOverlap, missionDefaults.frontOverlap);
+    writeMissionInput(missionFields.sideOverlap, missionDefaults.sideOverlap);
+    writeMissionInput(missionFields.speed, missionDefaults.speed);
+    writeMissionInput(missionFields.batteryMinutes, missionDefaults.batteryMinutes);
+    writeMissionInput(missionFields.sensorWidth, missionDefaults.sensorWidth);
+    writeMissionInput(missionFields.sensorHeight, missionDefaults.sensorHeight);
+    writeMissionInput(missionFields.imageWidth, missionDefaults.imageWidth);
+    writeMissionInput(missionFields.imageHeight, missionDefaults.imageHeight);
+    writeMissionInput(missionFields.focal, missionDefaults.focal);
+    calculateMission();
+  });
+
+  calculateMission();
+</script>
+
+<section class="mission-map" aria-labelledby="mission-map-title">
+  <div class="mission-map__header">
+    <div>
+      <p class="mission-map__eyebrow">Carte de zone</p>
+      <h2 id="mission-map-title">Trace ta zone de vol</h2>
+      <p>
+        Clique sur la carte pour placer les sommets du polygone. Dès que tu as au moins trois
+        points, Topolia estime la surface et peut l'envoyer dans le calculateur.
+      </p>
+    </div>
+    <div class="mission-map__actions">
+      <button type="button" id="mission-map-use-area">Utiliser la surface</button>
+      <button type="button" id="mission-map-clear">Effacer</button>
+    </div>
+  </div>
+  <div class="mission-map__controls">
+    <form class="mission-map__search" id="mission-map-search">
+      <label for="mission-map-query">Rechercher un lieu</label>
+      <div class="mission-map__search-wrap">
+        <div class="mission-map__search-input">
+          <input
+            id="mission-map-query"
+            type="search"
+            placeholder="Adresse, commune, chantier..."
+            autocomplete="off"
+          />
+          <div
+            class="mission-map__search-results"
+            id="mission-map-search-results"
+            aria-live="polite"
+          >
+          </div>
+        </div>
+        <button type="submit">Rechercher</button>
+      </div>
+    </form>
+    <label class="mission-map__layer" for="mission-map-layer">
+      <span>Fond de carte</span>
+      <select id="mission-map-layer">
+        <option value="osm">Plan</option>
+        <option value="ign-ortho">Photo aérienne IGN</option>
+        <option value="ign-ortho-plan">Photo + plan IGN</option>
+      </select>
+    </label>
+  </div>
+  <div
+    class="mission-map__canvas"
+    id="mission-map-canvas"
+    role="application"
+    aria-label="Carte de dessin"
+  >
+  </div>
+  <div class="mission-map__status" aria-live="polite">
+    <span id="mission-map-area">Surface tracée : --</span>
+    <span id="mission-map-points">0 point</span>
+  </div>
+  <p class="mission-map__note">
+    Attention : cette carte sert uniquement à estimer une surface de mission. Elle ne fait pas
+    office de déclaration de vol, d'autorisation administrative ou de vérification des zones
+    réglementées.
+  </p>
+</section>
+
+<script>
+  const leafletCssHref = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+  const leafletJsSrc = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+
+  const mapContainer = document.getElementById('mission-map-canvas');
+  const mapArea = document.getElementById('mission-map-area');
+  const mapPoints = document.getElementById('mission-map-points');
+  const useAreaButton = document.getElementById('mission-map-use-area');
+  const clearMapButton = document.getElementById('mission-map-clear');
+  const mapSearchForm = document.getElementById('mission-map-search');
+  const mapSearchInput = document.getElementById('mission-map-query');
+  const mapSearchResults = document.getElementById('mission-map-search-results');
+  const mapLayerSelect = document.getElementById('mission-map-layer');
+  const missionSurfaceInput = document.getElementById('mission-surface');
+
+  let missionMap;
+  let missionBaseLayersActive = [];
+  let missionPolygonLayer;
+  let missionLineLayer;
+  let missionPointLayer;
+  let missionSearchMarker;
+  let missionMapPoints = [];
+  let missionMapAreaHa = 0;
+  let missionSearchTimeout;
+  let missionSearchController;
+  let missionLastSearchQuery = '';
+
+  const missionBaseLayers = {
+    osm: {
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      options: {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 19,
+        zIndex: 1,
+      },
+    },
+    ignOrtho: {
+      url: 'https://data.geopf.fr/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=ORTHOIMAGERY.ORTHOPHOTOS&style=normal&format=image/jpeg&tilematrixset=PM&tilematrix={z}&tilecol={x}&tilerow={y}',
+      options: {
+        attribution: '&copy; IGN / cartes.gouv.fr',
+        maxZoom: 19,
+        zIndex: 1,
+      },
+    },
+    ignPlan: {
+      url: 'https://data.geopf.fr/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&style=normal&format=image/png&tilematrixset=PM&tilematrix={z}&tilecol={x}&tilerow={y}',
+      options: {
+        attribution: '&copy; IGN / cartes.gouv.fr',
+        maxZoom: 19,
+        opacity: 0.45,
+        zIndex: 2,
+      },
+    },
+  };
+
+  function loadLeafletCss() {
+    if (document.querySelector(`link[href="${leafletCssHref}"]`)) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = leafletCssHref;
+    document.head.append(link);
+  }
+
+  function loadLeafletScript() {
+    if (window.L) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = leafletJsSrc;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('Leaflet ne peut pas être chargé.'));
+      document.head.append(script);
+    });
+  }
+
+  function formatArea(areaHa) {
+    if (areaHa < 1) {
+      return `${(areaHa * 10000).toLocaleString('fr-FR', { maximumFractionDigits: 0 })} m²`;
+    }
+    return `${areaHa.toLocaleString('fr-FR', { maximumFractionDigits: 2 })} ha`;
+  }
+
+  function calculateGeodesicArea(points) {
+    if (points.length < 3) return 0;
+
+    const radius = 6378137;
+    const ring = [...points, points[0]];
+    let area = 0;
+
+    for (let index = 0; index < ring.length - 1; index += 1) {
+      const current = ring[index];
+      const next = ring[index + 1];
+      const currentLng = (current.lng * Math.PI) / 180;
+      const nextLng = (next.lng * Math.PI) / 180;
+      const currentLat = (current.lat * Math.PI) / 180;
+      const nextLat = (next.lat * Math.PI) / 180;
+      area += (nextLng - currentLng) * (2 + Math.sin(currentLat) + Math.sin(nextLat));
+    }
+
+    return Math.abs((area * radius * radius) / 2);
+  }
+
+  function updateMapStatus() {
+    const areaM2 = calculateGeodesicArea(missionMapPoints);
+    missionMapAreaHa = areaM2 / 10000;
+
+    if (mapArea) {
+      mapArea.textContent =
+        missionMapPoints.length >= 3
+          ? `Surface tracée : ${formatArea(missionMapAreaHa)}`
+          : 'Surface tracée : --';
+    }
+
+    if (mapPoints) {
+      mapPoints.textContent = `${missionMapPoints.length} point${missionMapPoints.length > 1 ? 's' : ''}`;
+    }
+  }
+
+  function redrawMissionMap() {
+    if (!window.L || !missionMap || !missionPointLayer) return;
+    const accentColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--accent')
+      .trim();
+    missionPointLayer.clearLayers();
+
+    missionMapPoints.forEach((point) => {
+      window.L.circleMarker(point, {
+        radius: 5,
+        color: accentColor,
+        weight: 2,
+        fillColor: getComputedStyle(document.documentElement).getPropertyValue('--surface').trim(),
+        fillOpacity: 1,
+      }).addTo(missionPointLayer);
+    });
+
+    if (missionLineLayer) missionLineLayer.remove();
+    if (missionPolygonLayer) missionPolygonLayer.remove();
+
+    if (missionMapPoints.length >= 2) {
+      missionLineLayer = window.L.polyline(missionMapPoints, {
+        color: accentColor,
+        weight: 2,
+        dashArray: '6 6',
+      }).addTo(missionMap);
+    }
+
+    if (missionMapPoints.length >= 3) {
+      missionPolygonLayer = window.L.polygon(missionMapPoints, {
+        color: accentColor,
+        weight: 2,
+        fillColor: accentColor,
+        fillOpacity: 0.14,
+      }).addTo(missionMap);
+    }
+
+    updateMapStatus();
+  }
+
+  function setMissionBaseLayer(layerKey) {
+    if (!window.L || !missionMap) return;
+
+    missionBaseLayersActive.forEach((layer) => layer.remove());
+    missionBaseLayersActive = [];
+
+    const layerConfigs =
+      layerKey === 'ign-ortho'
+        ? [missionBaseLayers.ignOrtho]
+        : layerKey === 'ign-ortho-plan'
+          ? [missionBaseLayers.ignOrtho, missionBaseLayers.ignPlan]
+          : [missionBaseLayers.osm];
+
+    missionBaseLayersActive = layerConfigs.map((layerConfig) =>
+      window.L.tileLayer(layerConfig.url, layerConfig.options).addTo(missionMap),
+    );
+
+    if (missionBaseLayersActive[0]) {
+      missionBaseLayersActive[0].bringToBack();
+    }
+  }
+
+  function renderSearchResults(results) {
+    if (!mapSearchResults) return;
+    mapSearchResults.innerHTML = '';
+    mapSearchResults.classList.add('mission-map__search-results--open');
+
+    if (results.length === 0) {
+      mapSearchResults.textContent = 'Aucun résultat trouvé.';
+      return;
+    }
+
+    results.forEach((result) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      const label = document.createElement('span');
+      label.textContent = result.display_name;
+      const meta = document.createElement('small');
+      meta.textContent = result.type ? `Résultat ${result.type}` : 'Résultat cartographique';
+      button.append(label, meta);
+      button.addEventListener('click', () => {
+        if (!window.L || !missionMap) return;
+
+        const lat = Number.parseFloat(result.lat);
+        const lon = Number.parseFloat(result.lon);
+
+        if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+
+        missionMap.setView([lat, lon], 16);
+
+        if (mapSearchInput instanceof HTMLInputElement) {
+          mapSearchInput.value = result.display_name;
+        }
+
+        if (missionSearchMarker) {
+          missionSearchMarker.remove();
+        }
+
+        missionSearchMarker = window.L.marker([lat, lon]).addTo(missionMap);
+        mapSearchResults.innerHTML = '';
+        mapSearchResults.classList.remove('mission-map__search-results--open');
+      });
+      mapSearchResults.append(button);
+    });
+  }
+
+  async function searchMissionPlace(query) {
+    if (!mapSearchResults) return;
+    const cleaned = query.trim();
+
+    if (cleaned.length < 3) {
+      mapSearchResults.textContent = 'Entre au moins 3 caractères.';
+      return;
+    }
+
+    if (cleaned === missionLastSearchQuery) return;
+    missionLastSearchQuery = cleaned;
+    mapSearchResults.textContent = 'Recherche en cours...';
+
+    try {
+      if (missionSearchController) {
+        missionSearchController.abort();
+      }
+
+      missionSearchController = new AbortController();
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&countrycodes=fr&q=${encodeURIComponent(cleaned)}`,
+        { signal: missionSearchController.signal },
+      );
+
+      if (!response.ok) {
+        throw new Error('Recherche indisponible.');
+      }
+
+      const results = await response.json();
+      renderSearchResults(Array.isArray(results) ? results : []);
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') return;
+      mapSearchResults.textContent =
+        'Recherche indisponible pour le moment. Tu peux quand même zoomer et tracer à la main.';
+    }
+  }
+
+  function queueMissionPlaceSearch(query) {
+    if (missionSearchTimeout) {
+      window.clearTimeout(missionSearchTimeout);
+    }
+
+    if (!mapSearchResults) return;
+
+    const cleaned = query.trim();
+    if (cleaned.length === 0) {
+      mapSearchResults.innerHTML = '';
+      mapSearchResults.classList.remove('mission-map__search-results--open');
+      return;
+    }
+
+    if (cleaned.length < 3) {
+      mapSearchResults.textContent = 'Continue à taper pour afficher les propositions.';
+      mapSearchResults.classList.add('mission-map__search-results--open');
+      return;
+    }
+
+    mapSearchResults.textContent = 'Préparation des propositions...';
+    mapSearchResults.classList.add('mission-map__search-results--open');
+    missionSearchTimeout = window.setTimeout(() => {
+      searchMissionPlace(cleaned);
+    }, 900);
+  }
+
+  async function initMissionMap() {
+    if (!mapContainer || missionMap) return;
+
+    loadLeafletCss();
+
+    try {
+      await loadLeafletScript();
+    } catch {
+      if (mapArea) mapArea.textContent = 'Carte indisponible : impossible de charger Leaflet.';
+      return;
+    }
+
+    missionMap = window.L.map(mapContainer, {
+      center: [46.8, 2.4],
+      zoom: 6,
+      scrollWheelZoom: false,
+    });
+
+    setMissionBaseLayer('osm');
+    missionPointLayer = window.L.layerGroup().addTo(missionMap);
+
+    missionMap.on('click', (event) => {
+      missionMapPoints = [...missionMapPoints, event.latlng];
+      redrawMissionMap();
+    });
+
+    updateMapStatus();
+  }
+
+  useAreaButton?.addEventListener('click', () => {
+    if (!(missionSurfaceInput instanceof HTMLInputElement) || missionMapAreaHa <= 0) return;
+    missionSurfaceInput.value = missionMapAreaHa.toFixed(2);
+    missionSurfaceInput.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+
+  clearMapButton?.addEventListener('click', () => {
+    missionMapPoints = [];
+    redrawMissionMap();
+  });
+
+  mapSearchForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!(mapSearchInput instanceof HTMLInputElement)) return;
+    searchMissionPlace(mapSearchInput.value);
+  });
+
+  mapSearchInput?.addEventListener('input', () => {
+    if (!(mapSearchInput instanceof HTMLInputElement)) return;
+    queueMissionPlaceSearch(mapSearchInput.value);
+  });
+
+  mapSearchInput?.addEventListener('focus', () => {
+    if (!mapSearchResults || mapSearchResults.childNodes.length === 0) return;
+    mapSearchResults.classList.add('mission-map__search-results--open');
+  });
+
+  mapLayerSelect?.addEventListener('change', () => {
+    if (!(mapLayerSelect instanceof HTMLSelectElement)) return;
+    setMissionBaseLayer(mapLayerSelect.value);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (
+      mapSearchResults &&
+      mapSearchForm instanceof HTMLElement &&
+      event.target instanceof Node &&
+      !mapSearchForm.contains(event.target)
+    ) {
+      mapSearchResults.classList.remove('mission-map__search-results--open');
+    }
+  });
+
+  initMissionMap();
+</script>
+
+<style>
+  .mission-tool {
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+
+  .mission-map {
+    border-top: 1px solid var(--hairline);
+    padding: 24px;
+    background: var(--surface);
+  }
+
+  .mission-map__header {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .mission-map__eyebrow {
+    margin-bottom: 8px;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .mission-map h2 {
+    font-family: var(--display);
+    font-size: clamp(1.35rem, 4vw, 1.8rem);
+    font-weight: 800;
+    color: var(--ink);
+  }
+
+  .mission-map p {
+    margin-top: 8px;
+    color: var(--ink-3);
+  }
+
+  .mission-map__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .mission-map__actions button {
+    min-height: 44px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    padding: 8px 14px;
+    background: var(--surface);
+    color: var(--ink-2);
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .mission-map__actions button:first-child {
+    background: var(--ink);
+    color: var(--surface);
+  }
+
+  .mission-map__actions button:hover {
+    opacity: 0.86;
+  }
+
+  .mission-map__controls {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .mission-map__search,
+  .mission-map__layer {
+    display: grid;
+    gap: 8px;
+    color: var(--ink-2);
+    font-size: 0.9rem;
+    font-weight: 800;
+  }
+
+  .mission-map__search-wrap {
+    display: grid;
+    gap: 8px;
+  }
+
+  .mission-map__search-input {
+    position: relative;
+    width: 100%;
+  }
+
+  .mission-map__search input,
+  .mission-map__search button,
+  .mission-map__layer select {
+    min-height: 44px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: var(--surface);
+    color: var(--ink);
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .mission-map__search input {
+    width: 100%;
+    min-height: 52px;
+    padding-inline: 16px;
+  }
+
+  .mission-map__search input:focus,
+  .mission-map__layer select:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .mission-map__search button {
+    background: var(--accent);
+    color: var(--surface);
+    cursor: pointer;
+  }
+
+  .mission-map__search-results {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    z-index: 600;
+    display: none;
+    overflow: hidden;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
+    color: var(--ink-muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .mission-map__search-results--open {
+    display: grid;
+  }
+
+  :global(.mission-map__search-results button) {
+    display: grid;
+    gap: 3px;
+    width: 100%;
+    min-height: 48px;
+    border: 0;
+    border-bottom: 1px solid var(--hairline);
+    border-radius: 0;
+    padding: 10px 12px;
+    background: var(--surface);
+    color: var(--ink-2);
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  :global(.mission-map__search-results button:last-child) {
+    border-bottom: 0;
+  }
+
+  :global(.mission-map__search-results button:hover),
+  :global(.mission-map__search-results button:focus-visible) {
+    background: var(--bg-alt);
+    outline: none;
+  }
+
+  :global(.mission-map__search-results button span) {
+    color: var(--ink);
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  :global(.mission-map__search-results button small) {
+    color: var(--ink-muted);
+    font-size: 0.78rem;
+  }
+
+  .mission-map__canvas {
+    position: relative;
+    z-index: 0;
+    isolation: isolate;
+    min-height: 360px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg-alt);
+  }
+
+  .mission-map__status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    margin-top: 12px;
+    color: var(--ink-2);
+    font-weight: 800;
+  }
+
+  .mission-map__note {
+    margin-top: 10px;
+    font-size: 0.88rem;
+  }
+
+  .mission-tool__intro {
+    padding: 24px;
+    border-bottom: 1px solid var(--hairline);
+    background: var(--bg-alt);
+  }
+
+  .mission-tool__eyebrow {
+    margin-bottom: 8px;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .mission-tool__intro h2 {
+    font-family: var(--display);
+    font-size: clamp(1.45rem, 4vw, 2rem);
+    font-weight: 800;
+    line-height: 1.12;
+    color: var(--ink);
+  }
+
+  .mission-tool__intro p:last-child {
+    margin-top: 10px;
+    color: var(--ink-3);
+    max-width: 680px;
+  }
+
+  .mission-tool__grid {
+    display: grid;
+  }
+
+  .mission-form {
+    display: grid;
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .mission-field,
+  .mission-fieldset {
+    display: grid;
+    gap: 8px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--ink-2);
+  }
+
+  .mission-fieldset {
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    padding: 14px;
+  }
+
+  .mission-fieldset > p {
+    color: var(--ink);
+  }
+
+  .mission-fieldset__grid {
+    display: grid;
+    gap: 14px;
+  }
+
+  .mission-input-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 58px;
+    align-items: center;
+    min-height: 48px;
+    overflow: hidden;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+
+  .mission-input-wrap input,
+  .mission-select-wrap select {
+    width: 100%;
+    min-height: 48px;
+    border: 0;
+    padding: 10px 12px;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-weight: 700;
+    outline: none;
+  }
+
+  .mission-select-wrap select {
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .mission-input-wrap input:focus,
+  .mission-select-wrap select:focus {
+    box-shadow: inset 0 0 0 2px var(--accent);
+  }
+
+  .mission-input-wrap span {
+    height: 100%;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--hairline);
+    background: var(--bg-alt);
+    color: var(--ink-muted);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+  }
+
+  .mission-reset {
+    min-height: 44px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--ink-2);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .mission-reset:hover {
+    background: var(--bg-alt);
+  }
+
+  .mission-results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 24px;
+    background: var(--bg-dark);
+    color: var(--surface);
+  }
+
+  .mission-results__label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+
+  .mission-results__primary {
+    margin-top: 12px;
+  }
+
+  .mission-results__primary output {
+    display: block;
+    font-family: var(--display);
+    font-size: clamp(3rem, 12vw, 5rem);
+    font-weight: 800;
+    line-height: 0.95;
+  }
+
+  .mission-results__primary span {
+    display: block;
+    margin-top: 8px;
+    color: var(--ink-light);
+    font-weight: 700;
+  }
+
+  .mission-results__list {
+    display: grid;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .mission-results__list div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 10px;
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+
+  .mission-results__list dt {
+    color: var(--ink-light);
+  }
+
+  .mission-results__list dd {
+    font-weight: 800;
+    color: var(--surface);
+    text-align: right;
+  }
+
+  .mission-note {
+    margin-top: 24px;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    border-radius: 8px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .mission-note__label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+
+  .mission-note p:last-child {
+    margin-top: 8px;
+    color: var(--ink-light);
+    font-size: 0.9rem;
+  }
+
+  @media (min-width: 900px) {
+    .mission-tool__intro {
+      padding: 32px;
+    }
+
+    .mission-tool__grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+    }
+
+    .mission-form {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      padding: 28px;
+    }
+
+    .mission-field--wide,
+    .mission-fieldset,
+    .mission-reset {
+      grid-column: 1 / -1;
+    }
+
+    .mission-fieldset__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mission-reset {
+      justify-self: start;
+      padding-inline: 18px;
+    }
+
+    .mission-results {
+      padding: 32px;
+    }
+
+    .mission-map {
+      grid-column: 1 / -1;
+      padding: 28px;
+    }
+
+    .mission-map__header {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+    }
+
+    .mission-map__controls {
+      grid-template-columns: minmax(0, 1fr) 220px;
+      align-items: end;
+    }
+
+    .mission-map__search-wrap {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+  }
+</style>

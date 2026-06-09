@@ -1,0 +1,109 @@
+---
+title: 'Estimer une mission drone photogrammétrie avant le terrain'
+subtitle: 'GSD, surface, photos, batteries : l’ordre simple pour cadrer ton vol.'
+date: 2026-06-09
+category: 'drone'
+tags: ['drone', 'photogrammetrie', 'gsd', 'mission']
+author: 'loic'
+heroImage: '/images/articles/dji-matrice-4e.png'
+heroImageAlt: 'Drone DJI Matrice 4E posé au sol avant une mission photogrammétrique'
+excerpt: 'Avant de créer ton plan de vol, estime le GSD, la surface, le nombre de photos et les batteries nécessaires pour éviter les surprises terrain.'
+faq:
+  - q: 'Par quoi commencer pour préparer une mission drone ?'
+    a: "Commence par définir le niveau de détail attendu, puis calcule le GSD à l'altitude envisagée. Ensuite seulement, estime la surface, les recouvrements, le nombre de photos et les batteries."
+  - q: 'Le GSD donne-t-il la précision finale du relevé ?'
+    a: 'Non. Le GSD donne une résolution image théorique. La précision finale dépend aussi du RTK, des GCP, du recouvrement, de la netteté des images, du traitement et du contrôle qualité.'
+  - q: 'Combien de batteries prévoir pour une mission drone ?'
+    a: "Utilise une autonomie utile plutôt que l'autonomie annoncée par le constructeur, puis garde au moins une marge pour le retour, le vent et les reprises de lignes. Le calculateur mission donne une première estimation."
+  - q: 'La carte Topolia remplace-t-elle une déclaration de vol ?'
+    a: 'Non. La carte sert uniquement à estimer une surface. Elle ne remplace pas une déclaration, une autorisation ou une vérification des zones réglementées.'
+isPremium: false
+isPublished: true
+---
+
+import Callout from '../../components/mdx/Callout.astro';
+
+Une mission drone ratée commence souvent avant le décollage. Pas forcément à cause du drone, mais parce que les ordres de grandeur n'ont pas été posés : trop peu de batteries, altitude mal choisie, recouvrement insuffisant, surface plus grande que prévu.
+
+Avant d'ouvrir DJI Pilot, DJI Terra, Pix4Dcapture ou Metashape, tu peux déjà cadrer 80 % du problème avec quatre questions simples.
+
+## 1. Quel niveau de détail dois-tu livrer ?
+
+Le premier chiffre à poser, c'est le [GSD](/outils/calculateur-gsd-drone/). Il indique la taille réelle représentée par un pixel au sol. Un GSD de 2 cm/pixel veut dire qu'un pixel représente environ 2 cm sur le terrain.
+
+Pour une orthophoto de suivi de chantier, un GSD autour de 2 à 3 cm/pixel peut suffire. Pour lire des détails fins, viser 1 cm/pixel ou moins devient vite utile. En échange, tu voles plus bas, donc tu couvres moins large à chaque photo.
+
+Le piège classique consiste à choisir l'altitude uniquement pour aller vite. Ça marche sur le temps de vol, mais le résultat peut devenir trop pauvre pour le livrable attendu.
+
+## 2. Quelle surface dois-tu couvrir ?
+
+La surface change tout : nombre de lignes, quantité de photos, temps terrain, volume de traitement. Une parcelle de 2 ha et une emprise de 12 ha ne se préparent pas avec la même marge.
+
+Sur la page du [calculateur mission drone](/outils/calculateur-mission-drone/), tu peux tracer une zone sur la carte pour récupérer une surface approximative, puis l'envoyer directement dans le calcul.
+
+<Callout type="warning" title="La carte n'est pas une autorisation">
+  La carte Topolia sert uniquement à estimer une surface. Elle ne fait pas office de déclaration de
+  vol, d'autorisation administrative ou de vérification des zones réglementées.
+</Callout>
+
+## 3. Quel recouvrement choisir ?
+
+Pour une mission photogrammétrique classique, pars souvent sur :
+
+- **80 % frontal**
+- **70 % latéral**
+
+C'est une base saine pour un terrain assez plat et texturé. Si la zone contient de la végétation, des façades, du relief marqué ou des surfaces répétitives, augmente la marge. Le logiciel a besoin de points communs entre les photos pour reconstruire le modèle.
+
+Le recouvrement a un coût direct. Plus il monte, plus chaque photo apporte peu de surface nouvelle. Le nombre de photos grimpe vite, et le temps de traitement aussi.
+
+## 4. Combien de photos et de batteries prévoir ?
+
+Une fois l'altitude, la surface et le recouvrement fixés, tu peux estimer le volume de mission. Le [calculateur mission drone](/outils/calculateur-mission-drone/) donne :
+
+- le nombre de photos environ ;
+- le temps de vol estimé ;
+- les batteries à prévoir ;
+- le GSD estimé ;
+- l'emprise d'une photo.
+
+Renseigne toujours une autonomie utile, pas l'autonomie annoncée par le constructeur. Une batterie donnée pour 40 minutes ne donne pas 40 minutes de travail terrain. Il faut garder de la marge pour le retour, le vent, les pauses, les reprises et la sécurité.
+
+## 5. Exemple rapide
+
+Imaginons une zone de 5 ha avec un drone DJI équipé d'un capteur 4/3, à 80 m d'altitude, avec 80 % frontal et 70 % latéral.
+
+Le GSD tourne autour de quelques centimètres par pixel selon la focale réelle. Le volume photo peut déjà atteindre plusieurs centaines d'images. Ce n'est pas anormal : c'est le recouvrement qui donne assez de matière au calcul photogrammétrique.
+
+Si le nombre de photos devient trop élevé, ajuste dans cet ordre :
+
+1. Vérifie que le GSD demandé est vraiment nécessaire.
+2. Monte légèrement l'altitude si le livrable l'accepte.
+3. Ne baisse le recouvrement que si la scène reste simple et bien texturée.
+
+## 6. Ce que l'estimation ne remplace pas
+
+Topolia donne un ordre de grandeur. Le plan final se valide toujours dans ton application de vol, avec la réalité du terrain.
+
+Avant de décoller, contrôle au minimum :
+
+- la réglementation et les zones de vol ;
+- la météo et le vent ;
+- les obstacles ;
+- le statut RTK ou la stratégie GCP ;
+- la netteté attendue et l'exposition ;
+- le retour batterie.
+
+Pour la chaîne complète après le vol, tu peux suivre le [workflow drone photogrammétrie complet](/articles/workflow-drone-complet/). Il reprend la préparation, le vol, le traitement et le contrôle qualité avant livraison.
+
+## Le bon ordre à garder
+
+Le plus simple :
+
+1. Calcule ton [GSD](/outils/calculateur-gsd-drone/).
+2. Trace ou renseigne ta surface dans le [calculateur mission drone](/outils/calculateur-mission-drone/).
+3. Ajuste altitude, recouvrement et autonomie utile.
+4. Valide le plan final dans ton logiciel de mission.
+5. Vérifie les obligations officielles avant le vol.
+
+Avec cette méthode, tu arrives sur site avec une idée claire du temps, du volume photo et des marges à garder. Ce n'est pas encore le plan de vol final, mais c'est déjà une bonne partie du travail.

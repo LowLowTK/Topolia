@@ -103,6 +103,7 @@ const { contentId, contentType } = Astro.props;
   .comment-form-cta-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     min-height: 44px;
     padding: 8px 20px;
     background: var(--ink);
@@ -112,6 +113,12 @@ const { contentId, contentType } = Astro.props;
     font-weight: 500;
     transition: opacity 0.15s;
   }
+
+  :global(.prose a.comment-form-cta-btn) {
+    color: var(--surface);
+    text-decoration: none;
+  }
+
   .comment-form-cta-btn:hover {
     opacity: 0.85;
   }

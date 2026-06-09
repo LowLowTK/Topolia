@@ -1,0 +1,411 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MissionDroneCalculator from '../../components/outils/MissionDroneCalculator.astro';
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://topolia.fr';
+
+const faq = [
+  {
+    question: 'À quoi sert un calculateur mission drone ?',
+    answer:
+      'Il sert à estimer rapidement le nombre de photos, le temps de vol et les batteries nécessaires avant une mission photogrammétrique.',
+  },
+  {
+    question: 'Le résultat remplace-t-il un plan de vol DJI Pilot ou Pix4Dcapture ?',
+    answer:
+      "Non. C'est une estimation de préparation. Le plan de vol final doit toujours être vérifié dans ton logiciel de mission et adapté au terrain.",
+  },
+  {
+    question: 'Pourquoi le recouvrement change autant le nombre de photos ?',
+    answer:
+      'Plus le recouvrement est élevé, plus chaque photo ajoute peu de surface utile. Le nombre de photos augmente donc très vite.',
+  },
+  {
+    question: 'Quel recouvrement choisir pour la photogrammétrie ?',
+    answer:
+      'Pour un chantier classique, 80 % frontal et 70 % latéral est une bonne base. Monte plus haut sur végétation, façades, relief compliqué ou surfaces pauvres en texture.',
+  },
+  {
+    question: 'Pourquoi l’altitude influence le temps de mission ?',
+    answer:
+      'Plus tu voles haut, plus chaque photo couvre large. Tu réduis donc souvent le nombre de lignes et de photos, mais tu augmentes le GSD.',
+  },
+  {
+    question: 'Comment sont calculées les batteries ?',
+    answer:
+      "Le calculateur divise le temps de vol estimé par l'autonomie utile renseignée, puis arrondit à la batterie supérieure.",
+  },
+  {
+    question: 'Pourquoi parler d’autonomie utile et pas d’autonomie constructeur ?',
+    answer:
+      "L'autonomie constructeur est mesurée dans des conditions idéales. Sur le terrain, il faut garder une marge pour le vent, les retours, les changements de batterie et la sécurité.",
+  },
+  {
+    question: 'Le calcul tient-il compte des obstacles ?',
+    answer:
+      "Non. Il suppose une zone simple, proche d'un carré. Sur un site découpé, boisé ou contraint, ajoute une marge.",
+  },
+  {
+    question: 'Le calculateur fonctionne-t-il avec une caméra manuelle ?',
+    answer:
+      'Oui. Tu peux choisir un preset DJI ou renseigner manuellement le capteur, la focale et la résolution image.',
+  },
+  {
+    question: 'Pourquoi le temps réel peut-il être différent ?',
+    answer:
+      'Le vent, les virages, les pauses, le relief, la vitesse autorisée et les reprises de lignes peuvent modifier le temps réel.',
+  },
+];
+
+const jsonLd = JSON.stringify([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Calculateur Mission Drone Topolia',
+    url: `${siteUrl}/outils/calculateur-mission-drone/`,
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Web',
+    inLanguage: 'fr-FR',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'EUR',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  },
+]);
+---
+
+<BaseLayout
+  title="Calculateur Mission Drone Gratuit"
+  description="Estime gratuitement une mission drone : nombre de photos, temps de vol, batteries nécessaires, GSD et emprise photo selon la surface, l'altitude et les recouvrements."
+  jsonLd={jsonLd}
+>
+  <article class="tool-page">
+    <header class="tool-hero">
+      <div class="container tool-hero__inner">
+        <div>
+          <p class="tool-hero__eyebrow">Drone · Plan de vol</p>
+          <h1>Calculateur mission drone gratuit</h1>
+          <p>
+            Prépare ton vol avant d'ouvrir ton logiciel de mission. En quelques valeurs, tu obtiens
+            un ordre de grandeur du nombre de photos, du temps terrain et des batteries à prévoir.
+            Les profils drone remplissent aussi la caméra, la vitesse et l'autonomie utile.
+          </p>
+        </div>
+        <div class="tool-hero__facts" aria-label="Points clés">
+          <span>Photos estimées</span>
+          <span>Batteries</span>
+          <span>GSD inclus</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="container tool-section tool-section--calculator">
+      <MissionDroneCalculator />
+    </section>
+
+    <section class="container tool-content">
+      <div class="tool-content__main">
+        <section>
+          <h2>Comment lire l'estimation ?</h2>
+          <p>
+            Le calculateur part d'une zone carrée pour obtenir un ordre de grandeur. Il calcule
+            l'emprise de la photo à l'altitude choisie, applique tes recouvrements, puis estime le
+            nombre de lignes et de déclenchements.
+          </p>
+          <p class="formula">photos ≈ lignes de vol x photos par ligne x marge terrain</p>
+          <p>
+            Cette marge sert à absorber les virages, les débords, les reprises et les petites
+            différences entre une estimation théorique et un vrai plan de vol.
+          </p>
+        </section>
+
+        <section>
+          <h2>Profils drone inclus</h2>
+          <p>
+            Le calculateur propose des profils prêts pour les drones DJI les plus utiles en mission
+            terrain : Matrice 4E, Mavic 3 Enterprise, Mavic 3M RGB, Phantom 4 RTK, Matrice 300 ou
+            350 avec Zenmuse P1, Matrice 350 avec Zenmuse L2 RGB et Matrice 30.
+          </p>
+          <p>
+            Ces profils restent volontairement prudents. Ils utilisent une autonomie utile et une
+            vitesse moyenne réalistes pour préparer les batteries, pas les chiffres marketing à
+            conditions idéales.
+          </p>
+        </section>
+
+        <section>
+          <h2>Exemple concret</h2>
+          <p>
+            Pour une surface de 5 ha à 80 m, avec 80 % de recouvrement frontal et 70 % latéral, un
+            drone 4/3 sort déjà plusieurs centaines de photos. C'est normal : le recouvrement est ce
+            qui donne de la matière au logiciel pour reconstruire le modèle.
+          </p>
+          <p>
+            Si le nombre de photos explose, vérifie d'abord ton recouvrement et ton altitude. Si tu
+            voles plus haut, tu réduis la quantité de photos, mais tu perds du détail au sol.
+          </p>
+        </section>
+
+        <section>
+          <h2>Limites à garder en tête</h2>
+          <p>
+            Le calcul ne remplace pas le terrain. Une parcelle en longueur, des arbres, du relief,
+            du vent ou une zone interdite peuvent changer le plan réel. Utilise ce résultat comme
+            une première estimation, puis confirme dans ton application de vol.
+          </p>
+        </section>
+
+        <section class="faq-section">
+          <h2>FAQ</h2>
+          <div class="faq-list">
+            {
+              faq.map((item) => (
+                <details>
+                  <summary>{item.question}</summary>
+                  <p>{item.answer}</p>
+                </details>
+              ))
+            }
+          </div>
+        </section>
+      </div>
+
+      <aside class="tool-content__side" aria-label="Liens utiles">
+        <div class="side-panel">
+          <h2>À lire ensuite</h2>
+          <a href="/outils/calculateur-gsd-drone/">Calculateur GSD drone</a>
+          <a href="/articles/workflow-drone-complet/">Workflow drone complet</a>
+          <a href="/glossaire/photogrammetrie/">Photogrammétrie</a>
+          <a href="/glossaire/gcp/">GCP</a>
+        </div>
+        <div class="side-panel side-panel--dark">
+          <h2>Topolia</h2>
+          <p>Les chiffres te donnent un cadre. Le terrain décide toujours de la marge à garder.</p>
+          <p>
+            Si tu veux ajouter une nouvelle donnée drone ou corriger un preset, contacte-nous à
+            contact@topolia.fr.
+          </p>
+          <p>
+            Attention : ce site ne prend pas en compte les zones, restrictions et obligations de la
+            réglementation drone européenne. Réfère-toi toujours aux obligations officielles avant
+            de voler.
+          </p>
+          <a href="/outils/">Voir tous les outils</a>
+        </div>
+      </aside>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .tool-page {
+    background: var(--bg);
+  }
+
+  .tool-hero {
+    padding: 64px 0 44px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .tool-hero__inner {
+    display: grid;
+    gap: 28px;
+    align-items: end;
+  }
+
+  .tool-hero__eyebrow {
+    margin-bottom: 14px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .tool-hero h1 {
+    max-width: 820px;
+    font-family: var(--display);
+    font-size: clamp(2.15rem, 7vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.02;
+    color: var(--ink);
+  }
+
+  .tool-hero p:last-child {
+    max-width: 680px;
+    margin-top: 18px;
+    color: var(--ink-3);
+    font-size: 1.08rem;
+  }
+
+  .tool-hero__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tool-hero__facts span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 999px;
+    padding: 6px 12px;
+    background: var(--surface);
+    color: var(--ink-2);
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+
+  .tool-section {
+    padding-top: 40px;
+    padding-bottom: 36px;
+  }
+
+  .tool-content {
+    display: grid;
+    gap: 32px;
+    padding-bottom: 84px;
+  }
+
+  .tool-content__main {
+    max-width: var(--content-max);
+  }
+
+  .tool-content__main section + section {
+    margin-top: 44px;
+  }
+
+  .tool-content h2 {
+    font-family: var(--display);
+    font-size: clamp(1.45rem, 4vw, 2rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+
+  .tool-content p {
+    margin-top: 14px;
+    color: var(--ink-3);
+  }
+
+  .formula {
+    display: block;
+    border-left: 4px solid var(--accent);
+    padding: 14px 16px;
+    background: var(--bg-alt);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 0.9rem;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .faq-list details {
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+
+  .faq-list summary {
+    min-height: 52px;
+    padding: 14px 16px;
+    cursor: pointer;
+    font-weight: 800;
+    color: var(--ink);
+  }
+
+  .faq-list details[open] summary {
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .faq-list p {
+    margin: 0;
+    padding: 14px 16px 16px;
+  }
+
+  .tool-content__side {
+    display: grid;
+    gap: 16px;
+    align-content: start;
+  }
+
+  .side-panel {
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    padding: 20px;
+    background: var(--surface);
+  }
+
+  .side-panel h2 {
+    font-size: 1.1rem;
+  }
+
+  .side-panel a {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    border-bottom: 1px solid var(--hairline);
+    color: var(--accent);
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .side-panel a:last-child {
+    border-bottom: 0;
+  }
+
+  .side-panel a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .side-panel--dark {
+    background: var(--bg-dark);
+    color: var(--surface);
+  }
+
+  .side-panel--dark h2,
+  .side-panel--dark p {
+    color: var(--surface);
+  }
+
+  .side-panel--dark a {
+    border-bottom: 0;
+    color: var(--accent-2);
+  }
+
+  @media (min-width: 900px) {
+    .tool-hero__inner {
+      grid-template-columns: minmax(0, 1fr) 300px;
+    }
+
+    .tool-content {
+      grid-template-columns: minmax(0, 1fr) 320px;
+      align-items: start;
+    }
+
+    .tool-content__side {
+      position: sticky;
+      top: 88px;
+    }
+  }
+</style>

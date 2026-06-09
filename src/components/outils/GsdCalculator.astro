@@ -1,4 +1,6 @@
 ---
+import { djiCameraPresetGroups, djiCameraPresets } from '../../lib/dji-camera-presets';
+
 const defaultAltitude = 80;
 const defaultSensorWidth = 17.3;
 const defaultSensorHeight = 13;
@@ -19,6 +21,36 @@ const defaultFocal = 12.29;
 
   <div class="gsd-tool__grid">
     <form class="gsd-form" id="gsd-form">
+      <label class="gsd-field gsd-field--wide" for="camera-preset">
+        <span>Caméra DJI</span>
+        <span class="gsd-select-wrap">
+          <select id="camera-preset" name="camera-preset">
+            <option value="manual">Mode manuel</option>
+            {
+              djiCameraPresetGroups.map((group) => (
+                <optgroup label={group}>
+                  {djiCameraPresets
+                    .filter((preset) => preset.group === group)
+                    .map((preset) => (
+                      <option
+                        value={preset.id}
+                        data-sensor-width={preset.sensorWidth}
+                        data-sensor-height={preset.sensorHeight}
+                        data-image-width={preset.imageWidth}
+                        data-image-height={preset.imageHeight}
+                        data-focal={preset.focal}
+                        data-note={preset.note}
+                      >
+                        {preset.label}
+                      </option>
+                    ))}
+                </optgroup>
+              ))
+            }
+          </select>
+        </span>
+      </label>
+
       <label class="gsd-field" for="altitude">
         <span>Altitude de vol</span>
         <span class="gsd-input-wrap">
@@ -127,8 +159,16 @@ const defaultFocal = 12.29;
         </div>
       </dl>
 
+      <div class="gsd-interpretation">
+        <p class="gsd-interpretation__label">Lecture rapide</p>
+        <h3 id="gsd-interpretation-title">--</h3>
+        <p id="gsd-interpretation-text">
+          Ajuste l'altitude ou choisis une caméra pour interpréter le résultat.
+        </p>
+      </div>
+
       <p class="gsd-results__note" id="gsd-note">
-        Exemple prérempli avec un capteur 4/3 proche d'un drone topo courant.
+        Mode manuel avec un capteur 4/3 proche d'un drone topo courant.
       </p>
     </aside>
   </div>
@@ -146,6 +186,8 @@ const defaultFocal = 12.29;
 
   const form = document.getElementById('gsd-form');
   const resetButton = document.getElementById('gsd-reset');
+  const presetSelect = document.getElementById('camera-preset');
+  const presetNote = document.getElementById('gsd-note');
   const fields = {
     altitude: document.getElementById('altitude'),
     sensorWidth: document.getElementById('sensor-width'),
@@ -159,6 +201,8 @@ const defaultFocal = 12.29;
     width: document.getElementById('footprint-width'),
     height: document.getElementById('footprint-height'),
     area: document.getElementById('footprint-area'),
+    interpretationTitle: document.getElementById('gsd-interpretation-title'),
+    interpretationText: document.getElementById('gsd-interpretation-text'),
   };
 
   function readNumber(input) {
@@ -172,6 +216,56 @@ const defaultFocal = 12.29;
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals,
     });
+  }
+
+  function writeInput(input, value) {
+    if (!(input instanceof HTMLInputElement)) return;
+    input.value = String(value);
+  }
+
+  function setPresetNote(text) {
+    if (!(presetNote instanceof HTMLParagraphElement)) return;
+    presetNote.textContent = text;
+  }
+
+  function getGsdInterpretation(gsdCm) {
+    if (gsdCm < 1) {
+      return {
+        title: 'GSD très fin',
+        text: 'Très bon niveau de détail, mais plus de photos, plus de stockage et plus de temps de traitement.',
+      };
+    }
+
+    if (gsdCm < 3) {
+      return {
+        title: 'GSD topo standard',
+        text: 'Zone confortable pour beaucoup de missions topo et photogrammétrie terrain.',
+      };
+    }
+
+    if (gsdCm < 6) {
+      return {
+        title: 'GSD large',
+        text: 'Adapté aux grandes emprises ou à la cartographie générale, moins aux petits détails.',
+      };
+    }
+
+    return {
+      title: 'GSD très large',
+      text: 'Utile pour une vue d’ensemble, mais trop grossier pour des détails topo fins.',
+    };
+  }
+
+  function writeInterpretation(gsdCm) {
+    const interpretation = getGsdInterpretation(gsdCm);
+
+    if (outputs.interpretationTitle instanceof HTMLHeadingElement) {
+      outputs.interpretationTitle.textContent = interpretation.title;
+    }
+
+    if (outputs.interpretationText instanceof HTMLParagraphElement) {
+      outputs.interpretationText.textContent = interpretation.text;
+    }
   }
 
   function calculateGsd() {
@@ -202,10 +296,31 @@ const defaultFocal = 12.29;
     writeOutput(outputs.width, footprintWidth, 1);
     writeOutput(outputs.height, footprintHeight, 1);
     writeOutput(outputs.area, footprintArea, 0);
+    writeInterpretation(gsdCm);
   }
 
   form?.addEventListener('input', calculateGsd);
+  presetSelect?.addEventListener('change', () => {
+    if (!(presetSelect instanceof HTMLSelectElement)) return;
+
+    const selected = presetSelect.selectedOptions[0];
+    if (!selected || selected.value === 'manual') {
+      setPresetNote('Mode manuel avec un capteur 4/3 proche d’un drone topo courant.');
+      calculateGsd();
+      return;
+    }
+
+    writeInput(fields.sensorWidth, selected.dataset.sensorWidth);
+    writeInput(fields.sensorHeight, selected.dataset.sensorHeight);
+    writeInput(fields.imageWidth, selected.dataset.imageWidth);
+    writeInput(fields.imageHeight, selected.dataset.imageHeight);
+    writeInput(fields.focal, selected.dataset.focal);
+    setPresetNote(selected.dataset.note ?? 'Preset DJI appliqué. Tu peux ajuster les champs.');
+    calculateGsd();
+  });
+
   resetButton?.addEventListener('click', () => {
+    if (presetSelect instanceof HTMLSelectElement) presetSelect.value = 'manual';
     if (fields.altitude instanceof HTMLInputElement)
       fields.altitude.value = String(defaults.altitude);
     if (fields.sensorWidth instanceof HTMLInputElement)
@@ -217,6 +332,7 @@ const defaultFocal = 12.29;
     if (fields.imageHeight instanceof HTMLInputElement)
       fields.imageHeight.value = String(defaults.imageHeight);
     if (fields.focal instanceof HTMLInputElement) fields.focal.value = String(defaults.focal);
+    setPresetNote('Mode manuel avec un capteur 4/3 proche d’un drone topo courant.');
     calculateGsd();
   });
 
@@ -289,6 +405,28 @@ const defaultFocal = 12.29;
     border: 1px solid var(--hairline-strong);
     border-radius: 8px;
     background: var(--surface);
+  }
+
+  .gsd-select-wrap {
+    display: block;
+  }
+
+  .gsd-select-wrap select {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: var(--surface);
+    color: var(--ink);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .gsd-select-wrap select:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
   }
 
   .gsd-input-wrap input {
@@ -394,6 +532,34 @@ const defaultFocal = 12.29;
     color: var(--surface);
   }
 
+  .gsd-interpretation {
+    margin-top: 24px;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    border-radius: 8px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .gsd-interpretation__label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+
+  .gsd-interpretation h3 {
+    margin-top: 8px;
+    font-size: 1.05rem;
+    color: var(--surface);
+  }
+
+  .gsd-interpretation p:last-child {
+    margin-top: 8px;
+    color: var(--ink-light);
+    font-size: 0.9rem;
+  }
+
   .gsd-results__note {
     margin-top: 22px;
     color: var(--ink-light);
@@ -412,6 +578,10 @@ const defaultFocal = 12.29;
     .gsd-form {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       padding: 28px;
+    }
+
+    .gsd-field--wide {
+      grid-column: 1 / -1;
     }
 
     .gsd-reset {

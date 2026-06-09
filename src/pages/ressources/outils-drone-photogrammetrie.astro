@@ -3,172 +3,350 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import AffiliateDisclaimer from '../../components/ressources/AffiliateDisclaimer.astro';
 import ProductCard from '../../components/ressources/ProductCard.astro';
 
-// Données produits — à compléter par Loïc avec ce qu'il utilise vraiment.
+// Données produits à compléter par Loïc avec ce qu'il utilise vraiment.
 // isPlaceholder: true = lien pas encore affilié, affiché avec note visuelle.
 
-const accessoiresTerrain = [
+const terrainEssentiel = [
   {
-    name: 'Mires GCP — targets de calage au sol',
+    name: 'Mires GCP lavables',
     description:
-      'Pour caler le nuage de points et le modèle 3D sur des coordonnées réelles. Je les utilise sur chaque chantier drone, sans exception.',
-    price: '~35 €',
-    affiliateUrl: 'https://www.amazon.fr/s?k=mires+gcp+drone+photogrammetrie',
-    utmContent: 'mires-gcp',
+      "Le premier achat utile si tu fais de la photogrammétrie topo. Elles servent à caler le modèle sur des points mesurés et à contrôler l'erreur finale.",
+    price: 'À partir de quelques dizaines d’euros',
+    affiliateUrl:
+      'https://www.amazon.fr/marques-contr%C3%B4le-points-r%C3%A9f%C3%A9rence-marquages/dp/B0H1J78R9D/',
+    utmContent: 'mires-gcp-lavables',
     source: 'amazon' as const,
     isPlaceholder: true,
   },
   {
-    name: 'Jalons topographiques',
+    name: 'DJI D-RTK 3 Multifunctional Station',
     description:
-      'Pour matérialiser les points de contrôle sur le terrain avant le vol. Pliables et légers à transporter.',
-    price: '~25 €',
-    affiliateUrl: 'https://www.amazon.fr/s?k=jalon+topographique',
-    utmContent: 'jalons-topo',
-    source: 'amazon' as const,
+      'La station GNSS officielle DJI pour sécuriser le RTK avec les drones Enterprise compatibles. Très cohérente si tu travailles déjà en écosystème DJI, notamment comme base locale ou station rover selon le workflow.',
+    price: 'Prix à vérifier sur le site officiel',
+    affiliateUrl: 'https://enterprise.dji.com/d-rtk-3',
+    utmContent: 'dji-d-rtk-3',
+    source: 'autre' as const,
     isPlaceholder: true,
   },
   {
-    name: 'Carnet de terrain waterproof',
+    name: 'Kit de cônes et signalisation chantier',
     description:
-      'Pour noter les coordonnées des GCP sur le terrain, même par temps pluvieux. Rite In The Rain ou équivalent.',
-    price: '~15 €',
-    affiliateUrl: 'https://www.amazon.fr/s?k=carnet+terrain+waterproof',
-    utmContent: 'carnet-waterproof',
+      'Un kit simple pour matérialiser une zone, protéger un point de contrôle ou rendre une intervention plus lisible sur site. Utile dès que tu travailles près d’un accès, d’un parking ou d’une zone fréquentée.',
+    price: 'Petit budget',
+    affiliateUrl:
+      'https://www.amazon.fr/signalisation-lentreprise-dinterdiction-stationner-imperm%C3%A9ables/dp/B09776BZFM/',
+    utmContent: 'kit-marquage-terrain',
     source: 'amazon' as const,
     isPlaceholder: true,
   },
 ];
 
-const informatique = [
+const acquisitionEssentielle = [
   {
-    name: 'PC workstation photogrammétrie — config recommandée',
+    name: 'Cartes mémoire rapides et fiables',
     description:
-      "Le goulot d'étranglement en photogrammétrie dense c'est le CPU (alignement) et le GPU (calcul dense). Config minimum viable : CPU 12 cœurs (Ryzen 9 ou Core i9), 64 Go RAM, GPU NVIDIA RTX (4070 ou mieux pour l'accélération CUDA dans Metashape). Un bon PC fait passer un traitement de 8h à 45 min.",
-    price: '~1 500 – 2 500 €',
-    affiliateUrl: 'https://www.amazon.fr/s?k=pc+workstation+ryzen+rtx+montage+photogrammetrie',
-    utmContent: 'pc-workstation-photogrammetrie',
+      'Prends plusieurs cartes plutôt qu’une seule énorme carte. En mission, une carte qui lâche ne doit jamais bloquer toute la journée.',
+    price: 'Selon capacité',
+    affiliateUrl: 'https://www.amazon.fr/SanDisk-Cards-Extreme-MICROSDXC-ADAPATER/dp/B09X7CRKRZ/',
+    utmContent: 'cartes-memoire-drone',
     source: 'amazon' as const,
     isPlaceholder: true,
   },
   {
-    name: 'GPU NVIDIA RTX — accélération CUDA Metashape',
+    name: 'Lecteur de cartes SD / microSD USB-C BENFEI',
     description:
-      "Si tu as déjà un PC mais pas de bonne carte graphique : une RTX 4070 ou 4080 divise par 5 à 10 le temps de calcul du nuage dense dans Metashape (accélération CUDA). C'est l'upgrade le plus rentable pour la photogrammétrie.",
-    price: '~600 – 1 200 €',
-    affiliateUrl: 'https://www.amazon.fr/s?k=nvidia+rtx+4070+4080+carte+graphique',
-    utmContent: 'gpu-rtx-metashape',
+      "Petit accessoire, gros gain de temps. Il évite de brancher le drone pour chaque transfert et limite l'usure du matériel.",
+    price: 'Petit budget',
+    affiliateUrl:
+      'https://www.amazon.fr/Lecteur-Carte-m%C3%A9moire-BENFEI-Adaptateur/dp/B08P517NW5/',
+    utmContent: 'lecteur-cartes-usb-c',
     source: 'amazon' as const,
     isPlaceholder: true,
   },
   {
-    name: 'SSD externe NVMe — transfert rapide',
+    name: 'SSD externe Crucial X9 2 To',
     description:
-      'Pour déplacer les fichiers LAS/E57 entre le PC de terrain et la machine de traitement. Préférer 1 To minimum, USB 3.2 Gen2.',
-    price: '~80 €',
-    affiliateUrl: 'https://www.amazon.fr/s?k=ssd+externe+nvme+1to+usb+3.2',
-    utmContent: 'ssd-externe-nvme',
+      'Le vrai disque de navette entre terrain, portable et station de traitement. Vise 2 To si tu enchaînes les chantiers ou les exports LAS/E57.',
+    price: 'Selon capacité',
+    affiliateUrl:
+      'https://www.amazon.fr/Crucial-Externe-Portable-Compatible-PlayStation/dp/B0CGW18S6Y/',
+    utmContent: 'ssd-externe-nvme-2to',
+    source: 'amazon' as const,
+    isPlaceholder: true,
+  },
+];
+
+const traitementEssentiel = [
+  {
+    name: 'PC Photogrammétrie Débutant',
+    description:
+      'Configuration d’entrée sérieuse avec Ryzen 7 7800X3D, 32 Go de RAM DDR5, SSD M.2 1 To et RTX 5060 8 Go. Bien pour démarrer sur des petits lots photo, avec une limite logique côté RAM et VRAM dès que les projets grossissent.',
+    price: '1 200 - 1 800 €',
+    affiliateUrl: 'https://www.amazon.fr/Memory-PC-7800X3D-NVIDIA-Windows/dp/B0CLDMRPWL/',
+    utmContent: 'pc-photogrammetrie-debutant',
     source: 'amazon' as const,
     isPlaceholder: true,
   },
   {
-    name: 'RAM 64 Go DDR5 — traitement Metashape',
+    name: 'PC Photogrammétrie Pro',
     description:
-      'Metashape et Pix4D sont très gourmands en RAM lors du traitement dense. 64 Go est le minimum confortable pour des projets > 500 photos.',
-    price: '~140 €',
+      'Tour orientée calcul avec Core i9-14900KF, RTX 5060 Ti, 64 Go de RAM et SSD 2 To selon la fiche produit. Bon cran au-dessus pour traiter plus vite les chantiers réguliers, avec une base mémoire plus cohérente pour la photogrammétrie.',
+    price: '2 000 - 3 000 €',
+    affiliateUrl:
+      'https://www.amazon.fr/AURUMPC-i9-14900KF-RTX5060Ti-Refroidissement-Ordinateur/dp/B0FGY8B52C/',
+    utmContent: 'pc-photogrammetrie-pro',
+    source: 'amazon' as const,
+    isPlaceholder: true,
+  },
+  {
+    name: 'PC Photogrammétrie Expert',
+    description:
+      'Station très musclée avec Ryzen 9 9950X3D, RTX 5080 et 64 Go de DDR5 selon la fiche produit. Bien plus cohérente pour les gros lots photo, les nuages lourds et les exports exigeants qu’un mini-PC sans GPU dédié.',
+    price: '3 500 €+',
+    affiliateUrl: 'https://www.amazon.fr/Sedatech-Gamer-5080-Ryzen-9950X3D/dp/B0GXLJ3QWV/',
+    utmContent: 'pc-photogrammetrie-expert',
+    source: 'amazon' as const,
+    isPlaceholder: true,
+  },
+  {
+    name: 'PC portable photogrammétrie mobilité',
+    description:
+      'Option à garder si tu as vraiment besoin de traiter ou contrôler des données en déplacement. Pratique sur le terrain, mais moins performant qu’une tour à prix équivalent à cause du refroidissement, de la puissance GPU limitée et de l’évolutivité réduite.',
+    price: 'Budget élevé',
+    affiliateUrl: 'https://www.amazon.fr/ASUS-RyzenTM-LPDDR5X-NVIDIA%C2%AE-GeForce/dp/B0GC89XJX8/',
+    utmContent: 'pc-portable-photogrammetrie-mobilite',
+    source: 'amazon' as const,
+    isPlaceholder: true,
+  },
+  {
+    name: 'RAM 64 Go minimum',
+    description:
+      'La RAM évite les blocages sur les gros lots de photos. Pour démarrer sérieusement, 64 Go est plus confortable que 32 Go, mais je ne recommande pas l’achat en ce moment : les prix sont trop hauts à cause de l’actualité du marché RAM.',
+    price: 'Selon génération',
     affiliateUrl: 'https://www.amazon.fr/s?k=ram+64go+ddr5+pc',
-    utmContent: 'ram-64go',
+    utmContent: 'ram-64go-photogrammetrie',
+    source: 'amazon' as const,
+    isPlaceholder: true,
+    purchasePaused: true,
+    pausedLabel: 'Achat déconseillé',
+  },
+  {
+    name: 'Disque dur externe Seagate Portable',
+    description:
+      'Un disque de sauvegarde séparé du SSD de travail. Une mission drone représente souvent plusieurs dizaines de Go : garde toujours une copie avant de lancer les traitements lourds.',
+    price: 'Selon capacité',
+    affiliateUrl: 'https://www.amazon.fr/Seagate-Portable-1TB-Disque-Externe/dp/B07CRGSR16/',
+    utmContent: 'sauvegarde-externe-drone',
+    source: 'amazon' as const,
+    isPlaceholder: true,
+  },
+  {
+    name: 'Support double écran BONTEC',
+    description:
+      'Accessoire bonus utile si tu fais beaucoup de tri photo, contrôle qualité ou comparaison d’orthophotos. Le double écran rend le travail plus confortable, surtout avec logiciel, explorateur de fichiers et carte ouverts en même temps.',
+    price: 'Petit budget',
+    affiliateUrl:
+      'https://www.amazon.fr/BONTEC-Moniteurs-R%C3%A9glable-Inclinable-Pivotant/dp/B01MR397OH/',
+    utmContent: 'support-double-ecran-bontec',
     source: 'amazon' as const,
     isPlaceholder: true,
   },
 ];
 
-const logiciels = [
+const logicielsEssentiels = [
   {
     name: 'Agisoft Metashape Professional',
     description:
-      "Mon logiciel de référence pour la photogrammétrie. Traitement dense, nuage de points, MNT, orthophoto. La version Professional est nécessaire pour l'export en formats pro (LAS, E57, GeoTIFF).",
-    price: '~3 499 €',
+      'Le logiciel principal si tu veux garder la main sur la photogrammétrie : alignement, GCP, nuage dense, MNT, orthophoto et exports pro.',
+    price: 'Prix à vérifier sur le site officiel',
     affiliateUrl: 'https://www.agisoft.com/buy/',
     utmContent: 'metashape-pro',
     source: 'editeur' as const,
-    isPlaceholder: true,
+    isPlaceholder: false,
   },
   {
     name: 'Pix4Dmatic',
     description:
-      'Alternative à Metashape, particulièrement adapté aux grands chantiers en lot. Abonnement mensuel ou annuel.',
-    price: 'Sur devis',
+      'Alternative solide pour les grands projets drone et les workflows Pix4D. À comparer avec Metashape selon tes habitudes et ton volume.',
+    price: 'Prix à vérifier sur le site officiel',
     affiliateUrl: 'https://www.pix4d.com/product/pix4dmatic/',
     utmContent: 'pix4dmatic',
     source: 'editeur' as const,
-    isPlaceholder: true,
+    isPlaceholder: false,
   },
   {
-    name: 'RealityCapture',
+    name: 'CloudCompare',
     description:
-      'Le plus rapide des trois pour les grands nuages. Modèle à la consommation (pay-per-input) depuis le rachat par Epic Games, ce qui le rend intéressant pour les chantiers ponctuels.',
-    price: 'Pay-per-input',
-    affiliateUrl: 'https://www.capturingreality.com/',
-    utmContent: 'reality-capture',
-    source: 'editeur' as const,
-    isPlaceholder: true,
+      'Indispensable pour contrôler un nuage de points, mesurer, nettoyer, comparer et vérifier rapidement avant livraison.',
+    price: 'Gratuit',
+    affiliateUrl: 'https://www.cloudcompare.org/',
+    utmContent: 'cloudcompare',
+    source: 'autre' as const,
+    isPlaceholder: false,
+  },
+  {
+    name: 'QGIS',
+    description:
+      'Le compagnon SIG pour vérifier les orthophotos, croiser des données et préparer des livrables cartographiques simples.',
+    price: 'Gratuit',
+    affiliateUrl: 'https://qgis.org/',
+    utmContent: 'qgis',
+    source: 'autre' as const,
+    isPlaceholder: false,
+  },
+];
+
+const quickLinks = [
+  { href: '#terrain', label: 'Terrain' },
+  { href: '#acquisition', label: 'Acquisition' },
+  { href: '#informatique', label: 'Informatique' },
+  { href: '#logiciels', label: 'Logiciels' },
+];
+
+const decisionSteps = [
+  {
+    title: 'Avant le vol',
+    text: 'Sécurise les GCP, les notes terrain et la préparation de mission. C’est la partie qui évite les mauvaises surprises.',
+  },
+  {
+    title: 'Pendant le traitement',
+    text: 'Priorise le stockage rapide, la RAM et un GPU NVIDIA correct avant de chercher une configuration extrême.',
+  },
+  {
+    title: 'Pour le logiciel',
+    text: 'Choisis selon ton volume de chantiers, tes exports et ton besoin de contrôle. Metashape reste une valeur sûre pour travailler finement.',
   },
 ];
 ---
 
 <BaseLayout
-  title="Outils pour la photogrammétrie drone — recommandations testées"
-  description="Accessoires terrain, matériel informatique et logiciels testés par un géomètre. Mes recommandations pour les dronistes en photogrammétrie."
+  title="Matériel & logiciels pour la photogrammétrie drone"
+  description="Accessoires terrain, matériel informatique et logiciels utiles pour préparer, voler et traiter une mission drone en photogrammétrie."
   ogImage="/og/ressources-outils.png"
 >
   <main class="ressources-page">
-    <div class="ressources-page__container">
-      <header class="ressources-page__header">
-        <h1 class="ressources-page__title">Outils recommandés pour la photogrammétrie drone</h1>
-        <p class="ressources-page__intro">
-          Ce sont les outils que j'utilise ou que j'ai testés dans mon activité de géomètre. Pas de
-          liste exhaustive, uniquement ce qui m'a prouvé son utilité sur le terrain.
-        </p>
-      </header>
+    <header class="ressources-hero">
+      <div class="container ressources-hero__inner">
+        <div>
+          <p class="ressources-hero__eyebrow">Ressources drone</p>
+          <h1>Matériel & logiciels pour la photogrammétrie drone</h1>
+          <p>
+            Une sélection courte pour préparer, voler et traiter une mission photogrammétrique sans
+            acheter du matériel inutile. On repart de zéro : seulement les essentiels, pas une
+            vitrine remplie pour faire joli.
+          </p>
+        </div>
+
+        <nav class="ressources-hero__nav" aria-label="Sections de la page">
+          {quickLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+        </nav>
+      </div>
+    </header>
+
+    <div class="container ressources-page__container">
+      <section class="ressources-tools" aria-label="Outils de préparation Topolia">
+        <div>
+          <p class="ressources-tools__eyebrow">Avant d’acheter</p>
+          <h2>Calcule d’abord ton besoin réel</h2>
+          <p>
+            Avant de choisir un drone, un PC ou un logiciel, estime le GSD, le nombre de photos et
+            les batteries. Ça évite de surdimensionner une configuration ou de sous-préparer le
+            terrain.
+          </p>
+        </div>
+        <div class="ressources-tools__links">
+          <a href="/outils/calculateur-gsd-drone/">Calculateur GSD</a>
+          <a href="/outils/calculateur-mission-drone/">Calculateur mission</a>
+          <a href="/articles/pourquoi-photogrammetrie-lourde-traitement/">
+            Pourquoi le traitement est lourd
+          </a>
+        </div>
+      </section>
 
       <AffiliateDisclaimer />
 
-      <section class="ressources-section">
-        <h2 class="ressources-section__title">Accessoires terrain</h2>
+      <section class="ressources-method" aria-labelledby="ressources-method-title">
+        <div class="ressources-section__head">
+          <p>Choisir dans le bon ordre</p>
+          <h2 id="ressources-method-title">La méthode simple</h2>
+        </div>
+        <ol class="ressources-method__list">
+          {
+            decisionSteps.map((step, index) => (
+              <li>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section class="ressources-section" id="terrain">
+        <div class="ressources-section__head">
+          <p>Terrain</p>
+          <h2 class="ressources-section__title">Accessoires terrain</h2>
+        </div>
         <p class="ressources-section__subtitle">
-          Le matériel de terrain pour préparer et cadrer un vol photogrammétrique dans les règles.
+          Les produits qui donnent une vraie référence terrain à ton modèle, au lieu de produire une
+          belle orthophoto impossible à contrôler.
         </p>
         <div class="ressources-section__grid">
-          {accessoiresTerrain.map((p) => <ProductCard {...p} />)}
+          {terrainEssentiel.map((p) => <ProductCard {...p} />)}
         </div>
       </section>
 
-      <section class="ressources-section">
-        <h2 class="ressources-section__title">Informatique & stockage</h2>
+      <section class="ressources-section" id="acquisition">
+        <div class="ressources-section__head">
+          <p>Acquisition</p>
+          <h2 class="ressources-section__title">Pendant le vol</h2>
+        </div>
         <p class="ressources-section__subtitle">
-          La photogrammétrie dense mange du CPU et de la RAM. Ce sont les composants qui dictent tes
-          temps de traitement.
+          Ce qui sécurise la récupération des photos et évite les pertes de temps dès le retour au
+          bureau.
         </p>
         <div class="ressources-section__grid">
-          {informatique.map((p) => <ProductCard {...p} />)}
+          {acquisitionEssentielle.map((p) => <ProductCard {...p} />)}
         </div>
       </section>
 
-      <section class="ressources-section">
-        <h2 class="ressources-section__title">Logiciels photogrammétrie</h2>
+      <section class="ressources-section" id="informatique">
+        <div class="ressources-section__head">
+          <p>Traitement</p>
+          <h2 class="ressources-section__title">Informatique & stockage</h2>
+        </div>
         <p class="ressources-section__subtitle">
-          Les trois références du marché. J'utilise principalement Metashape au quotidien.
+          Trois niveaux de budget pour choisir sans te perdre : débutant, pro ou expert. Dans tous
+          les cas, vise une machine équilibrée plutôt qu’une seule pièce très chère dans une config
+          bancale.
         </p>
         <div class="ressources-section__grid">
-          {logiciels.map((p) => <ProductCard {...p} />)}
+          {traitementEssentiel.map((p) => <ProductCard {...p} />)}
+        </div>
+      </section>
+
+      <section class="ressources-section" id="logiciels">
+        <div class="ressources-section__head">
+          <p>Logiciels</p>
+          <h2 class="ressources-section__title">Logiciels photogrammétrie</h2>
+        </div>
+        <p class="ressources-section__subtitle">
+          Le minimum pour produire, contrôler et exploiter les livrables. Les prix logiciels bougent
+          souvent : vérifie toujours la page officielle avant achat. Aucun lien logiciel de cette
+          section n’est affilié.
+        </p>
+        <div class="ressources-section__grid">
+          {logicielsEssentiels.map((p) => <ProductCard {...p} />)}
         </div>
       </section>
 
       <footer class="ressources-page__footer">
         <p>
           <strong>Comment je sélectionne ces outils :</strong> je ne liste que ce que j'utilise dans mon
-          activité ou que j'ai eu l'occasion de tester sérieusement. Les prix sont indicatifs et peuvent
-          varier. Pour toute question sur un outil, tu peux me contacter directement.
+          activité, ce que j'ai eu l'occasion de tester sérieusement ou ce qui répond à un besoin terrain
+          précis. Les prix sont indicatifs et peuvent varier. Pour toute question sur un outil, tu peux
+          me contacter directement.
         </p>
       </footer>
     </div>
@@ -177,51 +355,173 @@ const logiciels = [
 
 <style>
   .ressources-page {
-    padding: 3rem 1.5rem 5rem;
+    background: var(--bg);
+  }
+
+  .ressources-hero {
+    border-bottom: 1px solid var(--hairline);
+    padding: 64px 0 44px;
+    background: var(--bg-alt);
+  }
+
+  .ressources-hero__inner {
+    display: grid;
+    gap: 24px;
+    align-items: end;
+  }
+
+  .ressources-hero__eyebrow,
+  .ressources-tools__eyebrow,
+  .ressources-section__head p {
+    margin-bottom: 12px;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .ressources-hero h1 {
+    max-width: 900px;
+    font-family: var(--display);
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.03;
+    color: var(--ink);
+  }
+
+  .ressources-hero h1 + p {
+    max-width: 720px;
+    margin-top: 18px;
+    color: var(--ink-3);
+    font-size: 1.08rem;
+  }
+
+  .ressources-hero__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .ressources-hero__nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 999px;
+    padding: 6px 12px;
+    background: var(--surface);
+    color: var(--ink-2);
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .ressources-hero__nav a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
   }
 
   .ressources-page__container {
-    max-width: var(--content-max, 720px);
-    margin: 0 auto;
+    padding-top: 36px;
+    padding-bottom: 84px;
   }
 
-  .ressources-page__header {
-    margin-bottom: 2rem;
+  .ressources-tools {
+    display: grid;
+    gap: 18px;
+    margin-bottom: 20px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    padding: 20px;
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
   }
 
-  .ressources-page__title {
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    font-weight: 700;
+  .ressources-tools h2,
+  .ressources-section__title {
+    font-family: var(--display);
+    font-size: clamp(1.35rem, 4vw, 2rem);
+    font-weight: 800;
+    line-height: 1.12;
     color: var(--ink);
-    line-height: 1.2;
-    margin: 0 0 1rem;
   }
 
-  .ressources-page__intro {
-    font-size: 1.05rem;
-    color: var(--ink-2);
-    line-height: 1.6;
+  .ressources-tools p {
+    margin-top: 10px;
+    color: var(--ink-3);
+  }
+
+  .ressources-tools__links {
+    display: grid;
+    gap: 8px;
+  }
+
+  .ressources-tools__links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    border-radius: 8px;
+    padding: 10px 14px;
+    background: var(--ink);
+    color: var(--surface);
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .ressources-tools__links a:hover {
+    opacity: 0.86;
+  }
+
+  .ressources-method {
+    margin-top: 36px;
+    margin-bottom: 44px;
+  }
+
+  .ressources-method__list {
+    display: grid;
+    gap: 12px;
     margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ressources-method__list li {
+    border-left: 4px solid var(--accent);
+    padding: 16px;
+    background: var(--surface);
+  }
+
+  .ressources-method__list span {
+    font-family: var(--mono);
+    color: var(--accent);
+    font-weight: 800;
+  }
+
+  .ressources-method__list h3 {
+    margin-top: 8px;
+    color: var(--ink);
+    font-size: 1.04rem;
+  }
+
+  .ressources-method__list p {
+    margin-top: 8px;
+    color: var(--ink-3);
   }
 
   .ressources-section {
-    margin-bottom: 3rem;
+    scroll-margin-top: 96px;
+    margin-bottom: 48px;
   }
 
-  .ressources-section__title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--ink);
-    margin: 0 0 0.4rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--accent);
-    display: inline-block;
+  .ressources-section__head {
+    margin-bottom: 10px;
   }
 
   .ressources-section__subtitle {
-    font-size: 0.9rem;
-    color: var(--ink-2);
-    margin: 0.5rem 0 1.25rem;
+    max-width: 720px;
+    color: var(--ink-3);
+    margin: 0 0 18px;
   }
 
   .ressources-section__grid {
@@ -231,9 +531,11 @@ const logiciels = [
   }
 
   .ressources-page__footer {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--hairline);
+    margin-top: 40px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    padding: 18px;
+    background: var(--surface);
     font-size: 0.875rem;
     color: var(--ink-2);
     line-height: 1.6;
@@ -241,5 +543,22 @@ const logiciels = [
 
   .ressources-page__footer strong {
     color: var(--ink);
+  }
+
+  @media (min-width: 760px) {
+    .ressources-tools {
+      grid-template-columns: minmax(0, 1fr) 240px;
+      align-items: center;
+    }
+
+    .ressources-method__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 900px) {
+    .ressources-hero__inner {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
   }
 </style>

@@ -1,0 +1,124 @@
+---
+title: 'Pourquoi la photogrammétrie drone demande un PC puissant'
+subtitle: 'Photos, recouvrement, nuage dense, orthophoto : ce qui rend le traitement aussi lourd.'
+date: 2026-06-09
+category: 'drone'
+tags: ['drone', 'photogrammetrie', 'pc', 'traitement', 'metashape']
+author: 'loic'
+heroImage: '/images/articles/workflow-drone.jpg'
+heroImageAlt: 'Station de travail utilisée pour traiter une mission drone photogrammétrique'
+excerpt: 'La photogrammétrie drone peut vite saturer un PC. Voici pourquoi le traitement est lourd, quelles pièces comptent vraiment et comment éviter de surdimensionner ton matériel.'
+faq:
+  - q: 'Pourquoi la photogrammétrie utilise-t-elle autant de RAM ?'
+    a: 'Le logiciel doit garder beaucoup de photos, points homologues, caméras, nuages et tuiles en mémoire. Plus le nombre de photos et la résolution augmentent, plus la RAM devient critique.'
+  - q: 'Le GPU est-il important pour la photogrammétrie ?'
+    a: 'Oui, surtout sur les étapes accélérées par carte graphique comme certaines phases de calcul dense. Une carte NVIDIA dédiée reste plus adaptée qu’une puce graphique intégrée.'
+  - q: 'Faut-il forcément un PC expert pour commencer ?'
+    a: 'Non. Pour des petits chantiers, une configuration équilibrée suffit. Le plus important est d’adapter le matériel au volume photo réel, pas de choisir la machine la plus chère par réflexe.'
+  - q: 'Un PC portable suffit-il pour traiter une mission drone ?'
+    a: 'Oui pour contrôler, trier et traiter des missions modestes. Pour de gros volumes, une tour garde souvent un meilleur rapport performance/prix, avec un meilleur refroidissement et plus d’évolutivité.'
+isPremium: false
+isPublished: true
+---
+
+import Callout from '../../components/mdx/Callout.astro';
+
+La photogrammétrie drone peut donner l'impression de faire quelque chose de simple : tu prends des photos, tu les mets dans Metashape, Pix4D ou DJI Terra, puis le logiciel sort une orthophoto ou un nuage de points.
+
+En réalité, le PC ne “colle” pas juste des images. Il reconstruit la géométrie d'une scène à partir de centaines, voire de milliers de photos qui se recouvrent. C'est cette reconstruction qui rend le traitement lourd.
+
+## Le logiciel doit d'abord retrouver les mêmes détails partout
+
+La première étape consiste à détecter des points communs entre les images. Une pierre, une fissure, un angle de bâtiment, une texture de sol : le logiciel cherche des détails visibles dans plusieurs photos.
+
+Plus tu as de photos, plus le nombre de comparaisons augmente. Une mission de 150 photos reste raisonnable. Une mission de 1 200 photos change déjà complètement d’échelle.
+
+Le recouvrement est indispensable pour un bon modèle, mais il augmente aussi la charge de calcul. Avec 80 % frontal et 70 % latéral, chaque zone du terrain apparaît dans plusieurs images. C'est très bien pour la précision, moins agréable pour le PC.
+
+## Chaque photo ajoute du poids
+
+Un drone moderne ne produit pas de petites images. Un capteur 20, 45 ou 50 MP génère beaucoup de pixels. Et chaque pixel peut participer au calcul.
+
+Deux missions avec la même surface peuvent donc être très différentes :
+
+- 300 photos en 20 MP ;
+- 900 photos en 50 MP ;
+- 1 500 photos avec obliques pour une reconstruction 3D plus détaillée.
+
+La surface ne suffit pas à prévoir la charge. Il faut aussi regarder le GSD, l'altitude, le recouvrement, la résolution du capteur et les options de traitement.
+
+<Callout type="tip" title="Commence par estimer le volume">
+  Avant de choisir une machine, passe par le{' '}
+  <a href="/outils/calculateur-gsd-drone/">calculateur GSD</a> et le{' '}
+  <a href="/outils/calculateur-mission-drone/">calculateur mission drone</a>. Tu verras vite si tu
+  prépares un petit traitement ou une mission qui va demander une vraie station.
+</Callout>
+
+## La RAM évite les blocages
+
+La RAM sert à garder le projet ouvert pendant les grosses étapes : alignement, profondeur, nuage dense, MNT, orthophoto, tuiles, exports.
+
+Quand la RAM manque, le logiciel commence à utiliser le disque comme mémoire de secours. Le traitement ralentit brutalement, ou plante. C'est pour ça qu'un PC qui paraît puissant sur le papier peut devenir pénible si la RAM est trop juste.
+
+Pour démarrer, 32 Go peuvent suffire sur de petits projets. Pour travailler régulièrement en photogrammétrie, 64 Go deviennent beaucoup plus confortables. Pour de gros chantiers, 128 Go peuvent avoir du sens.
+
+<Callout type="warning" title="Attention aux prix de la RAM">
+  En ce moment, les prix RAM sont hauts. Sur la page ressources, la carte RAM est volontairement
+  marquée comme achat déconseillé. Si tu n'es pas bloqué par un besoin immédiat, compare les prix et
+  attends une fenêtre plus raisonnable.
+</Callout>
+
+## Le GPU accélère certaines étapes
+
+La carte graphique ne remplace pas tout. Le processeur reste important, surtout pour piloter le traitement et gérer certaines phases. Mais le GPU peut accélérer des étapes lourdes, notamment sur les calculs denses selon le logiciel utilisé.
+
+Pour la photogrammétrie, une carte NVIDIA dédiée est souvent plus cohérente qu'une puce graphique intégrée. La VRAM compte aussi : plus le projet est lourd, plus la mémoire vidéo devient utile.
+
+Le piège consiste à acheter une machine avec un gros processeur mais sans vraie carte graphique. Pour de la bureautique ou du contrôle léger, ça passe. Pour traiter des gros lots photo, ce n'est pas le bon compromis.
+
+## Le stockage rapide change le confort
+
+Le SSD ne rend pas tous les calculs plus rapides, mais il change le confort de travail. Importer les photos, ouvrir le projet, générer les fichiers temporaires, exporter une orthophoto ou déplacer un nuage LAS : tout ça passe par le stockage.
+
+Un SSD interne rapide pour le travail actif et un SSD externe pour la navette terrain/bureau forment une base saine. Ensuite, garde un disque séparé pour la sauvegarde. Une mission drone représente vite plusieurs dizaines de Go, parfois beaucoup plus.
+
+## Un portable est pratique, une tour reste plus logique
+
+Un PC portable peut être très utile si tu dois contrôler les données sur site, faire un premier tri ou lancer un traitement léger en déplacement.
+
+Mais à budget équivalent, une tour reste souvent plus performante : meilleur refroidissement, carte graphique plus stable, pièces remplaçables, stockage plus simple à faire évoluer. Le portable se justifie surtout par la mobilité, pas par le meilleur rapport puissance/prix.
+
+## Comment éviter de surcharger ton PC
+
+Avant de lancer le traitement, tu peux déjà réduire la charge sans dégrader le livrable :
+
+1. Vérifie que le GSD demandé est vraiment nécessaire.
+2. Évite les photos floues ou surexposées avant l'import.
+3. Ne mélange pas des images inutiles dans le projet.
+4. Ajuste la qualité du nuage dense selon le besoin réel.
+5. Travaille par blocs sur les très grandes zones.
+6. Garde les obliques pour les projets qui en ont réellement besoin.
+
+Le but n'est pas de faire “moins bien”. Le but est de ne pas demander à la machine de calculer des données qui ne servent pas au livrable.
+
+## Quel matériel choisir ?
+
+Pour garder une logique simple :
+
+- Petit chantier occasionnel : PC débutant bien équilibré ;
+- usage régulier : PC pro avec 64 Go de RAM et GPU dédié ;
+- Gros volumes : station experte avec GPU solide, stockage rapide et marge mémoire ;
+- mobilité terrain : portable puissant, en acceptant le compromis performance/prix.
+
+J'ai regroupé les configurations, le stockage et les accessoires utiles sur la page [ressources photogrammétrie drone](/ressources/outils-drone-photogrammetrie). Les liens Amazon sont centralisés là-bas pour éviter de disperser les recommandations dans chaque article.
+
+## Le bon réflexe
+
+Ne choisis pas un PC uniquement parce qu'il a l'air puissant. Pars plutôt du volume réel :
+
+1. Calcule ton [GSD](/outils/calculateur-gsd-drone/).
+2. Estime ta surface et ton nombre de photos avec le [calculateur mission drone](/outils/calculateur-mission-drone/).
+3. Regarde la page [ressources photogrammétrie drone](/ressources/outils-drone-photogrammetrie).
+4. Choisis une machine adaptée au volume que tu traites vraiment.
+
+La photogrammétrie est lourde parce qu'elle transforme des images en géométrie exploitable. Une bonne machine aide, mais la meilleure optimisation reste une mission bien préparée.

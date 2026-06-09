@@ -39,9 +39,11 @@ const authorDisplay = author === 'loic' ? 'Loïc' : author;
       <div class="article-hero-image">
         {
           heroImage ? (
-            <img
+            <Image
               src={heroImage}
               alt={heroImageAlt}
+              width={1200}
+              height={630}
               class="article-hero-photo"
               loading="eager"
               decoding="async"
