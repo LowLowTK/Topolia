@@ -6,27 +6,27 @@ const faqItems = [
   {
     question: 'Par quoi commencer en topographie 3D ?',
     answer:
-      'Commence par comprendre le nuage de points, puis la difference entre LiDAR et photogrammetrie. Ensuite seulement, regarde le calage, les formats et le materiel.',
+      'Commence par comprendre le nuage de points, puis la différence entre LiDAR et photogrammétrie. Ensuite seulement, regarde le calage, les formats et le matériel.',
   },
   {
-    question: 'Quelle difference entre LiDAR et photogrammetrie ?',
+    question: 'Quelle différence entre LiDAR et photogrammétrie ?',
     answer:
-      'Le LiDAR mesure directement des distances avec un laser. La photogrammetrie reconstruit une scene 3D a partir de photos qui se recouvrent.',
+      'Le LiDAR mesure directement des distances avec un laser. La photogrammétrie reconstruit une scène 3D à partir de photos qui se recouvrent.',
   },
   {
-    question: 'Faut-il un drone RTK pour faire de la photogrammetrie ?',
+    question: 'Faut-il un drone RTK pour faire de la photogrammétrie ?',
     answer:
-      'Non, mais le RTK aide beaucoup pour positionner les images. Pour un livrable precis, il faut quand meme controler le chantier avec une methode adaptee.',
+      'Non, mais le RTK aide beaucoup pour positionner les images. Pour un livrable précis, il faut quand même contrôler le chantier avec une méthode adaptée.',
   },
   {
     question: 'Quel logiciel utiliser pour ouvrir un nuage de points ?',
     answer:
-      'CloudCompare est souvent le plus simple pour commencer. PDAL devient interessant quand tu veux automatiser, convertir ou filtrer des gros volumes.',
+      'CloudCompare est souvent le plus simple pour commencer. PDAL devient intéressant quand tu veux automatiser, convertir ou filtrer des gros volumes.',
   },
   {
-    question: 'Quel materiel acheter en premier ?',
+    question: 'Quel matériel acheter en premier ?',
     answer:
-      'Avant le capteur le plus cher, pense aux accessoires qui securisent le chantier : cibles, GCP, stockage, ordinateur adapte et methode de controle.',
+      'Avant le capteur le plus cher, pense aux accessoires qui sécurisent le chantier : cibles, GCP, stockage, ordinateur adapté et méthode de contrôle.',
   },
 ];
 
@@ -46,51 +46,51 @@ const faqJsonLd = {
 
 <BaseLayout
   title="Commencer en topographie moderne : drone, LiDAR, scanner 3D"
-  description="Tu debutes en topographie 3D, LiDAR ou photogrammetrie ? Topolia t'oriente avec les notions a connaitre, les articles a lire et les outils utiles sur le terrain."
+  description="Tu débutes en topographie 3D, LiDAR ou photogrammétrie ? Topolia t'oriente avec les notions à connaître, les articles à lire et les outils utiles sur le terrain."
   jsonLd={JSON.stringify(faqJsonLd)}
 >
   <section class="start-hero">
     <div class="container start-hero__grid">
       <div>
-        <p class="eyebrow">Guide d'entree Topolia</p>
+        <p class="eyebrow">Guide d'entrée Topolia</p>
         <h1>Commencer en topographie moderne</h1>
         <p class="hero-sub">
           Drone, <a href="/glossaire/lidar/">LiDAR</a>, scanner 3D,
-          <a href="/glossaire/nuage-de-points/">nuages de points</a> : Topolia t'aide a comprendre les
-          bases, choisir les bons outils et eviter les pieges classiques du terrain.
+          <a href="/glossaire/nuage-de-points/">nuages de points</a> : Topolia t'aide à comprendre les
+          bases, choisir les bons outils et éviter les pièges classiques du terrain.
         </p>
         <div class="hero-actions">
-          <a href="#debuter" class="btn btn--primary">Je debute</a>
-          <a href="#terrain" class="btn btn--secondary">Je suis deja sur le terrain</a>
+          <a href="#debuter" class="btn btn--primary">Je débute</a>
+          <a href="#terrain" class="btn btn--secondary">Je suis déjà sur le terrain</a>
         </div>
       </div>
 
-      <aside class="hero-note" aria-label="Promesse editoriale">
+      <aside class="hero-note" aria-label="Promesse éditoriale">
         <span class="hero-note__label">La promesse</span>
         <p>
-          Pas de jargon pour faire savant. Pas de fiche constructeur recyclee. On part des problemes
+          Pas de jargon pour faire savant. Pas de fiche constructeur recyclée. On part des problèmes
           que tu rencontres vraiment : acquisition, calage, formats, logiciels, livrables et choix
-          materiel.
+          matériel.
         </p>
       </aside>
     </div>
   </section>
 
-  <section class="container route-grid" aria-label="Parcours recommandes">
+  <section class="container route-grid" aria-label="Parcours recommandés">
     <article class="route-card" id="debuter">
       <p class="route-card__kicker">Parcours 1</p>
-      <h2>Si tu debutes</h2>
+      <h2>Si tu débutes</h2>
       <p>
         Ne commence pas par comparer 12 scanners ou 8 drones. Commence par comprendre ce que tu
-        produis, comment tu le controles, et pourquoi un beau rendu peut quand meme etre faux.
+        produis, comment tu le contrôles, et pourquoi un beau rendu peut quand même être faux.
       </p>
       <ol class="path-list">
         <li>
-          <strong>Comprendre la donnee</strong>
+          <strong>Comprendre la donnée</strong>
           <span>
             Lis d'abord <a href="/glossaire/nuage-de-points/">nuage de points</a>,
             <a href="/glossaire/lidar/">LiDAR</a> et
-            <a href="/glossaire/photogrammetrie/">photogrammetrie</a>.
+            <a href="/glossaire/photogrammetrie/">photogrammétrie</a>.
           </span>
         </li>
         <li>
@@ -99,7 +99,7 @@ const faqJsonLd = {
             Passe ensuite sur <a href="/glossaire/rtk/">RTK</a>,
             <a href="/glossaire/ppk/">PPK</a>,
             <a href="/glossaire/gcp/">GCP</a> et
-            <a href="/glossaire/georeferencement/">georeferencement</a>.
+            <a href="/glossaire/georeferencement/">géoréférencement</a>.
           </span>
         </li>
         <li>
@@ -114,41 +114,41 @@ const faqJsonLd = {
       </ol>
 
       <div class="scan-teaser">
-        <p class="scan-teaser__label">Bientot sur iOS</p>
+        <p class="scan-teaser__label">Bientôt sur iOS</p>
         <h3>Premier test LiDAR avec Topolia Scan</h3>
         <p>
           Pour t'initier sans investir dans un scanner professionnel, Topolia Scan permettra de
-          realiser un petit releve interieur avec un iPhone ou un iPad compatible LiDAR. L'objectif
-          n'est pas de remplacer un scanner de chantier, mais de comprendre concretement ce qu'est
+          réaliser un petit relevé intérieur avec un iPhone ou un iPad compatible LiDAR. L'objectif
+          n'est pas de remplacer un scanner de chantier, mais de comprendre concrètement ce qu'est
           un scan 3D : les points, les trous, la trajectoire, les surfaces difficiles et les limites
-          d'un releve rapide.
+          d'un relevé rapide.
         </p>
-        <a href="/topolia-scan/" class="scan-teaser__cta">Decouvrir Topolia Scan bientot</a>
+        <a href="/topolia-scan/" class="scan-teaser__cta">Découvrir Topolia Scan bientôt</a>
       </div>
     </article>
 
     <article class="route-card route-card--pro" id="terrain">
       <p class="route-card__kicker">Parcours 2</p>
-      <h2>Si tu es deja sur le terrain</h2>
+      <h2>Si tu es déjà sur le terrain</h2>
       <p>
-        Tu connais deja les bases ? Va directement vers les tests, les workflows et les retours de
+        Tu connais déjà les bases ? Va directement vers les tests, les workflows et les retours de
         chantier. L'objectif ici, c'est de gagner du temps et de conforter tes choix.
       </p>
       <div class="quick-links">
         <a href="/articles/dji-matrice-4e-photogrammetrie/">Test DJI Matrice 4E</a>
         <a href="/articles/dji-zenmuse-l3-analyse-achat/">Analyse Zenmuse L3</a>
-        <a href="/articles/rtc360-vs-faro-focus/">RTC360 vs FARO vs Trimble X9</a>
+        <a href="/articles/rtc360-vs-faro-focus-vs-trimble-x9/">RTC360 vs FARO vs Trimble X9</a>
         <a href="/articles/pdal-introduction/">PDAL pour nuages de points</a>
-        <a href="/chantiers/">Chantiers anonymises</a>
-        <a href="/ressources/outils-drone-photogrammetrie/">Ressources materiel</a>
+        <a href="/chantiers/">Chantiers anonymisés</a>
+        <a href="/ressources/outils-drone-photogrammetrie/">Ressources matériel</a>
       </div>
 
       <div class="terrain-focus">
         <p class="terrain-focus__label">Pour aller plus vite</p>
         <h3>Tu cherches une info terrain ?</h3>
         <p>
-          Pars directement d'un probleme concret : choisir un capteur, verifier un
-          <a href="/glossaire/recalage/">recalage</a>, comprendre une derive
+          Pars directement d'un problème concret : choisir un capteur, vérifier un
+          <a href="/glossaire/recalage/">recalage</a>, comprendre une dérive
           <a href="/glossaire/slam/">SLAM</a>, convertir un fichier
           <a href="/glossaire/las/">LAS</a> / <a href="/glossaire/laz/">LAZ</a> ou comparer deux workflows
           avant un chantier.
@@ -162,7 +162,7 @@ const faqJsonLd = {
     <div class="express-panel">
       <div class="express-intro">
         <p class="eyebrow">Parcours express</p>
-        <h2>30 minutes pour ne plus etre perdu</h2>
+        <h2>30 minutes pour ne plus être perdu</h2>
         <p>
           Si tu arrives ici sans vocabulaire topo, fais ce petit parcours dans l'ordre. Tu ne vas
           pas devenir expert en une demi-heure, mais tu sauras enfin quoi lire, quoi chercher et
@@ -176,7 +176,7 @@ const faqJsonLd = {
           <div>
             <strong>Comprends le nuage de points</strong>
             <p>
-              C'est la base de tout : scanner, LiDAR drone, photogrammetrie et donnees IGN finissent
+              C'est la base de tout : scanner, LiDAR drone, photogrammétrie et données IGN finissent
               souvent par produire ce type de fichier.
               <a href="/glossaire/nuage-de-points/">Lire la fiche</a>
             </p>
@@ -185,12 +185,12 @@ const faqJsonLd = {
         <li>
           <span>5 min</span>
           <div>
-            <strong>Separe LiDAR et photogrammetrie</strong>
+            <strong>Sépare LiDAR et photogrammétrie</strong>
             <p>
-              L'un mesure avec un laser, l'autre reconstruit depuis des photos. Meme objectif 3D,
-              pas les memes forces ni les memes pieges.
+              L'un mesure avec un laser, l'autre reconstruit depuis des photos. Même objectif 3D,
+              pas les mêmes forces ni les mêmes pièges.
               <a href="/glossaire/lidar/">Voir LiDAR</a> ·
-              <a href="/glossaire/photogrammetrie/">voir photogrammetrie</a>
+              <a href="/glossaire/photogrammetrie/">voir photogrammétrie</a>
             </p>
           </div>
         </li>
@@ -199,8 +199,8 @@ const faqJsonLd = {
           <div>
             <strong>Lis un workflow complet</strong>
             <p>
-              Preparation, vol, traitement, controle, export : c'est la que les mots commencent a
-              s'assembler dans un vrai enchainement terrain.
+              Préparation, vol, traitement, contrôle, export : c'est là que les mots commencent à
+              s'assembler dans un vrai enchaînement terrain.
               <a href="/articles/workflow-drone-complet/">Lire le workflow drone</a>
             </p>
           </div>
@@ -210,10 +210,10 @@ const faqJsonLd = {
           <div>
             <strong>Comprends le calage</strong>
             <p>
-              RTK, PPK, GCP et georeferencement servent a une chose : eviter une belle donnee mal
-              placee.
+              RTK, PPK, GCP et géoréférencement servent à une chose : éviter une belle donnée mal
+              placée.
               <a href="/glossaire/rtk/">RTK</a> · <a href="/glossaire/gcp/">GCP</a> ·
-              <a href="/glossaire/georeferencement/">georeferencement</a>
+              <a href="/glossaire/georeferencement/">géoréférencement</a>
             </p>
           </div>
         </li>
@@ -223,8 +223,8 @@ const faqJsonLd = {
             <strong>Choisis ta suite</strong>
             <p>
               Si tu veux pratiquer, pars sur le LiDAR HD IGN. Si tu veux acheter, lis les tests
-              materiel. Si tu veux traiter, commence par CloudCompare puis PDAL.
-              <a href="/articles/lidar-hd-ign/">Manipuler une vraie donnee</a>
+              matériel. Si tu veux traiter, commence par CloudCompare puis PDAL.
+              <a href="/articles/lidar-hd-ign/">Manipuler une vraie donnée</a>
             </p>
           </div>
         </li>
@@ -236,14 +236,14 @@ const faqJsonLd = {
     <div class="point-cloud-panel">
       <div class="point-cloud-copy">
         <p class="eyebrow">Visualiser</p>
-        <h2>A quoi ressemble un nuage de points ?</h2>
+        <h2>À quoi ressemble un nuage de points ?</h2>
         <p>
           Un <a href="/glossaire/nuage-de-points/">nuage de points</a>, ce n'est pas une photo.
           C'est un paquet de points 3D. Chaque point a au minimum une position, et parfois une
-          couleur, une intensite laser ou une classe comme sol, vegetation ou batiment.
+          couleur, une intensité laser ou une classe comme sol, végétation ou bâtiment.
         </p>
         <p>
-          Plus les points sont denses et bien classes, plus tu peux comprendre la scene, mesurer,
+          Plus les points sont denses et bien classés, plus tu peux comprendre la scène, mesurer,
           filtrer et produire des livrables propres.
         </p>
       </div>
@@ -253,13 +253,9 @@ const faqJsonLd = {
           src="/visualisations/nuage-de-points/"
           title="Visualisation animée d'un nuage de points"
           loading="lazy"
+          allow="fullscreen"
+          allowfullscreen
           class="point-cloud-frame"></iframe>
-        <figcaption>
-          <span><strong>Position</strong> x, y, z</span>
-          <span><strong>Densite</strong> nombre de points</span>
-          <span><strong>Classe</strong> sol, vegetation, batiment</span>
-          <em>Demo legere generee dans le navigateur pour expliquer le principe.</em>
-        </figcaption>
       </figure>
     </div>
   </section>
@@ -267,13 +263,13 @@ const faqJsonLd = {
   <section class="container tool-fit-section" aria-label="Quel outil pour quel chantier">
     <div class="tool-fit-panel">
       <div class="tool-fit-intro">
-        <p class="eyebrow">Choisir sans se precipiter</p>
+        <p class="eyebrow">Choisir sans se précipiter</p>
         <h2>Quel outil pour quel chantier ?</h2>
         <p>
-          La mauvaise question, c'est souvent : "quel est le meilleur materiel ?" La bonne question,
-          c'est plutot : "qu'est-ce que je dois livrer, dans quel environnement, avec quel niveau de
-          controle ?" Un drone, un scanner statique ou un LiDAR mobile peuvent tous produire un
-          <a href="/glossaire/nuage-de-points/">nuage de points</a>, mais pas avec les memes forces.
+          La mauvaise question, c'est souvent : "quel est le meilleur matériel ?" La bonne question,
+          c'est plutôt : "qu'est-ce que je dois livrer, dans quel environnement, avec quel niveau de
+          contrôle ?" Un drone, un scanner statique ou un LiDAR mobile peuvent tous produire un
+          <a href="/glossaire/nuage-de-points/">nuage de points</a>, mais pas avec les mêmes forces.
         </p>
       </div>
 
@@ -283,24 +279,24 @@ const faqJsonLd = {
           <h3>Je veux relever un terrain, une plateforme ou une carriere</h3>
           <dl class="tool-card__facts">
             <div>
-              <dt>Outil conseille</dt>
+              <dt>Outil conseillé</dt>
               <dd>
                 Drone photo +
-                <a href="/glossaire/photogrammetrie/">photogrammetrie</a>
+                <a href="/glossaire/photogrammetrie/">photogrammétrie</a>
               </dd>
             </div>
             <div>
-              <dt>A surveiller</dt>
+              <dt>À surveiller</dt>
               <dd>
-                <a href="/glossaire/gcp/">GCP</a>, controle terrain, recouvrement et
+                <a href="/glossaire/gcp/">GCP</a>, contrôle terrain, recouvrement et
                 <a href="/glossaire/gsd/">GSD</a>
               </dd>
             </div>
           </dl>
           <p>
-            Bon point d'entree en terrain degage : tu obtiens une
-            <a href="/glossaire/orthophoto/">orthophoto</a>, un modele de surface et un rendu facile
-            a expliquer au client.
+            Bon point d'entrée en terrain dégagé : tu obtiens une
+            <a href="/glossaire/orthophoto/">orthophoto</a>, un modèle de surface et un rendu facile
+            à expliquer au client.
           </p>
           <a class="tool-card__cta" href="/articles/workflow-drone-complet/"
             >Lire le workflow drone</a
@@ -308,90 +304,90 @@ const faqJsonLd = {
         </article>
 
         <article class="tool-card tool-card--vegetation">
-          <span class="tool-card__badge">Vegetation</span>
+          <span class="tool-card__badge">Végétation</span>
           <h3>Je dois voir le sol sous des arbres ou des haies</h3>
           <dl class="tool-card__facts">
             <div>
-              <dt>Outil conseille</dt>
+              <dt>Outil conseillé</dt>
               <dd>
-                <a href="/glossaire/lidar/">LiDAR</a> drone, mobile ou donnees LiDAR existantes
+                <a href="/glossaire/lidar/">LiDAR</a> drone, mobile ou données LiDAR existantes
               </dd>
             </div>
             <div>
-              <dt>A surveiller</dt>
-              <dd>Budget, densite utile, sous-traitance possible et besoin reel du chantier</dd>
+              <dt>À surveiller</dt>
+              <dd>Budget, densité utile, sous-traitance possible et besoin réel du chantier</dd>
             </div>
           </dl>
           <p>
             Le LiDAR ne traverse pas tout, mais certains retours laser peuvent atteindre le sol
-            entre les feuilles et les branches, la ou une photo reste bloquee sur ce qu'elle voit.
+            entre les feuilles et les branches, là où une photo reste bloquée sur ce qu'elle voit.
           </p>
           <a class="tool-card__cta" href="/articles/lidar-hd-ign/"
-            >Tester avec une vraie donnee IGN</a
+            >Tester avec une vraie donnée IGN</a
           >
         </article>
 
         <article class="tool-card tool-card--building">
-          <span class="tool-card__badge">Batiment</span>
-          <h3>Je veux scanner une facade, une cour ou un interieur</h3>
+          <span class="tool-card__badge">Bâtiment</span>
+          <h3>Je veux scanner une façade, une cour ou un intérieur</h3>
           <dl class="tool-card__facts">
             <div>
-              <dt>Outil conseille</dt>
+              <dt>Outil conseillé</dt>
               <dd>Scanner statique, avec export <a href="/glossaire/e57/">E57</a></dd>
             </div>
             <div>
-              <dt>A surveiller</dt>
-              <dd>Masques, angles morts, stations mal placees et recalage trop confiant</dd>
+              <dt>À surveiller</dt>
+              <dd>Masques, angles morts, stations mal placées et recalage trop confiant</dd>
             </div>
           </dl>
           <p>
-            Plus lent a poser, mais solide quand il faut une geometrie propre et defendable. Sur une
-            facade ou un interieur, le placement des stations compte autant que le modele choisi.
+            Plus lent à poser, mais solide quand il faut une géométrie propre et défendable. Sur une
+            façade ou un intérieur, le placement des stations compte autant que le modèle choisi.
           </p>
-          <a class="tool-card__cta" href="/articles/rtc360-vs-faro-focus/"
+          <a class="tool-card__cta" href="/articles/rtc360-vs-faro-focus-vs-trimble-x9/"
             >Comparer RTC360, FARO et Trimble X9</a
           >
         </article>
 
         <article class="tool-card tool-card--speed">
           <span class="tool-card__badge">Vitesse</span>
-          <h3>Je veux aller vite dans un couloir, un entrepot ou une cage d'escalier</h3>
+          <h3>Je veux aller vite dans un couloir, un entrepôt ou une cage d'escalier</h3>
           <dl class="tool-card__facts">
             <div>
-              <dt>Outil conseille</dt>
+              <dt>Outil conseillé</dt>
               <dd>Scanner mobile ou backpack avec <a href="/glossaire/slam/">SLAM</a></dd>
             </div>
             <div>
-              <dt>A surveiller</dt>
-              <dd>Derive, longs couloirs, zones repetitives et environnements metalliques</dd>
+              <dt>À surveiller</dt>
+              <dd>Dérive, longs couloirs, zones répétitives et environnements métalliques</dd>
             </div>
           </dl>
           <p>
-            Tres confortable pour de la reconnaissance, du volume interieur ou un premier passage
-            rapide. Le gain de temps est reel, mais il ne remplace pas une strategie de controle.
+            Très confortable pour de la reconnaissance, du volume intérieur ou un premier passage
+            rapide. Le gain de temps est réel, mais il ne remplace pas une stratégie de contrôle.
           </p>
-          <a class="tool-card__cta" href="/minute-topo/">Comprendre la derive SLAM</a>
+          <a class="tool-card__cta" href="/minute-topo/">Comprendre la dérive SLAM</a>
         </article>
 
         <article class="tool-card tool-card--wide tool-card--starter">
           <span class="tool-card__badge">Premier achat</span>
-          <h3>Je debute et je ne veux pas acheter trop vite</h3>
+          <h3>Je débute et je ne veux pas acheter trop vite</h3>
           <dl class="tool-card__facts">
             <div>
-              <dt>Outil conseille</dt>
-              <dd>Cibles, stockage, PC stable, logiciel de lecture et methode de controle</dd>
+              <dt>Outil conseillé</dt>
+              <dd>Cibles, stockage, PC stable, logiciel de lecture et méthode de contrôle</dd>
             </div>
             <div>
-              <dt>A surveiller</dt>
+              <dt>À surveiller</dt>
               <dd>Acheter un capteur cher avant de savoir expliquer le livrable attendu</dd>
             </div>
           </dl>
           <p>
-            Le capteur vient apres, quand le type de chantier est clair. Avant ca, les petits achats
-            et une bonne methode evitent deja beaucoup de chantiers refaits.
+            Le capteur vient après, quand le type de chantier est clair. Avant ça, les petits achats
+            et une bonne méthode évitent déjà beaucoup de chantiers refaits.
           </p>
           <a class="tool-card__cta" href="/ressources/outils-drone-photogrammetrie/"
-            >Voir les ressources materiel</a
+            >Voir les ressources matériel</a
           >
         </article>
       </div>
@@ -401,11 +397,11 @@ const faqJsonLd = {
   <section class="start-section start-section--alt">
     <div class="container split-layout">
       <div>
-        <p class="eyebrow">Methode</p>
-        <h2>Les 5 contenus a lire en premier</h2>
+        <p class="eyebrow">Méthode</p>
+        <h2>Les 5 contenus à lire en premier</h2>
         <p class="section-intro">
-          Une selection courte, dans un ordre logique. Tu peux tout lire en une soiree, puis revenir
-          chercher le detail quand tu en as besoin.
+          Une sélection courte, dans un ordre logique. Tu peux tout lire en une soirée, puis revenir
+          chercher le détail quand tu en as besoin.
         </p>
       </div>
 
@@ -418,17 +414,17 @@ const faqJsonLd = {
         <a href="/articles/lidar-hd-ign/" class="reading-item">
           <span>02</span>
           <strong>LiDAR HD IGN</strong>
-          <em>Pour manipuler une vraie donnee gratuite et utile.</em>
+          <em>Pour manipuler une vraie donnée gratuite et utile.</em>
         </a>
         <a href="/articles/workflow-drone-complet/" class="reading-item">
           <span>03</span>
           <strong>Workflow drone complet</strong>
-          <em>Pour voir une chaine acquisition - traitement - export.</em>
+          <em>Pour voir une chaîne acquisition - traitement - export.</em>
         </a>
         <a href="/articles/dji-matrice-4e-photogrammetrie/" class="reading-item">
           <span>04</span>
           <strong>DJI Matrice 4E</strong>
-          <em>Pour lire un test materiel avec un angle terrain.</em>
+          <em>Pour lire un test matériel avec un angle terrain.</em>
         </a>
         <a href="/articles/pdal-introduction/" class="reading-item">
           <span>05</span>
@@ -442,20 +438,20 @@ const faqJsonLd = {
   <section class="container start-section">
     <div class="material-panel">
       <div>
-        <p class="eyebrow">Materiel & ressources</p>
-        <h2>Choisir son materiel sans se faire pieger</h2>
+        <p class="eyebrow">Matériel & ressources</p>
+        <h2>Choisir son matériel sans se faire piéger</h2>
         <p>
           Le meilleur achat, ce n'est pas toujours le capteur le plus cher. C'est souvent
-          l'accessoire, le logiciel ou le workflow qui t'evite de refaire un chantier.
+          l'accessoire, le logiciel ou le workflow qui t'évite de refaire un chantier.
         </p>
         <p>
-          Sur Topolia, les pages ressources servent a separer ce que j'utilise vraiment, ce que je
-          testerais avec prudence, et ce qui ressemble surtout a du marketing. Certains liens
-          peuvent etre affilies, mais la logique reste la meme : recommander ce qui a un interet
+          Sur Topolia, les pages ressources servent à séparer ce que j'utilise vraiment, ce que je
+          testerais avec prudence, et ce qui ressemble surtout à du marketing. Certains liens
+          peuvent être affiliés, mais la logique reste la même : recommander ce qui a un intérêt
           terrain.
         </p>
         <a href="/ressources/outils-drone-photogrammetrie/" class="text-cta">
-          Voir les outils drone photogrammetrie →
+          Voir les outils drone photogrammétrie →
         </a>
       </div>
 
@@ -467,7 +463,7 @@ const faqJsonLd = {
           <a href="/glossaire/laz/">LAZ</a> / <a href="/glossaire/e57/">E57</a>.
         </li>
         <li>
-          Controle : precision, <a href="/glossaire/recalage/">recalage</a>, verification terrain.
+          Contrôle : précision, <a href="/glossaire/recalage/">recalage</a>, vérification terrain.
         </li>
       </ul>
     </div>
@@ -479,10 +475,10 @@ const faqJsonLd = {
         <p class="eyebrow eyebrow--light">Sources & confiance</p>
         <h2>Du contenu sourcé, puis traduit en langage terrain</h2>
         <p>
-          Les definitions et les chiffres viennent de sources solides quand c'est factuel : IGN,
+          Les définitions et les chiffres viennent de sources solides quand c'est factuel : IGN,
           EASA/DGAC, documentations CloudCompare, PDAL, Agisoft, specs constructeurs. Ensuite, je
-          les remets dans le contexte chantier : ce que ca change vraiment quand tu es dehors, avec
-          des batteries, du vent, un client et un fichier a livrer.
+          les remets dans le contexte chantier : ce que ça change vraiment quand tu es dehors, avec
+          des batteries, du vent, un client et un fichier à livrer.
         </p>
       </div>
       <div class="source-links">
@@ -510,9 +506,9 @@ const faqJsonLd = {
     <div class="faq-layout">
       <div>
         <p class="eyebrow">FAQ</p>
-        <h2>Questions frequentes</h2>
+        <h2>Questions fréquentes</h2>
         <p class="section-intro">
-          Des reponses courtes pour t'orienter. Les pages liees donnent ensuite le detail.
+          Des réponses courtes pour t'orienter. Les pages liées donnent ensuite le détail.
         </p>
       </div>
       <div class="faq-list">
@@ -534,6 +530,42 @@ const faqJsonLd = {
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  // Déclenche l'animation du nuage de points quand l'iframe entre dans la vue
+  // (et non au chargement de la page). Coordination avec le message "ready"
+  // émis par l'iframe une fois son script prêt.
+  const frame = document.querySelector('.point-cloud-frame');
+  if (frame instanceof HTMLIFrameElement) {
+    let ready = false;
+    let inView = false;
+    let sent = false;
+    const maybePlay = () => {
+      if (sent || !ready || !inView) return;
+      sent = true;
+      frame.contentWindow?.postMessage('topolia-pcv-play', '*');
+    };
+    window.addEventListener('message', (e) => {
+      if (e.source === frame.contentWindow && e.data === 'topolia-pcv-ready') {
+        ready = true;
+        maybePlay();
+      }
+    });
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const en of entries) {
+          if (en.isIntersecting) {
+            inView = true;
+            maybePlay();
+            if (sent) io.disconnect();
+          }
+        }
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(frame);
+  }
+</script>
 
 <style>
   .start-hero {
@@ -764,37 +796,12 @@ const faqJsonLd = {
   .point-cloud-frame {
     display: block;
     width: 100%;
-    min-height: 320px;
+    min-height: 520px;
+    aspect-ratio: 4 / 3;
     border: 0;
     border-radius: 8px;
     background: var(--bg-dark);
     box-shadow: var(--shadow-md);
-  }
-
-  .point-cloud-visual figcaption {
-    display: grid;
-    gap: 8px;
-    margin-top: 12px;
-    font-size: 0.86rem;
-    color: var(--ink-3);
-  }
-
-  .point-cloud-visual figcaption span {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--hairline);
-  }
-
-  .point-cloud-visual figcaption strong {
-    color: var(--ink);
-  }
-
-  .point-cloud-visual figcaption em {
-    color: var(--ink-muted);
-    font-style: normal;
-    line-height: 1.45;
   }
 
   .tool-fit-section {

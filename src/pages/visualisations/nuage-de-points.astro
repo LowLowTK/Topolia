@@ -11,14 +11,11 @@
     <style>
       :root {
         color-scheme: dark;
-        --bg: #070b16;
-        --panel: rgba(15, 23, 42, 0.72);
+        --bg: #060a13;
+        --panel: rgba(15, 23, 42, 0.62);
         --text: #f8fafc;
-        --muted: #cbd5e1;
-        --wall: #d8c9ad;
-        --roof: #9f3f27;
-        --ground: #3f7d3a;
-        --detail: #2f3542;
+        --muted: #aab8cf;
+        --accent: #34e2ff;
       }
 
       * {
@@ -32,8 +29,9 @@
         margin: 0;
         overflow: hidden;
         background:
-          radial-gradient(circle at 22% 20%, rgba(159, 63, 39, 0.2), transparent 32%),
-          radial-gradient(circle at 80% 12%, rgba(216, 201, 173, 0.16), transparent 30%), var(--bg);
+          radial-gradient(900px 520px at 72% 30%, rgba(34, 211, 238, 0.1), transparent 60%),
+          radial-gradient(700px 480px at 20% 85%, rgba(192, 38, 211, 0.07), transparent 60%),
+          var(--bg);
         color: var(--text);
         font-family:
           Onest,
@@ -48,116 +46,174 @@
       #viewer {
         position: fixed;
         inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        touch-action: pan-y;
       }
 
-      .hud {
+      /* Pastille compacte en haut à gauche : n'empiète plus sur le modèle. */
+      .hud-tag {
         position: fixed;
-        left: 18px;
-        right: 18px;
-        bottom: 16px;
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        align-items: end;
+        top: 14px;
+        left: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 11px;
+        border: 1px solid rgba(140, 180, 230, 0.16);
+        border-radius: 999px;
+        background: var(--panel);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
         pointer-events: none;
       }
 
-      .hud-card {
-        max-width: 320px;
-        padding: 12px 14px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 8px;
-        background: var(--panel);
-        backdrop-filter: blur(12px);
+      .hud-tag .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 8px var(--accent);
       }
 
-      .hud-label {
-        margin: 0 0 4px;
+      .hud-hint {
+        position: fixed;
+        right: 16px;
+        bottom: 14px;
         font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 0.68rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--wall);
+        font-size: 0.72rem;
+        color: var(--muted);
+        pointer-events: none;
       }
 
-      .hud-title {
-        margin: 0;
-        font-size: 0.96rem;
-        line-height: 1.3;
-      }
-
-      .legend {
+      /* Boutons (rejouer, plein écran) en haut à droite. */
+      .controls {
+        position: fixed;
+        top: 12px;
+        right: 12px;
         display: flex;
-        flex-wrap: wrap;
         gap: 8px;
-        justify-content: flex-end;
       }
 
-      .legend span {
+      .ctrl {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        padding: 7px 9px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 999px;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        padding: 0;
+        border: 1px solid rgba(140, 180, 230, 0.18);
+        border-radius: 10px;
         background: var(--panel);
-        color: var(--muted);
-        font-size: 0.78rem;
-        backdrop-filter: blur(12px);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        color: var(--text);
+        cursor: pointer;
+        transition:
+          border-color 0.2s ease,
+          color 0.2s ease,
+          background 0.2s ease;
       }
 
-      .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
+      .ctrl:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: rgba(20, 30, 50, 0.7);
       }
 
-      .dot--ground {
-        background: var(--ground);
+      .ctrl svg {
+        width: 18px;
+        height: 18px;
       }
 
-      .dot--wall {
-        background: var(--wall);
+      .icon-collapse {
+        display: none;
       }
 
-      .dot--roof {
-        background: var(--roof);
+      :fullscreen .icon-expand {
+        display: none;
       }
 
-      .dot--detail {
-        background: var(--detail);
+      :fullscreen .icon-collapse {
+        display: block;
       }
 
       @media (max-width: 620px) {
-        .hud {
-          align-items: stretch;
-          flex-direction: column;
-        }
-
-        .hud-card {
-          max-width: none;
-        }
-
-        .legend {
-          justify-content: flex-start;
+        .hud-hint {
+          display: none;
         }
       }
     </style>
   </head>
   <body>
-    <canvas id="viewer" aria-label="Nuage de points anime"></canvas>
+    <canvas id="viewer" aria-label="Relevé d'un monument en nuage de points par drone"></canvas>
 
-    <div class="hud">
-      <div class="hud-card">
-        <p class="hud-label">Nuage de points demo</p>
-        <p class="hud-title">Maison en nuage de points - simulation d'un releve 3D.</p>
-      </div>
-      <div class="legend" aria-label="Legende">
-        <span><i class="dot dot--ground"></i>sol</span>
-        <span><i class="dot dot--wall"></i>murs</span>
-        <span><i class="dot dot--roof"></i>toit</span>
-        <span><i class="dot dot--detail"></i>details</span>
-      </div>
+    <span class="hud-tag"><i class="dot"></i>Relevé LiDAR · drone</span>
+    <span class="hud-hint">Survolez pour scanner →</span>
+
+    <div class="controls">
+      <button
+        type="button"
+        class="ctrl"
+        id="replay"
+        aria-label="Rejouer l'animation"
+        title="Rejouer l'animation"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path>
+          <path d="M3 3v5h5"></path>
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="ctrl"
+        id="enlarge"
+        aria-label="Agrandir en plein écran"
+        title="Agrandir"
+      >
+        <svg
+          class="icon-expand"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path
+            d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"
+          ></path>
+        </svg>
+        <svg
+          class="icon-collapse"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path
+            d="M4 8h3a2 2 0 0 0 2-2V3M20 8h-3a2 2 0 0 1-2-2V3M4 16h3a2 2 0 0 1 2 2v3M20 16h-3a2 2 0 0 0-2 2v3"
+          ></path>
+        </svg>
+      </button>
     </div>
 
     <script>
@@ -165,245 +221,49 @@
     </script>
 
     <script>
-      import * as THREE from 'three';
+      import { initPointCloudReveal } from '../../lib/pointCloudReveal';
 
       const canvas = document.getElementById('viewer');
-      const scene = new THREE.Scene();
-      scene.fog = new THREE.Fog(0x070b16, 8, 20);
-
-      const renderer = new THREE.WebGLRenderer({
-        canvas,
-        antialias: true,
-        alpha: true,
-      });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-      const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 100);
-      camera.position.set(4.8, 2.8, 6.6);
-      camera.lookAt(0, -0.05, 0);
-
-      const group = new THREE.Group();
-      scene.add(group);
-
-      const positions = [];
-      const colors = [];
-      const color = new THREE.Color();
-      const house = {
-        width: 3.4,
-        depth: 2.5,
-        baseY: -0.95,
-        wallHeight: 1.85,
-        roofHeight: 0.9,
-      };
-      const palette = {
-        ground: 0x3f7d3a,
-        wall: 0xd8c9ad,
-        roof: 0x9f3f27,
-        detail: 0x2f3542,
-        glass: 0x6f9fc6,
-        stone: 0xb8ab94,
-      };
-
-      function varied(hex, spread = 0.08) {
-        color.set(hex);
-        color.offsetHSL(0, 0, (Math.random() - 0.5) * spread);
-        return color.getHex();
-      }
-
-      function pushPoint(x, y, z, hex, jitter = 0.015) {
-        positions.push(
-          x + (Math.random() - 0.5) * jitter,
-          y + (Math.random() - 0.5) * jitter,
-          z + (Math.random() - 0.5) * jitter,
-        );
-        color.set(hex);
-        colors.push(color.r, color.g, color.b);
-      }
-
-      function addPlanePoints({ count, colorHex, jitter = 0.018, sampler, skip = () => false }) {
-        for (let i = 0; i < count; i += 1) {
-          const point = sampler();
-          if (skip(point)) continue;
-          pushPoint(point.x, point.y, point.z, varied(colorHex), jitter);
-        }
-      }
-
-      function makeTerrain() {
-        for (let i = 0; i < 2600; i += 1) {
-          const x = (Math.random() - 0.5) * 7.6;
-          const z = (Math.random() - 0.5) * 5.5;
-          const y = Math.sin(x * 1.1) * 0.05 + Math.cos(z * 1.35) * 0.04 - 1.05;
-          pushPoint(x, y, z, varied(palette.ground, 0.16), 0.04);
-        }
-      }
-
-      function isFrontOpening({ x, y, z }) {
-        const isFront = Math.abs(z - house.depth / 2) < 0.04;
-        const door = x > -0.38 && x < 0.38 && y < 0.16;
-        const leftWindow = x > -1.35 && x < -0.72 && y > 0.35 && y < 0.9;
-        const rightWindow = x > 0.72 && x < 1.35 && y > 0.35 && y < 0.9;
-        return isFront && (door || leftWindow || rightWindow);
-      }
-
-      function makeWalls() {
-        const halfW = house.width / 2;
-        const halfD = house.depth / 2;
-        const wallTop = house.baseY + house.wallHeight;
-
-        addPlanePoints({
-          count: 2700,
-          colorHex: palette.wall,
-          jitter: 0.022,
-          sampler: () => ({
-            x: -halfW + Math.random() * house.width,
-            y: house.baseY + Math.random() * house.wallHeight,
-            z: halfD,
-          }),
-          skip: isFrontOpening,
+      if (canvas instanceof HTMLCanvasElement) {
+        // autoplay:false → la scène reste vide jusqu'au déclenchement (scroll).
+        const viewer = initPointCloudReveal(canvas, {
+          modelUrl: '/models/saint-denis.glb',
+          intensity: 1,
+          autoplay: false,
         });
 
-        addPlanePoints({
-          count: 2100,
-          colorHex: palette.wall,
-          jitter: 0.022,
-          sampler: () => ({
-            x: -halfW + Math.random() * house.width,
-            y: house.baseY + Math.random() * house.wallHeight,
-            z: -halfD,
-          }),
+        // Démarrage : message du parent (IntersectionObserver) quand l'iframe
+        // entre dans la vue. Filet de sécurité si le message n'arrive jamais.
+        let kicked = false;
+        const kick = () => {
+          if (kicked) return;
+          kicked = true;
+          viewer.replay();
+        };
+        window.addEventListener('message', (e) => {
+          if (e.data === 'topolia-pcv-play') kick();
         });
-
-        for (const sideX of [-halfW, halfW]) {
-          addPlanePoints({
-            count: 1900,
-            colorHex: palette.wall,
-            jitter: 0.022,
-            sampler: () => ({
-              x: sideX,
-              y: house.baseY + Math.random() * house.wallHeight,
-              z: -halfD + Math.random() * house.depth,
-            }),
-          });
+        // Signale au parent qu'on est prêt à recevoir l'ordre de jouer.
+        try {
+          window.parent?.postMessage('topolia-pcv-ready', '*');
+        } catch {
+          /* ignore */
         }
+        // Sécurité : si rien ne déclenche sous 6 s, on lance quand même.
+        setTimeout(kick, 6000);
 
-        for (let i = 0; i < 640; i += 1) {
-          const t = Math.random() * 2 - 1;
-          const x = t * halfW;
-          const y = wallTop + (1 - Math.abs(t)) * house.roofHeight;
-          pushPoint(x, y, halfD + 0.006, varied(palette.wall), 0.02);
-          pushPoint(x, y, -halfD - 0.006, varied(palette.wall), 0.02);
-        }
-      }
+        // Rejouer l'animation depuis le début.
+        document.getElementById('replay')?.addEventListener('click', () => viewer.replay());
 
-      function makeRoof() {
-        const halfW = house.width / 2 + 0.28;
-        const halfD = house.depth / 2 + 0.22;
-        const roofBase = house.baseY + house.wallHeight;
-        const ridgeY = roofBase + house.roofHeight;
-
-        for (let i = 0; i < 3600; i += 1) {
-          const side = Math.random() > 0.5 ? 1 : -1;
-          const u = Math.random();
-          const x = side * u * halfW;
-          const y = ridgeY - u * house.roofHeight;
-          const z = -halfD + Math.random() * halfD * 2;
-          pushPoint(x, y, z, varied(palette.roof, 0.1), 0.02);
-        }
-      }
-
-      function makeDetails() {
-        const frontZ = house.depth / 2 + 0.035;
-
-        addPlanePoints({
-          count: 460,
-          colorHex: palette.detail,
-          jitter: 0.012,
-          sampler: () => ({
-            x: -0.32 + Math.random() * 0.64,
-            y: house.baseY + Math.random() * 1.05,
-            z: frontZ,
-          }),
+        // Plein écran : agrandit le document de l'iframe (parent : allow="fullscreen").
+        document.getElementById('enlarge')?.addEventListener('click', () => {
+          if (document.fullscreenElement) {
+            document.exitFullscreen();
+          } else {
+            document.documentElement.requestFullscreen().catch(() => {});
+          }
         });
-
-        for (const centerX of [-1.04, 1.04]) {
-          addPlanePoints({
-            count: 300,
-            colorHex: palette.glass,
-            jitter: 0.012,
-            sampler: () => ({
-              x: centerX - 0.28 + Math.random() * 0.56,
-              y: -0.48 + Math.random() * 0.52,
-              z: frontZ + 0.01,
-            }),
-          });
-        }
-
-        for (let i = 0; i < 900; i += 1) {
-          const angle = Math.random() * Math.PI * 2;
-          const radius = 1.8 + Math.random() * 2.6;
-          const x = Math.cos(angle) * radius;
-          const z = Math.sin(angle) * radius * 0.75;
-          const y = -0.85 + Math.random() * 2.8;
-          const detailColor = Math.random() > 0.58 ? palette.stone : palette.detail;
-          pushPoint(x, y, z, varied(detailColor, 0.12), 0.026);
-        }
       }
-
-      makeTerrain();
-      makeWalls();
-      makeRoof();
-      makeDetails();
-
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-      geometry.computeBoundingSphere();
-
-      const material = new THREE.PointsMaterial({
-        size: 0.058,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.98,
-        sizeAttenuation: true,
-      });
-
-      const points = new THREE.Points(geometry, material);
-      group.add(points);
-
-      const grid = new THREE.GridHelper(8, 12, 0x1e293b, 0x1e293b);
-      grid.position.y = -1.16;
-      grid.material.transparent = true;
-      grid.material.opacity = 0.3;
-      group.add(grid);
-
-      const ambient = new THREE.AmbientLight(0xffffff, 1.35);
-      scene.add(ambient);
-
-      function resize() {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        renderer.setSize(width, height, false);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-        camera.lookAt(0, -0.05, 0);
-      }
-
-      window.addEventListener('resize', resize);
-      resize();
-
-      const clock = new THREE.Clock();
-
-      function animate() {
-        const t = clock.getElapsedTime();
-        group.rotation.y = t * 0.2;
-        group.rotation.x = -0.14;
-        points.rotation.z = Math.sin(t * 0.55) * 0.01;
-        camera.lookAt(0, -0.05, 0);
-        renderer.render(scene, camera);
-        requestAnimationFrame(animate);
-      }
-
-      animate();
     </script>
   </body>
 </html>
