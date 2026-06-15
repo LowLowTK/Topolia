@@ -1,0 +1,29 @@
+---
+title: 'Voxel'
+date: 2026-06-10
+difficulty: 'intermediaire'
+relatedArticles: ['pdal-introduction', 'pourquoi-photogrammetrie-lourde-traitement']
+relatedChantiers: []
+excerpt: "Le pixel en 3D : un petit cube élémentaire qui découpe l'espace pour structurer, filtrer ou alléger un nuage de points."
+isPublished: true
+---
+
+Un **voxel** (_volumetric pixel_) est l'équivalent 3D du pixel : un petit cube qui découpe l'espace en cellules régulières. Au lieu de stocker une couleur sur une grille 2D, on stocke une information (occupation, densité, classe) sur une grille 3D.
+
+## Pourquoi c'est important
+
+Les voxels servent partout dans le traitement de [nuages de points](/glossaire/nuage-de-points/) :
+
+- **Sous-échantillonnage** : garder un point par voxel pour alléger un nuage tout en conservant une densité homogène
+- **Structures d'accélération** : les octrees (voxels hiérarchiques) accélèrent les recherches de voisins, comme dans le format [COPC](/glossaire/copc/)
+- **Analyse** : détection d'obstacles, calcul de volumes de végétation, cartes d'occupation en robotique et [SLAM](/glossaire/slam/)
+
+## Exemple terrain
+
+Ton scan terrestre fait 500 millions de points, ingérable dans ton logiciel de dessin. Un filtre voxel à 1 cm (un point conservé par cube de 1 cm) réduit drastiquement la taille sans perdre la géométrie utile. C'est le filtre « Subsample > Space » de CloudCompare ou `filters.voxelcenternearestneighbor` dans PDAL.
+
+## Le piège classique
+
+Choisir une taille de voxel trop grosse pour aller vite : les détails fins (arêtes, tuyauteries, ferraillage) disparaissent. Adapte la taille au plus petit objet que tu dois conserver.
+
+Source utile : [PDAL - filters.voxelcenternearestneighbor](https://pdal.io/en/latest/stages/filters.voxelcenternearestneighbor.html)

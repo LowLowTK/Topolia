@@ -1,0 +1,25 @@
+---
+title: 'Lambert 93'
+date: 2026-06-10
+difficulty: 'debutant'
+relatedArticles: ['lidar-hd-ign', 'workflow-drone-complet']
+relatedChantiers: []
+excerpt: 'La projection cartographique officielle de la France métropolitaine, utilisée dans quasiment tous les livrables topo.'
+isPublished: true
+---
+
+Le **Lambert 93** est le système de projection officiel de la France métropolitaine. Il transforme les coordonnées géographiques (latitude/longitude, basées sur le système RGF93) en coordonnées planes en mètres, exploitables sur un plan ou dans un SIG.
+
+## Pourquoi c'est important
+
+Tous les livrables topo français ou presque sont attendus en Lambert 93 : plans de géomètre, données cadastrales, [LiDAR HD de l'IGN](/glossaire/lidar/), couches SIG des collectivités. Son code [EPSG](/glossaire/epsg/) est **2154** — celui que tu choisis dans QGIS, CloudCompare ou ton logiciel photogrammétrique pour le [géoréférencement](/glossaire/georeferencement/).
+
+## Exemple terrain
+
+Ton récepteur [RTK](/glossaire/rtk/) sort des coordonnées géographiques RGF93. Pour livrer un plan ou croiser tes données avec le cadastre, tu projettes tout en Lambert 93. Attention à l'altitude : on travaille en altitude normale (IGN69) via une grille de géoïde, pas en hauteur ellipsoïdale brute.
+
+## Le piège classique
+
+Confondre Lambert 93 et les anciens Lambert zones (I, II, III, IV ou Lambert II étendu), encore présents dans de vieux plans. Un mauvais choix de système peut décaler tes données de plusieurs centaines de kilomètres — ou pire, de quelques mètres seulement, ce qui passe inaperçu jusqu'au contrôle.
+
+Source utile : [IGN - Géodésie : RGF93 / Lambert 93](https://geodesie.ign.fr/)

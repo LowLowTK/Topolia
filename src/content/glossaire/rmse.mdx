@@ -1,0 +1,23 @@
+---
+title: "RMSE / EMQ : l'erreur moyenne quadratique"
+date: 2026-06-10
+difficulty: 'intermediaire'
+relatedArticles: ['workflow-drone-complet', 'estimer-mission-drone-photogrammetrie']
+relatedChantiers: []
+excerpt: "L'indicateur statistique standard pour chiffrer la précision d'un levé : la racine de la moyenne des erreurs au carré."
+isPublished: true
+---
+
+Le **RMSE** (_Root Mean Square Error_, ou **EMQ** en français : erreur moyenne quadratique) mesure l'écart global entre des valeurs mesurées et des valeurs de référence : on met les erreurs au carré, on fait la moyenne, puis la racine carrée.
+
+## Pourquoi c'est important
+
+C'est LA métrique que tout le monde utilise pour qualifier un levé : rapport de [géoréférencement](/glossaire/georeferencement/) photogrammétrique, contrôle d'un nuage [LiDAR](/glossaire/lidar/) sur des points connus, résidus d'un [recalage](/glossaire/recalage/) ICP. Comme les erreurs sont mises au carré, les gros écarts pèsent lourd : un RMSE bas signifie qu'aucun point ne part vraiment en vrille.
+
+## Exemple terrain
+
+Après un vol drone, ton logiciel affiche le RMSE sur les [GCP](/glossaire/gcp/) et surtout sur les points de contrôle indépendants (checkpoints). Ce sont les checkpoints, non utilisés dans le calcul, qui te donnent la vraie précision du livrable.
+
+## Le piège classique
+
+Confondre le RMSE sur les GCP avec la précision réelle. Un logiciel peut « coller » parfaitement aux points d'appui tout en étant déformé ailleurs. Garde toujours des checkpoints indépendants, et méfie-toi d'un RMSE annoncé sans préciser sur quoi il est calculé (XY, Z, ou 3D).

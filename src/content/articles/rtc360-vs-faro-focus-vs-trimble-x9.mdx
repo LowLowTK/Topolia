@@ -1,0 +1,178 @@
+---
+title: 'Leica RTC360 vs Faro Focus Premium vs Trimble X9 : le comparatif'
+subtitle: 'Trois scanners statiques haut de gamme, trois philosophies. Lequel correspond à tes chantiers en 2026.'
+date: 2026-06-10
+category: 'comparatifs'
+tags: ['leica', 'faro', 'trimble', 'scanner-statique', 'comparatif']
+author: 'loic'
+heroImage: ''
+heroImageAlt: 'Comparatif des scanners laser 3D Leica RTC360, Trimble X9 et Faro Focus Premium 150'
+excerpt: 'RTC360, Focus Premium 150 ou Trimble X9 ? Specs officielles décortiquées, la qualité signature de chacun et verdict par profil de chantier.'
+faq:
+  - q: 'RTC360, Focus Premium ou Trimble X9 : lequel choisir ?'
+    a: 'Les trois sont polyvalents et se pilotent à la tablette. La différence se joue sur leur qualité signature : le RTC360 est le plus rapide (scan + image HDR en moins de 2 minutes, pré-recalage VIS), le Focus Premium est le plus léger et le plus rapide en couleur (scan Flash en moins de 30 secondes), le Trimble X9 apporte le contrôle topo (pointeur laser pour le géoréférencement, auto-calibration garantie à vie).'
+  - q: 'Quelle est la différence de précision entre les trois ?'
+    a: "Sur le papier, les trois jouent dans la même cour millimétrique. Leica annonce 1,9 mm à 10 m et 2,9 mm à 20 m pour le RTC360, Trimble 2,3 mm à 10 m et 3,0 mm à 20 m pour le X9, Faro environ 2 mm à 10 m et 3,5 mm à 25 m pour le Focus Premium. En pratique, c'est la qualité du recalage et du géoréférencement qui fera ta précision finale, pas ces dixièmes de millimètre."
+  - q: 'À quoi sert le pointeur laser du Trimble X9 ?'
+    a: "C'est un laser visible (classe 2) qui permet de viser et mesurer un point individuel, typiquement un point de calage connu en coordonnées. Tu géoréférences ainsi ton nuage directement sur le terrain, comme avec une station totale. Ni le RTC360 ni le Focus Premium n'offrent cette mesure de point unique au pointeur."
+  - q: 'Pourquoi comparer le Focus Premium 150 et pas le 350 ?'
+    a: "Parce que c'est la comparaison équitable : le RTC360 porte à 130 m et le X9 à 150 m. Le Focus Premium existe en 70, 150 et 350 m — même corps, même précision, seule la portée (et le prix) change. Le 350 est un argument si tes chantiers grandissent, mais face au RTC360 et au X9, le 150 est le bon adversaire."
+  - q: 'Quel scanner capture la couleur le plus vite ?'
+    a: "Le Faro Focus Premium avec l'option Hybrid Reality Capture (Flash Technology) : moins de 30 secondes par scan colorisé, en abonnement logiciel. Le RTC360 reste très rapide en mode classique : dôme complet + image HDR sphérique en moins de 2 minutes. Le X9 demande 1 à 2 minutes d'images en plus du scan (3 à 6 minutes en HDR)."
+isPremium: false
+isPublished: true
+---
+
+import Callout from '../../components/mdx/Callout.astro';
+import CompareTable from '../../components/mdx/CompareTable.astro';
+
+Si tu compares le **Leica RTC360**, le **Faro Focus Premium** et le **Trimble X9**, c'est que tu prépares un investissement que tu vas amortir sur 5 à 8 ans. Disons-le tout de suite : les trois sont **polyvalents** — chacun sait faire de l'intérieur, de la façade, de l'industriel, et les trois se pilotent depuis une tablette ou un smartphone. Personne ne se trompe vraiment ici. Mais chacun a une **qualité signature** que les deux autres n'ont pas, et c'est là-dessus que le choix doit se faire.
+
+Transparence d'abord : je n'ai pas eu les trois côte à côte sur un même chantier. Ce comparatif s'appuie sur les datasheets officiels et les retours d'utilisateurs documentés — toutes les sources sont en bas. Quand un point fait débat sur le terrain, je te le signale.
+
+## Le choix du bon adversaire Faro
+
+Petit point de gamme avant le match. Chez Faro, la famille actuelle c'est : **Focus Core** (70 m, entrée de gamme), **Focus Premium** (décliné en 70, 150 ou 350 m de portée) et **Premium Max** (400 m, pensé grands extérieurs).
+
+Face au RTC360 (130 m) et au X9 (150 m), le bon adversaire est donc le **Focus Premium 150** — même corps et même précision que le 350, portée et prix alignés sur les deux autres. Garde quand même en tête l'argument unique de Faro : si tes chantiers grandissent, la même gamme monte à 350 m. Ni Leica ni Trimble n'offrent cette évolution sur ces modèles.
+
+## La fiche technique en un tableau
+
+<CompareTable
+  columns={['Leica RTC360', 'Faro Focus Premium 150', 'Trimble X9']}
+  rows={[
+    { feature: 'Portée', values: ['0,5–130 m', '0,6–150 m (gamme : 70/150/350 m)', '0,6–150 m'] },
+    { feature: 'Vitesse de mesure', values: ['2 M pts/s', '2 M pts/s', '1 M pts/s'] },
+    {
+      feature: 'Précision 3D annoncée',
+      values: [
+        '1,9 mm @ 10 m · 2,9 mm @ 20 m',
+        '~2 mm @ 10 m · 3,5 mm @ 25 m',
+        '2,3 mm @ 10 m · 3,0 mm @ 20 m',
+      ],
+    },
+    {
+      feature: 'Poids',
+      values: [
+        '5,35 kg (sans batteries, ~6,0 kg en marche)',
+        '4,2 kg (batterie incluse)',
+        '6,05 kg (batterie incluse)',
+      ],
+    },
+    {
+      feature: 'Autonomie',
+      values: ['~4 h (2 batteries internes)', '4,5 h', '3,5 h par batterie (3 fournies)'],
+    },
+    {
+      feature: 'Températures / IP',
+      values: ['-5° à +40°C · IP54', '-20° à +55°C (étendu) · IP54', '-20° à +50°C · IP55'],
+    },
+    {
+      feature: 'App terrain (tablette)',
+      values: [
+        'Cyclone FIELD 360 (iOS/Android)',
+        'FARO Stream (iOS/Android) + SCENE',
+        'Perspective / FieldLink (Windows)',
+      ],
+    },
+    {
+      feature: 'Calibration annuelle',
+      values: [
+        'Recommandée (Check & Adjust terrain)',
+        'Recommandée (compensation sur site)',
+        'Supprimée (auto-calibration à vie)',
+      ],
+    },
+  ]}
+/>
+
+Les chiffres viennent des datasheets officiels [Leica](https://leica-geosystems.com/products/laser-scanners/scanners/leica-rtc360), [Faro](https://www.faro.com/en/Products/Hardware/Focus-Laser-Scanners) et [Trimble](https://geospatial.trimble.com/en/products/hardware/trimble-x9). Attention au piège classique : chaque constructeur mesure à sa façon (distance, albédo, niveau de confiance). Les trois sont millimétriques ; ta précision finale dépendra surtout de ton [recalage](/glossaire/recalage/) et de ton [géoréférencement](/glossaire/georeferencement/) — c'est ton [RMSE](/glossaire/rmse/) de contrôle qui tranche, pas la brochure.
+
+## Mode standard : qui capture quoi en combien de temps ?
+
+C'est la question concrète que tout le monde se pose et qu'aucun comparatif ne met à plat. Voilà ce que disent les documents officiels, en mode standard, espacement des points à 10 m et 20 m (l'espacement est angulaire : il double quand la distance double) :
+
+<CompareTable
+  columns={['Durée', 'Espacement @ 10 m', 'Espacement @ 20 m', 'Points par scan']}
+  rows={[
+    {
+      feature: 'RTC360 — résolution 6 mm',
+      values: ['< 2 min, image HDR sphérique incluse', '6 mm', '12 mm', 'non publié'],
+    },
+    {
+      feature: 'RTC360 — résolution 3 mm',
+      values: ['non publié (+1 min pour l’image HDR)', '3 mm', '6 mm', 'non publié'],
+    },
+    {
+      feature: 'Focus Premium — scan Flash (option HRC)',
+      values: ['< 30 s, couleur incluse', 'non publié', 'non publié', 'non publié'],
+    },
+    {
+      feature: 'X9 — Standard 2:03',
+      values: ['2 min 03 s, sans images (+1 min en Fast)', '8 mm', '16 mm', '27,2 M'],
+    },
+    {
+      feature: 'X9 — Standard 3:33',
+      values: ['3 min 33 s, sans images', '5 mm', '10 mm', '61,2 M'],
+    },
+    {
+      feature: 'X9 — Standard 5:36',
+      values: ['5 min 36 s, sans images', '4 mm', '8 mm', '108,8 M'],
+    },
+  ]}
+/>
+
+Lecture honnête de ce tableau : **les trois constructeurs ne publient pas la même chose**. Trimble est le plus transparent (durée, espacement et nombre de points pour chaque mode, jusqu'à 244,8 millions de points en High Speed 6:08). Leica met en avant son chrono star — dôme complet **avec** image HDR en moins de 2 minutes à 6 mm, ce qu'aucun des deux autres ne fait en mode classique. Faro ne publie pas de grille durée/résolution comparable, mais son scan Flash à moins de 30 secondes change la logique : tu multiplies les stations au lieu de densifier chacune. À cadence égale (2 M pts/s), le Focus reste dans le même ordre de grandeur que le RTC360 en mode classique.
+
+## La qualité signature de chacun
+
+### Leica RTC360 : la cadence — mais pas le silence
+
+Le chiffre à retenir : **scan complet + image HDR sphérique 432 MP en moins de 2 minutes** (résolution 6 mm @ 10 m). Ajoute le **VIS** (Visual Inertial System) : le scanner suit son propre déplacement entre les stations et pré-recale les nuages en temps réel dans [Cyclone FIELD 360](https://leica-geosystems.com/products/laser-scanners/scanners/leica-rtc360) sur iOS ou Android. Sur un relevé urbain où tu enchaînes 20 ou 30 stations courtes, c'est l'écosystème qui économise le plus de temps, terrain et bureau confondus.
+
+Le revers documenté dans les [retours utilisateurs](https://laserscanningforum.com/forum/viewtopic.php?t=20799) : le RTC360 est **bruyant** — moteurs et ventilation s'entendent nettement. Anecdotique en chantier, moins discret dans un bâtiment occupé, un musée ou un tribunal. Et c'est aussi, classiquement, le plus cher des trois.
+
+### Faro Focus Premium : le poids plume qui colorise en un éclair
+
+À **4,2 kg batterie comprise**, c'est le plus léger du trio — le kilo de différence se sent en fin de journée quand tu enchaînes les mises en station dans les escaliers. Sa qualité signature, c'est la couleur rapide : avec l'option **Hybrid Reality Capture (Flash Technology)**, le Focus Premium sort un **scan colorisé en moins de 30 secondes** — là où la colorisation a toujours été le poste de temps caché du scan statique. La caméra panoramique monte à **266 MP** (867 MP en RAW HDR). Le tout se pilote depuis l'app **FARO Stream** (iOS/Android), avec recalage temps réel dans SCENE. Seul bémol : le mode Flash est un abonnement logiciel, à intégrer au budget.
+
+### Trimble X9 : le contrôle topo au pointeur laser
+
+Le X9 est le plus lourd (6,05 kg) et plafonne à 1 M pts/s. Mais il a deux arguments uniques. D'abord son **pointeur laser visible (classe 2)** : tu vises un point de calage connu et tu le **mesures individuellement**, comme avec une [station totale](/glossaire/station-totale/) — c'est le seul des trois à géoréférencer ainsi directement sur le terrain, sans cibles scannées ni post-traitement. Ensuite l'**auto-calibration** : la machine vérifie et corrige elle-même ses paramètres angulaires et de distance à chaque scan, et Trimble **supprime la calibration annuelle**, garantie à vie — moins d'immobilisation, coût de possession réduit. Le recalage complet se fait sur tablette Windows (Perspective ou FieldLink) avec rapport de contrôle (erreur moyenne par station, recouvrement) avant de replier le trépied. Une philosophie de constructeur de stations totales : **contrôler plutôt que courir**.
+
+<Callout type="info" title="Le détail qui compte pour les topographes">
+  Le X9 tourne de -20°C à +50°C (contre -5°C à +40°C pour le RTC360) et exporte nativement en E57,
+  PTX, RCP, LAS et POD. Si ton cabinet est déjà équipé Trimble en GNSS et stations totales, la
+  continuité de workflow est un argument aussi fort que n'importe quelle spec.
+</Callout>
+
+## Verdict par profil de chantier
+
+| Si tu fais surtout…                                                               | Regarde en premier         |
+| --------------------------------------------------------------------------------- | -------------------------- |
+| Relevé urbain rapide, beaucoup de stations courtes                                | Leica RTC360               |
+| Intérieurs, [scan-to-BIM](/glossaire/scan-to-bim/), mobilité (escaliers, combles) | Faro Focus Premium         |
+| Livrables colorisés en volume (immobilier, état des lieux)                        | Faro Focus Premium + Flash |
+| Géoréférencement direct sur des points de calage, cabinet équipé Trimble          | Trimble X9                 |
+| Chantiers froids, extérieur exigeant                                              | Trimble X9                 |
+| Budget serré sans sacrifier la précision                                          | Faro Focus Premium 150     |
+| Chantiers qui grandissent (besoin de portée plus tard)                            | Faro Focus Premium 350     |
+
+Côté budget, les prix publics se négocient au devis et varient selon les packs logiciels — je ne vais pas te donner de faux chiffres au millier d'euros près. La hiérarchie constatée chez les revendeurs : le RTC360 est le plus cher, le X9 se place nettement en dessous, et le Focus Premium 150 est généralement le ticket d'entrée le plus bas du trio. N'oublie pas le coût complet : licences (Cyclone Register, SCENE + abonnement Flash, Perspective/RealWorks), maintenance et calibrations annuelles — sauf pour le X9 — peuvent dépasser l'écart matériel sur 5 ans.
+
+## Ce qu'aucune fiche technique ne te dira
+
+Le bon scanner, c'est d'abord celui qui s'intègre à ta chaîne : ton logiciel de recalage, tes habitudes, ton parc existant. Un RTC360 dans un cabinet 100 % Trimble (ou l'inverse) te fera perdre en friction ce que tu gagnes en specs. Et le nuage exporté — [E57](/glossaire/e57/), LAS ou LAZ — finit de toute façon au même endroit : sur le retour terrain du [hangar industriel de Rennes](/chantiers/batiment-industriel-rennes/), c'est le manque de cadre statique qui a coûté deux jours, pas la marque du scanner.
+
+<Callout type="tip" title="Pour aller plus loin">
+  Quel que soit le scanner que tu choisis, le nuage final s'ouvre directement dans [Topolia
+  Desktop](/a-propos/) pour produire tes plans 2D sans repasser par AutoCAD.
+</Callout>
+
+## Sources
+
+- [Datasheet officiel Leica RTC360](https://leica-geosystems.com/products/laser-scanners/scanners/leica-rtc360) — résolutions 3/6/12 mm, scan < 2 min avec HDR, VIS, Cyclone FIELD 360, poids, IP54
+- [Fiche officielle Faro Focus](https://www.faro.com/en/Products/Hardware/Focus-Laser-Scanners) et [annonce Hybrid Reality Capture](https://www.faro.com/en/Resource-Library/Article/FARO-Announces-the-Release-of-Hybrid-Reality-Capture) — gamme 70/150/350 m, 2 M pts/s, scan Flash < 30 s, 266 MP, FARO Stream
+- [Datasheet officiel Trimble X9](https://fieldtech.trimble.com/resources/product-guides-brochures-datasheets/trimble-x9-datasheet) — modes de scan (durées, espacements, nombre de points), pointeur laser de géoréférencement, auto-calibration, IP55
+- [Comparatif Trimble X9 vs Leica RTC360 — The Future 3D](https://www.thefuture3d.com/equipment/compare/trimble-x9-vs-leica-rtc360/)
+- [Discussion RTC360 ou X9 — Laser Scanning Forum](https://laserscanningforum.com/forum/viewtopic.php?t=20799) — retours utilisateurs (bruit, workflows)

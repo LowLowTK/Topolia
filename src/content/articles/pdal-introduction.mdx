@@ -2,6 +2,7 @@
 title: 'PDAL : le couteau suisse en ligne de commande pour tes nuages de points'
 subtitle: 'Filtrer, recaler, convertir. Sans GUI.'
 date: 2026-04-10
+updatedDate: 2026-06-10
 category: 'tutoriels'
 tags: ['pdal', 'lidar', 'cli', 'automation']
 author: 'loic'
@@ -43,7 +44,7 @@ conda install -c conda-forge pdal
 
 Sur Mac/Linux, `brew install pdal` ou `apt install pdal`.
 
-## Ton premier pipeline
+## Pipeline 1 : ton premier pipeline, extraire le sol
 
 Voilà un pipeline minimal qui prend un `.las`, garde uniquement les points classifiés comme `sol` (classe 2), et exporte en `.laz` compressé :
 
@@ -77,6 +78,107 @@ pdal pipeline mon-pipeline.json
 
 Typiquement, [après ton vol drone](/articles/workflow-drone-complet/), PDAL automatise toute la chaîne de post-traitement : nettoyage des points aberrants, extraction sol, puis export. Et si tu veux des nuages prêts pour le streaming, `writers.copc` te sort directement du [COPC](/glossaire/copc/), le format LAZ indexé par octree pour les gros fichiers.
 
+## Avant tout : inspecte ton fichier avec `pdal info`
+
+Avant de filtrer quoi que ce soit, regarde ce qu'il y a dans ton fichier. C'est le réflexe que tout le monde zappe :
+
+```bash
+pdal info entree.las --summary
+```
+
+Tu obtiens le nombre de points, l'emprise, le système de coordonnées et les dimensions disponibles. Et pour savoir si ton nuage est déjà classifié :
+
+```bash
+pdal info entree.las --stats --dimensions Classification
+```
+
+Si la classe 2 (sol) n'existe pas, inutile d'écrire un `filters.range` dessus — il te faut d'abord une classification. Justement, c'est le pipeline suivant.
+
+## Pipeline 2 : nettoyer puis classifier le sol
+
+Le cas le plus courant en sortie de vol drone ou de [LiDAR HD IGN](/articles/lidar-hd-ign/) brut : des points aberrants (oiseaux, multi-trajets, poussière) et aucune classification exploitable. Voilà le pipeline complet, dans l'ordre qui marche :
+
+```json
+{
+  "pipeline": [
+    "nuage-brut.laz",
+    {
+      "type": "filters.outlier",
+      "method": "statistical",
+      "mean_k": 8,
+      "multiplier": 2.5
+    },
+    {
+      "type": "filters.smrf",
+      "ignore": "Classification[7:7]",
+      "slope": 0.15,
+      "window": 16,
+      "threshold": 0.5
+    },
+    {
+      "type": "writers.las",
+      "filename": "nuage-classifie.laz",
+      "compression": "laszip"
+    }
+  ]
+}
+```
+
+Ce qui se passe, étape par étape :
+
+1. **`filters.outlier`** analyse les 8 voisins de chaque point (`mean_k`) et marque comme bruit (classe 7) tout point dont la distance moyenne dépasse 2,5 écarts-types. Plus la valeur de `multiplier` est basse, plus le filtre est agressif.
+2. **`filters.smrf`** classe les points sol en classe 2, en ignorant le bruit détecté juste avant. Le paramètre qui change tout, c'est `slope` : 0.15 convient à un terrain vallonné classique ; monte vers 0.3-0.4 en zone très pentue, sinon le filtre mange tes talus.
+3. L'export garde **tous** les points avec leur classification — tu pourras extraire le sol plus tard sans refaire le calcul.
+
+## Pipeline 3 : du nuage classifié au MNT raster
+
+Une fois le sol classifié, tu peux sortir un [MNT](/glossaire/mnt/) GeoTIFF directement, sans ouvrir le moindre logiciel :
+
+```json
+{
+  "pipeline": [
+    "nuage-classifie.laz",
+    {
+      "type": "filters.range",
+      "limits": "Classification[2:2]"
+    },
+    {
+      "type": "writers.gdal",
+      "filename": "mnt.tif",
+      "resolution": 0.5,
+      "output_type": "idw",
+      "gdaldriver": "GTiff"
+    }
+  ]
+}
+```
+
+`resolution: 0.5` te donne un pixel de 50 cm — cohérent avec un nuage à 10-20 pts/m². Descendre à 0.1 sur un nuage trop peu dense ne crée pas de détail, juste des trous.
+
+## Traiter un dossier entier (le vrai gain)
+
+C'est là que PDAL écrase tout le reste. Un nuage, ça va. Les 60 dalles d'une commune, c'est une boucle :
+
+```powershell
+Get-ChildItem .\dalles\*.laz | ForEach-Object {
+  pdal pipeline classification.json `
+    --readers.las.filename=$_.FullName `
+    --writers.las.filename=".\sortie\$($_.BaseName)-classifie.laz"
+}
+```
+
+Le même pipeline JSON, réutilisé sur chaque fichier en surchargeant juste l'entrée et la sortie depuis la ligne de commande. Tu lances, tu vas boire un café, c'est fait. La version bash est identique dans l'esprit avec une boucle `for f in dalles/*.laz`.
+
+## Convertir en COPC pour le streaming
+
+Dernier pipeline, le plus court mais celui que j'utilise le plus : convertir n'importe quel LAS/LAZ en [COPC](/glossaire/copc/) :
+
+```bash
+pdal translate entree.laz sortie.copc.laz --writers.copc.forward=all
+```
+
+Le COPC, c'est du LAZ indexé par octree : un viewer peut streamer uniquement les zones et niveaux de détail dont il a besoin, sans charger les 30 Go du fichier. Si tes nuages doivent être consultés (et pas seulement archivés), convertis-les.
+
 ## Les filtres que j'utilise tout le temps
 
 - **`filters.range`** : filtrer par classification, altitude, intensité
@@ -84,6 +186,11 @@ Typiquement, [après ton vol drone](/articles/workflow-drone-complet/), PDAL aut
 - **`filters.crop`** : découper un polygone d'emprise
 - **`filters.icp`** : [recalage](/glossaire/recalage/) entre deux nuages
 - **`filters.smrf`** : extraction sol automatique (Simple Morphological Filter)
+- **`filters.sample`** : décimer proprement (un point par rayon donné, mieux qu'un point sur N)
+
+## Les limites, pour être honnête
+
+PDAL n'est pas magique. Pas de visualisation : tu contrôles tes résultats dans CloudCompare ou QGIS. Les messages d'erreur sont parfois cryptiques quand le JSON est mal formé — valide-le dans un éditeur qui connaît le JSON. Et sur le recalage fin multi-stations, un logiciel dédié avec contrôle visuel reste plus sûr que `filters.icp` en aveugle.
 
 ## Quand utiliser PDAL plutôt que CloudCompare ?
 
@@ -99,5 +206,3 @@ Les deux sont complémentaires. Sur Topolia, j'utilise CloudCompare pour cadrer 
 La doc officielle PDAL ([pdal.io](https://pdal.io)) est excellente. Tu trouveras la liste complète des filtres + des exemples concrets.
 
 Et si tu te demandes à quoi ça sert concrètement : PDAL est exactement le moteur sur lequel s'appuie [Topolia Desktop](/a-propos/) pour streamer des nuages de plusieurs dizaines de Go sans tout charger en RAM. Le même outil que celui dont je te parle ici, mais intégré sous le capot.
-
-{/* [À VÉRIFIER] : la commande `conda install` sur Windows ARM64 ne fonctionne pas, à confirmer avec le forum. */}

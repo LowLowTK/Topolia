@@ -1,0 +1,23 @@
+---
+title: 'TIN : Triangulated Irregular Network'
+date: 2026-06-10
+difficulty: 'intermediaire'
+relatedArticles: ['pdal-introduction', 'workflow-drone-complet']
+relatedChantiers: []
+excerpt: 'Un modèle de terrain construit en triangles irréguliers reliant directement les points mesurés, sans grille régulière.'
+isPublished: true
+---
+
+Un **TIN** (_Triangulated Irregular Network_) est une représentation d'une surface par un réseau de triangles irréguliers reliant directement les points mesurés. Contrairement à une grille raster, les sommets des triangles sont les points réels du levé.
+
+## Pourquoi c'est important
+
+C'est le format historique des [MNT](/glossaire/mnt/) en topographie et le moteur des calculs de cubature dans Covadis, Mensura ou Civil 3D. Le TIN s'adapte à la densité des données : beaucoup de triangles là où le terrain est complexe (talus, bordures), peu là où c'est plat. Il respecte aussi les **lignes de rupture** (breaklines) : crêtes, fossés, hauts et bas de talus restent nets, là où une grille les lisse.
+
+## Exemple terrain
+
+Après un levé de plateforme, tu génères un TIN à partir de tes points et de tes lignes de rupture, puis tu compares deux TIN (avant/après terrassement) pour sortir les volumes de déblai/remblai. C'est aussi une étape intermédiaire courante pour passer d'un [nuage de points](/glossaire/nuage-de-points/) à un [maillage](/glossaire/maillage/).
+
+## Le piège classique
+
+Trianguler un nuage brut non classifié : le TIN passera sur les voitures, la végétation et le mobilier. Filtre d'abord les points sol via la [classification](/glossaire/classification/), sinon tes cubatures seront fausses.

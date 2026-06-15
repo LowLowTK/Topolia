@@ -1,0 +1,148 @@
+---
+title: 'Emesent GX1 : le scanner SLAM qui vise la précision du statique'
+subtitle: "SLAM, RTK et imagerie 360° dans un seul appareil. Présentation à froid d'un scanner mobile tout juste sorti."
+date: 2026-06-15
+category: 'scanner-dynamique'
+tags: ['emesent', 'slam', 'lidar', 'rtk', 'scanner-dynamique', 'scanner-mobile']
+author: 'loic'
+heroImage: ''
+heroImageAlt: 'Emesent GX1, scanner SLAM mobile avec LiDAR, RTK et caméras 360° monté sur perche de géomètre'
+excerpt: "Emesent annonce 5-10 mm de précision globale pour son nouveau scanner SLAM à main. Specs officielles, ce que ça vaut vraiment et les zones d'ombre, sans bullshit marketing."
+faq:
+  - q: "C'est quoi l'Emesent GX1 ?"
+    a: "L'Emesent GX1 est un scanner mobile à technologie SLAM, lancé en février 2026 à Geo Week. Il combine un LiDAR Hesai (portée 300 m, 1,92 M points/seconde), un RTK intégré 448 canaux et quatre caméras 20 MP pour l'imagerie 360°. Il se décline en backpack, perche de géomètre, montage véhicule ou portatif, et vise une précision globale de 5 à 10 mm."
+  - q: 'Quelle précision atteint le GX1 ?'
+    a: "Emesent annonce une précision globale de 5 à 10 mm et une précision locale de 5 mm, validée indépendamment. Le récepteur RTK 448 canaux donne 0,6 cm + 0,5 ppm en horizontal et 1 cm + 0,5 ppm en vertical. Un test revendeur sur un parcours 300 × 300 m en terrain mixte rapporte 15 mm de RMSE 3D, répétable à l'identique au second passage."
+  - q: 'Quelle différence entre le GX1 et le Hovermap ST-X ?'
+    a: "Le Hovermap ST-X est pensé pour le drone et les environnements sans GPS (mines, tunnels), avec une longue portée et beaucoup de capteurs. Le GX1 est un produit dédié aux géomètres au sol : il intègre le RTK pour le géoréférencement direct et une chaîne capture → traitement → livrable cohérente, là où le Hovermap était d'abord une charge utile de cartographie."
+  - q: 'Un scanner SLAM peut-il remplacer un scanner statique ?'
+    a: "Pour beaucoup de chantiers, oui : le GX1 vise la même précision (~5 mm) qu'un scanner statique avec une vitesse de capture bien supérieure et la mobilité d'un seul appareil pour l'extérieur et l'intérieur sans GPS. Pour du patrimoine ou du contrôle millimétrique strict, le statique garde l'avantage sur la précision pure et le bruit de mesure."
+  - q: 'Quel est le prix du GX1 ?'
+    a: "Emesent n'a pas communiqué de prix public à ce jour (juin 2026). Comme pour la plupart des systèmes SLAM professionnels, il se négocie au devis auprès du revendeur, souvent avec un abonnement logiciel (Aura). On mettra cet article à jour dès qu'un tarif fiable sera disponible."
+isPremium: false
+isPublished: true
+---
+
+import Callout from '../../components/mdx/Callout.astro';
+import CompareTable from '../../components/mdx/CompareTable.astro';
+
+Tu connais le principe du [SLAM](/glossaire/slam/) : tu marches, l'appareil cartographie, et tu repars avec un [nuage de points](/glossaire/nuage-de-points/) sans poser une seule station. Rapide, mais historiquement moins précis qu'un scanner statique — c'est le compromis qu'on accepte depuis des années.
+
+Emesent vient de sortir un appareil qui attaque frontalement ce compromis : le **GX1**, présenté en février 2026 à Geo Week. La promesse : la précision d'un statique avec la vitesse d'un SLAM. Comme c'est tout récent et que je ne l'ai pas eu en main, voici une **présentation à froid** — uniquement les specs officielles et les premiers tests publiés, avec les zones d'ombre signalées telles quelles.
+
+<Callout type="info" title="Transparence">
+  Je n'ai pas testé le GX1 sur le terrain. Tout ce qui suit vient de la fiche officielle Emesent, de
+  l'article de lancement de LiDAR Magazine et d'un test revendeur (Coptrz). Les sources sont en bas.
+  Quand une donnée manque (le prix, par exemple), je le dis au lieu de l'inventer.
+</Callout>
+
+## Ce que c'est, en une phrase
+
+Le GX1 est un **scanner mobile SLAM tout-en-un** : il embarque un LiDAR, un [RTK](/glossaire/rtk/) intégré et une imagerie 360° dans un seul boîtier, pensé pour le géomètre au sol plutôt que pour le drone.
+
+## La fiche technique officielle
+
+<CompareTable
+  columns={['Spec', 'Valeur officielle Emesent']}
+  rows={[
+    { feature: 'Précision globale', values: ['', '5–10 mm'] },
+    { feature: 'Précision locale', values: ['', '5 mm'] },
+    { feature: 'Précision RTK/PPK', values: ['', '15 mm'] },
+    {
+      feature: 'Récepteur RTK',
+      values: ['', '448 canaux · 0,6 cm + 0,5 ppm (H) · 1 cm + 0,5 ppm (V)'],
+    },
+    { feature: 'Capteur LiDAR', values: ['', 'Hesai XT32M2X'] },
+    { feature: 'Portée', values: ['', '300 m'] },
+    { feature: 'Débit', values: ['', "jusqu'à 1,92 M points/s"] },
+    { feature: 'Précision de scan (bruit)', values: ['', '2 mm'] },
+    { feature: 'Caméras', values: ['', '4 × 20 MP · 360° H × 284° V'] },
+    { feature: 'Autonomie', values: ['', '60 min (batterie 54 Wh amovible)'] },
+    { feature: 'Stockage', values: ['', '2 To embarqués'] },
+    { feature: 'Indice / température', values: ['', 'IP65 · -10 °C à 45 °C'] },
+  ]}
+/>
+
+Source : [fiche produit officielle Emesent GX1](https://www.emesent.com/emesent-product/gx1). Quelques données ne sont pas publiées à ce jour — notamment le **poids exact** et le **prix**. Je ne vais pas te donner de chiffre au pifomètre dessus.
+
+## Les quatre modes de déploiement
+
+C'est l'argument de polyvalence du GX1 : le même appareil, quatre façons de l'utiliser.
+
+- **Perche de géomètre** (fournie par toi) — pour la topo au sol classique
+- **Sac à dos (backpack)** — pour couvrir vite de grandes zones à pied
+- **Montage véhicule** (en option) — pour le linéaire (routes, voirie)
+- **Portatif soutenu (handheld)** — pour l'intérieur et les accès compliqués
+
+Un seul boîtier qui passe de l'extérieur géoréférencé à l'[intérieur sans GPS](/glossaire/slam/), c'est exactement là que le SLAM mobile écrase le statique en temps de terrain.
+
+## La précision : ce que disent les chiffres
+
+C'est le nerf de la guerre, alors soyons précis sur la **différence entre les annonces et les tests**.
+
+**Côté annonce constructeur :** 5-10 mm de précision globale, 5 mm en local. Le secret, c'est le mariage SLAM + RTK : le [SLAM](/glossaire/slam/) assure la cohérence locale du nuage, le [RTK](/glossaire/rtk/) intégré l'ancre dans un système de coordonnées absolu en temps réel. Tu peux aussi géoréférencer en post-traitement sur des points de contrôle si tu préfères.
+
+**Côté test indépendant :** un essai publié par le revendeur Coptrz sur un parcours de 300 × 300 m en terrain mixte (avec une zone sans GPS sous un pont) rapporte **15 mm de [RMSE](/glossaire/rmse/) 3D** — et surtout **le même résultat au second passage**. La répétabilité compte autant que la justesse : un livrable que tu peux reproduire est un livrable que tu peux facturer.
+
+<Callout type="tip" title="Lire les chiffres de précision honnêtement">
+  « 5-10 mm de précision globale » (annonce) et « 15 mm de RMSE sur un vrai parcours » (test
+  terrain) ne se contredisent pas : ils mesurent des choses différentes, dans des conditions
+  différentes. La vérité d'un chantier, c'est toujours ton propre contrôle sur points connus, pas la
+  brochure.
+</Callout>
+
+## GX1 ou Hovermap ST-X ? Ne confonds pas les deux
+
+Emesent vend les deux, et ils ne servent pas le même usage :
+
+- **Hovermap ST-X** : charge utile pensée pour le **drone** et les environnements sans GPS (mines, tunnels), longue portée, beaucoup de capteurs. Emesent annonce ±10 à ±15 mm selon l'environnement.
+- **Emesent GX1** : produit **dédié au géomètre au sol**, RTK intégré pour le géoréférencement direct, chaîne capture → traitement → livrable unifiée.
+
+Si tu fais du relevé topographique et bâtiment au sol, c'est le GX1. Si tu voles ou que tu cartographies des galeries en mode autonome, c'est le ST-X.
+
+## Scanner SLAM vs scanner statique : où en est-on ?
+
+Le GX1 illustre bien la bascule en cours. Pendant longtemps, le choix était simple : statique pour la précision, SLAM pour la vitesse. Le GX1 prétend offrir une précision proche du statique (~5 mm local) avec la mobilité du SLAM.
+
+| Critère                        | Scanner SLAM (GX1)       | Scanner statique                     |
+| ------------------------------ | ------------------------ | ------------------------------------ |
+| Précision pure                 | Très bonne (~5 mm local) | Meilleure (1–2 mm) et moins de bruit |
+| Vitesse de capture             | Excellente (tu marches)  | Lente (station par station)          |
+| Extérieur + intérieur sans GPS | Un seul appareil         | Recalage manuel nécessaire           |
+| Patrimoine / contrôle strict   | Suffisant souvent        | Référence                            |
+
+Pour beaucoup de chantiers BTP, voirie ou industrie, un SLAM de cette précision change l'équation. Pour du patrimoine fin ou du récolement millimétrique, le statique garde l'avantage — relis mon [comparatif RTC360 vs Faro vs Trimble X9](/articles/rtc360-vs-faro-focus-vs-trimble-x9/) si c'est ton terrain de jeu.
+
+## Le seul retour terrain public à ce jour
+
+Je n'ai trouvé aucun avis indépendant sur LinkedIn, Reddit ou YouTube — normal pour un appareil sorti il y a quelques mois. Le seul retour d'usage documenté est une **étude de cas publiée par Emesent** sur un bêta-testeur, **John Philipp**, directeur d'Orion Spatial Solutions (société australienne qui couvre construction, infrastructure, marine et minier). À lire en gardant en tête que c'est un témoignage relayé par le fabricant, donc plutôt élogieux par nature.
+
+Ce qu'il met en avant, c'est moins la précision que la **simplicité logistique** :
+
+> « Je n'ai plus besoin d'aller chercher des récepteurs ou du matériel GPS en plus. Le GX1, je l'allume et je log sur une base si je veux. Je n'ai rien d'autre à emporter. C'est un bond en avant énorme. »
+
+> « Plus rien à aligner. Pas de câbles, rien. Une batterie — terminé. »
+
+— John Philipp, Orion Spatial Solutions ([étude de cas Emesent](https://www.emesent.com/blog/less-gear-more-ground-orion-spatial-solutions-and-emesent-gx1))
+
+Aucun chiffre de précision n'est donné dans ce témoignage, et aucune limite n'y est mentionnée — ce qui, justement, invite à attendre des retours plus critiques et indépendants.
+
+## Mon avis (à froid, et provisoire)
+
+Sur le papier, le GX1 coche les bonnes cases : SLAM mature, RTK intégré, imagerie 360°, IP65, et surtout une chaîne logicielle pensée d'un bout à l'autre (Commander pour la mission, Aura pour le traitement). La répétabilité à 15 mm sur un test indépendant est un signal sérieux pour un appareil qu'on tient à la main.
+
+Mais deux inconnues majeures restent à lever avant de sortir la CB : **le prix** (non communiqué) et **les retours terrain vraiment indépendants** sur la durée — le seul témoignage public à ce jour vient d'un bêta-testeur relayé par Emesent, et un appareil sorti en février 2026 n'a pas encore l'historique d'usage d'un RTC360. Je mettrai cet article à jour dès que j'aurai du concret, idéalement une prise en main.
+
+<Callout type="tip" title="Pour aller plus loin">
+  Que tu scannes au SLAM ou au statique, le nuage final s'ouvre dans [Topolia Desktop](/a-propos/)
+  pour produire tes plans 2D. Et pour ne pas rater le prochain test terrain, [abonne-toi à la
+  newsletter](/newsletter/).
+</Callout>
+
+## Sources
+
+- [Fiche produit officielle Emesent GX1](https://www.emesent.com/emesent-product/gx1) — specs LiDAR, RTK, caméras, batterie, IP
+- [Communiqué de lancement Emesent](https://www.emesent.com/news/emesent-launches-the-emesent-gx1-an-all-in-one-slam-based-lidar-rtk-and-360-imagery-scanner) — positionnement, modes de déploiement
+- [Emesent launches the GX1 — LiDAR Magazine](https://lidarmag.com/2026/02/16/emesent-launches-the-emesent-gx1-an-all-in-one-slam-lidar-rtk-and-360-imagery-scanner/) — contexte Geo Week 2026
+- [How Emesent engineered the GX1 — Coptrz](https://shop.coptrz.com/blogs/news/emesent-gx1-the-slam-mobile-mapping-upgrade-surveyors-asked-for) — test 300 × 300 m, comparaison avec le Hovermap ST-X
+- [Less Gear, More Ground : Orion Spatial Solutions et le GX1 — Emesent](https://www.emesent.com/blog/less-gear-more-ground-orion-spatial-solutions-and-emesent-gx1) — témoignage bêta-testeur (John Philipp)

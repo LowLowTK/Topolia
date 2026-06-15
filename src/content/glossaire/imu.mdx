@@ -1,0 +1,23 @@
+---
+title: 'IMU : centrale inertielle'
+date: 2026-06-10
+difficulty: 'intermediaire'
+relatedArticles: ['dji-zenmuse-l3-analyse-achat', 'workflow-drone-complet']
+relatedChantiers: []
+excerpt: "Le capteur qui mesure accélérations et rotations pour connaître l'orientation d'un drone ou d'un scanner mobile."
+isPublished: true
+---
+
+Une **IMU** (_Inertial Measurement Unit_, ou centrale inertielle) est un capteur qui mesure les accélérations et les vitesses de rotation sur trois axes. Elle permet de connaître l'orientation et d'estimer le mouvement d'un capteur entre deux instants.
+
+## Pourquoi c'est important
+
+En LiDAR aéroporté ou mobile, le capteur bouge en permanence. Le GNSS donne la position quelques fois par seconde ; l'IMU comble les trous à plusieurs centaines de mesures par seconde et fournit l'orientation (roulis, tangage, lacet). Sans IMU de qualité, impossible de projeter correctement chaque point [LiDAR](/glossaire/lidar/) dans l'espace. C'est aussi un ingrédient clé du [SLAM](/glossaire/slam/) et des solutions [RTK](/glossaire/rtk/)/[PPK](/glossaire/ppk/) embarquées.
+
+## Exemple terrain
+
+Sur un drone LiDAR, la trajectoire finale est calculée en fusionnant GNSS + IMU en post-traitement. Une IMU haut de gamme fait souvent une vraie différence sur la qualité du nuage final, plus que la portée du laser.
+
+## Le piège classique
+
+Négliger la calibration et l'initialisation. Beaucoup de systèmes demandent des figures de vol (huit, lignes droites) en début et fin de mission pour caler l'IMU. Si tu sautes cette étape, ton nuage peut être déformé sans aucune alerte en vol.

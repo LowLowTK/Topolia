@@ -12,4 +12,8 @@ export default defineConfig({
   output: 'static',
   adapter: netlify(),
   integrations: [mdx(), sitemap(), clerk()],
+  redirects: {
+    // L'article 2 scanners a été réécrit en comparatif 3 scanners (juin 2026).
+    '/articles/rtc360-vs-faro-focus': '/articles/rtc360-vs-faro-focus-vs-trimble-x9',
+  },
 });

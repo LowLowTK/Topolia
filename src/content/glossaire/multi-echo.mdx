@@ -1,0 +1,23 @@
+---
+title: "Multi-écho : les retours d'impulsion LiDAR"
+date: 2026-06-10
+difficulty: 'intermediaire'
+relatedArticles: ['lidar-hd-ign', 'dji-zenmuse-l3-analyse-achat']
+relatedChantiers: []
+excerpt: "La capacité d'un LiDAR à enregistrer plusieurs retours par impulsion laser : indispensable pour voir le sol sous la végétation."
+isPublished: true
+---
+
+Le **multi-écho** (ou retours multiples, _multiple returns_) est la capacité d'un capteur [LiDAR](/glossaire/lidar/) à enregistrer plusieurs retours pour une seule impulsion laser : une partie du faisceau rebondit sur les feuilles, une autre continue et touche les branches, le reste atteint le sol.
+
+## Pourquoi c'est important
+
+C'est ce qui fait la force du LiDAR sous végétation, là où la [photogrammétrie](/glossaire/photogrammetrie/) ne voit que la canopée. Le premier écho décrit le sommet de la végétation (utile pour le [MNS](/glossaire/mns/)), le dernier écho a les meilleures chances d'être le sol (la base du [MNT](/glossaire/mnt/)). Les capteurs actuels gèrent couramment 3 à 5 échos par impulsion, parfois plus.
+
+## Exemple terrain
+
+Sur un levé drone en forêt, tu filtres les derniers retours avant de lancer la [classification](/glossaire/classification/) sol. Dans un fichier [LAS](/glossaire/las/), chaque point porte son numéro de retour (_return number_) et le nombre total de retours de l'impulsion : des attributs précieux pour tes filtres PDAL ou CloudCompare.
+
+## Le piège classique
+
+Croire que dernier écho = sol. Sous une végétation très dense, le dernier retour peut être une branche basse ou un buisson. Le multi-écho aide la classification, il ne la remplace pas.

@@ -1,0 +1,29 @@
+---
+title: 'Code EPSG'
+date: 2026-06-10
+difficulty: 'debutant'
+relatedArticles: ['pdal-introduction', 'lidar-hd-ign']
+relatedChantiers: []
+excerpt: "L'identifiant numérique universel d'un système de coordonnées : EPSG:2154 = Lambert 93, EPSG:4326 = WGS84."
+isPublished: true
+---
+
+Un **code EPSG** est un identifiant numérique unique qui désigne sans ambiguïté un système de coordonnées. Plutôt que d'écrire « RGF93 projeté en Lambert 93 », tu dis simplement **EPSG:2154** et tous les logiciels comprennent.
+
+## Pourquoi c'est important
+
+Le [géoréférencement](/glossaire/georeferencement/) est la première source d'erreurs grossières en topo. Les codes EPSG suppriment l'ambiguïté : QGIS, CloudCompare, PDAL, Pix4D, tous parlent ce langage. Quelques codes à connaître en France :
+
+- **2154** : [Lambert 93](/glossaire/lambert-93/) (la projection officielle métropole)
+- **4326** : WGS84 géographique (le lat/long des GPS grand public)
+- **4171** : RGF93 géographique
+
+## Exemple terrain
+
+Tu récupères une dalle [LAZ](/glossaire/laz/) du LiDAR HD IGN. Dans ses métadonnées, le CRS est déclaré en EPSG. Si tu importes ton propre levé drone par-dessus, vérifie que les deux partagent le même code — sinon ton nuage flottera à côté de la dalle.
+
+## Le piège classique
+
+Un fichier sans code EPSG renseigné. Le logiciel « devine » ou te demande, et une mauvaise réponse décale tout silencieusement. Prends le réflexe de déclarer le CRS à l'export, systématiquement.
+
+Source utile : [EPSG Geodetic Parameter Registry](https://epsg.org/)

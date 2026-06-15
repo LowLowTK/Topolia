@@ -1,0 +1,25 @@
+---
+title: 'ICP : Iterative Closest Point'
+date: 2026-06-10
+difficulty: 'intermediaire'
+relatedArticles: ['rtc360-vs-faro-focus-vs-trimble-x9', 'pdal-introduction']
+relatedChantiers: []
+excerpt: "L'algorithme de référence pour aligner deux nuages de points en minimisant la distance entre points voisins."
+isPublished: true
+---
+
+L'**ICP** (_Iterative Closest Point_) est un algorithme qui aligne deux [nuages de points](/glossaire/nuage-de-points/) : il associe chaque point d'un nuage à son plus proche voisin dans l'autre, calcule la transformation qui minimise les écarts, et recommence jusqu'à convergence.
+
+## Pourquoi c'est important
+
+C'est le moteur du [recalage](/glossaire/recalage/) dans quasiment tous les logiciels : assemblage de stations de scanner, fusion d'un scan drone et d'un scan terrestre, contrôle d'un nuage par rapport à une maquette. Quand tu cliques sur « fine registration » dans CloudCompare ou ton logiciel constructeur, c'est très souvent de l'ICP qui tourne derrière.
+
+## Exemple terrain
+
+Tu as deux stations de scan d'un même bâtiment. Tu fais un alignement grossier à la main (3 paires de points), puis tu lances l'ICP : il affine la position au millimètre près en exploitant les zones de recouvrement.
+
+## Le piège classique
+
+L'ICP a besoin d'un bon point de départ et d'un vrai recouvrement entre les nuages. Si l'alignement initial est trop loin, il converge vers une mauvaise solution — parfois visuellement plausible. Vérifie toujours l'erreur résiduelle ([RMSE](/glossaire/rmse/)) et inspecte visuellement les zones de jonction.
+
+Source utile : [CloudCompare - Alignment and Registration](https://www.cloudcompare.org/doc/wiki/index.php/Alignment_and_Registration)

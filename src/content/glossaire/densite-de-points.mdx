@@ -1,0 +1,23 @@
+---
+title: 'Densité de points (pts/m²)'
+date: 2026-06-10
+difficulty: 'debutant'
+relatedArticles: ['lidar-hd-ign', 'dji-zenmuse-l3-analyse-achat']
+relatedChantiers: []
+excerpt: "Le nombre de points par mètre carré d'un nuage : l'indicateur clé du niveau de détail d'un levé LiDAR."
+isPublished: true
+---
+
+La **densité de points** indique combien de points contient un [nuage de points](/glossaire/nuage-de-points/) par unité de surface, généralement en **points par mètre carré (pts/m²)**. C'est l'équivalent LiDAR du [GSD](/glossaire/gsd/) en photogrammétrie.
+
+## Pourquoi c'est important
+
+La densité conditionne ce que tu peux extraire du nuage. Quelques pts/m² suffisent pour un [MNT](/glossaire/mnt/) de grande zone ; il en faut des centaines, voire des milliers, pour modéliser une façade ou détecter un câble. Pour te situer : le LiDAR HD de l'IGN vise au moins 10 pts/m² sur toute la France, alors qu'un drone LiDAR volant bas atteint facilement plusieurs centaines de pts/m².
+
+## Exemple terrain
+
+Avant une mission, pars du livrable : si le client veut des courbes de niveau à 25 cm en zone boisée, c'est la densité de points **sol** (après [classification](/glossaire/classification/)) qui compte, pas la densité brute. Sous canopée dense, une grosse partie des impulsions n'atteint jamais le sol.
+
+## Le piège classique
+
+Confondre densité moyenne et densité homogène. Les recouvrements entre lignes de vol doublent localement la densité, et les zones masquées peuvent être quasi vides. Regarde une carte de densité, pas juste le chiffre moyen du rapport.

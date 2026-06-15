@@ -1,0 +1,23 @@
+---
+title: 'Intensité LiDAR'
+date: 2026-06-10
+difficulty: 'intermediaire'
+relatedArticles: ['lidar-hd-ign', 'pdal-introduction']
+relatedChantiers: []
+excerpt: 'La force du signal laser réfléchi, enregistrée pour chaque point : une pseudo-image en niveaux de gris très utile sans caméra.'
+isPublished: true
+---
+
+L'**intensité LiDAR** est la mesure de l'énergie du signal laser renvoyée par la surface touchée. Chaque point d'un nuage [LiDAR](/glossaire/lidar/) porte cette valeur, qui dépend de la réflectivité du matériau, de la distance et de l'angle d'incidence.
+
+## Pourquoi c'est important
+
+L'intensité est la « couleur » native du LiDAR. Sans caméra RGB, c'est elle qui te permet de lire la scène : le marquage au sol ressort en clair sur l'asphalte sombre, les panneaux rétro-réfléchissants saturent, la végétation et le bâti ont des signatures différentes. Elle aide aussi la [classification](/glossaire/classification/) automatique et la détection de cibles de [recalage](/glossaire/recalage/) rétro-réfléchissantes.
+
+## Exemple terrain
+
+Sur un levé de voirie, affiche le nuage en intensité plutôt qu'en altitude : les passages piétons et les lignes blanches apparaissent nettement, ce qui te permet de digitaliser le marquage sans [orthophoto](/glossaire/orthophoto/). L'attribut est stocké en standard dans les fichiers [LAS](/glossaire/las/)/[LAZ](/glossaire/laz/).
+
+## Le piège classique
+
+Comparer des intensités entre capteurs ou entre missions : la valeur est rarement calibrée, elle varie avec la distance et l'angle. C'est un indicateur relatif, pas une mesure physique de réflectance — sauf calibration radiométrique spécifique.
