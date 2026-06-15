@@ -17,6 +17,7 @@
   "dependencies": {
     "@astrojs/mdx": "^5.0.6",
     "@astrojs/netlify": "^7.0.10",
+    "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
     "@clerk/astro": "^3.3.0",
     "@supabase/supabase-js": "^2.106.1",

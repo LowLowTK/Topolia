@@ -12,7 +12,7 @@ import { listArticleIdeas } from '../../lib/article-ideas';
 const [rssItems, ideas] = await Promise.all([fetchAllFeeds(), listArticleIdeas()]);
 ---
 
-<BaseLayout title="Studio éditorial — Topolia" description="Interface de veille et rédaction">
+<BaseLayout title="Studio éditorial" description="Interface de veille et rédaction" noindex>
   <div class="studio">
     <header class="studio__header">
       <h1 class="studio__title">📡 Studio éditorial</h1>

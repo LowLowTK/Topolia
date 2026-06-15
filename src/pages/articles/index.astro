@@ -6,11 +6,34 @@ import { getCollection } from 'astro:content';
 import { sortByDateDesc, publishedOnly } from '../../lib/content-helpers';
 
 const articles = sortByDateDesc(publishedOnly(await getCollection('articles')));
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://topolia.fr';
+
+// CollectionPage + ItemList : aide Google et les moteurs IA à comprendre la
+// page comme un hub listant tous les articles du site.
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Tous les articles — Topolia',
+  description:
+    'Tutoriels, comparatifs, retours terrain — toute la topographie moderne expliquée sans filtre.',
+  url: `${siteUrl}/articles/`,
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: articles.map((entry, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: entry.data.title,
+      url: `${siteUrl}/articles/${entry.id}/`,
+    })),
+  },
+});
 ---
 
 <BaseLayout
   title="Tous les articles"
   description="Tutoriels, comparatifs, retours terrain — toute la topographie moderne expliquée sans filtre."
+  jsonLd={jsonLd}
 >
   <section class="container articles-listing">
     <header class="listing-header">

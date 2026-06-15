@@ -21,6 +21,9 @@ const articles = defineCollection({
     author: z.string().default('loic'),
     heroImage: z.string(),
     heroImageAlt: z.string(),
+    // 'cover' (défaut) recadre en bandeau 420px ; 'contain' affiche l'image
+    // entière sans recadrage (infographies, schémas).
+    heroFit: z.enum(['cover', 'contain']).default('cover'),
     excerpt: z.string(),
     // FAQ optionnelle rendue en bas d'article + injectée en JSON-LD FAQPage (AEO).
     faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),

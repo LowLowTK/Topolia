@@ -12,10 +12,20 @@ interface Props {
   author: string;
   heroImage: string;
   heroImageAlt: string;
+  heroFit?: 'cover' | 'contain';
   readingTime: number;
 }
-const { title, subtitle, date, category, author, heroImage, heroImageAlt, readingTime } =
-  Astro.props;
+const {
+  title,
+  subtitle,
+  date,
+  category,
+  author,
+  heroImage,
+  heroImageAlt,
+  heroFit = 'cover',
+  readingTime,
+} = Astro.props;
 
 const categoryLabel = ARTICLE_CATEGORIES.find((c) => c.slug === category)?.label ?? category;
 const authorDisplay = author === 'loic' ? 'Loïc' : author;
@@ -44,7 +54,7 @@ const authorDisplay = author === 'loic' ? 'Loïc' : author;
               alt={heroImageAlt}
               width={1200}
               height={630}
-              class="article-hero-photo"
+              class:list={['article-hero-photo', `article-hero-photo--${heroFit}`]}
               loading="eager"
               decoding="async"
             />
@@ -120,8 +130,14 @@ const authorDisplay = author === 'loic' ? 'Loïc' : author;
   }
   .article-hero-photo {
     width: 100%;
+    display: block;
+  }
+  .article-hero-photo--cover {
     height: 420px;
     object-fit: cover;
-    display: block;
+  }
+  /* Infographies et schémas : l'image entière, sans recadrage. */
+  .article-hero-photo--contain {
+    height: auto;
   }
 </style>

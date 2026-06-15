@@ -4,6 +4,7 @@ import ArticleHeader from '../components/ArticleHeader.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import ProgressBar from '../components/ProgressBar.astro';
 import AuthorBio from '../components/AuthorBio.astro';
+import NewsletterInline from '../components/NewsletterInline.astro';
 import type { MarkdownHeading } from 'astro';
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
   author: string;
   heroImage: string;
   heroImageAlt: string;
+  heroFit?: 'cover' | 'contain';
   readingTime: number;
   headings: MarkdownHeading[];
   jsonLd?: string;
@@ -38,6 +40,7 @@ const props = Astro.props;
     author={props.author}
     heroImage={props.heroImage}
     heroImageAlt={props.heroImageAlt}
+    heroFit={props.heroFit}
     readingTime={props.readingTime}
   />
 
@@ -50,6 +53,12 @@ const props = Astro.props;
 
     <article class="article-content prose">
       <slot />
+      <div class="article-newsletter">
+        <NewsletterInline
+          title="Le prochain retour terrain dans ta boîte mail"
+          description="Un email par semaine : article + astuce + retour de chantier. Pas de bruit."
+        />
+      </div>
       <slot name="comments" />
     </article>
 
@@ -87,6 +96,10 @@ const props = Astro.props;
 
   .related-wrap {
     margin-top: 16px;
+  }
+
+  .article-newsletter {
+    margin-top: 56px;
   }
 
   /* ── Typographie prose ── */

@@ -8,11 +8,30 @@ import { publishedOnly, groupByFirstLetter } from '../../lib/content-helpers';
 const all = publishedOnly(await getCollection('glossaire'));
 const grouped = groupByFirstLetter(all);
 const letters = [...grouped.keys()];
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? 'https://topolia.fr';
+
+// DefinedTermSet : décrit le glossaire comme un ensemble de définitions,
+// complète les DefinedTerm des pages individuelles.
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  name: 'Glossaire Topolia — topographie moderne',
+  description:
+    'Les termes essentiels de la topographie moderne, expliqués clairement. LiDAR, SLAM, COPC, recalage, RTK… tout y est.',
+  url: `${siteUrl}/glossaire/`,
+  hasDefinedTerm: all.map((entry) => ({
+    '@type': 'DefinedTerm',
+    name: entry.data.title,
+    url: `${siteUrl}/glossaire/${entry.id}/`,
+  })),
+});
 ---
 
 <BaseLayout
   title="Glossaire de la topographie"
   description="Les termes essentiels de la topographie moderne, expliqués clairement. LiDAR, SLAM, COPC, recalage, RTK… tout y est."
+  jsonLd={jsonLd}
 >
   <section class="container glossary-page">
     <header class="listing-header">

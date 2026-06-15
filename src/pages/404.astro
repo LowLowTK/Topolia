@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { sortByDateDesc, publishedOnly } from '../lib/content-helpers';
+
+const recent = sortByDateDesc(publishedOnly(await getCollection('articles'))).slice(0, 3);
+---
+
+<BaseLayout
+  title="Page introuvable (404)"
+  description="Cette page n'existe pas ou a été déplacée."
+  noindex
+>
+  <section class="container notfound">
+    <p class="notfound-code">Erreur 404</p>
+    <h1 class="notfound-title">Cette page a dérivé hors du nuage.</h1>
+    <p class="notfound-sub">
+      L'URL n'existe pas ou a été déplacée. Pas de panique : voilà de quoi te recaler.
+    </p>
+
+    <div class="notfound-actions">
+      <a href="/" class="btn-primary">Retour à l'accueil</a>
+      <a href="/articles/" class="btn-secondary">Tous les articles</a>
+      <a href="/glossaire/" class="btn-secondary">Le glossaire</a>
+    </div>
+
+    {
+      recent.length > 0 && (
+        <div class="notfound-recent">
+          <h2>Les derniers articles</h2>
+          <ul>
+            {recent.map((entry) => (
+              <li>
+                <a href={`/articles/${entry.id}/`}>{entry.data.title}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    padding: 100px 0 120px;
+    max-width: var(--content-max);
+  }
+  .notfound-code {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .notfound-title {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .notfound-sub {
+    margin-top: 16px;
+    font-size: 1.1rem;
+    color: var(--ink-3);
+    max-width: 540px;
+  }
+  .notfound-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  .btn-primary,
+  .btn-secondary {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--accent-grad);
+    color: var(--surface);
+  }
+  .btn-secondary {
+    border: 1px solid var(--hairline);
+    color: var(--ink-2);
+  }
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .notfound-recent {
+    margin-top: 56px;
+  }
+  .notfound-recent h2 {
+    font-family: var(--display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .notfound-recent ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .notfound-recent a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

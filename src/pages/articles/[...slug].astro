@@ -39,12 +39,15 @@ const jsonLdArticle = {
   description: entry.data.excerpt,
   datePublished: entry.data.date.toISOString(),
   dateModified: (entry.data.updatedDate ?? entry.data.date).toISOString(),
-  image: `${siteUrl}${entry.data.heroImage}`,
+  image: entry.data.heroImage
+    ? `${siteUrl}${entry.data.heroImage}`
+    : `${siteUrl}/og/articles/${entry.id}.png`,
   author: {
     '@type': 'Person',
     name: 'Loïc',
-    jobTitle: 'Géomètre-expert',
+    jobTitle: 'Géomètre-topographe',
     url: `${siteUrl}/a-propos`,
+    knowsAbout: ['LiDAR', 'Photogrammétrie', 'Scanner laser 3D', 'Topographie', 'Drone'],
   },
   publisher: {
     '@type': 'Organization',
@@ -107,6 +110,7 @@ const jsonLd = JSON.stringify([jsonLdArticle, jsonLdBreadcrumb, jsonLdFaq].filte
   author={entry.data.author}
   heroImage={entry.data.heroImage}
   heroImageAlt={entry.data.heroImageAlt}
+  heroFit={entry.data.heroFit}
   readingTime={minutes}
   headings={headings}
   jsonLd={jsonLd}
